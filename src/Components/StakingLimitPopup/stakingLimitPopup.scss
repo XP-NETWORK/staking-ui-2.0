@@ -1,0 +1,113 @@
+// body {
+//   background-image: none;
+// }
+
+.limitWraper {
+  position: relative;
+  margin: 0 auto;
+  margin-top: 59px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  // gap: 35px;
+
+  width: 426px;
+  height: 533.9px;
+
+  background: rgba(202, 202, 220, 0.1);
+  backdrop-filter: blur(22px);
+  border-radius: 20px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 160%;
+  img {
+    padding-top: 46px;
+    padding-bottom: 36px;
+  }
+  h4 {
+    // margin-top: 87px;
+    margin-bottom: 0;
+    font-weight: 600;
+    font-size: 24px;
+    width: 300px;
+    text-align: center;
+    padding-bottom: 20px;
+  }
+  p {
+    margin: 0;
+    width: 358px;
+    text-align: center;
+  }
+  .btns {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding-top: 44px;
+    gap: 8px;
+    button {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding: 10px 12px;
+      gap: 10px;
+      font-weight: 600;
+      font-size: 16px;
+      width: 135px;
+      height: 40px;
+
+      border-radius: 6px;
+    }
+    .stakeBtn {
+      color: #282829;
+      background: #ffffff;
+    }
+    .changeWalletBtn {
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+  }
+  .algoBtnPop {
+    margin-top: 64px !important;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 12px 17px;
+    gap: 15.87px;
+    background: rgba(19, 19, 24, 0.4);
+    backdrop-filter: blur(15.8662px);
+    border-radius: 14.4238px;
+    border: 3.72px solid #bbbec21a;
+    font-weight: 400;
+    font-size: 17.3085px;
+    img {
+      width: 39.69px;
+      height: 39.69px;
+      padding: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .limitWraper {
+    width: 100vw;
+    height: auto;
+    img {
+      padding-bottom: 0px;
+    }
+    .btns {
+      button {
+        width: auto;
+        height: 40px;
+        font-weight: 600;
+        font-size: 16px;
+      }
+    }
+    .algoBtnPop {
+      margin-top: 52px !important;
+      margin-bottom: 76px !important;
+    }
+  }
+}

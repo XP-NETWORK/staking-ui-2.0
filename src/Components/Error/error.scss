@@ -1,0 +1,72 @@
+// body {
+//   background-image: none;
+// }
+
+.errorWraper {
+  position: relative;
+  margin: 0 auto;
+  margin-top: 59px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+ 
+  gap: 20px;
+  width: 350px;
+  height: 377px;
+  background: rgba(202, 202, 220, 0.1);
+  backdrop-filter: blur(22px);
+  background-image: url("../../assets/images/popup-bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 20px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 160%;
+  h4 {
+    margin-top: 87px;
+    margin-bottom: 0;
+    font-weight: 600;
+    font-size: 24px;
+  }
+  p {
+    margin: 0;
+    width: 229px;
+    text-align: center;
+  }
+  .btns {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px 0px 0px;
+    gap: 16px;
+    button {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding: 10px 12px;
+      gap: 10px;
+      font-weight: 600;
+      font-size: 16px;
+      width: 135px;
+      height: 40px;
+
+      border-radius: 6px;
+    }
+    .stakeBtn {
+      color: #282829;
+      background: #ffffff;
+    }
+    .changeWalletBtn {
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+    }
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .connectWraper {
+    width: 95vw;
+    height: auto;
+  }
+}

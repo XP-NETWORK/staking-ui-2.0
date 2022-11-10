@@ -1,25 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import { Home } from "./Pages/Home/Home";
+import "normalize.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Main } from "./Pages/Main/Main";
+import { Connect } from "./Components/Connect/Connect";
+import { Stake } from "./Pages/Stake/Stake";
+import { ClaimRewards } from "./Pages/ClaimRewards/ClaimRewards";
+import { Gallery } from "./Pages/Gallery/Gallery";
+import { Error } from "./Components/Error/Error";
+import { StakingLimitPopup } from "./Components/StakingLimitPopup/StakingLimitPopup";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Main />}>
+          <Route index element={<Home />} />
+          <Route path="/connect" element={<Connect />} />
+          <Route path="/stake" element={<Stake />} />
+          <Route path="/rewards" element={<ClaimRewards />} />
+          <Route path="/gallery" element={<Gallery />} />
+          <Route path="/error" element={<Error />} />
+          <Route path="/limit" element={<StakingLimitPopup />} />
+
+          {/*  <Route path="/associationDonation" element={<DonationMain />}>
+          <Route index element={<Donation />} />
+            <Route path="/associationDonation/Receipt" element={<DonationDetails />} />
+          </Route>
+          <Route path="/payment-completed" element={<PaymentCompleted/>}/> */}
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
