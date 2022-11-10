@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { connectPeraWallet } from "./walletConnectors";
+// import { connectPeraWallet } from "./walletConnectors";
 
 const HigherALGO = (OriginalComponent: React.FC<any>) => {
     const handleWalletConnection = async (wallet: string) => {
@@ -10,7 +10,7 @@ const HigherALGO = (OriginalComponent: React.FC<any>) => {
             case "AlgoSigner":
                 break;
             case "Pera":
-                connectPeraWallet();
+                // connectPeraWallet();
                 break;
             default:
                 break;
