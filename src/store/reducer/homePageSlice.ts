@@ -19,6 +19,10 @@ const homePageSlice = createSlice({
     name: "homePage",
     initialState,
     reducers: {
+        setAccount(state: any, action: any) {
+            state.account = action.payload;
+            console.log(state.account);
+          },
         setPeraConnection(state: any, action: any) {
             state.peraConnection = action.payload;
         },
@@ -42,5 +46,6 @@ const homePageSlice = createSlice({
 });
 
 export const { setPeraConnection } = homePageSlice.actions;
+export const { setAccount } = homePageSlice.actions;
 
 export default homePageSlice;

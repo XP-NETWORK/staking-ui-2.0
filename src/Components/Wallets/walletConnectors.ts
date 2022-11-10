@@ -12,7 +12,7 @@ export const algoConnector = new WalletConnect({
 });
 
 export const connectPeraWallet = async () => {
-    debugger;
+    // debugger;
     peraWallet.connect().then((newAccounts) => {
         // Setup the disconnect event listener
         peraWallet.connector?.on("disconnect", () => {
@@ -29,3 +29,42 @@ export const connectPeraWallet = async () => {
     // if (algoConnector.pending) return QRCodeModal.open(algoConnector.uri, null);
     // console.log(session);
 };
+declare global {
+    interface Window {
+        AlgoSigner: any;
+    }
+}
+export const connectAlgoSigner = async (testnet: boolean) => {
+    if (typeof window.AlgoSigner !== undefined) {
+        try {
+            await window.AlgoSigner.connect();
+            const algo = await window.AlgoSigner.accounts({
+                ledger: testnet ? "TestNet" : "MainNet",
+            });
+            const { address } = algo[0];
+            return address;
+            // store.dispatch(setAlgoSigner(true));
+            // store.dispatch(setAlgorandAccount(address));
+            // const signer = {
+            //   address: address,
+            //   AlgoSigner: window.AlgoSigner,
+            //   ledger: testnet ? "TestNet" : "MainNet",
+            // };
+            // store.dispatch(setSigner(signer));
+            // return true;
+        } catch (e) {
+            console.error(e);
+            return JSON.stringify(e, null, 2);
+        }
+    } else {
+        console.log("Algo Signer not installed.");
+        return false;
+    }
+};
+
+//   const getMyAlgoSigner = async (base, algorandAccount) => {
+//     const factory = await getFactory();
+//     const inner = await factory.inner(15);
+//     const signer = inner.myAlgoSigner(base, algorandAccount);
+//     return signer;
+//   };
