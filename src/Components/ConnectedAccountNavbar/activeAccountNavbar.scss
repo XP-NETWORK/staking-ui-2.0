@@ -31,4 +31,59 @@
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 8px;
   }
+  .dropdown {
+    padding: 6px 25px 6px 6px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: center;
+    width: 112px;
+    height: auto;
+    width: auto;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    background-image: url("../../assets/images/checkbox/arrowDown.svg");
+    background-repeat: no-repeat;
+    background-position: right 7% bottom 52%;
+  }
+  .ddItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 9px;
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 0.03em;
+    color: #ffffff;
+    opacity: 0.9;
+  }
+  .dropdown-menu {
+    margin-top: 0px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 6px;
+
+    background: #222224;
+    border-radius: 8px;
+
+    label {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 9px;
+      font-weight: 500;
+      font-size: 16px;
+      letter-spacing: 0.03em;
+      color: #ffffff;
+      opacity: 0.9;
+      width: 139px !important;
+      height: 40px !important;
+
+      background: rgba(68, 68, 70, 0.37);
+      border-radius: 8px;
+      //       font-weight: 500;
+      // font-size: 16px;
+    }
+  }
 }
