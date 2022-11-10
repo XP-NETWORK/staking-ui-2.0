@@ -14,12 +14,14 @@ import "./navbar.scss";
 import { PopupNav } from "../PopupNav/PopupNav";
 import { useNavigate } from "react-router";
 import { NavBarMobile } from "../NavbarMob/NavBarMobile";
+import { ActiveAccountNavbar } from "../ConnectedAccountNavbar/ActiveAccountNavbar";
 
 interface Props {}
 
 export const Navbar: FC<Props> = ({}) => {
   const [openResources, setOpenResources] = useState(false);
   const [openNavMenu, setOpenNavMenu] = useState(false);
+  const [ACTIVE, setACTIVE] = useState(false);
 
   const navigate = useNavigate();
 
@@ -42,7 +44,7 @@ export const Navbar: FC<Props> = ({}) => {
             alt="logo"
             onClick={handleClickLogo}
           />
-          <div className="navLinksWrapper">
+          {ACTIVE && <div className="navLinksWrapper">
             <button onMouseOver={() => setOpenResources(true)}>
               Resources
             </button>
@@ -84,7 +86,10 @@ export const Navbar: FC<Props> = ({}) => {
                 <img src={redit} alt="redit" />
               </a>
             </div>
-          </div>
+          </div>}
+          {!ACTIVE && <div className="navLinksWrapper">
+            <ActiveAccountNavbar/>
+            </div>}
           <button
             className="menuIcon"
             onClick={() => setOpenNavMenu(!openNavMenu)}
