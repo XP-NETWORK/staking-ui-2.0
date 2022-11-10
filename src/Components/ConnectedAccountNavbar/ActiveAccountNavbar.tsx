@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { Link } from "react-router-dom";
 import "./activeAccountNavbar.scss";
 import Jazzicon from "react-jazzicon";
@@ -11,8 +11,9 @@ import classNames from "classnames";
 export const ActiveAccountNavbar: FC<{}> = () => {
   const chain = BLOCKCHAINS[0];
   const account = "0xe8a049E1CC432bC2eb57331d2cC51e9E2898E0e0";
-
-  const handleSelect = (e: any) => {
+  const [showDrop, setshowDrop] = useState(false);
+  
+  const handleChangeChain = (e: any) => {
     // setValue(e);
   };
 
@@ -35,25 +36,25 @@ export const ActiveAccountNavbar: FC<{}> = () => {
         NFT Collection
       </Link>
       <div className="chainAndAccountContainer">
-        <DropdownButton
-          onSelect={handleSelect}
-          id="dropdown-basic-button"
-          title={title}
-          size="sm"
-          variant=""
-          className="dropdown"
-        >
-          {BLOCKCHAINS.filter((c) => c.chain !== chain.chain).map((c) => {
-            return (
-              <Dropdown.Item eventKey={c.chain}>
-                <label>
-                  <img src={c.img} alt={c.chain} />
-                  {c.chain}
-                </label>
-              </Dropdown.Item>
-            );
-          })}
-        </DropdownButton>
+        <div className="dropWraper">
+          <button onClick={() => setshowDrop(!showDrop)} className="dropdown">
+            {title}
+          </button>
+
+          {showDrop && (
+            <div className="item">
+              {BLOCKCHAINS.filter((c) => c.chain !== chain.chain).map((c) => {
+                return (
+                  <label id={c.chain} onClick={handleChangeChain}>
+                    <img src={c.img} alt={c.chain} />
+                    {c.chain}
+                  </label>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
         <label className="account">
           {/* <Jazzicon diameter={16} address={`${account}`} /> */}
           {account.slice(0, 10) + "..." + account.slice(-2)}

@@ -8,6 +8,7 @@ const HigherALGO = (OriginalComponent: React.FC<any>) => {
             case "MyAlgo":
                 break;
             case "AlgoSigner":
+                
                 break;
             case "Pera":
                 // connectPeraWallet();
