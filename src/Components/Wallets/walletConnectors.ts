@@ -1,28 +1,31 @@
-// import { PeraWalletConnect } from "@perawallet/connect";
+import { PeraWalletConnect } from "@perawallet/connect";
+import QRCodeModal from "algorand-walletconnect-qrcode-modal";
+import WalletConnect from "@walletconnect/client";
 
-// export const peraWallet = new PeraWalletConnect();
+const peraWallet = new PeraWalletConnect({
+    bridge: "https://bridge.walletconnect.org",
+});
 
-// export const connectPeraWallet = async () => {
-//     peraWallet
-//         .connect()
-//         .then((accounts) => {
-//             // Setup the disconnect event listener
-//             peraWallet.connector?.on("disconnect", handleDisconnectPeraWallet);
-//             console.log(accounts[0]);
-//             return accounts[0];
-//         })
-//         .catch((error) => {
-//             // You MUST handle the reject because once the user closes the modal, peraWallet.connect() promise will be rejected.
-//             // For the async/await syntax you MUST use try/catch
-//             if (error?.data?.type !== "CONNECT_MODAL_CLOSED") {
-//                 // log the necessary errors
-//             }
-//         });
-// };
+export const algoConnector = new WalletConnect({
+    bridge: "https://bridge.walletconnect.org", // Required
+    qrcodeModal: QRCodeModal,
+});
 
-// export const handleDisconnectPeraWallet = () => {
-//     peraWallet.disconnect();
-//     //  TODO Something after disconnect
-// };
+export const connectPeraWallet = async () => {
+    debugger;
+    peraWallet.connect().then((newAccounts) => {
+        // Setup the disconnect event listener
+        peraWallet.connector?.on("disconnect", () => {
+            console.log("Disconnect");
+        });
 
-export const a=1;
+        console.log(newAccounts[0]);
+    });
+
+    // let session;
+    // if (!algoConnector.connected) {
+    //     await algoConnector.createSession();
+    // }
+    // if (algoConnector.pending) return QRCodeModal.open(algoConnector.uri, null);
+    // console.log(session);
+};
