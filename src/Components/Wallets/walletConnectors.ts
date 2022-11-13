@@ -42,17 +42,17 @@ export const connectAlgoSigner = async (testnet: boolean) => {
       const algo = await window.AlgoSigner.accounts({
         ledger: testnet ? "TestNet" : "MainNet",
       });
-      const { address } = algo[0];
-      return address;
-      // store.dispatch(setAlgoSigner(true));
-      // store.dispatch(setAlgorandAccount(address));
-      // const signer = {
-      //   address: address,
-      //   AlgoSigner: window.AlgoSigner,
-      //   ledger: testnet ? "TestNet" : "MainNet",
-      // };
-      // store.dispatch(setSigner(signer));
-      // return true;
+      const address = algo[0].address;
+
+      //   store.dispatch(setAlgoSigner(true));
+      //   store.dispatch(setAlgorandAccount(address));
+      const signer = {
+        address: address,
+        AlgoSigner: window.AlgoSigner.signer,
+        ledger: testnet ? "TestNet" : "MainNet",
+      };
+      //   store.dispatch(setSigner(signer));
+      return { address, signer };
     } catch (e) {
       console.error(e);
       return JSON.stringify(e, null, 2);
@@ -63,7 +63,7 @@ export const connectAlgoSigner = async (testnet: boolean) => {
   }
 };
 
-//   const getMyAlgoSigner = async (base, algorandAccount) => {
+//   const getMyAlgoSigner = async (base, algorandAccount:string) => {
 //     const factory = await getFactory();
 //     const inner = await factory.inner(15);
 //     const signer = inner.myAlgoSigner(base, algorandAccount);

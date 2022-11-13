@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react";
 import "./claimRewards.scss";
 import classNames from "classnames";
-import { APY, NFT_SRC, XPNET } from "../../assets/ts/Consts";
+import { APY, XPNET } from "../../assets/ts/Consts";
 import { addCommas } from "../../assets/ts/helpers";
 import xpnet from "../../assets/images/coin/XPNET.svg";
 import left from "../../assets/images/left.svg";
