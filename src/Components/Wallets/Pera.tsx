@@ -7,7 +7,6 @@ import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
 import { PeraWalletConnect } from "@perawallet/connect";
 
-interface Props {}
 
 const Pera = ({
     styles,
@@ -41,7 +40,7 @@ const Pera = ({
     };
 
     return (
-        <button style={styles()} onClick={handleClick}>
+        <button style={styles()} onClick={handleClick} className="connectBtn">
             <img src={icon} alt="" />
             Pera
         </button>

@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { useDispatch } from "react-redux";
 import { setAccount, setPeraConnection } from "../../store/reducer/homePageSlice";
-import { connectAlgoSigner, connectPeraWallet } from "./walletConnectors";
+import { connectAlgoSigner, connectPeraWallet, getMyAlgoConnect } from "./walletConnectors";
 // import { setPeraConnection } from "../../store/reducer/homePageSlice";
 // import { connectPeraWallet } from "./walletConnectors";
 
@@ -12,6 +12,8 @@ export function HigherALGO(OriginalComponent: React.FC<any>) {
     const handleWalletConnection = async (wallet: string) => {
       switch (wallet) {
         case "MyAlgo":
+            let accountMyAlgo = await getMyAlgoConnect();
+            dispatch(setAccount(accountMyAlgo.address));
           break;
         case "AlgoSigner":
           let account = await connectAlgoSigner(false);

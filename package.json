@@ -4,6 +4,7 @@
     "private": true,
     "dependencies": {
         "@perawallet/connect": "^0.2.3",
+        "@randlabs/myalgo-connect": "^1.4.1",
         "@reduxjs/toolkit": "^1.9.0",
         "@szhsin/react-menu": "^3.2.1",
         "@testing-library/jest-dom": "^5.14.1",
