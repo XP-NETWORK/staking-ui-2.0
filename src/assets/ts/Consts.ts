@@ -1,4 +1,3 @@
-
 import algorand from "../../assets/images/coin/algo.svg";
 import bsc from "../../assets/images/coin/BSC.svg";
 
@@ -7,7 +6,6 @@ export const TOTAL_STAKED_BSC = 50000000;
 export const XPNET = "XPNET";
 export const APY = { 3: 45, 6: 75, 9: 100, 12: 125 };
 
-
 // //erc20 consts - xpnet
 // export const XPNET_CONTRACT_ADDRESS = "0x8cf8238abf7b933Bf8BB5Ea2C7E4Be101c11de2A";
 // export const XPNET_ASSET_ID = "832988336";
@@ -15,7 +13,7 @@ export const APY = { 3: 45, 6: 75, 9: 100, 12: 125 };
 //   BSC: "BSC",
 //   Algorand: "Algorand",
 // };
-// //end 
+// //end
 
 export const BLOCKCHAINS = [
   { chain: "Algorand", img: algorand },
@@ -47,3 +45,11 @@ export const NFT_SRC = [
 //   alt: "lihi",
 //   url: bsc,
 // };
+
+export const minClaimPeriod = 604800;
+export const rewardRate = 1929004;
+export const communityAddress =
+  "G3V2A7GT7RJ3LEK2OTMVYUZT47RZBY4GGNPL4NO6DNBFARGYOJNJTJBJCE"; //my add-lost tokens
+export const duration = 1209600;
+export const multiplier = 100000000000;
+export const maxLoss = 75000000000;
