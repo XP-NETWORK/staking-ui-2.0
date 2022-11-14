@@ -16,7 +16,7 @@
         "@types/react-dom": "^18.0.0",
         "@types/react-redux": "^7.1.24",
         "algorand-walletconnect-qrcode-modal": "^1.8.0",
-        "beaker-ts": "^0.0.55",
+        "beaker-ts": "git+https://github.com/imsk17/beaker-ts#master-dist",
         "bootstrap": "^5.2.2",
         "buffer": "^6.0.3",
         "classnames": "^2.3.2",

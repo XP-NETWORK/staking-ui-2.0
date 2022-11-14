@@ -3257,10 +3257,9 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
-beaker-ts@^0.0.55:
+"beaker-ts@git+https://github.com/imsk17/beaker-ts#master-dist":
   version "0.0.55"
-  resolved "https://registry.yarnpkg.com/beaker-ts/-/beaker-ts-0.0.55.tgz#f7b9b70bff9a8d4b9a9e08c81efb53e2e98d4ee2"
-  integrity sha512-n1O9sHX5WU5bf6geTPn7xvTnZn5qYGG0RoDZRzKABO+Iy62GvmNYB+U5JpWvx/ji0FPtsn0mGZJnYmofRnxR4g==
+  resolved "git+https://github.com/imsk17/beaker-ts#845befcc09c20cc1e7b8d44d1a8ebfeb05917b35"
   dependencies:
     "@json-rpc-tools/utils" "^1.7.6"
     "@randlabs/myalgo-connect" "^1.1.0"
