@@ -32,8 +32,10 @@
     display: flex;
     flex-direction: column;
     padding: 26px;
-    gap: 20px;
+    // gap: 20px;
+    height: -webkit-fill-available;
     width: -webkit-fill-available;
+    justify-content: space-between;
   }
 }
 .row {
@@ -275,8 +277,9 @@ input:focus {
 
 .periods {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
+  gap: 25px;
 }
 
 // .wrapPeriods div {
@@ -306,6 +309,8 @@ input:focus {
   }
   .container .sectionWrapper {
     padding: 16px;
+    justify-content: center;
+    gap: 20px;
   }
 
   .container {
@@ -414,6 +419,7 @@ input:focus {
     justify-content: space-between;
     flex-wrap: wrap;
     width: -webkit-fill-available !important;
+    gap: 0px;
     .row {
       width: 39vw !important;
     }

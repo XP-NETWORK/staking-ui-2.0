@@ -307,7 +307,6 @@
   filter: brightness(0.6);
 }
 
-
 .periodsRewards {
   display: flex;
   flex-direction: column;
@@ -476,13 +475,11 @@
   }
 }
 
-
 @media screen and (max-width: 500px) {
   .periodsRewards .row {
     width: 39% !important;
   }
 }
-
 
 @media screen and (max-width: 380px) {
   .wrapPeriods {
