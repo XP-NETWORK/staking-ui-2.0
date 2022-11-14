@@ -1,7 +1,7 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import "./stake.scss";
 import classNames from "classnames";
-import { APY, XPNET } from "../../assets/ts/Consts";
+import { APY, assetIdx, XPNET } from "../../assets/ts/Consts";
 import { addCommas } from "../../assets/ts/helpers";
 import xpnet from "../../assets/images/coin/XPNET.svg";
 import nft from "../../assets/images/nft.png";
@@ -11,6 +11,8 @@ import checked from "../../assets/images/checkbox/checked.svg";
 import lock from "../../assets/images/lock.svg";
 
 import { Link } from "react-router-dom";
+import { ReduxState } from "../../store/store";
+import { useSelector } from "react-redux";
 
 interface Props {}
 
@@ -20,6 +22,21 @@ export const Stake: FC<Props> = ({}) => {
   const [duration, setDuration] = useState(3);
   const [apyPrecent, setapyPrecent] = useState();
   const [isAgree, setIsAgree] = useState(false);
+  const { signer, account, stakingClient } = useSelector(
+    (state: ReduxState) => state.homePage
+  );
+  useEffect(() => {
+    const getBalance = async () => {
+      const assetInfo = await stakingClient.client
+        .accountAssetInformation(stakingClient.sender, assetIdx)
+        .do();
+      const balance = assetInfo["asset-holding"]["amount"];
+      setbalance(balance);
+    };
+    getBalance();
+    console.log(balance);
+  }, []);
+
   const handleMaxAmount = () => {};
 
   return (
