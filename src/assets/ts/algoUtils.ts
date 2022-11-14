@@ -30,7 +30,9 @@ import { Staking } from "./StakingClient";
 
 const algod = new algosdk.Algodv2(algodApiKey, algodUri, algodPort);
 
-const createClient = (signer: any, account: string) => {
+const createClient = async(signer: any, account: string) => {
+  console.log("signer,account",signer,account);
+  
   const stakingContract = new Staking({
     client: algod,
     signer: signer, // Put your signer here,
@@ -38,6 +40,8 @@ const createClient = (signer: any, account: string) => {
     appId: appAdress,
   });
   console.log(stakingContract);
+  return stakingContract;
+  
 };
 
 export { createClient };

@@ -25,9 +25,10 @@ export function HigherALGO(OriginalComponent: React.FC<any>) {
           break;
         case "AlgoSigner":
           let account: any = await connectAlgoSigner(true);
-          dispatch(setAccount(account.address));
-          dispatch(setSigner(account.signer));
-          console.log(account);
+          // dispatch(setAccount(account.address));
+          // dispatch(setSigner(account.signer));
+          console.log({account});
+          return account;
           break;
         case "Pera":
           connectPeraWallet();

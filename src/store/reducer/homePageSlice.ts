@@ -7,6 +7,7 @@ export interface IHomePage {
   tokenName: string; //collection name
   tokenSymbol: string; //token thicker
   peraConnection: boolean;
+  stakingClient : any;
 }
 
 const initialState: IHomePage = {
@@ -15,6 +16,7 @@ const initialState: IHomePage = {
   tokenName: "",
   tokenSymbol: "",
   peraConnection: false,
+  stakingClient:{}
 };
 
 const homePageSlice = createSlice({
@@ -31,6 +33,10 @@ const homePageSlice = createSlice({
     },
     setPeraConnection(state: any, action: any) {
       state.peraConnection = action.payload;
+    },
+    setClient(state: any, action: any) {
+      state.stakingClient = action.payload;
+      console.log("stakingClient REDUX", state.stakingClient);
     },
     accountState(state: any, action: any) {
       state.account = action.payload;
@@ -52,6 +58,6 @@ const homePageSlice = createSlice({
 });
 
 export const { setPeraConnection } = homePageSlice.actions;
-export const { setAccount, setSigner } = homePageSlice.actions;
+export const { setAccount, setSigner,setClient } = homePageSlice.actions;
 
 export default homePageSlice;
