@@ -23,11 +23,11 @@ const homePageSlice = createSlice({
   reducers: {
     setAccount(state: any, action: any) {
       state.account = action.payload;
-      console.log(state.account);
+      console.log("ACCOUNT REDUX", state.account);
     },
     setSigner(state: any, action: any) {
       state.signer = action.payload;
-      console.log(state.signer);
+      console.log("SIGNER REDUX", state.signer);
     },
     setPeraConnection(state: any, action: any) {
       state.peraConnection = action.payload;
