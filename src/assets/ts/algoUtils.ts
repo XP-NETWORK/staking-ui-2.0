@@ -35,8 +35,16 @@ const createClient = async(signer: any, account: string) => {
   
   const stakingContract = new Staking({
     client: algod,
-    signer: signer, // Put your signer here,
-    sender: account, // Put sender address here
+    signer: async (txns) => {
+      const s = txns.map((e) => {
+        return {
+          txn: Buffer.from(e.toByte()).toString("base64")
+        }
+      }); 
+      const signed = await signer.AlgoSigner.signTxn(s)
+      return signed.map((e: any) => Buffer.from(e.blob, "base64"))
+    }, 
+    sender: account, 
     appId: appAdress,
   });
   console.log(stakingContract);
