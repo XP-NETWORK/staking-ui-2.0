@@ -83,7 +83,7 @@ export class Staking extends bkr.ApplicationClient {
     }
     async stake(args: {
         axfer: algosdk.TransactionWithSigner | algosdk.Transaction;
-        lockTime_: bigint;
+        lockTime_: any;
     }, txnParams?: bkr.TransactionOverrides): Promise<bkr.ABIResult<void>> {
         const result = await this.execute(await this.compose.stake({ axfer: args.axfer, lockTime_: args.lockTime_ }, txnParams));
         return new bkr.ABIResult<void>(result);

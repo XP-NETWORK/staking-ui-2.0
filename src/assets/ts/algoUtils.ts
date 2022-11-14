@@ -28,28 +28,28 @@ import { Staking } from "./StakingClient";
 //   );
 // };
 
-const algod = new algosdk.Algodv2(algodApiKey, algodUri, algodPort);
+export const algod = new algosdk.Algodv2(algodApiKey, algodUri, algodPort);
 
-const createClient = async(signer: any, account: string) => {
-  console.log("signer,account",signer,account);
-  
+
+export const createClient = async (signer: any, account: string) => {
+  console.log("signer,account", signer, account);
+
   const stakingContract = new Staking({
     client: algod,
     signer: async (txns) => {
       const s = txns.map((e) => {
         return {
-          txn: Buffer.from(e.toByte()).toString("base64")
-        }
-      }); 
-      const signed = await signer.AlgoSigner.signTxn(s)
-      return signed.map((e: any) => Buffer.from(e.blob, "base64"))
-    }, 
-    sender: account, 
+          txn: Buffer.from(e.toByte()).toString("base64"),
+        };
+      });
+      const signed = await signer.AlgoSigner.signTxn(s);
+      return signed.map((e: any) => Buffer.from(e.blob, "base64"));
+    },
+    sender: account,
     appId: appAdress,
   });
   console.log(stakingContract);
   return stakingContract;
-  
 };
 
-export { createClient };
+// export { createClient };

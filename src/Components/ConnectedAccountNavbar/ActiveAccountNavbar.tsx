@@ -7,12 +7,14 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
 import { BLOCKCHAINS } from "../../assets/ts/Consts";
 import classNames from "classnames";
+import { useSelector } from "react-redux";
+import { ReduxState } from "../../store/store";
 
 export const ActiveAccountNavbar: FC<{}> = () => {
   const chain = BLOCKCHAINS[0];
-  const account = "0xe8a049E1CC432bC2eb57331d2cC51e9E2898E0e0";
+  const { account } = useSelector((state: ReduxState) => state.homePage);
   const [showDrop, setshowDrop] = useState(false);
-  
+
   const handleChangeChain = (e: any) => {
     // setValue(e);
   };

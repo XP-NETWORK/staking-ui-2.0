@@ -23,7 +23,7 @@ export const BLOCKCHAINS = [
 export const algodApiKey =
   "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 
-export const algodUri = "https://node.testnet.algoexplorerapi.io";
+export const algodUri = "https://node.testnet.algoexplorerapi.io/";
 export const algodPort = 443;
 export const assetIdx = 121878783;
 export const appAdress = 121878733;
