@@ -12,18 +12,11 @@ import {
   setClient,
   setSigner,
 } from "../../store/reducer/homePageSlice";
-import {
-  assetIdx,
-  communityAddress,
-  duration,
-  maxLoss,
-  minClaimPeriod,
-  multiplier,
-  rewardRate,
-} from "../../assets/ts/Consts";
-import { useNavigate } from "react-router";
+import { appAdress3Months, assetIdx } from "../../assets/ts/Consts";
+import { useNavigate, useParams } from "react-router";
 
 const AlgoSigner = ({ connect }: { connect: Function }) => {
+  let { to } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // const { signer, account } = useSelector(
@@ -35,9 +28,10 @@ const AlgoSigner = ({ connect }: { connect: Function }) => {
     dispatch(setSigner(account.signer));
     console.log("algosigner", { account });
 
-    let client = await createClient(account.signer, account.address);
+    let client = await createClient(account.signer, account.address,appAdress3Months);
     dispatch(setClient(client));
-    navigate("/stake");
+    to === "stake" ? navigate("/stake") : navigate("/rewards");
+
     // await client.initialize({
     //   stakingTokenAddress: account.address,
     //   communityAddress: communityAddress,
@@ -75,10 +69,10 @@ const AlgoSigner = ({ connect }: { connect: Function }) => {
     const balance = assetInfo["asset-holding"]["amount"];
     console.log(balance);
 
-    // let alex2 = await client.get_balance_addr({ appForeignAssets: [assetIdx] });
+    // let alex2 = await client.get_balance_addr({ appForeignAssets: [Number(assetIdx)] });
     // console.log({ alex2 });
 
-    //console.log("Account state", (await client.getAccountState()).sn); //total staked
+   // console.log("Account state", (await client.getAccountState()).sn); //total staked
   };
 
   //  let  balanceAfterStaking1 =  creator_app_client.call(

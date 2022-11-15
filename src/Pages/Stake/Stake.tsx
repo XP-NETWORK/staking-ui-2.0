@@ -2,7 +2,12 @@ import React, { FC, useEffect, useState } from "react";
 import "./stake.scss";
 import classNames from "classnames";
 import { APY, assetIdx, XPNET } from "../../assets/ts/Consts";
-import { addCommas } from "../../assets/ts/helpers";
+import {
+  addCommas,
+  calculatAPY,
+  calculateEndDate,
+  calculateEstimatedRewards,
+} from "../../assets/ts/helpers";
 import xpnet from "../../assets/images/coin/XPNET.svg";
 import nft from "../../assets/images/nft.png";
 import info from "../../assets/images/info.svg";
@@ -13,16 +18,20 @@ import lock from "../../assets/images/lock.svg";
 import { Link } from "react-router-dom";
 import { ReduxState } from "../../store/store";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setClient, setStakeDetails } from "../../store/reducer/homePageSlice";
+import { createClient, stake } from "../../assets/ts/algoUtils";
 
 interface Props {}
 
 export const Stake: FC<Props> = ({}) => {
+  const dispatch = useDispatch();
   const [balance, setbalance] = useState(0);
   const [amount, setamount] = useState(0);
   const [duration, setDuration] = useState(3);
   const [apyPrecent, setapyPrecent] = useState();
   const [isAgree, setIsAgree] = useState(false);
-  const { signer, account, stakingClient } = useSelector(
+  const { signer, account, stakingClient, stakeDetails } = useSelector(
     (state: ReduxState) => state.homePage
   );
   useEffect(() => {
@@ -33,11 +42,41 @@ export const Stake: FC<Props> = ({}) => {
       const balance = assetInfo["asset-holding"]["amount"];
       setbalance(balance);
     };
-    getBalance();
+    getBalance().catch(console.error);
     console.log(balance);
   }, []);
 
-  const handleMaxAmount = () => {};
+  useEffect(() => {
+    const updateClient = async () => {
+      let client = await createClient(signer, account, duration);
+      dispatch(setClient(client));
+      console.log({client});
+      
+      console.log("Account state", await client.getAccountState());
+    };
+    updateClient().catch(console.error);
+  }, [duration]);
+
+  const handleMaxAmount = () => {
+    setamount(balance);
+  };
+
+  const handleChangeAmount = (e: any) => {
+    setamount(e.target.value);
+  };
+
+  const handleApprove = async () => {
+    await stake(account, Number(amount), duration, stakingClient);
+  };
+
+  useEffect(() => {
+    let stake = {
+      amount: amount,
+      stakingPeriod: duration,
+      isAgree: isAgree,
+    };
+    dispatch(setStakeDetails({ ...stake }));
+  }, [amount, duration, isAgree]);
 
   return (
     <>
@@ -56,9 +95,20 @@ export const Stake: FC<Props> = ({}) => {
               <div className="amountInput">
                 <input
                   type="text"
-                  placeholder={`${amount} MIN staking requirement 1500 XPNET`}
+                  onChange={(e) => handleChangeAmount(e)}
+                  // defaultValue={amount}
+                  placeholder={"0"}
+                  // placeholder={`${amount} MIN staking requirement 1500 XPNET`}
                 />
-                <button className="maxBtn">MAX</button>
+                <label
+                  className="placeholder"
+                  style={{ visibility: amount === 0 ? "visible" : "hidden" }}
+                >
+                  MIN staking requirement 1500 XPNET
+                </label>
+                <button className="maxBtn" onClick={handleMaxAmount}>
+                  MAX
+                </button>
               </div>
               <label className="tokenLabel">
                 <img src={xpnet} />
@@ -189,7 +239,7 @@ export const Stake: FC<Props> = ({}) => {
                 className={classNames("row", "borderBottom", "mt-7")}
               >
                 <label className="prop">Est. APY</label>
-                <label className="value">{APY[3]} %</label>
+                <label className="value">{calculatAPY(duration)} %</label>
               </div>
               <div id="row3" className="row" style={{ alignItems: "flex-end" }}>
                 <label className="prop">Estimated Rewards</label>
@@ -199,7 +249,7 @@ export const Stake: FC<Props> = ({}) => {
                 >
                   <span className="small">$ 0.070</span>
                   <label className="value">
-                    {amount} {XPNET}
+                    {calculateEstimatedRewards(amount, duration)} {XPNET}
                   </label>
                 </div>
               </div>
@@ -208,7 +258,7 @@ export const Stake: FC<Props> = ({}) => {
                 className={classNames("row", "borderBottom", "mt-7")}
               >
                 <label className="prop">End Date</label>
-                <label className="value">{APY[3]} %</label>
+                <label className="value">{calculateEndDate(duration)}</label>
               </div>
             </div>
             <div className={classNames("row", "flexStart")}>
@@ -223,7 +273,13 @@ export const Stake: FC<Props> = ({}) => {
               </p>
             </div>
             <div className="column">
-              <button className="blueBtn">Approve</button>
+              <button
+                className="blueBtn"
+                disabled={!isAgree}
+                onClick={handleApprove}
+              >
+                Approve
+              </button>
               <button className={classNames("blueBtn", "blackBtn")}>
                 <img src={lock} />
                 Lock

@@ -23,13 +23,15 @@ export const Home: FC<Props> = ({}) => {
   const navigate = useNavigate();
 
   const handleAlgoStake = () => {
-    navigate("/connect");
+    navigate("/connect/stake");
   };
-  const handleAlgoClaimXPNET = () => {};
+  const handleAlgoClaimXPNET = () => {
+    navigate("/connect/rewards");
+  };
 
   return (
     <>
-    {/* <div className="homeWrapperMargin"> */}
+      {/* <div className="homeWrapperMargin"> */}
       <img src={bg} className={classNames("bg", "deskOnly")} alt="bg" />
       <img src={bgMob} className={classNames("bg", "mobOnly")} alt="bg" />
       <div className="homeWrapper">

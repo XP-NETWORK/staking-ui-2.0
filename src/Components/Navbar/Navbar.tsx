@@ -87,7 +87,7 @@ export const Navbar: FC<Props> = ({}) => {
               </a>
             </div>
           </div>}
-          {!ACTIVE && <div className="navLinksWrapper">
+          {!ACTIVE && <div className="navLinksWrapperActive">
             <ActiveAccountNavbar/>
             </div>}
           <button

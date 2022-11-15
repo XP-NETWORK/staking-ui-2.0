@@ -4,6 +4,13 @@
   align-items: center;
 }
 
+.navLinksWrapperActive {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 18px;
+}
+
 .activeNavLink {
   font-weight: 500;
   font-size: 16px;
@@ -11,7 +18,16 @@
   letter-spacing: 0.03em;
   color: #ffffff;
   opacity: 0.8;
-  margin-left: 35px;
+  padding: 10px;
+  //padding-top: 0px;
+  margin-left: 10px;
+}
+
+.activeNavLink:hover {
+  background: rgba(35, 136, 255, 0.07);
+  border-radius: 6px;
+  color: #2388ff;
+  padding: 10px;
 }
 
 .dropWraper {

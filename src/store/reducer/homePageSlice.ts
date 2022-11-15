@@ -4,19 +4,25 @@ import { createSlice } from "@reduxjs/toolkit";
 export interface IHomePage {
   account: string; //the user
   signer: any;
-  tokenName: string; //collection name
-  tokenSymbol: string; //token thicker
+  stakeDetails: {
+    amount: number;
+    stakingPeriod: any;
+    isAgree:boolean;
+  };
   peraConnection: boolean;
-  stakingClient : any;
+  stakingClient: any;
+  // tokenName: string; //collection name
+  // tokenSymbol: string; //token thicker
 }
 
 const initialState: IHomePage = {
   account: "",
   signer: {},
-  tokenName: "",
-  tokenSymbol: "",
   peraConnection: false,
-  stakingClient:{}
+  stakingClient: {},
+  stakeDetails: { amount: 0, stakingPeriod: 0, isAgree:false },
+  // tokenName: "",
+  // tokenSymbol: "",
 };
 
 const homePageSlice = createSlice({
@@ -41,23 +47,28 @@ const homePageSlice = createSlice({
     accountState(state: any, action: any) {
       state.account = action.payload;
     },
-    setToken(state: { tokenName: string }, action: PayloadAction<string>) {
-      state.tokenName = action.payload;
-      // console.log("collection name in redux:", state.tokenName);
+    setStakeDetails(state: any, action: any) {
+      state.stakeDetails = action.payload;
+      console.log("stake REDUX", state.stakeDetails);
     },
-    seTokenSymbol(
-      state: { tokenSymbol: string },
-      action: PayloadAction<string>
-    ) {
-      state.tokenSymbol = action.payload;
-      // console.log("token thicker in redux:", state.tokenSymbol);
-    },
+
+    // setToken(state: { tokenName: string }, action: PayloadAction<string>) {
+    //   state.tokenName = action.payload;
+    //   // console.log("collection name in redux:", state.tokenName);
+    // },
+
+    // seTokenSymbol(
+    //   state: { tokenSymbol: string },
+    //   action: PayloadAction<string>
+    // ) {
+    //   state.tokenSymbol = action.payload;
+    //   // console.log("token thicker in redux:", state.tokenSymbol);
+    // },
   },
 
   extraReducers: {},
 });
 
-export const { setPeraConnection } = homePageSlice.actions;
-export const { setAccount, setSigner,setClient } = homePageSlice.actions;
+export const { setPeraConnection, setAccount, setSigner, setClient ,setStakeDetails} = homePageSlice.actions;
 
 export default homePageSlice;

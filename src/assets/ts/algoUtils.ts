@@ -1,37 +1,14 @@
 import algosdk from "algosdk";
-import {
-  algodApiKey,
-  algodPort,
-  algodUri,
-  appAdress,
-  assetIdx,
-} from "./Consts";
-
+import { algodApiKey, algodPort, algodUri, assetIdx } from "./Consts";
+import { calculateDurationTime, getAppDetails } from "./helpers";
 import { Staking } from "./StakingClient";
-
-// const appAddr = algosdk.getApplicationAddress(appAdress);
-
-// // const getTransaction = async () => {
-// //   const suggested = await algod.getTransactionParams().do();
-// // };
-
-// const transfer = async (from: string, amt: number) => {
-//   algosdk.makeAssetTransferTxnWithSuggestedParams(
-//     from,
-//     appAddr, //to
-//     undefined,
-//     undefined,
-//     amt,
-//     undefined,
-//     assetIdx,
-//     await algod.getTransactionParams().do()
-//   );
-// };
-
 export const algod = new algosdk.Algodv2(algodApiKey, algodUri, algodPort);
 
-
-export const createClient = async (signer: any, account: string) => {
+export const createClient = async (
+  signer: any,
+  account: string,
+  duration: any
+) => {
   console.log("signer,account", signer, account);
 
   const stakingContract = new Staking({
@@ -46,10 +23,101 @@ export const createClient = async (signer: any, account: string) => {
       return signed.map((e: any) => Buffer.from(e.blob, "base64"));
     },
     sender: account,
-    appId: appAdress,
+    appId: getAppDetails(duration).id,
   });
   console.log(stakingContract);
   return stakingContract;
 };
 
-// export { createClient };
+export const stake = async (
+  address: string,
+  amount: number,
+  duration: number,
+  stakingClient: any
+) => {
+  console.log(
+    "paramns",
+    { address },
+    { amount },
+    { duration },
+    { stakingClient }
+  );
+
+  const axfer: any = algosdk.makeAssetTransferTxnWithSuggestedParams(
+    address,
+    algosdk.getApplicationAddress(stakingClient.appId),
+    undefined,
+    undefined,
+    amount,
+    undefined,
+    assetIdx as any,
+    await algod.getTransactionParams().do()
+  );
+  console.log(axfer);
+
+  let staking = await stakingClient.stake({
+    axfer: axfer,
+    lockTime_: getAppDetails(duration).duration,
+  });
+  console.log(staking);
+};
+
+export const unstake = async (
+  address: string,
+  amount: number,
+  duration: number,
+  stakingClient: any
+) => {
+  console.log(
+    "paramns",
+    { address },
+    { amount },
+    { duration },
+    { stakingClient }
+  );
+
+  const axfer: any = algosdk.makeAssetTransferTxnWithSuggestedParams(
+    address,
+    algosdk.getApplicationAddress(stakingClient.appId),
+    undefined,
+    undefined,
+    amount,
+    undefined,
+    assetIdx as any,
+    await algod.getTransactionParams().do()
+  );
+  console.log(axfer);
+
+  let staking = await stakingClient.stake({
+    axfer: axfer,
+    lockTime_: getAppDetails(duration).duration,
+  });
+  console.log(staking);
+};
+
+export const claimXPNET = async () => {};
+
+export const createClients = async (signer: any, account: string) => {
+  console.log("signer,account create clintsssss", signer, account);
+  let clients = [
+    await createClient(signer, account, 3),
+    await createClient(signer, account, 6),
+    await createClient(signer, account, 9),
+    await createClient(signer, account, 12),
+  ];
+  return clients;
+};
+
+
+// export const rewardPool = async (signer: any, address: string,stakingClient:any,amount:number) => {
+//   const axfer: any = algosdk.makeAssetTransferTxnWithSuggestedParams(
+//     address,
+//     algosdk.getApplicationAddress(stakingClient.appId),
+//     undefined,
+//     undefined,
+//     amount,
+//     undefined,
+//     assetIdx as any,
+//     await algod.getTransactionParams().do()
+//   );
+// };
