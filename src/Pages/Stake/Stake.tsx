@@ -43,10 +43,14 @@ export const Stake: FC<Props> = ({}) => {
         .do();
       const balance = assetInfo["asset-holding"]["amount"];
       setbalance(balance);
+    };
+    getBalance().catch(console.error);
+
+    const getCurrency = async () => {
       let currency = await getCurrentPrice();
       setcurrentXpnetPrice(currency);
     };
-    getBalance().catch(console.error);
+    getCurrency().catch(console.error);
     console.log(balance);
   }, []);
 
