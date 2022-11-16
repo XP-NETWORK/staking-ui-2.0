@@ -25,8 +25,7 @@ export function HigherALGO(OriginalComponent: React.FC<any>) {
                         "🚀 ~ file: HigherALGO.tsx ~ line 24 ~ handleWalletConnection ~ accountMyAlgo",
                         accountMyAlgo
                     );
-                    dispatch(setAccount(accountMyAlgo.address));
-                    dispatch(setSigner(accountMyAlgo.signer));
+                    return accountMyAlgo;
                     break;
                 case "AlgoSigner":
                     let algosignerAccount: any = await connectAlgoSigner(true);

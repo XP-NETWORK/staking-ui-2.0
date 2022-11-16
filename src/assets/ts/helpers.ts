@@ -49,12 +49,7 @@ export const calculateDurationTime = (duration: number) => {
 export const calculateEndDate = (duration: number) => {
     let endDate;
     var d = new Date();
-    console.log({ d });
-
-    console.log(d.toLocaleDateString());
     d.setMonth(d.getMonth() + duration);
-    console.log(d.toLocaleDateString());
-
     endDate =
         d.getFullYear() +
         "-" +
@@ -85,7 +80,6 @@ export const calculatAPY = (duration: number) => {
             break;
     }
 };
-console.log(calculateEndDate(3));
 
 export const getAppDetails = (duration: number) => {
     switch (duration) {
@@ -106,7 +100,6 @@ export const getCurrentPrice = async () => {
     // const currentPrice = (await axios.get("https://api.xp.network/current-price")).data;
     const response = await fetch("https://api.xp.network/current-price");
     let currentPrice = await response.json();
-    console.log({ currentPrice });
     return currentPrice;
 };
 
