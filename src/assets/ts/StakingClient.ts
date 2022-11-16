@@ -1,22 +1,21 @@
 import algosdk from "algosdk";
 import * as bkr from "beaker-ts";
-
 export class Staking extends bkr.ApplicationClient {
     desc: string = "";
     override methods: algosdk.ABIMethod[] = [
         new algosdk.ABIMethod({ name: "addRewardPool", desc: "", args: [{ type: "axfer", name: "axfer", desc: "" }], returns: { type: "void", desc: "" } }),
         new algosdk.ABIMethod({ name: "getEarned", desc: "", args: [{ type: "address", name: "address", desc: "" }], returns: { type: "uint64", desc: "" } }),
-        new algosdk.ABIMethod({ name: "getReward", desc: "", args: [], returns: { type: "void", desc: "" } }),
-        new algosdk.ABIMethod({ name: "getRewardInternal", desc: "", args: [], returns: { type: "void", desc: "" } }),
+        new algosdk.ABIMethod({ name: "getReward", desc: "", args: [{ type: "asset", name: "token", desc: "" }], returns: { type: "void", desc: "" } }),
+        new algosdk.ABIMethod({ name: "getRewardInternal", desc: "", args: [{ type: "asset", name: "token", desc: "" }], returns: { type: "void", desc: "" } }),
         new algosdk.ABIMethod({ name: "getRewardPerToken", desc: "", args: [], returns: { type: "uint64", desc: "" } }),
-        new algosdk.ABIMethod({ name: "get_balance_addr", desc: "", args: [], returns: { type: "uint64", desc: "" } }),
+        new algosdk.ABIMethod({ name: "get_balance_addr", desc: "", args: [{ type: "asset", name: "token", desc: "" }], returns: { type: "uint64", desc: "" } }),
         new algosdk.ABIMethod({ name: "initialize", desc: "", args: [{ type: "address", name: "stakingTokenAddress", desc: "" }, { type: "address", name: "communityAddress", desc: "" }, { type: "uint64", name: "minClaimPeriod", desc: "" }, { type: "uint64", name: "rewardRate", desc: "" }, { type: "uint64", name: "assetId", desc: "" }, { type: "uint64", name: "duration", desc: "" }, { type: "uint64", name: "multiplier", desc: "" }, { type: "uint64", name: "maxLoss", desc: "" }], returns: { type: "void", desc: "" } }),
         new algosdk.ABIMethod({ name: "isCreator", desc: "", args: [], returns: { type: "void", desc: "" } }),
         new algosdk.ABIMethod({ name: "optin_asset", desc: "", args: [{ type: "uint64", name: "asset", desc: "" }], returns: { type: "void", desc: "" } }),
         new algosdk.ABIMethod({ name: "setCommunityAddress", desc: "", args: [{ type: "address", name: "communityAddress", desc: "" }], returns: { type: "void", desc: "" } }),
         new algosdk.ABIMethod({ name: "setStakingEnabled", desc: "", args: [{ type: "string", name: "stakingEnabled_", desc: "" }], returns: { type: "void", desc: "" } }),
         new algosdk.ABIMethod({ name: "stake", desc: "", args: [{ type: "axfer", name: "axfer", desc: "" }, { type: "uint64", name: "lockTime_", desc: "" }], returns: { type: "void", desc: "" } }),
-        new algosdk.ABIMethod({ name: "unstake", desc: "", args: [{ type: "uint64", name: "stakeId", desc: "" }], returns: { type: "void", desc: "" } })
+        new algosdk.ABIMethod({ name: "unstake", desc: "", args: [{ type: "uint64", name: "stakeId", desc: "" }, { type: "asset", name: "token", desc: "" }], returns: { type: "void", desc: "" } })
     ];
     async addRewardPool(args: {
         axfer: algosdk.TransactionWithSigner | algosdk.Transaction;
@@ -30,20 +29,26 @@ export class Staking extends bkr.ApplicationClient {
         const result = await this.execute(await this.compose.getEarned({ address: args.address }, txnParams));
         return new bkr.ABIResult<bigint>(result, result.returnValue as bigint);
     }
-    async getReward(txnParams?: bkr.TransactionOverrides): Promise<bkr.ABIResult<void>> {
-        const result = await this.execute(await this.compose.getReward(txnParams));
+    async getReward(args: {
+        token: bigint;
+    }, txnParams?: bkr.TransactionOverrides): Promise<bkr.ABIResult<void>> {
+        const result = await this.execute(await this.compose.getReward({ token: args.token }, txnParams));
         return new bkr.ABIResult<void>(result);
     }
-    async getRewardInternal(txnParams?: bkr.TransactionOverrides): Promise<bkr.ABIResult<void>> {
-        const result = await this.execute(await this.compose.getRewardInternal(txnParams));
+    async getRewardInternal(args: {
+        token: bigint;
+    }, txnParams?: bkr.TransactionOverrides): Promise<bkr.ABIResult<void>> {
+        const result = await this.execute(await this.compose.getRewardInternal({ token: args.token }, txnParams));
         return new bkr.ABIResult<void>(result);
     }
     async getRewardPerToken(txnParams?: bkr.TransactionOverrides): Promise<bkr.ABIResult<bigint>> {
         const result = await this.execute(await this.compose.getRewardPerToken(txnParams));
         return new bkr.ABIResult<bigint>(result, result.returnValue as bigint);
     }
-    async get_balance_addr(txnParams?: bkr.TransactionOverrides): Promise<bkr.ABIResult<bigint>> {
-        const result = await this.execute(await this.compose.get_balance_addr(txnParams));
+    async get_balance_addr(args: {
+        token: bigint;
+    }, txnParams?: bkr.TransactionOverrides): Promise<bkr.ABIResult<bigint>> {
+        const result = await this.execute(await this.compose.get_balance_addr({ token: args.token }, txnParams));
         return new bkr.ABIResult<bigint>(result, result.returnValue as bigint);
     }
     async initialize(args: {
@@ -83,15 +88,16 @@ export class Staking extends bkr.ApplicationClient {
     }
     async stake(args: {
         axfer: algosdk.TransactionWithSigner | algosdk.Transaction;
-        lockTime_: any;
+        lockTime_: bigint;
     }, txnParams?: bkr.TransactionOverrides): Promise<bkr.ABIResult<void>> {
         const result = await this.execute(await this.compose.stake({ axfer: args.axfer, lockTime_: args.lockTime_ }, txnParams));
         return new bkr.ABIResult<void>(result);
     }
     async unstake(args: {
         stakeId: bigint;
+        token: bigint;
     }, txnParams?: bkr.TransactionOverrides): Promise<bkr.ABIResult<void>> {
-        const result = await this.execute(await this.compose.unstake({ stakeId: args.stakeId }, txnParams));
+        const result = await this.execute(await this.compose.unstake({ stakeId: args.stakeId, token: args.token }, txnParams));
         return new bkr.ABIResult<void>(result);
     }
     compose = {
@@ -105,17 +111,23 @@ export class Staking extends bkr.ApplicationClient {
         }, txnParams?: bkr.TransactionOverrides, atc?: algosdk.AtomicTransactionComposer): Promise<algosdk.AtomicTransactionComposer> => {
             return this.addMethodCall(algosdk.getMethodByName(this.methods, "getEarned"), { address: args.address }, txnParams, atc);
         },
-        getReward: async (txnParams?: bkr.TransactionOverrides, atc?: algosdk.AtomicTransactionComposer): Promise<algosdk.AtomicTransactionComposer> => {
-            return this.addMethodCall(algosdk.getMethodByName(this.methods, "getReward"), {}, txnParams, atc);
+        getReward: async (args: {
+            token: bigint;
+        }, txnParams?: bkr.TransactionOverrides, atc?: algosdk.AtomicTransactionComposer): Promise<algosdk.AtomicTransactionComposer> => {
+            return this.addMethodCall(algosdk.getMethodByName(this.methods, "getReward"), { token: args.token }, txnParams, atc);
         },
-        getRewardInternal: async (txnParams?: bkr.TransactionOverrides, atc?: algosdk.AtomicTransactionComposer): Promise<algosdk.AtomicTransactionComposer> => {
-            return this.addMethodCall(algosdk.getMethodByName(this.methods, "getRewardInternal"), {}, txnParams, atc);
+        getRewardInternal: async (args: {
+            token: bigint;
+        }, txnParams?: bkr.TransactionOverrides, atc?: algosdk.AtomicTransactionComposer): Promise<algosdk.AtomicTransactionComposer> => {
+            return this.addMethodCall(algosdk.getMethodByName(this.methods, "getRewardInternal"), { token: args.token }, txnParams, atc);
         },
         getRewardPerToken: async (txnParams?: bkr.TransactionOverrides, atc?: algosdk.AtomicTransactionComposer): Promise<algosdk.AtomicTransactionComposer> => {
             return this.addMethodCall(algosdk.getMethodByName(this.methods, "getRewardPerToken"), {}, txnParams, atc);
         },
-        get_balance_addr: async (txnParams?: bkr.TransactionOverrides, atc?: algosdk.AtomicTransactionComposer): Promise<algosdk.AtomicTransactionComposer> => {
-            return this.addMethodCall(algosdk.getMethodByName(this.methods, "get_balance_addr"), {}, txnParams, atc);
+        get_balance_addr: async (args: {
+            token: bigint;
+        }, txnParams?: bkr.TransactionOverrides, atc?: algosdk.AtomicTransactionComposer): Promise<algosdk.AtomicTransactionComposer> => {
+            return this.addMethodCall(algosdk.getMethodByName(this.methods, "get_balance_addr"), { token: args.token }, txnParams, atc);
         },
         initialize: async (args: {
             stakingTokenAddress: string;
@@ -155,8 +167,9 @@ export class Staking extends bkr.ApplicationClient {
         },
         unstake: async (args: {
             stakeId: bigint;
+            token: bigint;
         }, txnParams?: bkr.TransactionOverrides, atc?: algosdk.AtomicTransactionComposer): Promise<algosdk.AtomicTransactionComposer> => {
-            return this.addMethodCall(algosdk.getMethodByName(this.methods, "unstake"), { stakeId: args.stakeId }, txnParams, atc);
+            return this.addMethodCall(algosdk.getMethodByName(this.methods, "unstake"), { stakeId: args.stakeId, token: args.token }, txnParams, atc);
         }
     };
 }
