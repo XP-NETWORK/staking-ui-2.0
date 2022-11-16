@@ -46,7 +46,7 @@ export const Stake: FC<Props> = ({}) => {
 
       setbalance(balance);
     };
-    //getBalance().catch(console.error);
+    getBalance().catch(console.error);
 
     const getCurrency = async () => {
       let currency = await getCurrentPrice();
@@ -83,6 +83,7 @@ export const Stake: FC<Props> = ({}) => {
       amount: amount,
       stakingPeriod: duration,
       isAgree: isAgree,
+      assetId : assetIdx
     };
     dispatch(setStakeDetails({ ...stake }));
   }, [amount, duration, isAgree]);

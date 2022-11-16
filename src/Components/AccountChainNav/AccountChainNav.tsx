@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { BLOCKCHAINS } from "../../assets/ts/Consts";
@@ -40,9 +41,14 @@ export default function AccountChainNav() {
         )}
       </div>
 
-      <label className="account">
+      <label className={classNames("account","deskOnly")}>
         {/* <Jazzicon diameter={16} address={`${account}`} /> */}
         {account.slice(0, 10) + "..." + account.slice(-2)}
+      </label>
+
+      <label className={classNames("account","mobOnly")}>
+        {/* <Jazzicon diameter={16} address={`${account}`} /> */}
+        {account.slice(0, 14) + "..." + account.slice(-2)}
       </label>
     </div>
   );

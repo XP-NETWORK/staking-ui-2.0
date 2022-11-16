@@ -120,3 +120,15 @@
     display: none;
   }
 }
+
+@media screen and (max-width: 600px) {
+  .chainAndAccountContainer {
+    width: 95vw;
+    margin: 0 auto;
+    margin-top: 15px;
+    justify-content: space-between;
+    .account {
+      width: auto;
+    }
+  }
+}
