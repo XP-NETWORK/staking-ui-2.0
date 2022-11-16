@@ -22,18 +22,18 @@ export function HigherALGO(OriginalComponent: React.FC<any>) {
             switch (wallet) {
                 case "MyAlgo":
                     let accountMyAlgo = await getMyAlgoConnect(true); //!! testnet:true
-                    dispatch(setAccount(accountMyAlgo.address));
-                    dispatch(setSigner(accountMyAlgo.signer));
+                    //   dispatch(setAccount(accountMyAlgo.address));
+                    //   dispatch(setSigner(accountMyAlgo.signer));
                     dispatch(setConnectedWallet("MyAlgo"));
-                    break;
+                    return accountMyAlgo;
                 case "AlgoSigner":
                     let algosignerAccount: any = await connectAlgoSigner(true);
                     dispatch(setConnectedWallet("AlgoSigner"));
                     return algosignerAccount;
                 case "Pera":
-                    await connectPeraWallet(true); //!! testnet:true
+                    let peraAccount: any = await connectPeraWallet(true); //!! testnet:true
                     dispatch(setPeraConnection(true));
-                    break;
+                    return peraAccount;
                 default:
                     break;
             }

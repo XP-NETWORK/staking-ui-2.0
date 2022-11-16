@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import xpLogo from "../../assets/images/xpnet-stake-logo.svg";
 import xpLogoMob from "../../assets/images/mob/xpnet-stake-logo.svg";
 import hamburgerIcon from "../../assets/images/mob/menu.svg";
@@ -15,6 +15,9 @@ import { PopupNav } from "../PopupNav/PopupNav";
 import { useNavigate } from "react-router";
 import { NavBarMobile } from "../NavbarMob/NavBarMobile";
 import { ActiveAccountNavbar } from "../ConnectedAccountNavbar/ActiveAccountNavbar";
+import { ReduxState } from "../../store/store";
+import { useSelector } from "react-redux";
+import { NavbarMobActive } from "../NavbarMobActive/NavBarMobile";
 
 interface Props {}
 
@@ -22,6 +25,14 @@ export const Navbar: FC<Props> = ({}) => {
   const [openResources, setOpenResources] = useState(false);
   const [openNavMenu, setOpenNavMenu] = useState(false);
   const [ACTIVE, setACTIVE] = useState(false);
+  const { account } = useSelector((state: ReduxState) => state.homePage);
+  useEffect(() => {
+    if (account !== "") {
+      setACTIVE(true);
+    } else {
+      setACTIVE(false);
+    }
+  }, [account]);
 
   const navigate = useNavigate();
 
@@ -44,52 +55,56 @@ export const Navbar: FC<Props> = ({}) => {
             alt="logo"
             onClick={handleClickLogo}
           />
-          {ACTIVE && <div className="navLinksWrapper">
-            <button onMouseOver={() => setOpenResources(true)}>
-              Resources
-            </button>
-            <a
-              className="aCommunity"
-              href="https://xp.network/community/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Community
-            </a>
-            <div className="navMediaWrapper">
+          {!ACTIVE && (
+            <div className="navLinksWrapper">
+              <button onMouseOver={() => setOpenResources(true)}>
+                Resources
+              </button>
               <a
-                href="https://il.linkedin.com/company/xpnetwork"
+                className="aCommunity"
+                href="https://xp.network/community/"
                 target="_blank"
                 rel="noreferrer"
               >
-                <img src={linkedin} alt="linkedin" />
+                Community
               </a>
-              <a
-                href="https://t.me/xp_network"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <img src={telegram} alt="telegram" />
-              </a>
-              <a
-                href="https://twitter.com/xpnetwork_"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <img src={twitter} alt="twitter" />
-              </a>
-              <a
-                href="https://www.reddit.com/r/XP_network/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <img src={redit} alt="redit" />
-              </a>
+              <div className="navMediaWrapper">
+                <a
+                  href="https://il.linkedin.com/company/xpnetwork"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <img src={linkedin} alt="linkedin" />
+                </a>
+                <a
+                  href="https://t.me/xp_network"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <img src={telegram} alt="telegram" />
+                </a>
+                <a
+                  href="https://twitter.com/xpnetwork_"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <img src={twitter} alt="twitter" />
+                </a>
+                <a
+                  href="https://www.reddit.com/r/XP_network/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <img src={redit} alt="redit" />
+                </a>
+              </div>
             </div>
-          </div>}
-          {!ACTIVE && <div className="navLinksWrapperActive">
-            <ActiveAccountNavbar/>
-            </div>}
+          )}
+          {ACTIVE && (
+            <div className="navLinksWrapperActive deskOnly">
+              <ActiveAccountNavbar />
+            </div>
+          )}
           <button
             className="menuIcon"
             onClick={() => setOpenNavMenu(!openNavMenu)}
@@ -112,7 +127,8 @@ export const Navbar: FC<Props> = ({}) => {
         </div>
       </div>
       {openResources && <PopupNav close={() => setOpenResources(false)} />}
-      {openNavMenu && <NavBarMobile />}
+      {openNavMenu && !ACTIVE && <NavBarMobile />}
+      {openNavMenu && ACTIVE && <NavbarMobActive />}
     </>
   );
 };

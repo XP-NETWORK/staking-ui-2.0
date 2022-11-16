@@ -21,15 +21,16 @@ export const algoConnector = new WalletConnect({
 
 export const connectPeraWallet = async (testnet: boolean) => {
     // debugger;
+
     peraWallet.connect().then((newAccounts) => {
         // Setup the disconnect event listener
         peraWallet.connector?.on("disconnect", () => {
             console.log("Disconnect");
         });
-        store.dispatch(setAccount(newAccounts[0]));
         const signer = peraWallet;
-        store.dispatch(setSigner(signer));
         store.dispatch(setConnectedWallet("Pera"));
+        store.dispatch(setAccount(newAccounts[0]));
+        store.dispatch(setSigner(signer));
     });
 };
 declare global {
@@ -46,6 +47,8 @@ export const connectAlgoSigner = async (testnet: boolean) => {
             });
             const address = algo[0].address;
             const signer = window.AlgoSigner;
+            //   signer.signTxn
+            //   signer.signTxn()
             return { address, signer };
         } catch (e) {
             console.error(e);
@@ -59,6 +62,7 @@ export const connectAlgoSigner = async (testnet: boolean) => {
 
 export const getMyAlgoConnect = async (testnet: boolean) => {
     const myAlgoConnect = new MyAlgoConnect({ disableLedgerNano: false });
+
     const settings = {
         shouldSelectOneAccount: false,
         openManager: true,
@@ -66,5 +70,7 @@ export const getMyAlgoConnect = async (testnet: boolean) => {
 
     const accounts = await myAlgoConnect.connect(settings);
     const signer = myAlgoConnect;
+    console.log("myalgo", { signer, address: accounts[0].address });
+
     return { signer, address: accounts[0].address };
 };

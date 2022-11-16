@@ -33,17 +33,20 @@ export const Stake: FC<Props> = ({}) => {
     const [duration, setDuration] = useState(3);
     const [apyPrecent, setapyPrecent] = useState();
     const [isAgree, setIsAgree] = useState(false);
-    const { signer, account, stakingClient, stakeDetails, connectedWallet } =
-        useSelector((state: ReduxState) => state.homePage);
+    const { signer, account, stakingClient, stakeDetails } = useSelector(
+        (state: ReduxState) => state.homePage
+    );
     useEffect(() => {
         const getBalance = async () => {
             const assetInfo = await stakingClient.client
                 .accountAssetInformation(stakingClient.sender, assetIdx)
                 .do();
             const balance = assetInfo["asset-holding"]["amount"];
+            console.log(balance);
+
             setbalance(balance);
         };
-        getBalance().catch(console.error);
+        //getBalance().catch(console.error);
 
         const getCurrency = async () => {
             let currency = await getCurrentPrice();
@@ -58,8 +61,7 @@ export const Stake: FC<Props> = ({}) => {
             let client = await createClient(signer, account, duration);
             dispatch(setClient(client));
             console.log({ client });
-
-            console.log("Account state", await client.getAccountState());
+            //console.log("Account state", await client.getAccountState());
         };
         updateClient().catch(console.error);
     }, [duration]);
@@ -113,13 +115,22 @@ export const Stake: FC<Props> = ({}) => {
                                     // placeholder={`${amount} MIN staking requirement 1500 XPNET`}
                                 />
                                 <label
-                                    className="placeholder"
+                                    className="placeholder deskOnly"
                                     style={{
                                         visibility:
                                             amount === 0 ? "visible" : "hidden",
                                     }}
                                 >
                                     MIN staking requirement 1500 XPNET
+                                </label>
+                                <label
+                                    className="placeholder mobOnly"
+                                    style={{
+                                        visibility:
+                                            amount === 0 ? "visible" : "hidden",
+                                    }}
+                                >
+                                    MIN 1500 XPNET
                                 </label>
                                 <button
                                     className="maxBtn"
