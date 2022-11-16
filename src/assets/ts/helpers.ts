@@ -101,3 +101,17 @@ export const getAppDetails = (duration: number) => {
       return { id: appAdress3Months, duration: duration3Months };
   }
 };
+
+export const getCurrentPrice = async () => {
+  // const currentPrice = (await axios.get("https://api.xp.network/current-price")).data;
+  const response = await fetch("https://api.xp.network/current-price");
+  let currentPrice = await response.json();
+  console.log(currentPrice);
+  return currentPrice;
+};
+
+getCurrentPrice();
+
+export const cutTwoDigits = async (num: number) => {
+  return num.toFixed(2);
+};

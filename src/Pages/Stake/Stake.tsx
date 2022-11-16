@@ -7,6 +7,7 @@ import {
   calculatAPY,
   calculateEndDate,
   calculateEstimatedRewards,
+  getCurrentPrice,
 } from "../../assets/ts/helpers";
 import xpnet from "../../assets/images/coin/XPNET.svg";
 import nft from "../../assets/images/nft.png";
@@ -26,6 +27,7 @@ interface Props {}
 
 export const Stake: FC<Props> = ({}) => {
   const dispatch = useDispatch();
+  const [currentXpnetPrice, setcurrentXpnetPrice] = useState(0);
   const [balance, setbalance] = useState(0);
   const [amount, setamount] = useState(0);
   const [duration, setDuration] = useState(3);
@@ -41,6 +43,8 @@ export const Stake: FC<Props> = ({}) => {
         .do();
       const balance = assetInfo["asset-holding"]["amount"];
       setbalance(balance);
+      let currency = await getCurrentPrice();
+      setcurrentXpnetPrice(currency);
     };
     getBalance().catch(console.error);
     console.log(balance);
@@ -50,8 +54,8 @@ export const Stake: FC<Props> = ({}) => {
     const updateClient = async () => {
       let client = await createClient(signer, account, duration);
       dispatch(setClient(client));
-      console.log({client});
-      
+      console.log({ client });
+
       console.log("Account state", await client.getAccountState());
     };
     updateClient().catch(console.error);
@@ -228,7 +232,9 @@ export const Stake: FC<Props> = ({}) => {
                   className="column"
                   style={{ alignItems: "flex-end", gap: "9px" }}
                 >
-                  <span className="small">$ 0.070</span>
+                  <span className="small">
+                    $ {(currentXpnetPrice * amount).toFixed(2)}
+                  </span>
                   <label className="value">
                     {amount} {XPNET}
                   </label>
@@ -247,7 +253,9 @@ export const Stake: FC<Props> = ({}) => {
                   className="column"
                   style={{ alignItems: "flex-end", gap: "9px" }}
                 >
-                  <span className="small">$ 0.070</span>
+                  <span className="small">
+                    $ {(currentXpnetPrice * amount).toFixed(2)}
+                  </span>
                   <label className="value">
                     {calculateEstimatedRewards(amount, duration)} {XPNET}
                   </label>
