@@ -55,12 +55,7 @@ export const Stake: FC<Props> = ({}) => {
 
     useEffect(() => {
         const updateClient = async () => {
-            let client = await createClient(
-                signer,
-                account,
-                duration,
-                connectedWallet
-            );
+            let client = await createClient(signer, account, duration);
             dispatch(setClient(client));
             console.log({ client });
 

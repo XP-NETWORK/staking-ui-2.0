@@ -31,8 +31,7 @@ const AlgoSigner = ({ connect }: { connect: Function }) => {
         let client = await createClient(
             account.signer,
             account.address,
-            appAdress3Months,
-            connectedWallet
+            appAdress3Months
         );
         dispatch(setClient(client));
         to === "stake" ? navigate("/stake") : navigate("/rewards");
