@@ -2,25 +2,33 @@ import { PeraWalletConnect } from "@perawallet/connect";
 import QRCodeModal from "algorand-walletconnect-qrcode-modal";
 import WalletConnect from "@walletconnect/client";
 import MyAlgoConnect from "@randlabs/myalgo-connect";
+import store from "../../store/store";
+import algosdk from "algosdk";
+import { setAccount, setSigner } from "../../store/reducer/homePageSlice";
 
 const peraWallet = new PeraWalletConnect({
     bridge: "https://bridge.walletconnect.org",
 });
-
+const algod = algosdk.Algodv2;
 export const algoConnector = new WalletConnect({
     bridge: "https://bridge.walletconnect.org", // Required
     qrcodeModal: QRCodeModal,
 });
 
-export const connectPeraWallet = async () => {
+export const connectPeraWallet = async (testnet: boolean) => {
     // debugger;
     peraWallet.connect().then((newAccounts) => {
         // Setup the disconnect event listener
         peraWallet.connector?.on("disconnect", () => {
             console.log("Disconnect");
         });
-
-        console.log(newAccounts[0]);
+        store.dispatch(setAccount(newAccounts[0]));
+        const signer = {
+            address: newAccounts[0],
+            signer: peraWallet.connector,
+            ledger: testnet ? "testnet" : "mainnet",
+        };
+        store.dispatch(setSigner(signer));
     });
 };
 declare global {
@@ -52,7 +60,7 @@ export const connectAlgoSigner = async (testnet: boolean) => {
     }
 };
 
-export const getMyAlgoConnect = async () => {
+export const getMyAlgoConnect = async (testnet: boolean) => {
     const myAlgoConnect = new MyAlgoConnect({ disableLedgerNano: false });
     const settings = {
         shouldSelectOneAccount: false,
@@ -60,6 +68,10 @@ export const getMyAlgoConnect = async () => {
     };
 
     const accounts = await myAlgoConnect.connect(settings);
-    console.log("algo connected address", accounts[0].address);
-    return accounts[0];
+    const signer = {
+        address: accounts[0].address,
+        signer: myAlgoConnect,
+        ledger: testnet ? "testnet" : "mainnet",
+    };
+    return { signer, address: accounts[0].address };
 };

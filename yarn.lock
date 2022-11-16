@@ -2825,7 +2825,7 @@ algorand-walletconnect-qrcode-modal@^1.6.1, algorand-walletconnect-qrcode-modal@
     preact "10.4.1"
     qrcode "1.4.4"
 
-algosdk@^1.21.0:
+algosdk@^1.21.0, algosdk@^1.23.2:
   version "1.23.2"
   resolved "https://registry.yarnpkg.com/algosdk/-/algosdk-1.23.2.tgz#1fda2b537d832687da64bf708f10a69086f02b43"
   integrity sha512-ZDq71Kq+e3bvHxnTi/hWqom2/YHeTrbkxenOOCvPidRQuwkaOQAs92c4fqImdn7+Y+MfLhdtQspBLFR1hQTE4A==
