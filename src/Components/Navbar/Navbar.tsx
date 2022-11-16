@@ -17,7 +17,8 @@ import { NavBarMobile } from "../NavbarMob/NavBarMobile";
 import { ActiveAccountNavbar } from "../ConnectedAccountNavbar/ActiveAccountNavbar";
 import { ReduxState } from "../../store/store";
 import { useSelector } from "react-redux";
-import { NavbarMobActive } from "../NavbarMobActive/NavBarMobile";
+import { NavbarMobActive } from "../NavbarMobActive/NavBarMobActive";
+import AccountChainNav from "../AccountChainNav/AccountChainNav";
 
 interface Props {}
 
@@ -127,6 +128,11 @@ export const Navbar: FC<Props> = ({}) => {
         </div>
       </div>
       {openResources && <PopupNav close={() => setOpenResources(false)} />}
+      {ACTIVE && (
+        <div className="mobOnly">
+          <AccountChainNav />
+        </div>
+      )}
       {openNavMenu && !ACTIVE && <NavBarMobile />}
       {openNavMenu && ACTIVE && <NavbarMobActive />}
     </>

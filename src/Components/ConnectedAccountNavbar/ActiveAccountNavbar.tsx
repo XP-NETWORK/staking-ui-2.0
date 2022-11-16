@@ -9,6 +9,7 @@ import { BLOCKCHAINS } from "../../assets/ts/Consts";
 import classNames from "classnames";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
+import AccountChainNav from "../AccountChainNav/AccountChainNav";
 
 export const ActiveAccountNavbar: FC<{}> = () => {
   const chain = BLOCKCHAINS[0];
@@ -37,7 +38,8 @@ export const ActiveAccountNavbar: FC<{}> = () => {
       <Link to="/gallery" className="activeNavLink">
         NFT Collection
       </Link>
-      <div className="chainAndAccountContainer">
+      <AccountChainNav />
+      {/* <div className="chainAndAccountContainer">
         <div className="dropWraper">
           <button onClick={() => setshowDrop(!showDrop)} className="dropdown">
             {title}
@@ -58,10 +60,10 @@ export const ActiveAccountNavbar: FC<{}> = () => {
         </div>
 
         <label className="account">
-          {/* <Jazzicon diameter={16} address={`${account}`} /> */}
+           <Jazzicon diameter={16} address={`${account}`} />
           {account.slice(0, 10) + "..." + account.slice(-2)}
         </label>
-      </div>
+      </div> */}
     </div>
   );
 };
