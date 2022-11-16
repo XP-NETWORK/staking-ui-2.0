@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import { useDispatch } from "react-redux";
 import {
     setAccount,
+    setConnectedWallet,
     setPeraConnection,
     setSigner,
 } from "../../store/reducer/homePageSlice";
@@ -21,15 +22,13 @@ export function HigherALGO(OriginalComponent: React.FC<any>) {
             switch (wallet) {
                 case "MyAlgo":
                     let accountMyAlgo = await getMyAlgoConnect(true); //!! testnet:true
-                    console.log(
-                        "🚀 ~ file: HigherALGO.tsx ~ line 24 ~ handleWalletConnection ~ accountMyAlgo",
-                        accountMyAlgo
-                    );
                     dispatch(setAccount(accountMyAlgo.address));
                     dispatch(setSigner(accountMyAlgo.signer));
+                    dispatch(setConnectedWallet("MyAlgo"));
                     break;
                 case "AlgoSigner":
                     let algosignerAccount: any = await connectAlgoSigner(true);
+                    dispatch(setConnectedWallet("AlgoSigner"));
                     return algosignerAccount;
                 case "Pera":
                     await connectPeraWallet(true); //!! testnet:true

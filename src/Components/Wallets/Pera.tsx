@@ -6,7 +6,10 @@ import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
 import { PeraWalletConnect } from "@perawallet/connect";
 import { useNavigate, useParams } from "react-router";
-import { setPeraConnection } from "../../store/reducer/homePageSlice";
+import {
+    setConnectedWallet,
+    setPeraConnection,
+} from "../../store/reducer/homePageSlice";
 import { useDispatch } from "react-redux";
 
 const Pera = ({

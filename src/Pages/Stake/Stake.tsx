@@ -33,9 +33,8 @@ export const Stake: FC<Props> = ({}) => {
     const [duration, setDuration] = useState(3);
     const [apyPrecent, setapyPrecent] = useState();
     const [isAgree, setIsAgree] = useState(false);
-    const { signer, account, stakingClient, stakeDetails } = useSelector(
-        (state: ReduxState) => state.homePage
-    );
+    const { signer, account, stakingClient, stakeDetails, connectedWallet } =
+        useSelector((state: ReduxState) => state.homePage);
     useEffect(() => {
         const getBalance = async () => {
             const assetInfo = await stakingClient.client
@@ -56,7 +55,12 @@ export const Stake: FC<Props> = ({}) => {
 
     useEffect(() => {
         const updateClient = async () => {
-            let client = await createClient(signer, account, duration);
+            let client = await createClient(
+                signer,
+                account,
+                duration,
+                connectedWallet
+            );
             dispatch(setClient(client));
             console.log({ client });
 
