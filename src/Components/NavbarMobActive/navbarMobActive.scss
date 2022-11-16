@@ -97,4 +97,11 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  padding: 16px 16px 26px;
+  width: -webkit-fill-available;
+  gap: 10px;
+  a {
+    padding: 10px;
+    width: -webkit-fill-available;
+  }
 }

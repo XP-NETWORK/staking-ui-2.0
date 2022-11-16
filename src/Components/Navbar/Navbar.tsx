@@ -17,7 +17,7 @@ import { NavBarMobile } from "../NavbarMob/NavBarMobile";
 import { ActiveAccountNavbar } from "../ConnectedAccountNavbar/ActiveAccountNavbar";
 import { ReduxState } from "../../store/store";
 import { useSelector } from "react-redux";
-import { NavbarMobActive } from "../NavbarMobActive/NavBarMobile";
+import { NavbarMobActive } from "../NavbarMobActive/NavBarMobActive";
 
 interface Props {}
 

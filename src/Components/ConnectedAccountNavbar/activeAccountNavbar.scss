@@ -23,7 +23,8 @@
   margin-left: 10px;
 }
 
-.activeNavLink:hover {
+.activeNavLink:hover,
+.activeNavLink:focus {
   background: rgba(35, 136, 255, 0.07);
   border-radius: 6px;
   color: #2388ff;

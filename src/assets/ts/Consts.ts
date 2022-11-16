@@ -18,19 +18,19 @@ export const algodPort = 443;
 export const assetIdx = 121878783;
 
 //3 different contracts - every staking periog has her own contract
-export const appAdress3Months = 122908817;
+export const appAdress3Months = 123148891;
 export const duration3Months = 7890000;
 export const multiplier3Months = 130000000000;
 
-export const appAdress6Months = 122909036;
+export const appAdress6Months = 123149104;
 export const duration6Months = 15780000;
 export const multiplier6Months = 150000000000;
 
-export const appAdress9Months = 122915072;
+export const appAdress9Months = 123149285;
 export const duration9Months = 23650000;
 export const multiplier9Months = 170000000000;
 
-export const appAdress12Months = 122909229;
+export const appAdress12Months = 123149619;
 export const duration12Months = 31536000;
 export const multiplier12Months = 190000000000;
 //

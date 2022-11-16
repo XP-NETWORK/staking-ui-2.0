@@ -34,6 +34,26 @@ export const NavbarMobActive: FC<Props> = ({}) => {
           </Link>
         </div>
         {/* </div> */}
+        <label className="line" />
+
+        <div className="activeWrapperMob">
+          <a
+            href="https://xp.network/"
+            target="_blank"
+            rel="noreferrer"
+            className="activeNavLink"
+          >
+            XP.NETWORK
+          </a>
+          <a
+            href="https://xp.network/community/"
+            className="activeNavLink"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Community
+          </a>
+        </div>
 
         <label className="line" />
         <div className="navMediaWrapperMob">
