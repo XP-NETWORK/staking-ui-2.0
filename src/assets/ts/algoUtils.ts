@@ -7,8 +7,7 @@ export const algod = new algosdk.Algodv2(algodApiKey, algodUri, algodPort);
 export const createClient = async (
     signer: any,
     account: string,
-    duration: any,
-    wallet: string
+    duration: any
 ) => {
     console.log("signer,account,wallet", signer, account);
     // debugger;
@@ -100,17 +99,13 @@ export const unstake = async (
 
 export const claimXPNET = async () => {};
 
-export const createClients = async (
-    signer: any,
-    account: string,
-    wallet: string
-) => {
+export const createClients = async (signer: any, account: string) => {
     console.log("signer,account create clintsssss", signer, account);
     let clients = [
-        await createClient(signer, account, 3, wallet),
-        await createClient(signer, account, 6, wallet),
-        await createClient(signer, account, 9, wallet),
-        await createClient(signer, account, 12, wallet),
+        await createClient(signer, account, 3),
+        await createClient(signer, account, 6),
+        await createClient(signer, account, 9),
+        await createClient(signer, account, 12),
     ];
     return clients;
 };

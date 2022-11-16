@@ -33,7 +33,7 @@ export const ClaimRewards: FC<Props> = ({}) => {
     const [amount, setamount] = useState(0);
     const [showError, setShowError] = useState(false);
     const [mainImgSrc, setMainImgSrc] = useState(NFT);
-    const { signer, account, connectedWallet } = useSelector(
+    const { signer, account } = useSelector(
         (state: ReduxState) => state.homePage
     );
     // useEffect(() => {
@@ -70,11 +70,7 @@ export const ClaimRewards: FC<Props> = ({}) => {
 
     useEffect(() => {
         const getClients = async () => {
-            let clientsArr = await createClients(
-                signer,
-                account,
-                connectedWallet
-            );
+            let clientsArr = await createClients(signer, account);
             console.log(clientsArr);
             setClients(clientsArr);
         };
