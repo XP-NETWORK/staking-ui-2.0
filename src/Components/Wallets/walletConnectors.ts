@@ -4,7 +4,11 @@ import WalletConnect from "@walletconnect/client";
 import MyAlgoConnect from "@randlabs/myalgo-connect";
 import store from "../../store/store";
 import algosdk from "algosdk";
-import { setAccount, setSigner } from "../../store/reducer/homePageSlice";
+import {
+  setAccount,
+  setConnectedWallet,
+  setSigner,
+} from "../../store/reducer/homePageSlice";
 
 const peraWallet = new PeraWalletConnect({
   bridge: "https://bridge.walletconnect.org",
@@ -23,12 +27,9 @@ export const connectPeraWallet = async (testnet: boolean) => {
       console.log("Disconnect");
     });
     store.dispatch(setAccount(newAccounts[0]));
-    const signer = {
-      address: newAccounts[0],
-      signer: peraWallet.connector,
-      ledger: testnet ? "testnet" : "mainnet",
-    };
+    const signer = peraWallet;
     store.dispatch(setSigner(signer));
+    store.dispatch(setConnectedWallet("Pera"));
   });
 };
 declare global {
@@ -44,11 +45,9 @@ export const connectAlgoSigner = async (testnet: boolean) => {
         ledger: testnet ? "TestNet" : "MainNet",
       });
       const address = algo[0].address;
-      const signer = {
-        address: address,
-        AlgoSigner: window.AlgoSigner,
-        ledger: testnet ? "TestNet" : "MainNet",
-      };
+      const signer = window.AlgoSigner;
+    //   signer.signTxn
+    //   signer.signTxn()
       return { address, signer };
     } catch (e) {
       console.error(e);
@@ -61,21 +60,16 @@ export const connectAlgoSigner = async (testnet: boolean) => {
 };
 
 export const getMyAlgoConnect = async (testnet: boolean) => {
-  const myAlgoConnect = new MyAlgoConnect({ disableLedgerNano: false });
-  console.log({myAlgoConnect});
+  const myAlgoConnect = new MyAlgoConnect({ disableLedgerNano: false })
 
   const settings = {
     shouldSelectOneAccount: false,
     openManager: true,
-    // genesisId: "testnet-v1.0",
-    // genesisHash: "SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
   };
 
   const accounts = await myAlgoConnect.connect(settings);
-  const signer = {
-    address: accounts[0].address,
-    signer: myAlgoConnect,
-    ledger: testnet ? "testnet" : "mainnet",
-  };
+  const signer = myAlgoConnect;
+  console.log("myalgo", { signer, address: accounts[0].address });
+
   return { signer, address: accounts[0].address };
 };

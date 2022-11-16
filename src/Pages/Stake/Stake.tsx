@@ -46,7 +46,7 @@ export const Stake: FC<Props> = ({}) => {
 
       setbalance(balance);
     };
-    getBalance().catch(console.error);
+    //getBalance().catch(console.error);
 
     const getCurrency = async () => {
       let currency = await getCurrentPrice();
@@ -110,12 +110,20 @@ export const Stake: FC<Props> = ({}) => {
                   // placeholder={`${amount} MIN staking requirement 1500 XPNET`}
                 />
                 <label
-                  className="placeholder"
+                  className="placeholder deskOnly"
                   style={{
                     visibility: amount === 0 ? "visible" : "hidden",
                   }}
                 >
                   MIN staking requirement 1500 XPNET
+                </label>
+                <label
+                  className="placeholder mobOnly"
+                  style={{
+                    visibility: amount === 0 ? "visible" : "hidden",
+                  }}
+                >
+                  MIN 1500 XPNET
                 </label>
                 <button className="maxBtn" onClick={handleMaxAmount}>
                   MAX

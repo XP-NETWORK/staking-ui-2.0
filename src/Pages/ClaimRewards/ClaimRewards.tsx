@@ -56,14 +56,14 @@ export const ClaimRewards: FC<Props> = ({}) => {
       console.log("app", await client.getApplicationState());
 
       stakingAmount = (await client.getAccountState()).sn;
-      // console.log("clients state:", await client.getAccountState());
+      console.log("clients state:", await client.getAccountState());
 
       if (stakingAmount > 0) {
         // rewardPool(signer, account, client,stakingAmount);
         rewards = await client.getReward({
           appForeignAssets: [assetIdx],
         });
-        // console.log(rewards);
+        console.log(rewards);
       }
     });
   };
@@ -71,14 +71,14 @@ export const ClaimRewards: FC<Props> = ({}) => {
   useEffect(() => {
     const getClients = async () => {
       let clientsArr = await createClients(signer, account);
-      // console.log(clientsArr);
+      console.log(clientsArr);
       setClients(clientsArr);
     };
     getClients().catch(console.error);
   }, []);
 
   const handleCopy = () => {};
-  // console.log(mainImgSrc);
+  console.log(mainImgSrc);
 
   const handlePrev = () => {
     let num = mainImgSrc[mainImgSrc.length - 1] + 1;
@@ -104,7 +104,10 @@ export const ClaimRewards: FC<Props> = ({}) => {
                   <label className="prop">Amount</label>
                   <div
                     className="column"
-                    style={{ alignItems: "flex-end", gap: "9px" }}
+                    style={{
+                      alignItems: "flex-end",
+                      gap: "9px",
+                    }}
                   >
                     <span className="small">$ 0.070</span>
                     <label className="value">
@@ -127,7 +130,10 @@ export const ClaimRewards: FC<Props> = ({}) => {
                   <label className="prop">Rewards</label>
                   <div
                     className="column"
-                    style={{ alignItems: "flex-end", gap: "9px" }}
+                    style={{
+                      alignItems: "flex-end",
+                      gap: "9px",
+                    }}
                   >
                     <span className="small">$ 0.070</span>
                     <label className="value">

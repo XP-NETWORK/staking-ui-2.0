@@ -19,16 +19,20 @@ const AlgoSigner = ({ connect }: { connect: Function }) => {
   let { to } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const { signer, account } = useSelector(
-  //   (state: ReduxState) => state.homePage
-  // );
+  const { connectedWallet } = useSelector(
+    (state: ReduxState) => state.homePage
+  );
   const handleClick = async () => {
     let account = await connect("AlgoSigner");
     dispatch(setAccount(account.address));
     dispatch(setSigner(account.signer));
-    //console.log("algosigner", { account });
+    console.log("algosigner", { account });
 
-    let client = await createClient(account.signer, account.address,appAdress3Months);
+    let client = await createClient(
+      account.signer,
+      account.address,
+      appAdress3Months
+    );
     dispatch(setClient(client));
     to === "stake" ? navigate("/stake") : navigate("/rewards");
 
@@ -55,7 +59,7 @@ const AlgoSigner = ({ connect }: { connect: Function }) => {
       assetIdx as any,
       await algod.getTransactionParams().do()
     );
-    //console.log(axfer);
+    console.log(axfer);
 
     // let alex = await client.stake({ axfer: axfer, lockTime_: 1209600 });
     // console.log(alex);
@@ -67,17 +71,18 @@ const AlgoSigner = ({ connect }: { connect: Function }) => {
       .accountAssetInformation(client.sender, assetIdx)
       .do();
     const balance = assetInfo["asset-holding"]["amount"];
-    // console.log(balance);
+    console.log(balance);
 
     // let alex2 = await client.get_balance_addr({ appForeignAssets: [Number(assetIdx)] });
     // console.log({ alex2 });
 
-   // console.log("Account state", (await client.getAccountState()).sn); //total staked
+    // console.log("Account state", (await client.getAccountState()).sn); //total staked
   };
 
   //  let  balanceAfterStaking1 =  creator_app_client.call(
   //     Staking.get_balance_addr, foreign_assets=[asset])
 
+  console.log();
 
   return (
     <button onClick={handleClick} className="connectBtn">

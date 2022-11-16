@@ -23,6 +23,7 @@ const MyAlgo = ({ connect }: { connect: Function }) => {
 
   const handleClick = async () => {
     let account = await connect("MyAlgo");
+    console.log("here", { account });
     dispatch(setAccount(account.address));
     dispatch(setSigner(account.signer));
     console.log("look here", { account });
