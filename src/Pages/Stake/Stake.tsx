@@ -42,7 +42,7 @@ export const Stake: FC<Props> = ({}) => {
   useEffect(() => {
     const getBalance = async () => {
       console.log("HERE", { stakingClient });
-      if (stakingClient.account !== "") {
+      if (stakingClient.sender !== "") {
         const assetInfo = await stakingClient.client
           .accountAssetInformation(stakingClient.sender, assetIdx)
           .do();

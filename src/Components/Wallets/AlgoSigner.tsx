@@ -67,13 +67,13 @@ const AlgoSigner = ({ connect }: { connect: Function }) => {
     // let alex1 = await client.getEarned({ address: account.address });
     // console.log({alex1});
 
-    console.log("Here2", { client });
+    // console.log("Here2", { client });
 
-    const assetInfo = await client.client
-      .accountAssetInformation(client.sender, assetIdx)
-      .do();
-    const balance = assetInfo["asset-holding"]["amount"];
-    console.log({ balance });
+    // const assetInfo = await client.client
+    //   .accountAssetInformation(client.sender, assetIdx)
+    //   .do();
+    // const balance = assetInfo["asset-holding"]["amount"];
+    // console.log({ balance });
 
     // let alex2 = await client.get_balance_addr({ appForeignAssets: [Number(assetIdx)] });
     // console.log({ alex2 });
