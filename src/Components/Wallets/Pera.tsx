@@ -50,7 +50,7 @@ const Pera = ({
             to === "stake" ? navigate("/stake") : navigate("/rewards");
             dispatch(setPeraConnection(false));
         }
-        getClient();
+        if (account) getClient();
     }, [account, navigate, to, dispatch, getClient]);
 
     useEffect(() => {
@@ -66,7 +66,7 @@ const Pera = ({
     }, [peraConnection, peraWallet]);
 
     const handleClick = async () => {
-        const peraConnect = await connect("Pera");
+        await connect("Pera");
     };
 
     return (

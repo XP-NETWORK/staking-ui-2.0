@@ -27,10 +27,9 @@ export const connectPeraWallet = async (testnet: boolean) => {
         peraWallet.connector?.on("disconnect", () => {
             console.log("Disconnect");
         });
-        const signer = peraWallet;
         store.dispatch(setConnectedWallet("Pera"));
         store.dispatch(setAccount(newAccounts[0]));
-        store.dispatch(setSigner(signer));
+        store.dispatch(setSigner(peraWallet));
     });
 };
 declare global {
