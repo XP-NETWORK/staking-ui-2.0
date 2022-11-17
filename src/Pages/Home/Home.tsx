@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import algorand from "../../assets/images/Algorand.svg";
 import bsc from "../../assets/images/BSC.svg";
@@ -20,6 +20,11 @@ import "./home.scss";
 interface Props {}
 
 export const Home: FC<Props> = ({}) => {
+  const [totalStakeInAlgo, settotalStakeInAlgo] = useState(1);
+
+  useEffect(() => {
+    
+  }, []);
   const navigate = useNavigate();
 
   const handleAlgoStake = () => {
@@ -65,7 +70,7 @@ export const Home: FC<Props> = ({}) => {
                 {addCommas(STAKING_LIMIT_ALGO)} {XPNET}
               </span>
             </div>
-            <ProgressBar />
+            <ProgressBar totalStaking={totalStakeInAlgo} stakingLimit={STAKING_LIMIT_ALGO}/>
             <div className={classNames("btnsContainer", "mobOnly")}>
               <button className="whiteBtn" onClick={handleAlgoStake}>
                 Stake XPNET
@@ -97,7 +102,7 @@ export const Home: FC<Props> = ({}) => {
                 {addCommas(TOTAL_STAKED_BSC)} {XPNET}
               </span>
             </div>
-            <ProgressBar />
+            <ProgressBar totalStaking={TOTAL_STAKED_BSC} stakingLimit={TOTAL_STAKED_BSC} />
             <div className={classNames("btnsContainer", "mobOnly")}>
               <button className="whiteBtn" onClick={handleAlgoStake}>
                 Stake XPNET

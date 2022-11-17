@@ -15,6 +15,13 @@
   background: rgba(165, 176, 192, 0.17);
   border: 1px solid rgba(193, 186, 186, 0.29);
   border-radius: 20px;
+
+  .progressLoader {
+    height: 17px;
+
+    background: #1c5bff;
+    border-radius: 60px;
+  }
 }
 
 .progressDetails {
