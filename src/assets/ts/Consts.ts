@@ -15,7 +15,7 @@ export const algodApiKey =
   "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 export const algodUri = "https://node.testnet.algoexplorerapi.io/";
 export const algodPort = 443;
-export const assetIdx = 121878783;
+export const assetIdx = 123148231;
 
 //3 different contracts - every staking periog has her own contract
 export const appAdress3Months = 123148891;
