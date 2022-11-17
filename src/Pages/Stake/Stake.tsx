@@ -36,24 +36,30 @@ export const Stake: FC<Props> = ({}) => {
   const { signer, account, stakingClient, stakeDetails } = useSelector(
     (state: ReduxState) => state.homePage
   );
+
+  // console.log("lihi", { account });
+
   useEffect(() => {
     const getBalance = async () => {
-      const assetInfo = await stakingClient.client
-        .accountAssetInformation(stakingClient.sender, assetIdx)
-        .do();
-      const balance = assetInfo["asset-holding"]["amount"];
-      console.log(balance);
-
-      setbalance(balance);
+      console.log("HERE", { stakingClient });
+      if (stakingClient.account !== "") {
+        const assetInfo = await stakingClient.client
+          .accountAssetInformation(stakingClient.sender, assetIdx)
+          .do();
+        const balance = assetInfo["asset-holding"]["amount"];
+        console.log({ balance });
+        setbalance(balance);
+      }
     };
     getBalance().catch(console.error);
+  }, [stakingClient]);
 
+  useEffect(() => {
     const getCurrency = async () => {
       let currency = await getCurrentPrice();
       setcurrentXpnetPrice(currency);
     };
     getCurrency().catch(console.error);
-    console.log(balance);
   }, []);
 
   useEffect(() => {

@@ -70,7 +70,7 @@ export const getMyAlgoConnect = async (testnet: boolean) => {
 
     const accounts = await myAlgoConnect.connect(settings);
     const signer = myAlgoConnect;
-    console.log("myalgo", { signer, address: accounts[0].address });
+   // console.log("myalgo", { signer, address: accounts[0].address });
 
     return { signer, address: accounts[0].address };
 };
