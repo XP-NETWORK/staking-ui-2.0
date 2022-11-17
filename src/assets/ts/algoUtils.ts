@@ -11,12 +11,12 @@ export const createClient = async (
     duration: any
 ) => {
     console.log("signer,account", signer, account);
-    debugger;
+   // debugger;
     const { connectedWallet } = store.getState().homePage;
     const stakingContract = new Staking({
         client: algod,
         signer: async (txns) => {
-            const s = txns.map((e) => {
+            const s = txns?.map((e) => {
                 return {
                     txn: Buffer.from(e.toByte()).toString("base64"),
                 };
@@ -44,7 +44,7 @@ export const createClient = async (
             //         : await signer.signTransaction(s);
             // console.log({ signed });
 
-            return signed.map((e: any) => Buffer.from(e.blob, "base64"));
+            return signed?.map((e: any) => Buffer.from(e.blob, "base64"));
         },
         sender: account,
         appId: getAppDetails(duration).id,

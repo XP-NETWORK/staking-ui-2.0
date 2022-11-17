@@ -49,12 +49,13 @@ export const Stake: FC<Props> = ({}) => {
             // } catch (error) {
             //     console.log(error);
             // }
-
+            if (stakingClient.sender !== "") {
             const assetInfo = await stakingClient.client
                 .accountAssetInformation(stakingClient.sender, assetIdx)
                 .do();
             const balance = assetInfo["asset-holding"]["amount"];
             setbalance(balance);
+          }
         };
         getBalance().catch(console.error);
 
