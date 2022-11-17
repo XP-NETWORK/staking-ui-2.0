@@ -52,20 +52,67 @@ export const ClaimRewards: FC<Props> = ({}) => {
   const handleClaimXPNET = async () => {
     let stakingAmount;
     let rewards;
-    clients?.map(async (client) => {
+    // clients?.map(async (client) => {
+    if (clients !== undefined) {
+      let client = clients[0];
       console.log("app", await client.getApplicationState());
-
       stakingAmount = (await client.getAccountState()).sn;
       console.log("clients state:", await client.getAccountState());
 
-      if (stakingAmount > 0) {
-        // rewardPool(signer, account, client,stakingAmount);
-        rewards = await client.getReward({
-          appForeignAssets: [assetIdx],
-        });
-        console.log(rewards);
+      try {
+        let sp = await client.getSuggestedParams();
+        sp.flatFee = true;
+        sp.fee = 1_000;
+        if (stakingAmount > 0) {
+          // rewardPool(signer, account, client,stakingAmount);
+          rewards = await client.getReward(
+            {
+              token: BigInt(assetIdx),
+            },
+            { suggestedParams: sp }
+          );
+          console.log({ rewards });
+        }
+      } catch (e) {
+        console.log(e);
       }
-    });
+    }
+
+    // });
+  };
+
+  const handleUnstake = async () => {
+    let stakingAmount;
+    let rewards;
+    // clients?.map(async (client) => {
+    if (clients !== undefined) {
+      let client = clients[0];
+      console.log("app", await client.getApplicationState());
+      stakingAmount = (await client.getAccountState()).sn;
+      console.log("clients state:", await client.getAccountState());
+      console.log({ client });
+
+      try {
+        let sp = await client.getSuggestedParams();
+        sp.flatFee = true;
+        sp.fee = 4_000;
+        if (stakingAmount > 0) {
+          // rewardPool(signer, account, client,stakingAmount);
+          rewards = await client.unstake(
+            {
+              stakeId: BigInt(0),
+              token: BigInt(assetIdx),
+            },
+            { suggestedParams: sp }
+          );
+          console.log({ rewards });
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    // });
   };
 
   useEffect(() => {
@@ -170,7 +217,10 @@ export const ClaimRewards: FC<Props> = ({}) => {
                 >
                   Claim XPNET
                 </button>
-                <button className={classNames("blueBtn", "blackBtn")}>
+                <button
+                  className={classNames("blueBtn", "blackBtn")}
+                  onClick={handleUnstake}
+                >
                   <img src={lock} />
                   Unstake
                 </button>

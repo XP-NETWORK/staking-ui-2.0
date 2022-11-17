@@ -64,38 +64,38 @@ export const stake = async (
   console.log(staking);
 };
 
-export const unstake = async (
-  address: string,
-  amount: number,
-  duration: number,
-  stakingClient: any
-) => {
-  console.log(
-    "paramns",
-    { address },
-    { amount },
-    { duration },
-    { stakingClient }
-  );
+// export const unstake = async (
+//   address: string,
+//   amount: number,
+//   duration: number,
+//   stakingClient: any
+// ) => {
+//   console.log(
+//     "paramns",
+//     { address },
+//     { amount },
+//     { duration },
+//     { stakingClient }
+//   );
 
-  const axfer: any = algosdk.makeAssetTransferTxnWithSuggestedParams(
-    address,
-    algosdk.getApplicationAddress(stakingClient.appId),
-    undefined,
-    undefined,
-    amount,
-    undefined,
-    assetIdx as any,
-    await algod.getTransactionParams().do()
-  );
-  console.log(axfer);
+//   const axfer: any = algosdk.makeAssetTransferTxnWithSuggestedParams(
+//     address,
+//     algosdk.getApplicationAddress(stakingClient.appId),
+//     undefined,
+//     undefined,
+//     amount,
+//     undefined,
+//     assetIdx as any,
+//     await algod.getTransactionParams().do()
+//   );
+//   console.log(axfer);
 
-  let staking = await stakingClient.stake({
-    axfer: axfer,
-    lockTime_: getAppDetails(duration).duration,
-  });
-  console.log(staking);
-};
+//   let staking = await stakingClient.stake({
+//     axfer: axfer,
+//     lockTime_: getAppDetails(duration).duration,
+//   });
+//   console.log(staking);
+// };
 
 export const claimXPNET = async () => {};
 
