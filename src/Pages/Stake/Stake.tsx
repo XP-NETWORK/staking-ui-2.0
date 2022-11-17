@@ -38,20 +38,17 @@ export const Stake: FC<Props> = ({}) => {
     );
     useEffect(() => {
         const getBalance = async () => {
-            debugger;
+            // debugger;
 
-            let get_balance_addr;
-            try {
-                get_balance_addr = await stakingClient.methods.find(
-                    (n: any) => n.name === "get_balance_addr"
-                );
-                const balance = await get_balance_addr({
-                    token: BigInt(assetIdx),
-                });
-                console.log({ balance });
-            } catch (error) {
-                console.log(error);
-            }
+            // let nums;
+            // try {
+            //     nums = await stakingClient.get_balance_addr({
+            //         token: BigInt(assetIdx),
+            //     });
+            //     console.log({ nums });
+            // } catch (error) {
+            //     console.log(error);
+            // }
 
             const assetInfo = await stakingClient.client
                 .accountAssetInformation(stakingClient.sender, assetIdx)
@@ -66,7 +63,7 @@ export const Stake: FC<Props> = ({}) => {
             setcurrentXpnetPrice(currency);
         };
         getCurrency().catch(console.error);
-    }, []);
+    }, [stakingClient]);
 
     useEffect(() => {
         const updateClient = async () => {
