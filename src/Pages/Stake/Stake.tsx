@@ -83,7 +83,6 @@ export const Stake: FC<Props> = ({}) => {
       amount: amount,
       stakingPeriod: duration,
       isAgree: isAgree,
-      assetId : assetIdx
     };
     dispatch(setStakeDetails({ ...stake }));
   }, [amount, duration, isAgree]);
