@@ -32,6 +32,7 @@ const MyAlgo = ({ connect }: { connect: Function }) => {
       account.address,
       appAdress3Months
     );
+
     dispatch(setClient(client));
     to === "stake" ? navigate("/stake") : navigate("/rewards");
   };
