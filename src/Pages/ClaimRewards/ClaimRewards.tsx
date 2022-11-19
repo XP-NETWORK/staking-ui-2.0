@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useState,useCallback } from "react";
 import "./claimRewards.scss";
 import classNames from "classnames";
 import { APY, assetIdx, XPNET } from "../../assets/ts/Consts";
@@ -31,23 +31,55 @@ interface Props {}
 export const ClaimRewards: FC<Props> = ({}) => {
   const [clients, setClients] = useState<Staking[]>();
   const [amount, setamount] = useState(0);
+  const [amountStake, setAmountStake] = useState(0);
   const [showError, setShowError] = useState(false);
   const [mainImgSrc, setMainImgSrc] = useState(NFT);
+  const [rewards, setRewards] = useState(0);
   const { signer, account } = useSelector(
     (state: ReduxState) => state.homePage
   );
-  // useEffect(() => {
-  //   const getAmount = async () => {
-  //     let stakedAmount = (await stakingClient.getAccountState()).sn;
-  //     setamount(stakedAmount);
-  //     if (stakedAmount < 1) {
-  //       setShowError(true);
-  //     } else {
-  //       setShowError(false);
-  //     }
-  //   };
-  //   getAmount().catch(console.error);
-  // }, []);
+
+
+  const getReward = useCallback( async () => {
+    let client:any =  clients ? clients[0] : "";
+    console.log(client.compose.getEarned() , "LOGS HERE")
+   // let alex = await client.methods
+    // console.log(alex);
+  },[clients,account])
+
+  useEffect(() => {
+    try{
+      getReward()
+    }catch{
+
+    }
+  },[getReward])
+
+  useEffect(() => {
+    const getAmount = async () => {
+      try {
+        let stakedAmount = clients
+          ? await (
+              await Promise.all(clients.map((n) => n.getAccountState(account)))
+            )
+              .map((a) => a.dynamic_account_valuetsba)
+              .filter((n) => n !== undefined)
+              .reduce((a: any, b: any) => a + b, 0)
+          : 0;
+
+        if (stakedAmount < 0) {
+          setShowError(true);
+        } else {
+          setShowError(false);
+          setAmountStake(stakedAmount);
+        }
+      } catch {
+        setAmountStake(0);
+        setShowError(true);
+      }
+    };
+    getAmount().catch(console.error);
+  }, [account, clients]);
 
   const handleClaimXPNET = async () => {
     let stakingAmount;
@@ -62,12 +94,12 @@ export const ClaimRewards: FC<Props> = ({}) => {
         sp.flatFee = true;
         sp.fee = 1_000;
         if (stakingAmount > 0) {
-          rewards = await client.getReward(
-            {
-              token: BigInt(assetIdx),
-            },
-            { suggestedParams: sp }
-          );
+          // rewards = await client.getReward(
+          //   {
+          //     token: BigInt(assetIdx),
+          //   },
+          //   { suggestedParams: sp }
+          // );
         }
       } catch (e) {
         console.log(e);
@@ -80,33 +112,33 @@ export const ClaimRewards: FC<Props> = ({}) => {
   const handleUnstake = async () => {
     let stakingAmount;
     let rewards;
-    // clients?.map(async (client) => {
     if (clients !== undefined) {
-      let client = clients[0];
-      stakingAmount = (await client.getAccountState()).sn;
-
       try {
+        let client = clients[0];
+        stakingAmount = await client.getAccountState(account);
         let sp = await client.getSuggestedParams();
         sp.flatFee = true;
-        sp.fee = 4_000;
-        console.log(stakingAmount);
+        sp.fee = 7_000;
 
-        if (stakingAmount > 0) {
+        const { dynamic_account_valuetsba } = stakingAmount;
+        if (dynamic_account_valuetsba > 0) {
           // rewardPool(signer, account, client,stakingAmount);
           rewards = await client.unstake(
             {
               stakeId: BigInt(0),
               token: BigInt(assetIdx),
+              app: BigInt(123937248),
+              clawback: "CVQFPJPBG4F5XKRHC4LNOTW325NUCFO4SC4K5KYHHVN7YHL3HJWPHODKV4"
             },
             { suggestedParams: sp }
           );
+
+          console.log(rewards);
         }
       } catch (e) {
         console.log(e);
       }
     }
-
-    // });
   };
 
   useEffect(() => {
@@ -150,7 +182,7 @@ export const ClaimRewards: FC<Props> = ({}) => {
                   >
                     <span className="small">$ 0.070</span>
                     <label className="value">
-                      {amount} {XPNET}
+                      {amountStake ? addCommas(amountStake) : 0} {XPNET}
                     </label>
                   </div>
                 </div>
@@ -213,7 +245,7 @@ export const ClaimRewards: FC<Props> = ({}) => {
                   className={classNames("blueBtn", "blackBtn")}
                   onClick={handleUnstake}
                 >
-                  <img src={lock} />
+                  <img src={lock} alt="lock_img" />
                   Unstake
                 </button>
               </div>

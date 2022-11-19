@@ -53,14 +53,7 @@ export const stake = async (
   duration: number,
   stakingClient: any
 ) => {
-  // console.log(
-  //   "paramns",
-  //   { address },
-  //   { amount },
-  //   { duration },
-  //   { stakingClient }
-  // );
-  // debugger;
+
   const axfer: any = algosdk.makeAssetTransferTxnWithSuggestedParams(
     address,
     algosdk.getApplicationAddress(stakingClient.appId),
@@ -76,7 +69,6 @@ export const stake = async (
     axfer: axfer,
     lockTime_: getAppDetails(duration).duration,
   });
-  console.log(staking);
 };
 
 export const unstake = async (
