@@ -42,7 +42,7 @@ export const ClaimRewards: FC<Props> = ({}) => {
 
   const getReward = useCallback( async () => {
     let client:any =  clients ? clients[0] : "";
-    console.log(client.compose.getEarned() , "LOGS HERE")
+    console.log(client[0].getAccountState(account))
    // let alex = await client.methods
     // console.log(alex);
   },[clients,account])
@@ -57,7 +57,9 @@ export const ClaimRewards: FC<Props> = ({}) => {
 
   useEffect(() => {
     const getAmount = async () => {
+
       try {
+
         let stakedAmount = clients
           ? await (
               await Promise.all(clients.map((n) => n.getAccountState(account)))
@@ -126,8 +128,8 @@ export const ClaimRewards: FC<Props> = ({}) => {
           rewards = await client.unstake(
             {
               stakeId: BigInt(0),
-              token: BigInt(assetIdx),
-              app: BigInt(123937248),
+              token: BigInt(123937415),
+              app: BigInt(123937380),
               clawback: "CVQFPJPBG4F5XKRHC4LNOTW325NUCFO4SC4K5KYHHVN7YHL3HJWPHODKV4"
             },
             { suggestedParams: sp }

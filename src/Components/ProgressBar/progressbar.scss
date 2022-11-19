@@ -1,24 +1,21 @@
 .progress {
   display: flex;
   flex-direction: column;
-  width: inherit;
 }
 
-.progressContainer {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 0px;
-  gap: 16px;
-  width: inherit;
+.progressContainerHome {
+  // display: flex;
+  // flex-direction: row;
+  // align-items: flex-start;
+  // padding: 0px;
+  // gap: 16px;
   height: 17px;
   background: rgba(165, 176, 192, 0.17);
   border: 1px solid rgba(193, 186, 186, 0.29);
   border-radius: 20px;
 
   .progressLoader {
-    height: 17px;
-
+    height: 100%;
     background: #1c5bff;
     border-radius: 60px;
   }

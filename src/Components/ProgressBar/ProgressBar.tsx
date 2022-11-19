@@ -14,10 +14,11 @@ export const ProgressBar: FC<Props> = ({totalStaking,stakingLimit}) => {
     let per = totalStaking/stakingLimit * 100;
     setprecent(per)
   }, []);
+
   return (
     <>
-    <div className="progress"> 
-      <div className="progressContainer">
+    <div className="progress">
+      <div className="progressContainerHome">
         <div className="progressLoader" style={{width: `${precent}%`}}></div>
       </div>
       <div

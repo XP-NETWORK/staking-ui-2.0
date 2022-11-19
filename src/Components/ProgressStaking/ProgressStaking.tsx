@@ -9,11 +9,11 @@ export const ProgressStaking: FC<Props> = ({}) => {
   return (
     <>
       <div className="progress">
-        <div className="progressContainer"></div>
-        <div
-          className="progressDetails"
-          style={{ visibility: `${precent === 100 ? "visible" : "hidden"}` }}
-        >
+        <div className="progressContainer">
+          <div
+            className="progressDetails"
+            style={{ visibility: `${precent === 100 ? "visible" : "hidden"}` }}
+          ></div>
         </div>
       </div>
     </>

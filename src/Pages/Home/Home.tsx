@@ -15,6 +15,8 @@ import {
 import { addCommas } from "../../assets/ts/helpers";
 
 import { ProgressBar } from "../../Components/ProgressBar/ProgressBar";
+
+
 import "./home.scss";
 
 interface Props {}
@@ -23,7 +25,7 @@ export const Home: FC<Props> = ({}) => {
   const [totalStakeInAlgo, settotalStakeInAlgo] = useState(1);
 
   useEffect(() => {
-    
+
   }, []);
   const navigate = useNavigate();
 
