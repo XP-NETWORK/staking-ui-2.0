@@ -55,23 +55,19 @@ export const ClaimRewards: FC<Props> = ({}) => {
     // clients?.map(async (client) => {
     if (clients !== undefined) {
       let client = clients[0];
-      console.log("app", await client.getApplicationState());
       stakingAmount = (await client.getAccountState()).sn;
-      console.log("clients state:", await client.getAccountState());
 
       try {
         let sp = await client.getSuggestedParams();
         sp.flatFee = true;
         sp.fee = 1_000;
         if (stakingAmount > 0) {
-          // rewardPool(signer, account, client,stakingAmount);
           rewards = await client.getReward(
             {
               token: BigInt(assetIdx),
             },
             { suggestedParams: sp }
           );
-          console.log({ rewards });
         }
       } catch (e) {
         console.log(e);
@@ -87,15 +83,14 @@ export const ClaimRewards: FC<Props> = ({}) => {
     // clients?.map(async (client) => {
     if (clients !== undefined) {
       let client = clients[0];
-      console.log("app", await client.getApplicationState());
       stakingAmount = (await client.getAccountState()).sn;
-      console.log("clients state:", await client.getAccountState());
-      console.log({ client });
 
       try {
         let sp = await client.getSuggestedParams();
         sp.flatFee = true;
         sp.fee = 4_000;
+        console.log(stakingAmount);
+
         if (stakingAmount > 0) {
           // rewardPool(signer, account, client,stakingAmount);
           rewards = await client.unstake(
@@ -105,7 +100,6 @@ export const ClaimRewards: FC<Props> = ({}) => {
             },
             { suggestedParams: sp }
           );
-          console.log({ rewards });
         }
       } catch (e) {
         console.log(e);
@@ -118,14 +112,12 @@ export const ClaimRewards: FC<Props> = ({}) => {
   useEffect(() => {
     const getClients = async () => {
       let clientsArr = await createClients(signer, account);
-      console.log(clientsArr);
       setClients(clientsArr);
     };
     getClients().catch(console.error);
-  }, []);
+  }, [account, signer]);
 
   const handleCopy = () => {};
-  console.log(mainImgSrc);
 
   const handlePrev = () => {
     let num = mainImgSrc[mainImgSrc.length - 1] + 1;

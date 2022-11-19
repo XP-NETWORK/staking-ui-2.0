@@ -1,6 +1,5 @@
 import algosdk from "algosdk";
 import { algodApiKey, algodPort, algodUri, assetIdx } from "./Consts";
-import { SignerTransaction } from "@perawallet/connect/dist/util/model/peraWalletModels";
 
 import { calculateDurationTime, getAppDetails } from "./helpers";
 import { Staking } from "./StakingClient";
@@ -14,7 +13,6 @@ export const createClient = async (
 ) => {
   // debugger;
   const { connectedWallet } = store.getState().homePage;
-  console.log({ connectedWallet });
 
   const stakingContract = new Staking({
     client: algod,
@@ -38,9 +36,6 @@ export const createClient = async (
             {txn: txns[1], signers: [account]}
           ];
           signed = await signer.signTransaction([multipleTxnGroups]);
-          let alex = signed?.map((e: any) => Buffer.from(e, "base64"));
-          console.log("alex: ",alex);
-
           return signed?.map((e: any) => Buffer.from(e, "base64"));
         default:
           break;
@@ -90,14 +85,6 @@ export const unstake = async (
   duration: number,
   stakingClient: any
 ) => {
-  // console.log(
-  //   "paramns",
-  //   { address },
-  //   { amount },
-  //   { duration },
-  //   { stakingClient }
-  // );
-
   const axfer: any = algosdk.makeAssetTransferTxnWithSuggestedParams(
     address,
     algosdk.getApplicationAddress(stakingClient.appId),
@@ -110,11 +97,10 @@ export const unstake = async (
   );
   //console.log(axfer);
 
-  let staking = await stakingClient.stake({
+ await stakingClient.stake({
     axfer: axfer,
     lockTime_: getAppDetails(duration).duration,
   });
-  // console.log(staking);
 };
 
 export const claimXPNET = async () => {};
