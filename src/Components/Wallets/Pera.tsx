@@ -1,14 +1,12 @@
-// import React, { FC, useEffect } from "react";
 import { HigherALGO } from "./HigherALGO";
 import icon from "../../assets/wallets/Pera.svg";
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
 import { PeraWalletConnect } from "@perawallet/connect";
 import { useNavigate, useParams } from "react-router";
 import {
     setClient,
-    setConnectedWallet,
     setPeraConnection,
 } from "../../store/reducer/homePageSlice";
 import { useDispatch } from "react-redux";
