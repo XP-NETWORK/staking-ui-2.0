@@ -31,10 +31,10 @@ export const createClient = async (
           signed = await signer.signTxns(s);
           return signed?.map((e: any) => Buffer.from(e, "base64"));
         case "Pera":
-          const multipleTxnGroups = [
-            {txn: txns[0], signers: [account]},
-            {txn: txns[1], signers: [account]}
-          ];
+          const multipleTxnGroups = txns.map((n) => {
+            return { txn: n, signers: [account] };
+          });
+
           signed = await signer.signTransaction([multipleTxnGroups]);
           return signed?.map((e: any) => Buffer.from(e, "base64"));
         default:
@@ -53,7 +53,6 @@ export const stake = async (
   duration: number,
   stakingClient: any
 ) => {
-
   const axfer: any = algosdk.makeAssetTransferTxnWithSuggestedParams(
     address,
     algosdk.getApplicationAddress(stakingClient.appId),
@@ -89,7 +88,7 @@ export const unstake = async (
   );
   //console.log(axfer);
 
- await stakingClient.stake({
+  await stakingClient.stake({
     axfer: axfer,
     lockTime_: getAppDetails(duration).duration,
   });

@@ -116,19 +116,17 @@ export const ClaimRewards: FC<Props> = ({}) => {
   };
 
   const handleUnstake = async () => {
-    let stakingAmount;
     let rewards;
     if (clients !== undefined) {
       try {
+        console.log(clients);
+
         let client = clients[0];
-        stakingAmount = await client.getAccountState(account);
         let sp = await client.getSuggestedParams();
         sp.flatFee = true;
         sp.fee = 7_000;
 
-        const { dynamic_account_valuetsba } = stakingAmount;
-        if (dynamic_account_valuetsba > 0) {
-          // rewardPool(signer, account, client,stakingAmount);
+        if (amountStake > 0) {
           rewards = await client.unstake(
             {
               stakeId: BigInt(0),
