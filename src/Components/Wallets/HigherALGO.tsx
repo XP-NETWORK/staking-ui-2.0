@@ -11,10 +11,8 @@ import {
   connectPeraWallet,
   getMyAlgoConnect,
 } from "./walletConnectors";
-// import { setPeraConnection } from "../../store/reducer/homePageSlice";
-// import { connectPeraWallet } from "./walletConnectors";
 
-export function HigherALGO(OriginalComponent: React.FC<any>) {
+export const HigherALGO = (OriginalComponent: React.FC<any>) => {
   return function CB() {
     const getStyles = () => {};
     const dispatch = useDispatch();
@@ -29,8 +27,7 @@ export function HigherALGO(OriginalComponent: React.FC<any>) {
         case "AlgoSigner":
           let algosignerAccount = await connectAlgoSigner(true);
           dispatch(setConnectedWallet("AlgoSigner"));
-         // console.log({algosignerAccount});
-          
+
           return algosignerAccount;
         case "Pera":
           let peraAccount: any = await connectPeraWallet(true); //!! testnet:true
