@@ -1,7 +1,7 @@
-import React, { FC, useEffect, useState,useCallback } from "react";
+import React, { FC, useEffect, useState, useCallback } from "react";
 import "./claimRewards.scss";
 import classNames from "classnames";
-import { APY, assetIdx, XPNET } from "../../assets/ts/Consts";
+import { APY, assetIdx, communityAddress, XPNET } from "../../assets/ts/Consts";
 import { addCommas } from "../../assets/ts/helpers";
 import xpnet from "../../assets/images/coin/XPNET.svg";
 import left from "../../assets/images/left.svg";
@@ -40,26 +40,10 @@ export const ClaimRewards: FC<Props> = ({}) => {
   );
 
 
-  const getReward = useCallback( async () => {
-    let client:any =  clients ? clients[0] : "";
-    console.log(client[0].getAccountState(account))
-   // let alex = await client.methods
-    // console.log(alex);
-  },[clients,account])
-
-  useEffect(() => {
-    try{
-      getReward()
-    }catch{
-
-    }
-  },[getReward])
 
   useEffect(() => {
     const getAmount = async () => {
-
       try {
-
         let stakedAmount = clients
           ? await (
               await Promise.all(clients.map((n) => n.getAccountState(account)))
@@ -85,26 +69,28 @@ export const ClaimRewards: FC<Props> = ({}) => {
 
   const handleClaimXPNET = async () => {
     let stakingAmount;
-    let rewards;
-    // clients?.map(async (client) => {
     if (clients !== undefined) {
       let client = clients[0];
-      stakingAmount = (await client.getAccountState()).sn;
+      stakingAmount = await client.getAccountState(account);
+
+      const { dynamic_account_valuetsba } = stakingAmount;
 
       try {
         let sp = await client.getSuggestedParams();
         sp.flatFee = true;
-        sp.fee = 1_000;
-        if (stakingAmount > 0) {
-          // rewards = await client.getReward(
-          //   {
-          //     token: BigInt(assetIdx),
-          //   },
-          //   { suggestedParams: sp }
-          // );
+        sp.fee = 7_000;
+
+        if (dynamic_account_valuetsba > 0) {
+          await client.getReward(
+            {
+              token: BigInt(assetIdx),
+              app: BigInt(123937248),
+            },
+            { suggestedParams: sp }
+          );
         }
       } catch (e) {
-        console.log(e);
+        console.error(JSON.parse(JSON.stringify(e)));
       }
     }
 
@@ -128,9 +114,9 @@ export const ClaimRewards: FC<Props> = ({}) => {
           rewards = await client.unstake(
             {
               stakeId: BigInt(0),
-              token: BigInt(123937415),
+              token: BigInt(assetIdx),
               app: BigInt(123937380),
-              clawback: "CVQFPJPBG4F5XKRHC4LNOTW325NUCFO4SC4K5KYHHVN7YHL3HJWPHODKV4"
+              clawback: communityAddress,
             },
             { suggestedParams: sp }
           );
@@ -159,6 +145,7 @@ export const ClaimRewards: FC<Props> = ({}) => {
   };
 
   const handleNext = () => {};
+
   return (
     <>
       {!showError && (
@@ -182,7 +169,8 @@ export const ClaimRewards: FC<Props> = ({}) => {
                       gap: "9px",
                     }}
                   >
-                    <span className="small">$ 0.070</span>
+                    {/* <span className="small" style={{}}>$ 0.070</span> */}
+                    <span className="small" style={{marginBottom: "10px"}}></span>
                     <label className="value">
                       {amountStake ? addCommas(amountStake) : 0} {XPNET}
                     </label>
@@ -208,7 +196,8 @@ export const ClaimRewards: FC<Props> = ({}) => {
                       gap: "9px",
                     }}
                   >
-                    <span className="small">$ 0.070</span>
+                    {/* <span className="small">$ 0.070</span> */}
+                    <span className="small" style={{marginBottom: "10px"}}></span>
                     <label className="value">
                       {amount} {XPNET}
                     </label>

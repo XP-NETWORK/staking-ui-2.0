@@ -306,12 +306,12 @@ export const Stake: FC<Props> = ({}) => {
                 disabled={!isAgree}
                 onClick={handleApprove}
               >
-                Approve
+                Stake
               </button>
-              <button className={classNames("blueBtn", "blackBtn")}>
+              {/* <button className={classNames("blueBtn", "blackBtn")}>
                 <img src={lock} alt="lock_img" />
                 Lock
-              </button>
+              </button> */}
             </div>
           </div>
         </div>

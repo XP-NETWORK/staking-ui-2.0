@@ -1,4 +1,5 @@
-import React, { FC, useEffect, useState } from "react";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import algorand from "../../assets/images/Algorand.svg";
 import bsc from "../../assets/images/BSC.svg";
@@ -21,7 +22,7 @@ import "./home.scss";
 
 interface Props {}
 
-export const Home: FC<Props> = ({}) => {
+export const Home: FC<Props> = () => {
   const [totalStakeInAlgo, settotalStakeInAlgo] = useState(1);
 
   useEffect(() => {
@@ -54,7 +55,7 @@ export const Home: FC<Props> = ({}) => {
             <label className="newStaking">New staking opportunities</label>
             <div className="title">
               <label>
-                <img src={algorand} />
+                <img src={algorand} alt="algo_img"/>
                 Algorand
               </label>
               <div className={classNames("btnsContainer", "deskOnly")}>
@@ -86,7 +87,7 @@ export const Home: FC<Props> = ({}) => {
           <div className="box">
             <div className="title">
               <label>
-                <img src={bsc} />
+                <img src={bsc} alt="bsc_img" />
                 BSC
               </label>
               <div className={classNames("btnsContainer", "deskOnly")}>
