@@ -6,6 +6,31 @@
   margin-top: 45px;
 }
 
+.chooseClaim {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  button {
+    margin-right: 10px !important;
+    padding: 6px 6px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    width: 100px;
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid transparent;
+    }
+  }
+}
+
+.btnActive{
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid transparent !important;
+
+}
+
 .container {
   display: flex;
   flex-direction: column;

@@ -65,19 +65,14 @@ export const calculatAPY = (duration: number) => {
     switch (duration) {
         case 3:
             return 45;
-            break;
         case 6:
             return 75;
-            break;
         case 9:
             return 100;
-            break;
         case 12:
             return 125;
-            break;
         default:
             return 0;
-            break;
     }
 };
 

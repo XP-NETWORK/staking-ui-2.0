@@ -1,7 +1,19 @@
-import React, { FC, useEffect, useState, useCallback } from "react";
-import "./claimRewards.scss";
+import { FC, useEffect, useState } from "react";
 import classNames from "classnames";
-import { APY, assetIdx, communityAddress, XPNET } from "../../assets/ts/Consts";
+import { useSelector } from "react-redux";
+import moment from "moment";
+
+import {
+  appAdress3Months,
+  appAdress6Months,
+  appAdress9Months,
+  APY,
+  assetIdx,
+  communityAddress,
+  duration3Months,
+  multiplier12Months,
+  XPNET,
+} from "../../assets/ts/Consts";
 import { addCommas } from "../../assets/ts/helpers";
 import xpnet from "../../assets/images/coin/XPNET.svg";
 import left from "../../assets/images/left.svg";
@@ -17,7 +29,6 @@ import NFT2 from "../../assets/images/nftRewards/2.jpeg";
 import NFT3 from "../../assets/images/nftRewards/3.jpeg";
 import NFT4 from "../../assets/images/nftRewards/4.jpeg";
 import { ReduxState } from "../../store/store";
-import { useSelector } from "react-redux";
 import { Error } from "../../Components/Error/Error";
 import {
   claimXPNET,
@@ -25,6 +36,8 @@ import {
   // rewardPool,
 } from "../../assets/ts/algoUtils";
 import { Staking } from "../../assets/ts/StakingClient";
+
+import "./claimRewards.scss";
 
 interface Props {}
 
@@ -34,12 +47,15 @@ export const ClaimRewards: FC<Props> = ({}) => {
   const [amountStake, setAmountStake] = useState(0);
   const [showError, setShowError] = useState(false);
   const [mainImgSrc, setMainImgSrc] = useState(NFT);
-  const [rewards, setRewards] = useState(0);
+
+  const [appId, setAppId] = useState(appAdress3Months);
+  const [duration, setDuration] = useState(duration3Months);
+  const [apy, setAoy] = useState(APY[3]);
+  const [btnActive, setBtnActive] = useState(1);
+
   const { signer, account } = useSelector(
     (state: ReduxState) => state.homePage
   );
-
-
 
   useEffect(() => {
     const getAmount = async () => {
@@ -73,6 +89,8 @@ export const ClaimRewards: FC<Props> = ({}) => {
       let client = clients[0];
       stakingAmount = await client.getAccountState(account);
 
+      console.log(stakingAmount);
+
       const { dynamic_account_valuetsba } = stakingAmount;
 
       try {
@@ -84,7 +102,7 @@ export const ClaimRewards: FC<Props> = ({}) => {
           await client.getReward(
             {
               token: BigInt(assetIdx),
-              app: BigInt(123937248),
+              app: BigInt(appId),
             },
             { suggestedParams: sp }
           );
@@ -115,7 +133,7 @@ export const ClaimRewards: FC<Props> = ({}) => {
             {
               stakeId: BigInt(0),
               token: BigInt(assetIdx),
-              app: BigInt(123937380),
+              app: BigInt(appId),
               clawback: communityAddress,
             },
             { suggestedParams: sp }
@@ -146,6 +164,41 @@ export const ClaimRewards: FC<Props> = ({}) => {
 
   const handleNext = () => {};
 
+  const activeClaim = (num: number) => {
+    switch (num) {
+      case 1:
+        setAppId(appAdress3Months);
+        setAoy(APY[3]);
+        setBtnActive(1);
+        break;
+      case 2:
+        setAppId(appAdress6Months);
+        setAoy(APY[6]);
+        setBtnActive(2);
+
+        break;
+      case 3:
+        setAppId(appAdress9Months);
+        setAoy(APY[9]);
+        setBtnActive(3);
+
+        break;
+      case 4:
+        setAppId(multiplier12Months);
+        setAoy(APY[12]);
+        setBtnActive(4);
+
+        break;
+      default:
+        setAppId(appAdress3Months);
+        setAoy(APY[3]);
+        setBtnActive(1);
+    }
+  };
+
+  let diffDays = moment(3001300 * 1000 + 7890000 * 1000).toNow();
+  console.log(diffDays);
+
   return (
     <>
       {!showError && (
@@ -155,6 +208,33 @@ export const ClaimRewards: FC<Props> = ({}) => {
             <label className="line" />
             {/* <div className="sectionWrapper"> */}
             <div className={classNames("sectionWrapper", "summaryBox")}>
+              <div className="chooseClaim">
+                <button
+                  className={btnActive === 1 ? "btnActive" : ""}
+                  onClick={() => activeClaim(1)}
+                >
+                  3 months
+                </button>
+                <button
+                  className={btnActive === 2 ? "btnActive" : ""}
+                  onClick={() => activeClaim(2)}
+                >
+                  6 months
+                </button>
+                <button
+                  className={btnActive === 3 ? "btnActive" : ""}
+                  onClick={() => activeClaim(3)}
+                >
+                  9 months
+                </button>
+                <button
+                  className={btnActive === 4 ? "btnActive" : ""}
+                  onClick={() => activeClaim(4)}
+                >
+                  {" "}
+                  1 year
+                </button>
+              </div>
               <div className="periodsRewards">
                 <div
                   id="row1"
@@ -170,7 +250,10 @@ export const ClaimRewards: FC<Props> = ({}) => {
                     }}
                   >
                     {/* <span className="small" style={{}}>$ 0.070</span> */}
-                    <span className="small" style={{marginBottom: "10px"}}></span>
+                    <span
+                      className="small"
+                      style={{ marginBottom: "10px" }}
+                    ></span>
                     <label className="value">
                       {amountStake ? addCommas(amountStake) : 0} {XPNET}
                     </label>
@@ -181,7 +264,7 @@ export const ClaimRewards: FC<Props> = ({}) => {
                   className={classNames("row", "paddingBottom", "mT17")}
                 >
                   <label className="prop">APY</label>
-                  <label className="value">{APY[3]} %</label>
+                  <label className="value">{apy} %</label>
                 </div>
                 <div
                   id="row3"
@@ -197,7 +280,10 @@ export const ClaimRewards: FC<Props> = ({}) => {
                     }}
                   >
                     {/* <span className="small">$ 0.070</span> */}
-                    <span className="small" style={{marginBottom: "10px"}}></span>
+                    <span
+                      className="small"
+                      style={{ marginBottom: "10px" }}
+                    ></span>
                     <label className="value">
                       {amount} {XPNET}
                     </label>
@@ -221,7 +307,7 @@ export const ClaimRewards: FC<Props> = ({}) => {
               <div className="stakingDurDiv">
                 <div className="row">
                   Staking duration
-                  <span>189 days left</span>
+                  <span>{diffDays} left</span>
                 </div>
                 <ProgressStaking />
               </div>
