@@ -9,6 +9,7 @@ import {
   appAdress9Months,
   APY,
   assetIdx,
+  communityAddress,
   duration3Months,
   multiplier12Months,
   subAppId,
@@ -102,7 +103,7 @@ export const ClaimRewards: FC<Props> = ({}) => {
           await client.getReward(
             {
               token: BigInt(assetIdx),
-              app: BigInt(appId),
+              app: subAppId,
             },
             { suggestedParams: sp }
           );
@@ -131,8 +132,8 @@ export const ClaimRewards: FC<Props> = ({}) => {
             {
               stakeId: BigInt(0),
               token: BigInt(assetIdx),
-              app: BigInt(appId),
-              clawback: subAppId,
+              app: subAppId,
+              clawback: communityAddress,
             },
             { suggestedParams: sp }
           );

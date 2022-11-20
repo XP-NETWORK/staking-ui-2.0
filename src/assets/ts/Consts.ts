@@ -45,7 +45,7 @@ export const communityAddress =
 export const maxLoss = 75000000000;
 
 
-export const subAppId = String(124027970)
+export const subAppId = BigInt(124027970)
 
 // export const urlLocNft = "/src/assets/images/nftRewards/";
 
