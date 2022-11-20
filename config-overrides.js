@@ -6,6 +6,12 @@ module.exports = function override(webpackConfig) {
         stream: require.resolve("stream"),
         buffer: require.resolve("buffer"),
         algosdk: require.resolve("algosdk"),
+        "assert": require.resolve("assert"),
+        "http": require.resolve("stream-http"),
+        "https": require.resolve("https-browserify"),
+        "os": require.resolve("os-browserify"),
+        "url": require.resolve("url")
+
     };
 
     webpackConfig.ignoreWarnings = [/Failed to parse source map/];

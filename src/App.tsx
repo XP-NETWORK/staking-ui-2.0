@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import { Home } from "./Pages/Home/Home";
 import "normalize.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import { Main } from "./Pages/Main/Main";
 import { Connect } from "./Components/Connect/Connect";
 import { Stake } from "./Pages/Stake/Stake";
@@ -13,8 +13,9 @@ import { Error } from "./Components/Error/Error";
 import { StakingLimitPopup } from "./Components/StakingLimitPopup/StakingLimitPopup";
 
 function App() {
+
   return (
-    <BrowserRouter>
+    <BrowserRouter >
       <Routes>
         <Route path="/" element={<Main />}>
           <Route index element={<Home />} />
