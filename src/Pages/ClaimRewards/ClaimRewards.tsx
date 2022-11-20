@@ -9,9 +9,9 @@ import {
   appAdress9Months,
   APY,
   assetIdx,
-  communityAddress,
   duration3Months,
   multiplier12Months,
+  subAppId,
   XPNET,
 } from "../../assets/ts/Consts";
 import { addCommas } from "../../assets/ts/helpers";
@@ -132,7 +132,7 @@ export const ClaimRewards: FC<Props> = ({}) => {
               stakeId: BigInt(0),
               token: BigInt(assetIdx),
               app: BigInt(appId),
-              clawback: communityAddress,
+              clawback: subAppId,
             },
             { suggestedParams: sp }
           );
