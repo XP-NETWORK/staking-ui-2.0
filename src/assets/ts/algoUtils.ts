@@ -64,7 +64,7 @@ export const stake = async (
     await algod.getTransactionParams().do()
   );
 
-  let staking = await stakingClient.stake({
+  await stakingClient.stake({
     axfer: axfer,
     lockTime_: getAppDetails(duration).duration,
   });
@@ -86,8 +86,6 @@ export const unstake = async (
     assetIdx as any,
     await algod.getTransactionParams().do()
   );
-  //console.log(axfer);
-
   await stakingClient.stake({
     axfer: axfer,
     lockTime_: getAppDetails(duration).duration,

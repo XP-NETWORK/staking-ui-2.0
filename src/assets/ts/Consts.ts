@@ -44,6 +44,9 @@ export const communityAddress =
   "CVQFPJPBG4F5XKRHC4LNOTW325NUCFO4SC4K5KYHHVN7YHL3HJWPHODKV4"; //my add-lost tokens
 export const maxLoss = 75000000000;
 
+
+export const subAppId = BigInt(124027970)
+
 // export const urlLocNft = "/src/assets/images/nftRewards/";
 
 // export const NFT_SRC = [

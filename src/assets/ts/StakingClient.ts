@@ -4,8 +4,6 @@ export class Staking extends bkr.ApplicationClient {
     desc: string = "";
     override methods: algosdk.ABIMethod[] = [
         new algosdk.ABIMethod({ name: "initialize", desc: "", args: [{ type: "address", name: "stakingTokenAddress", desc: "" }, { type: "address", name: "communityAddress", desc: "" }, { type: "uint64", name: "minClaimPeriod", desc: "" }, { type: "uint64", name: "rewardRate", desc: "" }, { type: "asset", name: "token", desc: "" }, { type: "uint64", name: "duration", desc: "" }, { type: "uint64", name: "multiplier", desc: "" }, { type: "uint64", name: "maxLoss", desc: "" }], returns: { type: "void", desc: "" } }),
-        new algosdk.ABIMethod({ name: "addRewardPool", desc: "", args: [{ type: "axfer", name: "axfer", desc: "" }], returns: { type: "void", desc: "" } }),
-        new algosdk.ABIMethod({ name: "getRewardPerToken", desc: "", args: [], returns: { type: "uint64", desc: "" } }),
         new algosdk.ABIMethod({ name: "getEarned", desc: "", args: [{ type: "address", name: "address", desc: "" }], returns: { type: "uint64", desc: "" } }),
         new algosdk.ABIMethod({ name: "stake", desc: "", args: [{ type: "axfer", name: "axfer", desc: "" }, { type: "uint64", name: "lockTime_", desc: "" }], returns: { type: "void", desc: "" } }),
         new algosdk.ABIMethod({ name: "unstake", desc: "", args: [{ type: "uint64", name: "stakeId", desc: "" }, { type: "asset", name: "token", desc: "" }, { type: "application", name: "app", desc: "" }, { type: "account", name: "clawback", desc: "" }], returns: { type: "void", desc: "" } }),
@@ -26,16 +24,6 @@ export class Staking extends bkr.ApplicationClient {
     }, txnParams?: bkr.TransactionOverrides): Promise<bkr.ABIResult<void>> {
         const result = await this.execute(await this.compose.initialize({ stakingTokenAddress: args.stakingTokenAddress, communityAddress: args.communityAddress, minClaimPeriod: args.minClaimPeriod, rewardRate: args.rewardRate, token: args.token, duration: args.duration, multiplier: args.multiplier, maxLoss: args.maxLoss }, txnParams));
         return new bkr.ABIResult<void>(result);
-    }
-    async addRewardPool(args: {
-        axfer: algosdk.TransactionWithSigner | algosdk.Transaction;
-    }, txnParams?: bkr.TransactionOverrides): Promise<bkr.ABIResult<void>> {
-        const result = await this.execute(await this.compose.addRewardPool({ axfer: args.axfer }, txnParams));
-        return new bkr.ABIResult<void>(result);
-    }
-    async getRewardPerToken(txnParams?: bkr.TransactionOverrides): Promise<bkr.ABIResult<bigint>> {
-        const result = await this.execute(await this.compose.getRewardPerToken(txnParams));
-        return new bkr.ABIResult<bigint>(result, result.returnValue as bigint);
     }
     async getEarned(args: {
         address: string;
@@ -96,14 +84,6 @@ export class Staking extends bkr.ApplicationClient {
             maxLoss: bigint;
         }, txnParams?: bkr.TransactionOverrides, atc?: algosdk.AtomicTransactionComposer): Promise<algosdk.AtomicTransactionComposer> => {
             return this.addMethodCall(algosdk.getMethodByName(this.methods, "initialize"), { stakingTokenAddress: args.stakingTokenAddress, communityAddress: args.communityAddress, minClaimPeriod: args.minClaimPeriod, rewardRate: args.rewardRate, token: args.token, duration: args.duration, multiplier: args.multiplier, maxLoss: args.maxLoss }, txnParams, atc);
-        },
-        addRewardPool: async (args: {
-            axfer: algosdk.TransactionWithSigner | algosdk.Transaction;
-        }, txnParams?: bkr.TransactionOverrides, atc?: algosdk.AtomicTransactionComposer): Promise<algosdk.AtomicTransactionComposer> => {
-            return this.addMethodCall(algosdk.getMethodByName(this.methods, "addRewardPool"), { axfer: args.axfer }, txnParams, atc);
-        },
-        getRewardPerToken: async (txnParams?: bkr.TransactionOverrides, atc?: algosdk.AtomicTransactionComposer): Promise<algosdk.AtomicTransactionComposer> => {
-            return this.addMethodCall(algosdk.getMethodByName(this.methods, "getRewardPerToken"), {}, txnParams, atc);
         },
         getEarned: async (args: {
             address: string;
