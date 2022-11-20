@@ -103,8 +103,8 @@
   border: 1px solid rgba(255, 255, 255, 0.04);
   border-radius: 6px;
   input {
-   // background: rgba(27, 27, 29, 0.3);
-   background: none;
+    // background: rgba(27, 27, 29, 0.3);
+    background: none;
     border: none;
     width: inherit;
     height: inherit;
@@ -249,16 +249,25 @@ input:focus {
 }
 
 .agree {
-  width: 390px;
-  margin: 0;
-  font-weight: 400;
-  font-size: 14px;
-  letter-spacing: 0.03em;
-  color: rgba(255, 255, 255, 0.7);
-  span {
+  a {
+    width: 390px;
+    margin: 0;
+    font-weight: 400;
+    font-size: 14px;
+    letter-spacing: 0.03em;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .agreeA {
     color: #288bfe;
+    cursor: pointer;
   }
 }
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { 
+	-webkit-appearance: none;
+} 
 
 .blueBtn {
   display: flex;

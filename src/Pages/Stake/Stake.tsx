@@ -1,8 +1,8 @@
 import { FC, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
-import { useSelector,useDispatch } from "react-redux";
-
+import { useSelector, useDispatch } from "react-redux";
+import PDF from "../../assets/Terms.pdf";
 
 import { ReduxState } from "../../store/store";
 import { setClient, setStakeDetails } from "../../store/reducer/homePageSlice";
@@ -24,7 +24,6 @@ import checked from "../../assets/images/checkbox/checked.svg";
 import lock from "../../assets/images/lock.svg";
 
 import "./stake.scss";
-
 
 interface Props {}
 
@@ -73,6 +72,11 @@ export const Stake: FC<Props> = ({}) => {
     setamount(e.target.value);
   };
 
+  const handleFocusAmount = (e: any) => {
+    var Url = document.getElementById("amount-box") as HTMLInputElement;
+    Url.select();
+  };
+
   const handleApprove = async () => {
     await stake(account, Number(amount), duration, stakingClient);
   };
@@ -102,9 +106,12 @@ export const Stake: FC<Props> = ({}) => {
             <div className="row">
               <div className="amountInput">
                 <input
-                  type="text"
+                  id="amount-box"
+                  type="number"
+                  onFocus={handleFocusAmount}
                   onChange={(e) => handleChangeAmount(e)}
-                  // defaultValue={amount}
+                  value={amount}
+                  // defaultValue={0}
                   placeholder={"0"}
                   // placeholder={`${amount} MIN staking requirement 1500 XPNET`}
                 />
@@ -212,7 +219,7 @@ export const Stake: FC<Props> = ({}) => {
                   A unique chain-agnostic NFT that serves as the access key to
                   staking rewards.
                 </p>
-                <Link to="/" className="linkNft">
+                <Link to="/gallery" className="linkNft">
                   View NFT collection
                 </Link>
               </div>
@@ -297,7 +304,16 @@ export const Stake: FC<Props> = ({}) => {
               />
               <p className="agree">
                 I have read and I agree to the{" "}
-                <span>XPNET Staking Service Agreement</span>
+                <span>
+                  <a
+                    href={PDF}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="agreeA"
+                  >
+                    XPNET Staking Service Agreement
+                  </a>
+                </span>
               </p>
             </div>
             <div className="column">

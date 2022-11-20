@@ -50,7 +50,7 @@ export const ClaimRewards: FC<Props> = ({}) => {
 
   const [appId, setAppId] = useState(appAdress3Months);
   const [duration, setDuration] = useState(duration3Months);
-  const [apy, setAoy] = useState(APY[3]);
+  const [apy, setApy] = useState(APY[3]);
   const [btnActive, setBtnActive] = useState(1);
 
   const { signer, account } = useSelector(
@@ -160,36 +160,39 @@ export const ClaimRewards: FC<Props> = ({}) => {
     setMainImgSrc(`NFT${num}`);
   };
 
-  const handleNext = () => {};
+  const handleNext = () => {
+    // let num = mainImgSrc[mainImgSrc.length] + 1;
+    // setMainImgSrc(`NFT${num}`);
+  };
 
   const activeClaim = (num: number) => {
     switch (num) {
       case 1:
         setAppId(appAdress3Months);
-        setAoy(APY[3]);
+        setApy(APY[3]);
         setBtnActive(1);
         break;
       case 2:
         setAppId(appAdress6Months);
-        setAoy(APY[6]);
+        setApy(APY[6]);
         setBtnActive(2);
 
         break;
       case 3:
         setAppId(appAdress9Months);
-        setAoy(APY[9]);
+        setApy(APY[9]);
         setBtnActive(3);
 
         break;
       case 4:
         setAppId(multiplier12Months);
-        setAoy(APY[12]);
+        setApy(APY[12]);
         setBtnActive(4);
 
         break;
       default:
         setAppId(appAdress3Months);
-        setAoy(APY[3]);
+        setApy(APY[3]);
         setBtnActive(1);
     }
   };
