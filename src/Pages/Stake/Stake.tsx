@@ -6,7 +6,7 @@ import PDF from "../../assets/Terms.pdf";
 
 import { ReduxState } from "../../store/store";
 import { setClient, setStakeDetails } from "../../store/reducer/homePageSlice";
-import { createClient, stake } from "../../assets/ts/algoUtils";
+import { createClient, optInt, stake } from "../../assets/ts/algoUtils";
 
 import { assetIdx, XPNET } from "../../assets/ts/Consts";
 
@@ -81,6 +81,9 @@ export const Stake: FC<Props> = ({}) => {
     await stake(account, Number(amount), duration, stakingClient);
   };
 
+  const optIntAsset = async () => {
+    await optInt(stakingClient);
+  };
   useEffect(() => {
     let stake = {
       amount: amount,
@@ -324,10 +327,13 @@ export const Stake: FC<Props> = ({}) => {
               >
                 Stake
               </button>
-              {/* <button className={classNames("blueBtn", "blackBtn")}>
-                <img src={lock} alt="lock_img" />
-                Lock
-              </button> */}
+              <button
+                className={classNames("blueBtn", "blackBtn")}
+                onClick={optIntAsset}
+              >
+                {/* <img src={lock} alt="lock_img" /> */}
+                OPT-IN
+              </button>
             </div>
           </div>
         </div>

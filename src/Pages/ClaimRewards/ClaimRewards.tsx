@@ -90,7 +90,6 @@ export const ClaimRewards: FC<Props> = ({}) => {
       let client = clients[0];
       stakingAmount = await client.getAccountState(account);
 
-      console.log(stakingAmount);
 
       const { dynamic_account_valuetsba } = stakingAmount;
 
@@ -128,6 +127,7 @@ export const ClaimRewards: FC<Props> = ({}) => {
         sp.fee = 7_000;
 
         if (amountStake > 0) {
+
           rewards = await client.unstake(
             {
               stakeId: BigInt(0),

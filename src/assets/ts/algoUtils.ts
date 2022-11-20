@@ -53,6 +53,7 @@ export const stake = async (
   duration: number,
   stakingClient: any
 ) => {
+
   const axfer: any = algosdk.makeAssetTransferTxnWithSuggestedParams(
     address,
     algosdk.getApplicationAddress(stakingClient.appId),
@@ -69,6 +70,13 @@ export const stake = async (
     lockTime_: getAppDetails(duration).duration,
   });
 };
+
+
+export const optInt = async (stakingClient: any) =>{
+  await stakingClient.optIn();
+}
+
+
 
 export const unstake = async (
   address: string,
