@@ -53,6 +53,7 @@ export const ClaimRewards: FC<Props> = ({}) => {
   const [duration, setDuration] = useState(duration3Months);
   const [apy, setApy] = useState(APY[3]);
   const [btnActive, setBtnActive] = useState(1);
+  const [earned, setEarned] = useState(0);
 
   const { signer, account } = useSelector(
     (state: ReduxState) => state.homePage
@@ -60,36 +61,43 @@ export const ClaimRewards: FC<Props> = ({}) => {
 
   useEffect(() => {
     const getAmount = async () => {
-      try {
-        let stakedAmount = clients
-          ? await (
-              await Promise.all(clients.map((n) => n.getAccountState(account)))
-            )
-              .map((a) => a.dynamic_account_valuetsba)
-              .filter((n) => n !== undefined)
-              .reduce((a: any, b: any) => a + b, 0)
-          : 0;
+      if (clients !== undefined) {
+        try {
+          let earnedAmt: any = await clients[btnActive - 1]
+            .getEarned({
+              address: account,
+            })
+            .then((n) => Number(n.value) / 1e6)
+            .catch(() => 0);
 
-        if (stakedAmount < 0) {
+          let stakeAmt: any = clients[btnActive - 1]
+            ? await clients[btnActive - 1]
+                .getAccountState(account)
+                .then((n) => Number(n.dynamic_account_valuetsba) / 1e6)
+                .catch(() => 0)
+            : 0;
+
+          setEarned(earnedAmt);
+          if (stakeAmt < 0) {
+            setShowError(true);
+          } else {
+            setShowError(false);
+            setAmountStake(stakeAmt);
+          }
+        } catch {
+          setAmountStake(0);
           setShowError(true);
-        } else {
-          setShowError(false);
-          setAmountStake(stakedAmount);
         }
-      } catch {
-        setAmountStake(0);
-        setShowError(true);
       }
     };
     getAmount().catch(console.error);
-  }, [account, clients]);
+  }, [account, clients, btnActive]);
 
   const handleClaimXPNET = async () => {
     let stakingAmount;
     if (clients !== undefined) {
       let client = clients[0];
       stakingAmount = await client.getAccountState(account);
-
 
       const { dynamic_account_valuetsba } = stakingAmount;
 
@@ -127,7 +135,6 @@ export const ClaimRewards: FC<Props> = ({}) => {
         sp.fee = 7_000;
 
         if (amountStake > 0) {
-
           rewards = await client.unstake(
             {
               stakeId: BigInt(0),
@@ -287,7 +294,7 @@ export const ClaimRewards: FC<Props> = ({}) => {
                       style={{ marginBottom: "10px" }}
                     ></span>
                     <label className="value">
-                      {amount} {XPNET}
+                      {earned ? addCommas(earned) : 0} {XPNET}
                     </label>
                   </div>
                 </div>
