@@ -15,31 +15,31 @@ export const algodApiKey = process.env.REACT_APP_API_TOKEN;
 // export const algodTestnetUri = "https://node.testnet.algoexplorerapi.io";
 export const algodUri = "https://algorand-node.xp.network/";
 export const algodPort = 443;
-export const assetIdx = 951878987;
+export const assetIdx = 952937827;
 
 /*
-Created main app: 951877967, address:IMUZBBKTRRRGT2BBEV5JOV43N4BHRIA57DDPWFRG6IRDGT7AGKY4OJRTYI
-Created main app: 951878171, address:FP6YHCVWL4GPVO3KAI7734OEE5VRUKI52YHMQEO3DBIIV6WKRT7UPNSCZI
-Created main app: 951878324, address:P36SQA2CQMRHBJC2LZF6SZZ3FUSMYH3DVUARZZXGD5QCPXPUEEAHDHE4BU
-Created main app: 951878521, address:ZHRFAHXV7F6N2ON2LQFTK2UEW677KHIQMUREIMYKO4OG3T6KY2V2LRUWCM
-Created sub app: 951878766, address:AKBUKRUYOUY3F6C4WPFZQZ4NKEC4ICT6ZCE6S3KHU4D3W5GFHTT53MQ6MI
-Created Asset with id: 951878987 and in tx: YSGW7E5PNUPGGJ635LSIFJPDGYG3QOJUISY6JBUCTEXGEYDTXKXA
+Created main app: 952936663, address:4ULWEXDHLTS4UNL5N7DGCJI5UEWN64X3BYOGM43WOYZYGMQHORI2AILTDM
+Created main app: 952936944, address:IO7COXC7MKG4Z2NICW4USSSYW6KHUGQCVWVWLHI4AQWS3GMIBK5UETKFLY
+Created main app: 952937171, address:VMCPH6EOYUF2HEG5K7PH3XKQLI27CNLR2ZIGT5YJY4EXSGPSPU6T3D4NCI
+Created main app: 952937415, address:VGJBDFPMD5XCJSA6MAQZVXVZX7L6WYQ5YZNA2YBNXHID2G7POP6TXL4ELI
+Created sub app: 952937619, address:4Z7OK2KLMBNDPFFGATFFXLOUZTIZGMN7LWPRW6TOKSZILJMTRJ7AIWCTJM
+Created Asset with id: 952937827 and in tx: 7FIZEV37GBSAVIWZH43L7BOEFAHPUXXFPDSRNDPVESQYEFK5YH4A
 */
 
 //3 different contracts - every staking periog has her own contract
-export const appAdress3Months = 951877967;
+export const appAdress3Months = 952936663;
 export const duration3Months = 7890000;
 export const multiplier3Months = 130000000000;
 
-export const appAdress6Months = 951878171;
+export const appAdress6Months = 952936944;
 export const duration6Months = 15780000;
 export const multiplier6Months = 150000000000;
 
-export const appAdress9Months = 951878324;
+export const appAdress9Months = 952937171;
 export const duration9Months = 23650000;
 export const multiplier9Months = 170000000000;
 
-export const appAdress12Months = 951878521;
+export const appAdress12Months = 952937415;
 export const duration12Months = 31536000;
 export const multiplier12Months = 190000000000;
 //
@@ -53,7 +53,7 @@ export const communityAddress =
     "CVQFPJPBG4F5XKRHC4LNOTW325NUCFO4SC4K5KYHHVN7YHL3HJWPHODKV4"; //my add-lost tokens
 export const maxLoss = 75000000000;
 
-export const subAppId = BigInt(951878766);
+export const subAppId = BigInt(952937619);
 
 // export const urlLocNft = "/src/assets/images/nftRewards/";
 
