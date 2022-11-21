@@ -56,8 +56,6 @@ export const stake = async (
     duration: number,
     stakingClient: any
 ) => {
-    console.log("Stake enter!");
-
     const axfer: any = algosdk.makeAssetTransferTxnWithSuggestedParams(
         address,
         algosdk.getApplicationAddress(stakingClient.appId),
@@ -74,14 +72,19 @@ export const stake = async (
             axfer: axfer,
             lockTime_: getAppDetails(duration).duration,
         });
-        console.log("Stake succeed: ", resp);
+        return resp;
     } catch (error) {
         console.log(error);
     }
 };
 
 export const optInt = async (stakingClient: any) => {
-    await stakingClient.optIn();
+    try {
+        const resp = await stakingClient.optIn();
+        return resp;
+    } catch (error) {
+        console.log(error);
+    }
 };
 
 export const unstake = async (

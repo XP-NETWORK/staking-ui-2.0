@@ -1,9 +1,8 @@
 import { FC, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import classNames from "classnames";
 import { useSelector, useDispatch } from "react-redux";
 import PDF from "../../assets/Terms.pdf";
-
 import { ReduxState } from "../../store/store";
 import { setClient, setStakeDetails } from "../../store/reducer/homePageSlice";
 import { createClient, optInt, stake } from "../../assets/ts/algoUtils";
@@ -25,6 +24,7 @@ import lock from "../../assets/images/lock.svg";
 
 import "./stake.scss";
 import { StakingPeriod } from "../../Components/StakingPeriods/StakingPeriod";
+import { OPTINButton } from "../../Components/Buttons/OPTINButton";
 
 interface Props {}
 
@@ -39,7 +39,6 @@ export const Stake: FC<Props> = ({}) => {
             />
         );
     });
-    console.log("🚀 ~ file: Stake.tsx ~ line 33 ~ periods", periods);
     const dispatch = useDispatch();
     const [currentXpnetPrice, setCurrentXpnetPrice] = useState(0);
     const [balance, setBalance] = useState(0);
@@ -50,6 +49,7 @@ export const Stake: FC<Props> = ({}) => {
     const { signer, account, stakingClient } = useSelector(
         (state: ReduxState) => state.homePage
     );
+
     useEffect(() => {
         const getBalance = async () => {
             if (stakingClient.sender !== "") {
@@ -94,15 +94,19 @@ export const Stake: FC<Props> = ({}) => {
         Url.select();
     };
 
-    const handleApprove = async () => {
-        await stake(account, Number(amount), duration, stakingClient);
+    const handleStake = async () => {
+        const resp = await stake(
+            account,
+            Number(amount),
+            duration,
+            stakingClient
+        );
+        console.log("Stake succeed: ", resp);
     };
 
     const optIntAsset = async () => {
-        await optInt(stakingClient);
+        const resp = await optInt(stakingClient);
     };
-
-    useEffect(() => {}, [account]);
 
     useEffect(() => {
         let stake = {
@@ -113,319 +117,260 @@ export const Stake: FC<Props> = ({}) => {
         dispatch(setStakeDetails({ ...stake }));
     }, [amount, duration, isAgree, dispatch]);
 
-    console.log(
-        periods.map((e, i) => {
-            return (
-                <StakingPeriod
-                    duration={(i + 1) * 3}
-                    setDuration={setDuration}
-                    durationSelected={duration}
-                />
-            );
-        })
-    );
-
-    return (
-        <>
-            <div className="stakeWrapper">
-                <div className={classNames("containerLeft", "container")}>
-                    <h1>Stake XPNET</h1>
-                    <label className="line" />
-                    <div className="sectionWrapper">
-                        <div className="row">
-                            <label className="titleProp">
-                                Enter XPNET amount
-                            </label>
-                            <label
-                                className="titleProp"
-                                style={{ opacity: "1" }}
-                            >
-                                Balance: {balance} {XPNET}
-                            </label>
-                        </div>
-                        <div className="row">
-                            <div className="amountInput">
-                                <input
-                                    id="amount-box"
-                                    type="number"
-                                    onFocus={handleFocusAmount}
-                                    onChange={(e) => handleChangeAmount(e)}
-                                    value={amount}
-                                    // defaultValue={0}
-                                    placeholder={"0"}
-                                    // placeholder={`${amount} MIN staking requirement 1500 XPNET`}
-                                />
-                                <label
-                                    className="placeholder deskOnly"
-                                    style={{
-                                        visibility:
-                                            amount === 0 ? "visible" : "hidden",
-                                    }}
-                                >
-                                    MIN staking requirement 1500 XPNET
+    if (!account) return <Navigate to="/" replace />;
+    else
+        return (
+            <>
+                <div className="stakeWrapper">
+                    <div className={classNames("containerLeft", "container")}>
+                        <h1>Stake XPNET</h1>
+                        <label className="line" />
+                        <div className="sectionWrapper">
+                            <div className="row">
+                                <label className="titleProp">
+                                    Enter XPNET amount
                                 </label>
                                 <label
-                                    className="placeholder mobOnly"
-                                    style={{
-                                        visibility:
-                                            amount === 0 ? "visible" : "hidden",
-                                    }}
+                                    className="titleProp"
+                                    style={{ opacity: "1" }}
                                 >
-                                    MIN 1500 XPNET
+                                    Balance: {balance} {XPNET}
                                 </label>
-                                <button
-                                    className="maxBtn"
-                                    onClick={handleMaxAmount}
-                                >
-                                    MAX
-                                </button>
                             </div>
-                            <label className="tokenLabel">
-                                <img src={xpnet} alt="xpnet" />
-                                {XPNET}
-                            </label>
+                            <div className="row">
+                                <div className="amountInput">
+                                    <input
+                                        id="amount-box"
+                                        type="number"
+                                        onFocus={handleFocusAmount}
+                                        onChange={(e) => handleChangeAmount(e)}
+                                        value={amount}
+                                        // defaultValue={0}
+                                        placeholder={"0"}
+                                        // placeholder={`${amount} MIN staking requirement 1500 XPNET`}
+                                    />
+                                    <label
+                                        className="placeholder deskOnly"
+                                        style={{
+                                            visibility:
+                                                amount === 0
+                                                    ? "visible"
+                                                    : "hidden",
+                                        }}
+                                    >
+                                        MIN staking requirement 1500 XPNET
+                                    </label>
+                                    <label
+                                        className="placeholder mobOnly"
+                                        style={{
+                                            visibility:
+                                                amount === 0
+                                                    ? "visible"
+                                                    : "hidden",
+                                        }}
+                                    >
+                                        MIN 1500 XPNET
+                                    </label>
+                                    <button
+                                        className="maxBtn"
+                                        onClick={handleMaxAmount}
+                                    >
+                                        MAX
+                                    </button>
+                                </div>
+                                <label className="tokenLabel">
+                                    <img src={xpnet} alt="xpnet" />
+                                    {XPNET}
+                                </label>
 
-                            {/* <input
+                                {/* <input
                 type="text"
                 className="amountInput"
                 placeholder={`${amount} MIN staking requirement 1500 XPNET`}
               /> */}
-                        </div>
-                        <label className="titleProp">
-                            Select staking period
-                        </label>
-                        <div className={classNames("row", "wrapPeriods")}>
-                            {/* <StakingPeriod
-                                duration={3}
-                                setDuration={setDuration}
-                                durationSelected={duration}
-                            /> */}
-                            {periods.map((e, i) => {
-                                return (
-                                    <StakingPeriod
-                                        duration={(i + 1) * 3}
-                                        setDuration={setDuration}
-                                        durationSelected={duration}
-                                    />
-                                );
-                            })}
-                            {/* <button
-                                value={3}
-                                className="periodBtn"
-                                style={{
-                                    background: `${
-                                        duration === 3
-                                            ? "rgba(255, 255, 255, 0.1)"
-                                            : "rgba(255, 255, 255, 0.03)"
-                                    }`,
-                                }}
-                                onClick={() => setDuration(3)}
-                            >
-                                3 months
-                                <span>APY 45%</span>
-                            </button> */}
-                            {/* <button
-                                value={6}
-                                className="periodBtn"
-                                style={{
-                                    background: `${
-                                        duration === 6
-                                            ? "rgba(255, 255, 255, 0.1)"
-                                            : "rgba(255, 255, 255, 0.03)"
-                                    }`,
-                                }}
-                                onClick={() => setDuration(6)}
-                            >
-                                6 months
-                                <span>APY 75%</span>
-                            </button>
-                            <button
-                                value={9}
-                                className="periodBtn"
-                                style={{
-                                    background: `${
-                                        duration === 9
-                                            ? "rgba(255, 255, 255, 0.1)"
-                                            : "rgba(255, 255, 255, 0.03)"
-                                    }`,
-                                }}
-                                onClick={() => setDuration(9)}
-                            >
-                                9 months
-                                <span>APY 100%</span>
-                            </button>
-                            <button
-                                value={12}
-                                className="periodBtn"
-                                style={{
-                                    background: `${
-                                        duration === 12
-                                            ? "rgba(255, 255, 255, 0.1)"
-                                            : "rgba(255, 255, 255, 0.03)"
-                                    }`,
-                                }}
-                                onClick={() => setDuration(12)}
-                            >
-                                1 year
-                                <span>APY 125%</span>
-                            </button> */}
-                        </div>
-                        <div className="containerNft">
-                            <img src={nft} alt="nft_img" />
-                            <div>
-                                <label>
-                                    Don’t wait for 3 months - get a free NFT
-                                    right NOW
-                                </label>
-                                <p>
-                                    A unique chain-agnostic NFT that serves as
-                                    the access key to staking rewards.
-                                </p>
-                                <Link to="/gallery" className="linkNft">
-                                    View NFT collection
-                                </Link>
                             </div>
-                        </div>
-                        <div className="warningDiv">
-                            <img src={info} alt="info_img" />
-                            <div className="column">
-                                <label>Don’t sell your XPNET NFT</label>
-                                <p>
-                                    If you sell this NFT, you’ll lose the right
-                                    to claim the XPNET rewards, though you’ll
-                                    still be able to withdraw the staking
-                                    deposit once it matures.
-                                </p>
+                            <label className="titleProp">
+                                Select staking period
+                            </label>
+                            <div className={classNames("row", "wrapPeriods")}>
+                                {periods.map((e, i) => {
+                                    return (
+                                        <StakingPeriod
+                                            key={i}
+                                            duration={(i + 1) * 3}
+                                            setDuration={setDuration}
+                                            durationSelected={duration}
+                                        />
+                                    );
+                                })}
+                            </div>
+                            <div className="containerNft">
+                                <img src={nft} alt="nft_img" />
+                                <div>
+                                    <label>
+                                        Don’t wait for 3 months - get a free NFT
+                                        right NOW
+                                    </label>
+                                    <p>
+                                        A unique chain-agnostic NFT that serves
+                                        as the access key to staking rewards.
+                                    </p>
+                                    <Link to="/gallery" className="linkNft">
+                                        View NFT collection
+                                    </Link>
+                                </div>
+                            </div>
+                            <div className="warningDiv">
+                                <img src={info} alt="info_img" />
+                                <div className="column">
+                                    <label>Don’t sell your XPNET NFT</label>
+                                    <p>
+                                        If you sell this NFT, you’ll lose the
+                                        right to claim the XPNET rewards, though
+                                        you’ll still be able to withdraw the
+                                        staking deposit once it matures.
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div className={classNames("containerRight", "container")}>
-                    <h1>Summary</h1>
-                    <label className="line" />
-                    <div className={classNames("sectionWrapper", "summaryBox")}>
-                        <div className="periods">
-                            <div
-                                id="row1"
-                                className={classNames("row")}
-                                style={{ alignItems: "flex-end" }}
-                            >
-                                <label className="prop">Staking Amount</label>
+                    <div className={classNames("containerRight", "container")}>
+                        <h1>Summary</h1>
+                        <label className="line" />
+                        <div
+                            className={classNames(
+                                "sectionWrapper",
+                                "summaryBox"
+                            )}
+                        >
+                            <div className="periods">
                                 <div
-                                    className="column"
-                                    style={{
-                                        alignItems: "flex-end",
-                                        gap: "9px",
-                                    }}
+                                    id="row1"
+                                    className={classNames("row")}
+                                    style={{ alignItems: "flex-end" }}
                                 >
-                                    <span className="small">
-                                        ${" "}
-                                        {(currentXpnetPrice * amount).toFixed(
-                                            2
-                                        )}
-                                    </span>
-                                    <label className="value">
-                                        {amount} {XPNET}
+                                    <label className="prop">
+                                        Staking Amount
                                     </label>
-                                </div>
-                            </div>
-                            <div
-                                id="row2"
-                                className={classNames(
-                                    "row",
-                                    "borderBottom",
-                                    "mt-7"
-                                )}
-                            >
-                                <label className="prop">Est. APY</label>
-                                <label className="value">
-                                    {calculatAPY(duration)} %
-                                </label>
-                            </div>
-                            <div
-                                id="row3"
-                                className="row"
-                                style={{ alignItems: "flex-end" }}
-                            >
-                                <label className="prop">
-                                    Estimated Rewards
-                                </label>
-                                <div
-                                    className="column"
-                                    style={{
-                                        alignItems: "flex-end",
-                                        gap: "9px",
-                                    }}
-                                >
-                                    <span className="small">
-                                        ${" "}
-                                        {(currentXpnetPrice * amount).toFixed(
-                                            2
-                                        )}
-                                    </span>
-                                    <label className="value">
-                                        {calculateEstimatedRewards(
-                                            amount,
-                                            duration
-                                        )}{" "}
-                                        {XPNET}
-                                    </label>
-                                </div>
-                            </div>
-                            <div
-                                id="row4"
-                                className={classNames(
-                                    "row",
-                                    "borderBottom",
-                                    "mt-7"
-                                )}
-                            >
-                                <label className="prop">End Date</label>
-                                <label className="value">
-                                    {calculateEndDate(duration)}
-                                </label>
-                            </div>
-                        </div>
-                        <div className={classNames("row", "flexStart")}>
-                            <img
-                                src={isAgree ? checked : unchecked}
-                                alt="checked"
-                                onClick={() => setIsAgree(!isAgree)}
-                            />
-                            <p className="agree">
-                                I have read and I agree to the{" "}
-                                <span>
-                                    <a
-                                        href={PDF}
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        className="agreeA"
+                                    <div
+                                        className="column"
+                                        style={{
+                                            alignItems: "flex-end",
+                                            gap: "9px",
+                                        }}
                                     >
-                                        XPNET Staking Service Agreement
-                                    </a>
-                                </span>
-                            </p>
-                        </div>
-                        <div className="column">
-                            <button
-                                className="blueBtn"
-                                disabled={!isAgree}
-                                onClick={handleApprove}
-                            >
-                                Stake
-                            </button>
-                            <button
+                                        <span className="small">
+                                            ${" "}
+                                            {(
+                                                currentXpnetPrice * amount
+                                            ).toFixed(2)}
+                                        </span>
+                                        <label className="value">
+                                            {amount} {XPNET}
+                                        </label>
+                                    </div>
+                                </div>
+                                <div
+                                    id="row2"
+                                    className={classNames(
+                                        "row",
+                                        "borderBottom",
+                                        "mt-7"
+                                    )}
+                                >
+                                    <label className="prop">Est. APY</label>
+                                    <label className="value">
+                                        {calculatAPY(duration)} %
+                                    </label>
+                                </div>
+                                <div
+                                    id="row3"
+                                    className="row"
+                                    style={{ alignItems: "flex-end" }}
+                                >
+                                    <label className="prop">
+                                        Estimated Rewards
+                                    </label>
+                                    <div
+                                        className="column"
+                                        style={{
+                                            alignItems: "flex-end",
+                                            gap: "9px",
+                                        }}
+                                    >
+                                        <span className="small">
+                                            ${" "}
+                                            {(
+                                                currentXpnetPrice * amount
+                                            ).toFixed(2)}
+                                        </span>
+                                        <label className="value">
+                                            {calculateEstimatedRewards(
+                                                amount,
+                                                duration
+                                            )}{" "}
+                                            {XPNET}
+                                        </label>
+                                    </div>
+                                </div>
+                                <div
+                                    id="row4"
+                                    className={classNames(
+                                        "row",
+                                        "borderBottom",
+                                        "mt-7"
+                                    )}
+                                >
+                                    <label className="prop">End Date</label>
+                                    <label className="value">
+                                        {calculateEndDate(duration)}
+                                    </label>
+                                </div>
+                            </div>
+                            <div className={classNames("row", "flexStart")}>
+                                <img
+                                    src={isAgree ? checked : unchecked}
+                                    alt="checked"
+                                    onClick={() => setIsAgree(!isAgree)}
+                                />
+                                <p className="agree">
+                                    I have read and I agree to the{" "}
+                                    <span>
+                                        <a
+                                            href={PDF}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="agreeA"
+                                        >
+                                            XPNET Staking Service Agreement
+                                        </a>
+                                    </span>
+                                </p>
+                            </div>
+                            <div className="column">
+                                <button
+                                    className="blueBtn"
+                                    disabled={!isAgree}
+                                    onClick={handleStake}
+                                >
+                                    Stake
+                                </button>
+                                <OPTINButton
+                                    optIntAsset={optIntAsset}
+                                    optInApps={optInApps}
+                                    durationSelected={duration}
+                                />
+                                {/* <button
                                 className={classNames("blueBtn", "blackBtn")}
                                 onClick={optIntAsset}
                             >
-                                {/* <img src={lock} alt="lock_img" /> */}
                                 OPT-IN
-                            </button>
+                            </button> */}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </>
-    );
+            </>
+        );
 };

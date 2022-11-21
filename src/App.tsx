@@ -13,28 +13,26 @@ import { Error } from "./Components/Error/Error";
 import { StakingLimitPopup } from "./Components/StakingLimitPopup/StakingLimitPopup";
 
 function App() {
-
-  return (
-    <BrowserRouter >
-      <Routes>
-        <Route path="/" element={<Main />}>
-          <Route index element={<Home />} />
-          <Route path="/connect/:to" element={<Connect />} />
-          <Route path="/stake" element={<Stake />} />
-          <Route path="/rewards" element={<ClaimRewards />} />
-          <Route path="/gallery" element={<Gallery />} />
-          <Route path="/error" element={<Error />} />
-          <Route path="/limit" element={<StakingLimitPopup />} />
-
-          {/*  <Route path="/associationDonation" element={<DonationMain />}>
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Main />}>
+                    <Route index element={<Home />} />
+                    <Route path="/connect/:to" element={<Connect />} />
+                    <Route path="/stake" element={<Stake />} />
+                    <Route path="/rewards" element={<ClaimRewards />} />
+                    <Route path="/gallery" element={<Gallery />} />
+                    <Route path="/error" element={<Error />} />
+                    <Route path="/limit" element={<StakingLimitPopup />} />
+                    {/*  <Route path="/associationDonation" element={<DonationMain />}>
           <Route index element={<Donation />} />
             <Route path="/associationDonation/Receipt" element={<DonationDetails />} />
           </Route>
           <Route path="/payment-completed" element={<PaymentCompleted/>}/> */}
-        </Route>
-      </Routes>
-    </BrowserRouter>
-  );
+                </Route>
+            </Routes>
+        </BrowserRouter>
+    );
 }
 
 export default App;
