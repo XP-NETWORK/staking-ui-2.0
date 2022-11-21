@@ -1,5 +1,4 @@
-import React, { FC, useEffect } from "react";
-import classNames from "classnames";
+import React, { FC } from "react";
 import {
     appAdress3Months,
     appAdress6Months,
@@ -8,15 +7,17 @@ import {
 } from "./../../assets/ts/Consts";
 
 interface Props {
-    optIntAsset: Function;
+    handleStake: Function;
     optInApps: any;
     durationSelected: number;
+    isAgree: boolean;
 }
 
-export const OPTINButton: FC<Props> = ({
-    optIntAsset,
+export const STAKEButton: FC<Props> = ({
+    handleStake,
     optInApps,
     durationSelected,
+    isAgree,
 }) => {
     const isOptIn = (durationSelected: number): Boolean => {
         if (optInApps) {
@@ -44,16 +45,17 @@ export const OPTINButton: FC<Props> = ({
         return false;
     };
 
+    const isDisabled = (isAgree: boolean, durationSelected: number) => {
+        return isAgree && isOptIn(durationSelected);
+    };
+
     return (
         <button
-            style={{
-                pointerEvents: isOptIn(durationSelected) ? "none" : "auto",
-                opacity: isOptIn(durationSelected) || !optInApps ? "0.3" : "",
-            }}
-            className={classNames("blueBtn", "blackBtn")}
-            onClick={() => optIntAsset()}
+            className="blueBtn"
+            disabled={!isDisabled(isAgree, durationSelected)}
+            onClick={() => handleStake()}
         >
-            OPT-IN
+            Stake
         </button>
     );
 };

@@ -20,11 +20,10 @@ import nft from "../../assets/images/nft.png";
 import info from "../../assets/images/info.svg";
 import unchecked from "../../assets/images/checkbox/unchecked.svg";
 import checked from "../../assets/images/checkbox/checked.svg";
-import lock from "../../assets/images/lock.svg";
-
 import "./stake.scss";
 import { StakingPeriod } from "../../Components/StakingPeriods/StakingPeriod";
 import { OPTINButton } from "../../Components/Buttons/OPTINButton";
+import { STAKEButton } from "../../Components/Buttons/STAKEButton";
 
 interface Props {}
 
@@ -41,6 +40,7 @@ export const Stake: FC<Props> = ({}) => {
     });
     const dispatch = useDispatch();
     const [currentXpnetPrice, setCurrentXpnetPrice] = useState(0);
+    const [optInResponse, setOptInResponse] = useState("");
     const [balance, setBalance] = useState(0);
     const [amount, setAmount] = useState(0);
     const [duration, setDuration] = useState(3);
@@ -106,6 +106,7 @@ export const Stake: FC<Props> = ({}) => {
 
     const optIntAsset = async () => {
         const resp = await optInt(stakingClient);
+        setOptInResponse(resp);
     };
 
     useEffect(() => {
@@ -115,7 +116,7 @@ export const Stake: FC<Props> = ({}) => {
             isAgree: isAgree,
         };
         dispatch(setStakeDetails({ ...stake }));
-    }, [amount, duration, isAgree, dispatch]);
+    }, [amount, duration, isAgree, dispatch, optInResponse]);
 
     if (!account) return <Navigate to="/" replace />;
     else
@@ -349,13 +350,19 @@ export const Stake: FC<Props> = ({}) => {
                                 </p>
                             </div>
                             <div className="column">
-                                <button
+                                {/* <button
                                     className="blueBtn"
                                     disabled={!isAgree}
                                     onClick={handleStake}
                                 >
                                     Stake
-                                </button>
+                                </button> */}
+                                <STAKEButton
+                                    handleStake={handleStake}
+                                    isAgree={isAgree}
+                                    optInApps={optInApps}
+                                    durationSelected={duration}
+                                />
                                 <OPTINButton
                                     optIntAsset={optIntAsset}
                                     optInApps={optInApps}

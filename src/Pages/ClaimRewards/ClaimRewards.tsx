@@ -80,7 +80,7 @@ export const ClaimRewards: FC<Props> = ({}) => {
                               .catch(() => 0)
                         : 0;
 
-                    setEarned(earnedAmt);
+                    // setEarned(earnedAmt);
                     if (stakeAmt < 0) {
                         setShowError(true);
                     } else {
@@ -106,6 +106,10 @@ export const ClaimRewards: FC<Props> = ({}) => {
 
             try {
                 let sp = await client.getSuggestedParams();
+                console.log(
+                    "🚀 ~ file: ClaimRewards.tsx ~ line 109 ~ handleClaimXPNET ~ sp",
+                    sp
+                );
                 sp.flatFee = true;
                 sp.fee = 7_000;
 
@@ -171,11 +175,6 @@ export const ClaimRewards: FC<Props> = ({}) => {
         setMainImgSrc(`NFT${num}`);
     };
 
-    const handleNext = () => {
-        // let num = mainImgSrc[mainImgSrc.length] + 1;
-        // setMainImgSrc(`NFT${num}`);
-    };
-
     const activeClaim = (num: number) => {
         switch (num) {
             case 1:
@@ -225,7 +224,7 @@ export const ClaimRewards: FC<Props> = ({}) => {
                                 "summaryBox"
                             )}
                         >
-                            <div className="chooseClaim">
+                            {/* <div className="chooseClaim">
                                 <button
                                     className={
                                         btnActive === 1 ? "btnActive" : ""
@@ -259,7 +258,7 @@ export const ClaimRewards: FC<Props> = ({}) => {
                                     {" "}
                                     1 year
                                 </button>
-                            </div>
+                            </div> */}
                             <div className="periodsRewards">
                                 <div
                                     id="row1"
@@ -280,10 +279,7 @@ export const ClaimRewards: FC<Props> = ({}) => {
                                             style={{ marginBottom: "10px" }}
                                         ></span>
                                         <label className="value">
-                                            {amountStake
-                                                ? addCommas(amountStake)
-                                                : 0}{" "}
-                                            {XPNET}
+                                            {`${amountStake * 1e6} XPNET`}
                                         </label>
                                     </div>
                                 </div>
