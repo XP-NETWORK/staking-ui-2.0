@@ -1,0 +1,21 @@
+.footer {
+    height: 100px;
+    color: rgba(255, 255, 255, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.powered-by__container {
+    display: flex;
+    align-content: center;
+    gap: 4px;
+}
+.footer .powered-by__container img {
+    height: 30px;
+}
+.powered-by-text div:nth-child(1) {
+    font-size: 12px;
+}
+.powered-by-text div:nth-child(2) {
+    font-size: 16px;
+}
