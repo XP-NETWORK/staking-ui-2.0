@@ -51,9 +51,8 @@ export const Stake: FC<Props> = ({}) => {
     const [duration, setDuration] = useState(3);
     const [isAgree, setIsAgree] = useState(false);
     const [optInApps, setOptInApps] = useState(false);
-    const { signer, account, stakingClient, algoDetails } = useSelector(
-        (state: ReduxState) => state.homePage
-    );
+    const { signer, account, evmAccount, stakingClient, algoDetails } =
+        useSelector((state: ReduxState) => state.homePage);
 
     useEffect(() => {
         const getBalance = async () => {
@@ -125,7 +124,7 @@ export const Stake: FC<Props> = ({}) => {
         dispatch(setStakeDetails({ ...stake }));
     }, [amount, duration, isAgree, dispatch]);
 
-    if (!account) return <Navigate to="/" replace />;
+    if (!account && !evmAccount) return <Navigate to="/" replace />;
     else
         return (
             <>

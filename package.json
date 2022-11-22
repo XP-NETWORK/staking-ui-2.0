@@ -39,7 +39,8 @@
         "typescript": "^4.9.3",
         "util": "^0.12.5",
         "web-vitals": "^2.1.0",
-        "web3": "^1.8.1"
+        "web3": "^1.8.1",
+        "web3-react": "^5.0.5"
     },
     "scripts": {
         "start": "GENERATE_SOURCEMAP=false react-app-rewired start",

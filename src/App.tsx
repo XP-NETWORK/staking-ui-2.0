@@ -11,6 +11,8 @@ import { ClaimRewards } from "./Pages/ClaimRewards/ClaimRewards";
 import { Gallery } from "./Pages/Gallery/Gallery";
 import { Error } from "./Components/Error/Error";
 import { StakingLimitPopup } from "./Components/StakingLimitPopup/StakingLimitPopup";
+import Web3Provider from "web3-react";
+import { connectors } from "./Components/Wallets/walletConnectors";
 
 function App() {
     return (
@@ -20,7 +22,9 @@ function App() {
                     <Route index element={<Home />} />
                     <Route path="/connect/:to" element={<Connect />} />
                     <Route path="/stake" element={<Stake />} />
+                    {/* <Route path="/evm-stake" element={<Stake />} /> */}
                     <Route path="/rewards" element={<ClaimRewards />} />
+                    <Route path="/evm-rewards" element={<ClaimRewards />} />
                     <Route path="/gallery" element={<Gallery />} />
                     <Route path="/error" element={<Error />} />
                     <Route path="/limit" element={<StakingLimitPopup />} />

@@ -23,7 +23,7 @@ import right from "../../assets/images/right.svg";
 import copy from "../../assets/images/copy.svg";
 import checked from "../../assets/images/checkbox/checked.svg";
 import lock from "../../assets/images/lock.svg";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { ProgressStaking } from "../../Components/ProgressStaking/ProgressStaking";
 import NFT from "../../assets/images/nftRewards/0.jpeg";
 import NFT1 from "../../assets/images/nftRewards/1.jpeg";
@@ -40,6 +40,10 @@ import {
 import { Staking } from "../../assets/ts/StakingClient";
 
 import "./claimRewards.scss";
+import {
+    getAmountOfEVMTokensStaked,
+    getEvmXpNetBalance,
+} from "../../assets/ts/evmUtils";
 
 interface Props {}
 
@@ -49,13 +53,14 @@ export const ClaimRewards: FC<Props> = ({}) => {
     const [amountStake, setAmountStake] = useState(0);
     const [showError, setShowError] = useState(false);
     const [mainImgSrc, setMainImgSrc] = useState(NFT);
+    const navigate = useNavigate();
     const algoDetails = useSelector(
         (state: ReduxState) => state.homePage.algoDetails
     );
     const [apy, setApy] = useState(APY[3]);
     const [btnActive, setBtnActive] = useState(1);
     const [earned, setEarned] = useState(0);
-    const { signer, account } = useSelector(
+    const { signer, account, evmAccount } = useSelector(
         (state: ReduxState) => state.homePage
     );
 
@@ -114,7 +119,12 @@ export const ClaimRewards: FC<Props> = ({}) => {
         }
     };
 
-    const handleCopy = () => {};
+    const evmTokensAmount = async () => {
+        const amount = await getAmountOfEVMTokensStaked(evmAccount);
+        if (amount) {
+            navigate("/error");
+        }
+    };
 
     const handlePrev = () => {
         let num = mainImgSrc[mainImgSrc.length - 1] + 1;
@@ -144,18 +154,6 @@ export const ClaimRewards: FC<Props> = ({}) => {
                               )
                               .catch(() => 0)
                         : 0;
-
-                    let hhh: any = clients[btnActive - 1]
-                        ? await clients[btnActive - 1]
-                              .getAccountState(account)
-                              .then((n) => n)
-                              .catch(() => 0)
-                        : 0;
-                    // const pay_txn_bytes = algosdk.encodeObj(
-                    //     hhh.get_obj_for.encoding()
-                    // );
-                    // console.log({ pay_txn_bytes });
-
                     setEarned(earnedAmt);
                     if (stakeAmt < 0) {
                         setShowError(true);
@@ -177,10 +175,14 @@ export const ClaimRewards: FC<Props> = ({}) => {
             const clientsArr = await createClients(signer, account);
             setClients(clientsArr);
         };
-        getClients().catch(console.error);
-    }, [account, signer]);
+        if (account) getClients().catch(console.error);
 
-    if (!account) return <Navigate to="/" replace />;
+        if (evmAccount) {
+            evmTokensAmount();
+        }
+    }, [account, evmAccount, signer]);
+
+    if (!account && !evmAccount) return <Navigate to="/" replace />;
     return (
         <>
             {!showError && (
@@ -334,7 +336,7 @@ export const ClaimRewards: FC<Props> = ({}) => {
                                 <img
                                     src={copy}
                                     alt="copy"
-                                    onClick={handleCopy}
+                                    // onClick={handleCopy}
                                     className="copyBtn"
                                 />
                             </div>

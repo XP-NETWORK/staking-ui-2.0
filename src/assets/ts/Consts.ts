@@ -1,5 +1,9 @@
+import Web3 from "web3";
 import algorand from "../../assets/images/coin/algo.svg";
 import bsc from "../../assets/images/coin/BSC.svg";
+import XPNETTOKEN from "./../../ABI/xpNetToken.json";
+import STAKETOKEN from "./../../ABI/xpNetStaker.json";
+import { AbiItem } from "web3-utils";
 
 export const STAKING_LIMIT_ALGO = 10000000;
 export const TOTAL_STAKED_BSC = 50000000;
@@ -16,6 +20,19 @@ export const algodApiKey = process.env.REACT_APP_API_TOKEN;
 export const algodUri = "https://algorand-node.xp.network/";
 export const algodPort = 443;
 export const assetIdx = 952937827;
+
+const web3 = new Web3(
+    Web3.givenProvider || "https://bsc-dataseed.binance.org/"
+);
+
+export const EVMContract = new web3.eth.Contract(
+    XPNETTOKEN as AbiItem[],
+    process.env.REACT_APP_XPNET_TOKEN
+);
+export const EVMStakeContract = new web3.eth.Contract(
+    STAKETOKEN as AbiItem[],
+    process.env.REACT_APP_XPNET_STAKE_TOKEN
+);
 
 /*
 Created main app: 952936663, address:4ULWEXDHLTS4UNL5N7DGCJI5UEWN64X3BYOGM43WOYZYGMQHORI2AILTDM
