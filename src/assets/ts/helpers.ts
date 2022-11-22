@@ -1,13 +1,13 @@
-import {
-    appAdress12Months,
-    appAdress3Months,
-    appAdress6Months,
-    appAdress9Months,
-    duration3Months,
-    duration9Months,
-    duration6Months,
-    duration12Months,
-} from "./Consts";
+// import {
+//     appAdress12Months,
+//     appAdress3Months,
+//     appAdress6Months,
+//     appAdress9Months,
+//     duration3Months,
+//     duration9Months,
+//     duration6Months,
+//     duration12Months,
+// } from "./Consts";
 
 export const addCommas = (x: Number) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -73,21 +73,6 @@ export const calculatAPY = (duration: number) => {
             return 125;
         default:
             return 0;
-    }
-};
-
-export const getAppDetails = (duration: number) => {
-    switch (duration) {
-        case 3:
-            return { id: appAdress3Months, duration: duration3Months };
-        case 6:
-            return { id: appAdress6Months, duration: duration6Months };
-        case 9:
-            return { id: appAdress9Months, duration: duration9Months };
-        case 12:
-            return { id: appAdress12Months, duration: duration12Months };
-        default:
-            return { id: appAdress3Months, duration: duration3Months };
     }
 };
 

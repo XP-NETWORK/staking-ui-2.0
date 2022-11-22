@@ -1,11 +1,7 @@
 import React, { FC, useEffect } from "react";
 import classNames from "classnames";
-import {
-    appAdress3Months,
-    appAdress6Months,
-    appAdress9Months,
-    appAdress12Months,
-} from "./../../assets/ts/Consts";
+import { ReduxState } from "../../store/store";
+import { useSelector } from "react-redux";
 
 interface Props {
     optIntAsset: Function;
@@ -18,37 +14,21 @@ export const OPTINButton: FC<Props> = ({
     optInApps,
     durationSelected,
 }) => {
-    const isOptIn = (durationSelected: number): Boolean => {
-        if (optInApps) {
-            switch (durationSelected) {
-                case 3:
-                    return optInApps.some(
-                        (e: any) => e.id === appAdress3Months
-                    );
-                case 6:
-                    return optInApps.some(
-                        (e: any) => e.id === appAdress6Months
-                    );
-                case 9:
-                    return optInApps.some(
-                        (e: any) => e.id === appAdress9Months
-                    );
-                case 12:
-                    return optInApps.some(
-                        (e: any) => e.id === appAdress12Months
-                    );
-                default:
-                    return false;
-            }
-        }
-        return false;
+    const algoDetails = useSelector(
+        (state: ReduxState) => state.homePage.algoDetails
+    );
+    const isOptIn = (): Boolean => {
+        // debugger;
+        return (
+            optInApps && optInApps.some((e: any) => e.id === algoDetails.appId)
+        );
     };
 
     return (
         <button
             style={{
-                pointerEvents: isOptIn(durationSelected) ? "none" : "auto",
-                opacity: isOptIn(durationSelected) || !optInApps ? "0.3" : "",
+                pointerEvents: isOptIn() ? "none" : "auto",
+                opacity: isOptIn() || !optInApps ? "0.3" : "",
             }}
             className={classNames("blueBtn", "blackBtn")}
             onClick={() => optIntAsset()}

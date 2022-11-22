@@ -26,23 +26,61 @@ Created sub app: 952937619, address:4Z7OK2KLMBNDPFFGATFFXLOUZTIZGMN7LWPRW6TOKSZI
 Created Asset with id: 952937827 and in tx: 7FIZEV37GBSAVIWZH43L7BOEFAHPUXXFPDSRNDPVESQYEFK5YH4A
 */
 
-//3 different contracts - every staking periog has her own contract
+// 3 different contracts - every staking periog has her own contract
 export const appAdress3Months = 952936663;
 export const duration3Months = 7890000;
 export const multiplier3Months = 130000000000;
 
-export const appAdress6Months = 952936944;
-export const duration6Months = 15780000;
-export const multiplier6Months = 150000000000;
+// export const appAdress6Months = 952936944;
+// export const duration6Months = 15780000;
+// export const multiplier6Months = 150000000000;
 
-export const appAdress9Months = 952937171;
-export const duration9Months = 23650000;
-export const multiplier9Months = 170000000000;
+// export const appAdress9Months = 952937171;
+// export const duration9Months = 23650000;
+// export const multiplier9Months = 170000000000;
 
-export const appAdress12Months = 952937415;
-export const duration12Months = 31536000;
-export const multiplier12Months = 190000000000;
-//
+// export const appAdress12Months = 952937415;
+// export const duration12Months = 31536000;
+// export const multiplier12Months = 190000000000;
+
+interface IAlgoDetails {
+    appId: number | undefined;
+    duration: number;
+    multiplier: number;
+}
+
+export class AlgoDetails implements IAlgoDetails {
+    appId: number | undefined;
+    duration: number;
+    multiplier: number;
+
+    constructor(_duration: number) {
+        this.duration =
+            _duration === 12
+                ? 31536000 //! duration for 12 month
+                : _duration === 9
+                ? 23650000 //! duration for 9 month
+                : _duration === 6
+                ? 15780000 //! duration for 6 month
+                : 7890000; // duration for 3 month
+        this.appId =
+            _duration === 12
+                ? 952937415 //! 12 month app id
+                : _duration === 9
+                ? 952937171 //! 9 month app id
+                : _duration === 6
+                ? 952936944 //! 6 month app id
+                : 952936663; //! 3 month app id
+        this.multiplier =
+            _duration === 12
+                ? 190000000000 //! multiplier for 12 month
+                : _duration === 9
+                ? 170000000000 //! multiplier for 9 month
+                : _duration === 6
+                ? 150000000000 //! multiplier for 6 month
+                : 130000000000; //! multiplier for 3 month
+    }
+}
 
 // export const duration = 1209600;
 // export const multiplier = 100000000000;

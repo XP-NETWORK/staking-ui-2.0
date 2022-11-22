@@ -2,27 +2,28 @@ import { FC, useEffect, useState } from "react";
 import classNames from "classnames";
 import { useSelector } from "react-redux";
 import moment from "moment";
+import algosdk from "algosdk";
 
 import {
-    appAdress3Months,
-    appAdress6Months,
-    appAdress9Months,
+    // appAdress3Months,
+    // appAdress6Months,
+    // appAdress9Months,
     APY,
     assetIdx,
     communityAddress,
-    duration3Months,
-    multiplier12Months,
+    // duration3Months,
+    // multiplier12Months,
     subAppId,
     XPNET,
 } from "../../assets/ts/Consts";
-import { addCommas } from "../../assets/ts/helpers";
+import { addCommas, calculateEndDate } from "../../assets/ts/helpers";
 import xpnet from "../../assets/images/coin/XPNET.svg";
 import left from "../../assets/images/left.svg";
 import right from "../../assets/images/right.svg";
 import copy from "../../assets/images/copy.svg";
 import checked from "../../assets/images/checkbox/checked.svg";
 import lock from "../../assets/images/lock.svg";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { ProgressStaking } from "../../Components/ProgressStaking/ProgressStaking";
 import NFT from "../../assets/images/nftRewards/0.jpeg";
 import NFT1 from "../../assets/images/nftRewards/1.jpeg";
@@ -48,16 +49,79 @@ export const ClaimRewards: FC<Props> = ({}) => {
     const [amountStake, setAmountStake] = useState(0);
     const [showError, setShowError] = useState(false);
     const [mainImgSrc, setMainImgSrc] = useState(NFT);
-
-    const [appId, setAppId] = useState(appAdress3Months);
-    const [duration, setDuration] = useState(duration3Months);
+    const algoDetails = useSelector(
+        (state: ReduxState) => state.homePage.algoDetails
+    );
     const [apy, setApy] = useState(APY[3]);
     const [btnActive, setBtnActive] = useState(1);
     const [earned, setEarned] = useState(0);
-
     const { signer, account } = useSelector(
         (state: ReduxState) => state.homePage
     );
+
+    const handleClaimXPNET = async () => {
+        let stakingAmount;
+        if (clients !== undefined) {
+            let client = clients[0];
+            stakingAmount = await client.getAccountState(account);
+
+            const { dynamic_account_valuetsba } = stakingAmount;
+            try {
+                let sp = await client.getSuggestedParams();
+                sp.flatFee = true;
+                sp.fee = 7_000;
+
+                if (dynamic_account_valuetsba > 0) {
+                    await client.getReward(
+                        {
+                            token: BigInt(assetIdx),
+                            lockTime: BigInt(algoDetails.duration),
+                            app: subAppId,
+                        },
+                        { suggestedParams: sp }
+                    );
+                }
+            } catch (e) {
+                console.error(JSON.parse(JSON.stringify(e)));
+            }
+        }
+    };
+
+    const handleUnstake = async () => {
+        let rewards;
+        if (clients !== undefined) {
+            try {
+                let client = clients[0];
+                let sp = await client.getSuggestedParams();
+                sp.flatFee = true;
+                sp.fee = 7_000;
+
+                if (amountStake > 0) {
+                    rewards = await client.unstake(
+                        {
+                            stakeId: BigInt(0),
+                            token: BigInt(assetIdx),
+                            app: subAppId,
+                        },
+                        { suggestedParams: sp }
+                    );
+
+                    console.log(rewards);
+                }
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    };
+
+    const handleCopy = () => {};
+
+    const handlePrev = () => {
+        let num = mainImgSrc[mainImgSrc.length - 1] + 1;
+        setMainImgSrc(`NFT${num}`);
+    };
+
+    let diffDays = moment(3001300 * 1000 + 7890000 * 1000).toNow();
 
     useEffect(() => {
         const getAmount = async () => {
@@ -66,6 +130,7 @@ export const ClaimRewards: FC<Props> = ({}) => {
                     let earnedAmt: any = await clients[btnActive - 1]
                         .getEarned({
                             address: account,
+                            lockTime: BigInt(algoDetails.appId),
                         })
                         .then((n) => Number(n.value) / 1e6)
                         .catch(() => 0);
@@ -80,7 +145,18 @@ export const ClaimRewards: FC<Props> = ({}) => {
                               .catch(() => 0)
                         : 0;
 
-                    // setEarned(earnedAmt);
+                    let hhh: any = clients[btnActive - 1]
+                        ? await clients[btnActive - 1]
+                              .getAccountState(account)
+                              .then((n) => n)
+                              .catch(() => 0)
+                        : 0;
+                    // const pay_txn_bytes = algosdk.encodeObj(
+                    //     hhh.get_obj_for.encoding()
+                    // );
+                    // console.log({ pay_txn_bytes });
+
+                    setEarned(earnedAmt);
                     if (stakeAmt < 0) {
                         setShowError(true);
                     } else {
@@ -96,120 +172,15 @@ export const ClaimRewards: FC<Props> = ({}) => {
         getAmount().catch(console.error);
     }, [account, clients, btnActive]);
 
-    const handleClaimXPNET = async () => {
-        let stakingAmount;
-        if (clients !== undefined) {
-            let client = clients[0];
-            stakingAmount = await client.getAccountState(account);
-
-            const { dynamic_account_valuetsba } = stakingAmount;
-
-            try {
-                let sp = await client.getSuggestedParams();
-                console.log(
-                    "🚀 ~ file: ClaimRewards.tsx ~ line 109 ~ handleClaimXPNET ~ sp",
-                    sp
-                );
-                sp.flatFee = true;
-                sp.fee = 7_000;
-
-                if (dynamic_account_valuetsba > 0) {
-                    await client.getReward(
-                        {
-                            token: BigInt(assetIdx),
-                            app: subAppId,
-                        },
-                        { suggestedParams: sp }
-                    );
-                }
-            } catch (e) {
-                console.error(JSON.parse(JSON.stringify(e)));
-            }
-        }
-
-        // });
-    };
-
-    const handleUnstake = async () => {
-        let rewards;
-        if (clients !== undefined) {
-            try {
-                console.log(clients);
-
-                let client = clients[0];
-                let sp = await client.getSuggestedParams();
-                sp.flatFee = true;
-                sp.fee = 7_000;
-
-                if (amountStake > 0) {
-                    rewards = await client.unstake(
-                        {
-                            stakeId: BigInt(0),
-                            token: BigInt(assetIdx),
-                            app: subAppId,
-                            clawback: communityAddress,
-                        },
-                        { suggestedParams: sp }
-                    );
-
-                    console.log(rewards);
-                }
-            } catch (e) {
-                console.log(e);
-            }
-        }
-    };
-
     useEffect(() => {
         const getClients = async () => {
-            let clientsArr = await createClients(signer, account);
+            const clientsArr = await createClients(signer, account);
             setClients(clientsArr);
         };
         getClients().catch(console.error);
     }, [account, signer]);
 
-    const handleCopy = () => {};
-
-    const handlePrev = () => {
-        let num = mainImgSrc[mainImgSrc.length - 1] + 1;
-        setMainImgSrc(`NFT${num}`);
-    };
-
-    const activeClaim = (num: number) => {
-        switch (num) {
-            case 1:
-                setAppId(appAdress3Months);
-                setApy(APY[3]);
-                setBtnActive(1);
-                break;
-            case 2:
-                setAppId(appAdress6Months);
-                setApy(APY[6]);
-                setBtnActive(2);
-
-                break;
-            case 3:
-                setAppId(appAdress9Months);
-                setApy(APY[9]);
-                setBtnActive(3);
-
-                break;
-            case 4:
-                setAppId(multiplier12Months);
-                setApy(APY[12]);
-                setBtnActive(4);
-
-                break;
-            default:
-                setAppId(appAdress3Months);
-                setApy(APY[3]);
-                setBtnActive(1);
-        }
-    };
-
-    let diffDays = moment(3001300 * 1000 + 7890000 * 1000).toNow();
-    // console.log(diffDays);
-
+    if (!account) return <Navigate to="/" replace />;
     return (
         <>
             {!showError && (
@@ -224,41 +195,6 @@ export const ClaimRewards: FC<Props> = ({}) => {
                                 "summaryBox"
                             )}
                         >
-                            {/* <div className="chooseClaim">
-                                <button
-                                    className={
-                                        btnActive === 1 ? "btnActive" : ""
-                                    }
-                                    onClick={() => activeClaim(1)}
-                                >
-                                    3 months
-                                </button>
-                                <button
-                                    className={
-                                        btnActive === 2 ? "btnActive" : ""
-                                    }
-                                    onClick={() => activeClaim(2)}
-                                >
-                                    6 months
-                                </button>
-                                <button
-                                    className={
-                                        btnActive === 3 ? "btnActive" : ""
-                                    }
-                                    onClick={() => activeClaim(3)}
-                                >
-                                    9 months
-                                </button>
-                                <button
-                                    className={
-                                        btnActive === 4 ? "btnActive" : ""
-                                    }
-                                    onClick={() => activeClaim(4)}
-                                >
-                                    {" "}
-                                    1 year
-                                </button>
-                            </div> */}
                             <div className="periodsRewards">
                                 <div
                                     id="row1"
@@ -273,11 +209,13 @@ export const ClaimRewards: FC<Props> = ({}) => {
                                             gap: "9px",
                                         }}
                                     >
-                                        {/* <span className="small" style={{}}>$ 0.070</span> */}
                                         <span
                                             className="small"
                                             style={{ marginBottom: "10px" }}
                                         ></span>
+                                        <span className="small">
+                                            $ {amount.toFixed(2)}
+                                        </span>
                                         <label className="value">
                                             {`${amountStake * 1e6} XPNET`}
                                         </label>
@@ -307,11 +245,13 @@ export const ClaimRewards: FC<Props> = ({}) => {
                                             gap: "9px",
                                         }}
                                     >
-                                        {/* <span className="small">$ 0.070</span> */}
                                         <span
                                             className="small"
                                             style={{ marginBottom: "10px" }}
                                         ></span>
+                                        <span className="small">
+                                            $ {amount.toFixed(2)}
+                                        </span>
                                         <label className="value">
                                             {earned ? addCommas(earned) : 0}{" "}
                                             {XPNET}
@@ -327,7 +267,9 @@ export const ClaimRewards: FC<Props> = ({}) => {
                                     )}
                                 >
                                     <label className="prop">End Date</label>
-                                    <label className="value">{APY[3]} %</label>
+                                    <label className="value">
+                                        {/* {calculateEndDate(duration)} */}
+                                    </label>
                                 </div>
                             </div>
                             {/* <div className={classNames("row", "flexStart")}>
@@ -340,7 +282,7 @@ export const ClaimRewards: FC<Props> = ({}) => {
                             <div className="stakingDurDiv">
                                 <div className="row">
                                     Staking duration
-                                    <span>{diffDays} left</span>
+                                    {/* <span>{diffDays} left</span> */}
                                 </div>
                                 <ProgressStaking />
                             </div>

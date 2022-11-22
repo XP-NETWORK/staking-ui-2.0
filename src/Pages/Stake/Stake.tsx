@@ -4,10 +4,14 @@ import classNames from "classnames";
 import { useSelector, useDispatch } from "react-redux";
 import PDF from "../../assets/Terms.pdf";
 import { ReduxState } from "../../store/store";
-import { setClient, setStakeDetails } from "../../store/reducer/homePageSlice";
+import {
+    setAlgoDetails,
+    setClient,
+    setStakeDetails,
+} from "../../store/reducer/homePageSlice";
 import { createClient, optInt, stake } from "../../assets/ts/algoUtils";
 
-import { assetIdx, XPNET } from "../../assets/ts/Consts";
+import { AlgoDetails, assetIdx, XPNET } from "../../assets/ts/Consts";
 
 import {
     calculatAPY,
@@ -41,12 +45,13 @@ export const Stake: FC<Props> = ({}) => {
     const dispatch = useDispatch();
     const [currentXpnetPrice, setCurrentXpnetPrice] = useState(0);
     const [optInResponse, setOptInResponse] = useState("");
+
     const [balance, setBalance] = useState(0);
     const [amount, setAmount] = useState(0);
     const [duration, setDuration] = useState(3);
     const [isAgree, setIsAgree] = useState(false);
     const [optInApps, setOptInApps] = useState(false);
-    const { signer, account, stakingClient } = useSelector(
+    const { signer, account, stakingClient, algoDetails } = useSelector(
         (state: ReduxState) => state.homePage
     );
 
@@ -71,9 +76,11 @@ export const Stake: FC<Props> = ({}) => {
             setCurrentXpnetPrice(currency);
         };
         getCurrency().catch(console.error);
-    }, [stakingClient]);
+    }, [stakingClient, optInResponse]);
 
     useEffect(() => {
+        const algoDetails = new AlgoDetails(duration);
+        dispatch(setAlgoDetails(algoDetails));
         const updateClient = async () => {
             let client = await createClient(signer, account, duration);
             dispatch(setClient(client));
@@ -98,8 +105,8 @@ export const Stake: FC<Props> = ({}) => {
         const resp = await stake(
             account,
             Number(amount),
-            duration,
-            stakingClient
+            stakingClient,
+            algoDetails
         );
         console.log("Stake succeed: ", resp);
     };
@@ -116,7 +123,7 @@ export const Stake: FC<Props> = ({}) => {
             isAgree: isAgree,
         };
         dispatch(setStakeDetails({ ...stake }));
-    }, [amount, duration, isAgree, dispatch, optInResponse]);
+    }, [amount, duration, isAgree, dispatch]);
 
     if (!account) return <Navigate to="/" replace />;
     else
@@ -350,13 +357,6 @@ export const Stake: FC<Props> = ({}) => {
                                 </p>
                             </div>
                             <div className="column">
-                                {/* <button
-                                    className="blueBtn"
-                                    disabled={!isAgree}
-                                    onClick={handleStake}
-                                >
-                                    Stake
-                                </button> */}
                                 <STAKEButton
                                     handleStake={handleStake}
                                     isAgree={isAgree}
@@ -368,12 +368,6 @@ export const Stake: FC<Props> = ({}) => {
                                     optInApps={optInApps}
                                     durationSelected={duration}
                                 />
-                                {/* <button
-                                className={classNames("blueBtn", "blackBtn")}
-                                onClick={optIntAsset}
-                            >
-                                OPT-IN
-                            </button> */}
                             </div>
                         </div>
                     </div>

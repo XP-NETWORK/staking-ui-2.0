@@ -1,20 +1,18 @@
 import algosdk from "algosdk";
-import { algodApiKey, algodPort, algodUri, assetIdx } from "./Consts";
+import { AlgoDetails, algodPort, algodUri, assetIdx } from "./Consts";
 
-import { calculateDurationTime, getAppDetails } from "./helpers";
 import { Staking } from "./StakingClient";
 import store from "../../store/store";
 const apiKey = process.env.REACT_APP_API_TOKEN?.toString();
 export const algod = new algosdk.Algodv2(apiKey as string, algodUri, algodPort);
-// algod.accountInformation()
+
 export const createClient = async (
     signer: any,
     account: string,
     duration: any
 ) => {
-    // debugger;
     const { connectedWallet } = store.getState().homePage;
-
+    const algoDetails = new AlgoDetails(duration);
     const stakingContract = new Staking({
         client: algod,
         signer: async (txns) => {
@@ -45,7 +43,7 @@ export const createClient = async (
             }
         },
         sender: account,
-        appId: getAppDetails(duration).id,
+        appId: algoDetails.appId,
     });
     return stakingContract;
 };
@@ -53,9 +51,10 @@ export const createClient = async (
 export const stake = async (
     address: string,
     amount: number,
-    duration: number,
-    stakingClient: any
+    stakingClient: any,
+    algoDetails: any
 ) => {
+    debugger;
     const axfer: any = algosdk.makeAssetTransferTxnWithSuggestedParams(
         address,
         algosdk.getApplicationAddress(stakingClient.appId),
@@ -70,7 +69,7 @@ export const stake = async (
     try {
         const resp = await stakingClient.stake({
             axfer: axfer,
-            lockTime_: getAppDetails(duration).duration,
+            lockTime_: algoDetails.duration,
         });
         return resp;
     } catch (error) {
@@ -91,7 +90,8 @@ export const unstake = async (
     address: string,
     amount: number,
     duration: number,
-    stakingClient: any
+    stakingClient: any,
+    algoDetails: any
 ) => {
     const axfer: any = algosdk.makeAssetTransferTxnWithSuggestedParams(
         address,
@@ -105,7 +105,7 @@ export const unstake = async (
     );
     await stakingClient.stake({
         axfer: axfer,
-        lockTime_: getAppDetails(duration).duration,
+        lockTime_: algoDetails.duration,
     });
 };
 
