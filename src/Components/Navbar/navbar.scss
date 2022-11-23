@@ -1,75 +1,77 @@
 .navbar {
-  width: -webkit-fill-available;
-  height: 68px;
-  margin: 0 auto;
-  z-index: 1;
-  position: relative;
+    width: -webkit-fill-available;
+    height: 68px;
+    margin: 0 auto;
+    z-index: 1;
+    position: relative;
 }
 
 .navWrapper {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: inherit;
-  align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: inherit;
+    align-items: flex-start;
 }
 
-.logo{
-  cursor: pointer;
+.logo {
+    cursor: pointer;
 }
 
 .navLinksWrapper {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-top: 30.1px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 30.1px;
 }
 
 .navMediaWrapper {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 0px 0px 0px 24px;
-  gap: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0px 0px 0px 24px;
+    gap: 10px;
 }
 
-button, .aCommunity {
-  border: none;
-  background: none;
-  color: #ffffff;
-  font-weight: 400;
-  font-size: 15px;
-  line-height: 126%;
-  margin-left: 26px;
+button,
+.aCommunity {
+    border: none;
+    background: none;
+    color: #ffffff;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 126%;
+    margin-left: 26px;
 }
 
 .menuIcon {
-  display: none;
+    display: none;
 }
 
 @media screen and (max-width: 600px) {
-  .navbar {
-    width: 100vw;
-    height: 60px;
-  }
-  .navLinksWrapper {
-    display: none;
-  }
-  .navWrapper {
-    align-items: flex-end;
-    width: 95vw;
-  }
-  .menuIcon {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: 44px;
-    height: 43.88px;
-    gap: 12px;
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 8px;
-  }
-  .menuIcon {
-  }
+    .navbar {
+        width: 100vw;
+        height: 60px;
+    }
+    .navLinksWrapper {
+        display: none;
+    }
+    .navWrapper {
+        align-items: flex-end;
+        width: calc(100% - 20px);
+        margin: 0 auto;
+    }
+    .menuIcon {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        width: 44px;
+        height: 43.88px;
+        gap: 12px;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 8px;
+    }
+    .menuIcon {
+    }
 }

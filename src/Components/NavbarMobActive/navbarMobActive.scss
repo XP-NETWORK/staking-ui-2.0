@@ -1,107 +1,106 @@
 .navmobile {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0px 0px 26px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px 0px 26px;
 
-  position: absolute;
-  width: 230px;
-  //   height: 407.07px;
-  left: 129px;
-  top: 75px;
+    position: absolute;
+    width: 230px;
+    left: 245px;
+    top: 75px;
 
-  background: rgba(45, 45, 48, 0.8);
-  border: 1px solid rgba(79, 79, 82, 0.3);
-  box-shadow: 0px 4px 34px rgba(0, 0, 0, 0.12);
-  backdrop-filter: blur(7px);
-  z-index: 3;
-  position: absolute;
-  border-radius: 6px;
-  font-weight: 500;
-  font-size: 16px;
+    background: rgba(45, 45, 48, 0.8);
+    border: 1px solid rgba(79, 79, 82, 0.3);
+    box-shadow: 0px 4px 34px rgba(0, 0, 0, 0.12);
+    backdrop-filter: blur(7px);
+    z-index: 3;
+    position: absolute;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 16px;
 }
 
 .titleNav {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 13px 16px 13px 30px;
-  gap: 10px;
-  width: -webkit-fill-available;
-  //   height: 46px;
-  margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 13px 16px 13px 30px;
+    gap: 10px;
+    width: -webkit-fill-available;
+    //   height: 46px;
+    margin-top: 20px;
 }
 
 .linksNavMob {
-  display: flex;
-  width: inherit;
-  flex-direction: column;
-  align-items: center;
-  background: rgba(38, 38, 40, 0.8);
-  padding-bottom: 20px;
-  //   height: 205px;
-  //   overflow-y: scroll;
-  a {
     display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    padding: 14px 0px 14px 16px;
-    gap: 8px;
-    width: -webkit-fill-available;
-  }
-  span {
-    height: 1px;
-    width: -webkit-fill-available;
-    background: #eceef0;
-    opacity: 0.07;
-  }
+    width: inherit;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(38, 38, 40, 0.8);
+    padding-bottom: 20px;
+    //   height: 205px;
+    //   overflow-y: scroll;
+    a {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        padding: 14px 0px 14px 16px;
+        gap: 8px;
+        width: -webkit-fill-available;
+    }
+    span {
+        height: 1px;
+        width: -webkit-fill-available;
+        background: #eceef0;
+        opacity: 0.07;
+    }
 }
 
 .navMediaWrapperMob {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  gap: 13.24px;
-  width: -webkit-fill-available;
-  filter: brightness(0.7);
-  align-items: flex-start;
-  padding: 16px 0px 0px 13px;
-  img {
-    width: 28px;
-    height: 28px;
-  }
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 13.24px;
+    width: -webkit-fill-available;
+    filter: brightness(0.7);
+    align-items: flex-start;
+    padding: 16px 0px 0px 13px;
+    img {
+        width: 28px;
+        height: 28px;
+    }
 }
 
 .line {
-  width: 198px;
-  height: 0px;
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  margin: 0 auto;
+    width: 198px;
+    height: 0px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    margin: 0 auto;
 }
 
 .gitLabel {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 2px 6px 2px 2px;
-  gap: 4px;
-  background: rgba(234, 234, 241, 0.07);
-  border-radius: 30px;
-  height: 16px;
-  font-weight: 400;
-  font-size: 10px;
-  opacity: 0.7;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 2px 6px 2px 2px;
+    gap: 4px;
+    background: rgba(234, 234, 241, 0.07);
+    border-radius: 30px;
+    height: 16px;
+    font-weight: 400;
+    font-size: 10px;
+    opacity: 0.7;
 }
 
 .activeWrapperMob {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 16px 16px 26px;
-  width: -webkit-fill-available;
-  gap: 10px;
-  a {
-    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px 16px 26px;
     width: -webkit-fill-available;
-  }
+    gap: 10px;
+    a {
+        padding: 10px;
+        width: -webkit-fill-available;
+    }
 }

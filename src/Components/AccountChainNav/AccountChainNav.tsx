@@ -12,18 +12,17 @@ export default function AccountChainNav() {
     //const blockchain = BLOCKCHAINS[0];
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
+    const homePath = window.location.pathname === "/";
     const { account, blockchain, evmAccount } = useSelector(
         (state: ReduxState) => state.homePage
     );
 
-    const [showDrop, setshowDrop] = useState(false);
+    const [showDrop, setShowDrop] = useState(false);
 
     const handleChangeChain = (chain: string) => {
-        // setValue(e);
         let newblockchain = BLOCKCHAINS.find((c) => c.chain === chain);
         dispatch(setBlockchain(newblockchain));
-        setshowDrop(false);
+        setShowDrop(false);
         switch (chain) {
             case "BSC":
                 if (!evmAccount) navigate("/");
@@ -69,7 +68,11 @@ export default function AccountChainNav() {
         <div className="chainAndAccountContainer">
             <div className="dropWraper">
                 <button
-                    onClick={() => setshowDrop(!showDrop)}
+                    style={{
+                        pointerEvents:
+                            homePath && !evmAccount ? "none" : "auto",
+                    }}
+                    onClick={() => setShowDrop(!showDrop)}
                     className="dropdown"
                 >
                     {title}

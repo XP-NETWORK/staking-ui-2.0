@@ -109,17 +109,3 @@ export const communityAddress =
 export const maxLoss = 75000000000;
 
 export const subAppId = BigInt(952937619);
-
-// export const urlLocNft = "/src/assets/images/nftRewards/";
-
-// export const NFT_SRC = [
-//   `${urlLocNft}0.jpeg`,
-//   `${urlLocNft}1.jpeg`,
-//   `${urlLocNft}2.jpeg`,
-//   `${urlLocNft}3.jpeg`,
-// ];
-
-// const arr = {
-//   alt: "lihi",
-//   url: bsc,
-// };
