@@ -6,6 +6,7 @@ import PDF from "../../assets/Terms.pdf";
 import { ReduxState } from "../../store/store";
 import {
     setAlgoDetails,
+    setBalance,
     setClient,
     setStakeDetails,
 } from "../../store/reducer/homePageSlice";
@@ -46,12 +47,12 @@ export const Stake: FC<Props> = ({}) => {
     const [currentXpnetPrice, setCurrentXpnetPrice] = useState(0);
     const [optInResponse, setOptInResponse] = useState("");
 
-    const [balance, setBalance] = useState(0);
+    // const [balance, setBalance] = useState(0);
     const [amount, setAmount] = useState(0);
     const [duration, setDuration] = useState(3);
     const [isAgree, setIsAgree] = useState(false);
     const [optInApps, setOptInApps] = useState(false);
-    const { signer, account, evmAccount, stakingClient, algoDetails } =
+    const { signer, account, evmAccount, stakingClient, algoDetails, balance } =
         useSelector((state: ReduxState) => state.homePage);
 
     useEffect(() => {
@@ -65,7 +66,8 @@ export const Stake: FC<Props> = ({}) => {
                     .accountAssetInformation(stakingClient.sender, assetIdx)
                     .do();
                 const balance = assetInfo["asset-holding"]["amount"];
-                setBalance(balance);
+                // setBalance(balance);
+                dispatch(setBalance(balance));
             }
         };
         getBalance().catch(console.error);
@@ -84,7 +86,7 @@ export const Stake: FC<Props> = ({}) => {
             let client = await createClient(signer, account, duration);
             dispatch(setClient(client));
         };
-        updateClient().catch(console.error);
+        if (account) updateClient().catch(console.error);
     }, [duration, dispatch, signer, account]);
 
     const handleMaxAmount = () => {

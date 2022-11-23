@@ -6,6 +6,7 @@ export interface IHomePage {
     blockchain: { chain: string; img: string };
     account: string; //the user
     signer: any;
+    balance: number;
     stakeDetails: {
         amount: number;
         stakingPeriod: any;
@@ -16,6 +17,7 @@ export interface IHomePage {
     connectedWallet: string;
     algoDetails: any;
     evmAccount: string;
+    evmStakes: number | undefined;
     // tokenName: string; //collection name
     // tokenSymbol: string; //token thicker
 }
@@ -30,6 +32,8 @@ const initialState: IHomePage = {
     stakeDetails: { amount: 0, stakingPeriod: 0, isAgree: false },
     connectedWallet: "",
     algoDetails: {},
+    evmStakes: undefined,
+    balance: 0,
     // tokenName: "",
     // tokenSymbol: "",
 };
@@ -38,6 +42,12 @@ const homePageSlice = createSlice({
     name: "homePage",
     initialState,
     reducers: {
+        setBalance(state: any, action: any) {
+            state.balance = action.payload;
+        },
+        setEvmStakes(state: any, action: any) {
+            state.evmStakes = action.payload;
+        },
         setEvmAccount(state: any, action: any) {
             state.evmAccount = action.payload;
         },
@@ -87,6 +97,8 @@ const homePageSlice = createSlice({
 });
 
 export const {
+    setBalance,
+    setEvmStakes,
     setEvmAccount,
     setBlockchain,
     setPeraConnection,

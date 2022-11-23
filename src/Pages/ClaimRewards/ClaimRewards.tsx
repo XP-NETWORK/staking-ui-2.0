@@ -60,7 +60,7 @@ export const ClaimRewards: FC<Props> = ({}) => {
     const [apy, setApy] = useState(APY[3]);
     const [btnActive, setBtnActive] = useState(1);
     const [earned, setEarned] = useState(0);
-    const { signer, account, evmAccount } = useSelector(
+    const { signer, account, evmAccount, connectedWallet } = useSelector(
         (state: ReduxState) => state.homePage
     );
 
@@ -121,7 +121,7 @@ export const ClaimRewards: FC<Props> = ({}) => {
 
     const evmTokensAmount = async () => {
         const amount = await getAmountOfEVMTokensStaked(evmAccount);
-        if (amount) {
+        if (amount && !connectedWallet) {
             navigate("/error");
         }
     };
@@ -176,10 +176,6 @@ export const ClaimRewards: FC<Props> = ({}) => {
             setClients(clientsArr);
         };
         if (account) getClients().catch(console.error);
-
-        if (evmAccount) {
-            evmTokensAmount();
-        }
     }, [account, evmAccount, signer]);
 
     if (!account && !evmAccount) return <Navigate to="/" replace />;

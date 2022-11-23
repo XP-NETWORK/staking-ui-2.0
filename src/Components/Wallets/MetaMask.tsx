@@ -6,6 +6,7 @@ import {
     setAccount,
     setClient,
     setEvmAccount,
+    setEvmStakes,
     setSigner,
 } from "../../store/reducer/homePageSlice";
 import { appAdress3Months } from "../../assets/ts/Consts";
@@ -19,6 +20,7 @@ const MetaMask = ({ connect }: { connect: Function }) => {
     const handleClick = async () => {
         const response = await connect("MetaMask");
         dispatch(setEvmAccount(response.accounts[0]));
+        dispatch(setEvmStakes(response.stakes));
         if (response.stakes > 0) {
             navigate("/evm-rewards");
         } else {
