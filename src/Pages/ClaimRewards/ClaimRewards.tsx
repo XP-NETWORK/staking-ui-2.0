@@ -15,7 +15,9 @@ import "./claimRewards.scss";
 import { getTokenOfOwnerByIndex } from "../../assets/ts/evmUtils";
 import { useDispatch } from "react-redux";
 import { setEVMStakesArray } from "../../store/reducer/homePageSlice";
-import { NFTRewards } from "./Rewards";
+import { NFTRewards } from "./NFTRewards";
+import { ThreeCircles } from "react-loader-spinner";
+// import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 interface Props {
     chain: string;
@@ -29,6 +31,7 @@ const ClaimRewards = ({ chain }: Props) => {
     const [showError, setShowError] = useState(false);
     const [mainImgSrc, setMainImgSrc] = useState(NFT);
     const navigate = useNavigate();
+    const [algoStakes, setAlgoStakes] = useState("");
     const algoDetails = useSelector(
         (state: ReduxState) => state.homePage.algoDetails
     );
@@ -99,6 +102,12 @@ const ClaimRewards = ({ chain }: Props) => {
         setMainImgSrc(`NFT${num}`);
     };
 
+    const showLoader = () => {
+        if (algoStakes || evmStakesArray.length > 0) {
+            return false;
+        } else return true;
+    };
+
     useEffect(() => {
         const getEVMStakes = async (evmStakes: any) => {
             const tokens = await getTokenOfOwnerByIndex(evmStakes, evmAccount);
@@ -110,222 +119,130 @@ const ClaimRewards = ({ chain }: Props) => {
     }, [chain, evmAccount, evmStakes]);
 
     if (!account && !evmAccount) return <Navigate to="/" replace />;
-    return (
-        <>
-            {!showError && (
-                <div className="stakeWrapper">
-                    <div className={classNames("containerLeft", "container")}>
-                        <h1>Claim Rewards</h1>
-                        <label className="line" />
-                        {/* <div className="sectionWrapper"> */}
+    return !showLoader() ? (
+        <div className="stakeWrapper">
+            <div className={classNames("containerLeft", "container")}>
+                <h1>Claim Rewards</h1>
+                <label className="line" />
+                {/* <div className="sectionWrapper"> */}
+                <div className={classNames("sectionWrapper", "summaryBox")}>
+                    <div className="periodsRewards">
                         <div
+                            id="row1"
+                            className="row"
+                            style={{ alignItems: "flex-end" }}
+                        >
+                            <label className="prop">Amount</label>
+                            <div
+                                className="column"
+                                style={{
+                                    alignItems: "flex-end",
+                                    gap: "9px",
+                                }}
+                            >
+                                <span
+                                    className="small"
+                                    style={{ marginBottom: "10px" }}
+                                ></span>
+                                <span className="small">
+                                    $ {amount.toFixed(2)}
+                                </span>
+                                <label className="value">
+                                    {`${amountStake * 1e6} XPNET`}
+                                </label>
+                            </div>
+                        </div>
+                        <div
+                            id="row2"
                             className={classNames(
-                                "sectionWrapper",
-                                "summaryBox"
+                                "row",
+                                "paddingBottom",
+                                "mT17"
                             )}
                         >
-                            <div className="periodsRewards">
-                                <div
-                                    id="row1"
-                                    className="row"
-                                    style={{ alignItems: "flex-end" }}
-                                >
-                                    <label className="prop">Amount</label>
-                                    <div
-                                        className="column"
-                                        style={{
-                                            alignItems: "flex-end",
-                                            gap: "9px",
-                                        }}
-                                    >
-                                        <span
-                                            className="small"
-                                            style={{ marginBottom: "10px" }}
-                                        ></span>
-                                        <span className="small">
-                                            $ {amount.toFixed(2)}
-                                        </span>
-                                        <label className="value">
-                                            {`${amountStake * 1e6} XPNET`}
-                                        </label>
-                                    </div>
-                                </div>
-                                <div
-                                    id="row2"
-                                    className={classNames(
-                                        "row",
-                                        "paddingBottom",
-                                        "mT17"
-                                    )}
-                                >
-                                    <label className="prop">APY</label>
-                                    <label className="value">{apy} %</label>
-                                </div>
-                                <div
-                                    id="row3"
-                                    className="row"
-                                    style={{ alignItems: "flex-end" }}
-                                >
-                                    <label className="prop">Rewards</label>
-                                    <div
-                                        className="column"
-                                        style={{
-                                            alignItems: "flex-end",
-                                            gap: "9px",
-                                        }}
-                                    >
-                                        <span
-                                            className="small"
-                                            style={{ marginBottom: "10px" }}
-                                        ></span>
-                                        <span className="small">
-                                            $ {amount.toFixed(2)}
-                                        </span>
-                                        <label className="value">
-                                            {earned ? addCommas(earned) : 0}{" "}
-                                            {XPNET}
-                                        </label>
-                                    </div>
-                                </div>
-                                <div
-                                    id="row4"
-                                    className={classNames(
-                                        "row",
-                                        "borderBottom",
-                                        "mT17"
-                                    )}
-                                >
-                                    <label className="prop">End Date</label>
-                                    <label className="value">
-                                        {/* {calculateEndDate(duration)} */}
-                                    </label>
-                                </div>
-                            </div>
-                            {/* <div className={classNames("row", "flexStart")}>
-              <img src={unchecked} />
-              <p className="agree">
-                I have read and I agree to the{" "}
-                <span>XPNET Staking Service Agreement</span>
-              </p>
-            </div> */}
-                            <div className="stakingDurDiv">
-                                <div className="row">
-                                    Staking duration
-                                    {/* <span>{diffDays} left</span> */}
-                                </div>
-                                <ProgressStaking />
-                            </div>
-                            <div className="column">
-                                <button
-                                    className={classNames("blueBtn", "mt-0")}
-                                    onClick={handleClaimXPNET}
-                                >
-                                    Claim XPNET
-                                </button>
-                                <button
-                                    className={classNames(
-                                        "blueBtn",
-                                        "blackBtn"
-                                    )}
-                                    onClick={handleUnstake}
-                                >
-                                    <img src={lock} alt="lock_img" />
-                                    Unstake
-                                </button>
+                            <label className="prop">APY</label>
+                            <label className="value">{apy} %</label>
+                        </div>
+                        <div
+                            id="row3"
+                            className="row"
+                            style={{ alignItems: "flex-end" }}
+                        >
+                            <label className="prop">Rewards</label>
+                            <div
+                                className="column"
+                                style={{
+                                    alignItems: "flex-end",
+                                    gap: "9px",
+                                }}
+                            >
+                                <span
+                                    className="small"
+                                    style={{ marginBottom: "10px" }}
+                                ></span>
+                                <span className="small">
+                                    $ {amount.toFixed(2)}
+                                </span>
+                                <label className="value">
+                                    {earned ? addCommas(earned) : 0} {XPNET}
+                                </label>
                             </div>
                         </div>
-                        {/* </div> */}
+                        <div
+                            id="row4"
+                            className={classNames(
+                                "row",
+                                "borderBottom",
+                                "mT17"
+                            )}
+                        >
+                            <label className="prop">End Date</label>
+                            <label className="value">
+                                {/* {calculateEndDate(duration)} */}
+                            </label>
+                        </div>
                     </div>
-                    <NFTRewards stakes={evmStakesArray} />
-                    {/* <div className={classNames("containerRight", "container")}>
-                        <h1>NFT Rewards</h1>
-                        <label className="line" />
-                        <div className={classNames("sectionWrapper")}>
-                            <div className="rewardsContainerMain">
-                                <button className="btnWrap">
-                                    <img
-                                        src={left}
-                                        alt="left"
-                                        onClick={handlePrev}
-                                    />
-                                </button>
-                                <img
-                                    src={mainImgSrc}
-                                    alt="NFT"
-                                    className="imgMain"
-                                />
-                                <button className="btnWrap">
-                                    <img src={right} alt="right" />
-                                </button>
-                            </div>
-                            <div className="copyContainer">
-                                <label>{mainImgSrc}</label>
-                                <img
-                                    src={copy}
-                                    alt="copy"
-                                    // onClick={handleCopy}
-                                    className="copyBtn"
-                                />
-                            </div>
-                            <div className="nftsRewardsContainer">
-                                <div>
-                                    <img
-                                        src={NFT}
-                                        alt="nft"
-                                        onClick={() => setMainImgSrc(NFT)}
-                                        style={{
-                                            border: `${
-                                                mainImgSrc === NFT
-                                                    ? " 4px solid rgba(229, 232, 240, 0.1)"
-                                                    : "4px solid rgba(45, 45, 48, 0.4)"
-                                            }`,
-                                        }}
-                                    />
-                                    <img
-                                        src={NFT1}
-                                        alt="nft"
-                                        onClick={() => setMainImgSrc(NFT1)}
-                                        style={{
-                                            border: `${
-                                                mainImgSrc === NFT1
-                                                    ? " 4px solid rgba(229, 232, 240, 0.1)"
-                                                    : "4px solid rgba(45, 45, 48, 0.4)"
-                                            }`,
-                                        }}
-                                    />
-                                    <img
-                                        src={NFT2}
-                                        alt="nft"
-                                        onClick={() => setMainImgSrc(NFT2)}
-                                        style={{
-                                            border: `${
-                                                mainImgSrc === NFT2
-                                                    ? " 4px solid rgba(229, 232, 240, 0.1)"
-                                                    : "4px solid rgba(45, 45, 48, 0.4)"
-                                            }`,
-                                        }}
-                                    />
-                                    <img
-                                        src={NFT3}
-                                        alt="nft"
-                                        onClick={() => setMainImgSrc(NFT3)}
-                                        style={{
-                                            border: `${
-                                                mainImgSrc === NFT3
-                                                    ? " 4px solid rgba(229, 232, 240, 0.1)"
-                                                    : "4px solid rgba(45, 45, 48, 0.4)"
-                                            }`,
-                                        }}
-                                    />
-                                </div>
-                            </div>
+                    <div className="stakingDurDiv">
+                        <div className="row">
+                            Staking duration
+                            {/* <span>{diffDays} left</span> */}
                         </div>
-                    </div> */}
+                        <ProgressStaking />
+                    </div>
+                    <div className="column">
+                        <button
+                            className={classNames("blueBtn", "mt-0")}
+                            onClick={handleClaimXPNET}
+                        >
+                            Claim XPNET
+                        </button>
+                        <button
+                            className={classNames("blueBtn", "blackBtn")}
+                            onClick={handleUnstake}
+                        >
+                            <img src={lock} alt="lock_img" />
+                            Unstake
+                        </button>
+                    </div>
                 </div>
-            )}
-
-            {showError && <Error />}
-        </>
+            </div>
+            <NFTRewards stakes={evmStakesArray} />
+        </div>
+    ) : (
+        <div className="claim-rewards-loader">
+            <ThreeCircles
+                height="100"
+                width="100"
+                color="#E22440"
+                wrapperStyle={{}}
+                wrapperClass=""
+                visible={true}
+                ariaLabel="three-circles-rotating"
+                outerCircleColor=""
+                innerCircleColor=""
+                middleCircleColor=""
+            />
+        </div>
     );
 };
 

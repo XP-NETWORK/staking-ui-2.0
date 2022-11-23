@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import copy from "../../assets/images/copy.svg";
 
 interface Props {
-    text: string;
+    stake: any;
 }
 
-export default function ClipboardCopy({ text }: Props) {
+export default function ClipboardCopy({ stake }: Props) {
     const [isCopied, setIsCopied] = useState(false);
 
     const copyTextToClipboard = async (copyText: string) => {
@@ -33,11 +33,11 @@ export default function ClipboardCopy({ text }: Props) {
 
     return (
         <div className="copyContainer">
-            <label>{text}</label>
+            <label>{stake?.image}</label>
             <img
                 src={copy}
                 alt="copy"
-                onClick={() => handleCopyClick(text)}
+                onClick={() => handleCopyClick(stake?.image)}
                 className="copyBtn"
             />
         </div>

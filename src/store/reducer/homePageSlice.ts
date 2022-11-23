@@ -19,7 +19,7 @@ export interface IHomePage {
     algoDetails: any;
     evmAccount: string;
     evmStakes: number | undefined;
-    evmStakesArray: [] | undefined;
+    evmStakesArray: [];
     // tokenName: string; //collection name
     // tokenSymbol: string; //token thicker
 }
@@ -36,7 +36,7 @@ const initialState: IHomePage = {
     algoDetails: {},
     evmStakes: undefined,
     balance: 0,
-    evmStakesArray: undefined,
+    evmStakesArray: [],
 };
 
 const homePageSlice = createSlice({

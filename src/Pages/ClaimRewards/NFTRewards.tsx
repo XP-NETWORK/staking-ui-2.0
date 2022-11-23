@@ -3,16 +3,15 @@ import left from "../../assets/images/left.svg";
 import right from "../../assets/images/right.svg";
 import classNames from "classnames";
 import ClipboardCopy from "../../Components/ClipboardCopy/ClipboardCopy.tsx";
+import { IAlgoStake } from "../../assets/ts/Consts";
 
 interface Props {
-    stakes: [] | undefined;
+    stakes: IAlgoStake[];
 }
 
 export const NFTRewards = ({ stakes }: Props) => {
-    const [mainStake, setMainStake] = useState({
-        nftTokenId: 0,
-        image: "",
-    });
+    const [mainStake, setMainStake] = useState(0);
+
     console.log(
         "🚀 ~ file: Rewards.tsx ~ line 15 ~ Rewards ~ mainImage",
         mainStake
@@ -33,7 +32,8 @@ export const NFTRewards = ({ stakes }: Props) => {
 
     useEffect(() => {
         if (stakes && stakes?.length > 0) {
-            // const st =  stakes[0]
+            const st = stakes[0];
+            // setMainStake(st);
         }
     }, []);
 
@@ -49,7 +49,11 @@ export const NFTRewards = ({ stakes }: Props) => {
                     >
                         <img src={left} alt="left" />
                     </button>
-                    <img src={mainStake.image} alt="NFT" className="imgMain" />
+                    <img
+                        src={stakes[mainStake]?.image}
+                        alt="NFT"
+                        className="imgMain"
+                    />
                     <button
                         className="btnWrap"
                         onClick={() => handleSwap(true)}
@@ -57,20 +61,19 @@ export const NFTRewards = ({ stakes }: Props) => {
                         <img src={right} alt="right" />
                     </button>
                 </div>
-                <ClipboardCopy text={mainStake.image} />
+                <ClipboardCopy stake={stakes[mainStake]} />
                 <div className="nftsRewardsContainer">
                     <div>
-                        {stakes?.map((e: any) => {
+                        {stakes?.map((e: any, i: any) => {
                             return (
                                 <img
                                     key={e.nftTokenId}
                                     src={e.image}
                                     alt="nft"
-                                    onClick={() => setMainStake(e)}
+                                    onClick={() => setMainStake(i)}
                                     style={{
                                         border: `${
-                                            e.nftTokenId ===
-                                            mainStake.nftTokenId
+                                            i === mainStake
                                                 ? " 4px solid rgba(229, 232, 240, 0.1)"
                                                 : "4px solid rgba(45, 45, 48, 0.4)"
                                         }`,

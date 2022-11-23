@@ -5,6 +5,19 @@ import XPNETTOKEN from "./../../ABI/xpNetToken.json";
 import STAKETOKEN from "./../../ABI/xpNetStaker.json";
 import { AbiItem } from "web3-utils";
 
+export interface IAlgoStake {
+    amount: string;
+    correction: string;
+    image: string;
+    isActive: boolean;
+    lockInPeriod: string;
+    nftTokenId: string;
+    rewardWithdrawn: string;
+    stakeWithdrawn: false;
+    staker: string;
+    startTime: boolean;
+}
+
 export const STAKING_LIMIT_ALGO = 10000000;
 export const TOTAL_STAKED_BSC = 50000000;
 export const XPNET = "XPNET";
