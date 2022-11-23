@@ -5,30 +5,34 @@ import algorand from "../../assets/images/Algorand.svg";
 import bsc from "../../assets/images/BSC.svg";
 import bg from "../../assets/images/desk/bg.png";
 import bgMob from "../../assets/images/mob/bg.png";
-
 import classNames from "classnames";
-
 import {
+    BLOCKCHAINS,
     STAKING_LIMIT_ALGO,
     TOTAL_STAKED_BSC,
     XPNET,
 } from "../../assets/ts/Consts";
 import { addCommas } from "../../assets/ts/helpers";
-
 import { ProgressBar } from "../../Components/ProgressBar/ProgressBar";
-
 import "./home.scss";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
+import { useDispatch } from "react-redux";
+import { setBlockchain } from "../../store/reducer/homePageSlice";
 
 interface Props {}
 
 export const Home: FC<Props> = () => {
-    const [totalStakeInAlgo, settotalStakeInAlgo] = useState(1);
-    const blockchain = useSelector(
-        (state: ReduxState) => state.homePage.blockchain
-    ).chain;
+    const searchParams = new URLSearchParams(window.location.search);
+    const evmCheck = searchParams.get("evmCheck");
+    const algoCheck = searchParams.get("algoCheck");
 
+    const [totalStakeInAlgo, settotalStakeInAlgo] = useState(1);
+    const { blockchain, account, evmAccount } = useSelector(
+        (state: ReduxState) => state.homePage
+    );
+
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleClickOnStake = (typeOfStake: string) => {
@@ -37,28 +41,33 @@ export const Home: FC<Props> = () => {
                 navigate("/limit");
                 break;
             case "ALGO":
-                navigate("/connect/stake");
+                navigate(!account ? "/connect" : "/stake");
                 break;
             default:
                 break;
         }
     };
-    // const handleAlgoClaimXPNET = () => {
-    //     navigate("/connect/rewards");
-    // };
 
     const handleClickOnClaim = (typeOfClaim: string) => {
         switch (typeOfClaim) {
             case "EVM":
-                navigate("/connect/evm-rewards");
+                dispatch(setBlockchain(BLOCKCHAINS[1]));
+                navigate(!evmAccount ? "/connect" : "/rewards");
                 break;
             case "ALGO":
-                navigate("/connect/rewards");
+                dispatch(setBlockchain(BLOCKCHAINS[0]));
+                navigate(!account ? "/connect" : "/rewards");
                 break;
             default:
                 break;
         }
     };
+
+    // useEffect(() => {
+    //     if (evmCheck) {
+    //     } else if (algoCheck) {
+    //     }
+    // }, []);
 
     return (
         <>

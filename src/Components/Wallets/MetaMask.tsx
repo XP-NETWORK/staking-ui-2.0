@@ -1,17 +1,14 @@
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
-import { createClient } from "../../assets/ts/algoUtils";
 
 import {
-    setAccount,
-    setClient,
+    setBalance,
     setEvmAccount,
     setEvmStakes,
-    setSigner,
 } from "../../store/reducer/homePageSlice";
-import { appAdress3Months } from "../../assets/ts/Consts";
 import icon from "../../assets/wallets/MetaMask.svg";
 import { HigherEVM } from "./HigherEVM";
+import { BLOCKCHAINS } from "../../assets/ts/Consts";
 
 const MetaMask = ({ connect }: { connect: Function }) => {
     const dispatch = useDispatch();
@@ -19,10 +16,12 @@ const MetaMask = ({ connect }: { connect: Function }) => {
 
     const handleClick = async () => {
         const response = await connect("MetaMask");
+
         dispatch(setEvmAccount(response.accounts[0]));
-        dispatch(setEvmStakes(response.stakes));
-        if (response.stakes > 0) {
-            navigate("/evm-rewards");
+        dispatch(setEvmStakes(Number(response.stakes)));
+        if (Number(response.stakes) > 0) {
+            dispatch(setBalance(BLOCKCHAINS[1]));
+            navigate("/rewards");
         } else {
             navigate("/error");
         }

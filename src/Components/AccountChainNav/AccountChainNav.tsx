@@ -9,11 +9,10 @@ import { ReduxState } from "../../store/store";
 import "../ConnectedAccountNavbar/activeAccountNavbar.scss";
 
 export default function AccountChainNav() {
-    //const blockchain = BLOCKCHAINS[0];
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const homePath = window.location.pathname === "/";
-    const { account, blockchain, evmAccount } = useSelector(
+    const homePath = window.location.pathname;
+    const { account, blockchain, evmAccount, evmStakes } = useSelector(
         (state: ReduxState) => state.homePage
     );
 
@@ -23,12 +22,37 @@ export default function AccountChainNav() {
         let newblockchain = BLOCKCHAINS.find((c) => c.chain === chain);
         dispatch(setBlockchain(newblockchain));
         setShowDrop(false);
-        switch (chain) {
-            case "BSC":
-                if (!evmAccount) navigate("/");
+        // debugger;
+        switch (homePath) {
+            case "/stake":
+                switch (chain) {
+                    case "BSC":
+                        if (!evmAccount) navigate("/connect");
+                        else if (evmAccount) navigate("/limit");
+                        break;
+                    default:
+                        break;
+                }
                 break;
-            case "Algorand":
-                if (!account) navigate("/");
+            case "/limit":
+                switch (chain) {
+                    case "Algorand":
+                        if (!account) navigate("/connect");
+                        else if (account) navigate("/stake");
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "/error":
+                switch (chain) {
+                    case "Algorand":
+                        if (!account) navigate("/connect");
+                        else if (account) navigate("/stake");
+                        break;
+                    default:
+                        break;
+                }
                 break;
             default:
                 break;
@@ -48,15 +72,15 @@ export default function AccountChainNav() {
         }
     };
 
-    useEffect(() => {
-        if (account && !evmAccount) {
-            handleChangeChain("Algorand");
-        } else if (!account && evmAccount) {
-            handleChangeChain("BSC");
-        } else {
-            handleChangeChain("Algorand");
-        }
-    }, [account, evmAccount]);
+    // useEffect(() => {
+    //     if (account && !evmAccount) {
+    //         handleChangeChain("Algorand");
+    //     } else if (!account && evmAccount) {
+    //         handleChangeChain("BSC");
+    //     } else {
+    //         handleChangeChain("Algorand");
+    //     }
+    // }, [account, evmAccount]);
 
     let title = (
         <div className="ddItem">
@@ -70,7 +94,7 @@ export default function AccountChainNav() {
                 <button
                     style={{
                         pointerEvents:
-                            homePath && !evmAccount ? "none" : "auto",
+                            homePath === "/" && !evmAccount ? "none" : "auto",
                     }}
                     onClick={() => setShowDrop(!showDrop)}
                     className="dropdown"

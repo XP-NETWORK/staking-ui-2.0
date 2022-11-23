@@ -93,7 +93,7 @@ declare global {
 
 export const connectMetaMask = async () => {
     let accounts: string[];
-    let stakes: number;
+    let stakes: number | undefined;
 
     if (typeof window.ethereum !== "undefined") {
         try {

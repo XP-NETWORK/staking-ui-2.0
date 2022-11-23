@@ -25,6 +25,7 @@ interface Props {}
 export const Navbar: FC<Props> = ({}) => {
     const [openResources, setOpenResources] = useState(false);
     const [openNavMenu, setOpenNavMenu] = useState(false);
+
     const [ACTIVE, setACTIVE] = useState(false);
     const { account, evmAccount } = useSelector(
         (state: ReduxState) => state.homePage

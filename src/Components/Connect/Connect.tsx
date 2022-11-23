@@ -35,7 +35,7 @@ export const Connect: FC<Props> = ({}) => {
                     <img src={close} onClick={() => navigate("/")} />
                 </div>
                 <div className="connectBtns">
-                    {evmStake ? (
+                    {evmStake || blockchain === "BSC" ? (
                         <>
                             <MetaMask />
                             <WalletConnect />

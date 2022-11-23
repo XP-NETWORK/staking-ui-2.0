@@ -2,28 +2,13 @@ import { FC, useEffect, useState } from "react";
 import classNames from "classnames";
 import { useSelector } from "react-redux";
 import moment from "moment";
-import algosdk from "algosdk";
-
-import {
-    // appAdress3Months,
-    // appAdress6Months,
-    // appAdress9Months,
-    APY,
-    assetIdx,
-    communityAddress,
-    // duration3Months,
-    // multiplier12Months,
-    subAppId,
-    XPNET,
-} from "../../assets/ts/Consts";
+import { APY, assetIdx, subAppId, XPNET } from "../../assets/ts/Consts";
 import { addCommas, calculateEndDate } from "../../assets/ts/helpers";
-import xpnet from "../../assets/images/coin/XPNET.svg";
 import left from "../../assets/images/left.svg";
 import right from "../../assets/images/right.svg";
 import copy from "../../assets/images/copy.svg";
-import checked from "../../assets/images/checkbox/checked.svg";
 import lock from "../../assets/images/lock.svg";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { ProgressStaking } from "../../Components/ProgressStaking/ProgressStaking";
 import NFT from "../../assets/images/nftRewards/0.jpeg";
 import NFT1 from "../../assets/images/nftRewards/1.jpeg";
@@ -32,22 +17,20 @@ import NFT3 from "../../assets/images/nftRewards/3.jpeg";
 import NFT4 from "../../assets/images/nftRewards/4.jpeg";
 import { ReduxState } from "../../store/store";
 import { Error } from "../../Components/Error/Error";
-import {
-    claimXPNET,
-    createClients,
-    // rewardPool,
-} from "../../assets/ts/algoUtils";
+import { createClients } from "../../assets/ts/algoUtils";
 import { Staking } from "../../assets/ts/StakingClient";
-
+import { HOCClaimRewards } from "./HOCClaimRewards";
 import "./claimRewards.scss";
-import {
-    getAmountOfEVMTokensStaked,
-    getEvmXpNetBalance,
-} from "../../assets/ts/evmUtils";
+import { getTokenOfOwnerByIndex } from "../../assets/ts/evmUtils";
+import { useDispatch } from "react-redux";
+import { setEVMStakesArray } from "../../store/reducer/homePageSlice";
 
-interface Props {}
+interface Props {
+    chain: string;
+}
 
-export const ClaimRewards: FC<Props> = ({}) => {
+const ClaimRewards = ({ chain }: Props) => {
+    const dispatch = useDispatch();
     const [clients, setClients] = useState<Staking[]>();
     const [amount, setamount] = useState(0);
     const [amountStake, setAmountStake] = useState(0);
@@ -60,7 +43,7 @@ export const ClaimRewards: FC<Props> = ({}) => {
     const [apy, setApy] = useState(APY[3]);
     const [btnActive, setBtnActive] = useState(1);
     const [earned, setEarned] = useState(0);
-    const { signer, account, evmAccount, connectedWallet } = useSelector(
+    const { evmStakes, account, evmAccount } = useSelector(
         (state: ReduxState) => state.homePage
     );
 
@@ -119,64 +102,20 @@ export const ClaimRewards: FC<Props> = ({}) => {
         }
     };
 
-    const evmTokensAmount = async () => {
-        const amount = await getAmountOfEVMTokensStaked(evmAccount);
-        if (amount && !connectedWallet) {
-            navigate("/error");
-        }
-    };
-
     const handlePrev = () => {
         let num = mainImgSrc[mainImgSrc.length - 1] + 1;
         setMainImgSrc(`NFT${num}`);
     };
 
-    let diffDays = moment(3001300 * 1000 + 7890000 * 1000).toNow();
-
     useEffect(() => {
-        const getAmount = async () => {
-            if (clients !== undefined) {
-                try {
-                    let earnedAmt: any = await clients[btnActive - 1]
-                        .getEarned({
-                            address: account,
-                            lockTime: BigInt(algoDetails.appId),
-                        })
-                        .then((n) => Number(n.value) / 1e6)
-                        .catch(() => 0);
-
-                    let stakeAmt: any = clients[btnActive - 1]
-                        ? await clients[btnActive - 1]
-                              .getAccountState(account)
-                              .then(
-                                  (n) =>
-                                      Number(n.dynamic_account_valuetsba) / 1e6
-                              )
-                              .catch(() => 0)
-                        : 0;
-                    setEarned(earnedAmt);
-                    if (stakeAmt < 0) {
-                        setShowError(true);
-                    } else {
-                        setShowError(false);
-                        setAmountStake(stakeAmt);
-                    }
-                } catch {
-                    setAmountStake(0);
-                    setShowError(true);
-                }
-            }
+        const getEVMStakes = async (evmStakes: any) => {
+            const tokens = await getTokenOfOwnerByIndex(evmStakes, evmAccount);
+            dispatch(setEVMStakesArray(tokens));
         };
-        getAmount().catch(console.error);
-    }, [account, clients, btnActive]);
-
-    useEffect(() => {
-        const getClients = async () => {
-            const clientsArr = await createClients(signer, account);
-            setClients(clientsArr);
-        };
-        if (account) getClients().catch(console.error);
-    }, [account, evmAccount, signer]);
+        if (chain === "BSC" && evmStakes) {
+            getEVMStakes(evmStakes);
+        }
+    }, [chain, evmAccount, evmStakes]);
 
     if (!account && !evmAccount) return <Navigate to="/" replace />;
     return (
@@ -397,3 +336,5 @@ export const ClaimRewards: FC<Props> = ({}) => {
         </>
     );
 };
+
+export default HOCClaimRewards(ClaimRewards);

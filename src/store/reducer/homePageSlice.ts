@@ -1,5 +1,6 @@
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
+import { isUndefined } from "util";
 import { BLOCKCHAINS } from "../../assets/ts/Consts";
 
 export interface IHomePage {
@@ -18,6 +19,7 @@ export interface IHomePage {
     algoDetails: any;
     evmAccount: string;
     evmStakes: number | undefined;
+    evmStakesArray: [] | undefined;
     // tokenName: string; //collection name
     // tokenSymbol: string; //token thicker
 }
@@ -34,14 +36,16 @@ const initialState: IHomePage = {
     algoDetails: {},
     evmStakes: undefined,
     balance: 0,
-    // tokenName: "",
-    // tokenSymbol: "",
+    evmStakesArray: undefined,
 };
 
 const homePageSlice = createSlice({
     name: "homePage",
     initialState,
     reducers: {
+        setEVMStakesArray(state: any, action: any) {
+            state.evmStakesArray = action.payload;
+        },
         setBalance(state: any, action: any) {
             state.balance = action.payload;
         },
@@ -97,6 +101,7 @@ const homePageSlice = createSlice({
 });
 
 export const {
+    setEVMStakesArray,
     setBalance,
     setEvmStakes,
     setEvmAccount,

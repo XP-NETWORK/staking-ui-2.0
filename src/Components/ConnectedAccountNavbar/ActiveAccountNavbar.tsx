@@ -13,8 +13,11 @@ import AccountChainNav from "../AccountChainNav/AccountChainNav";
 
 export const ActiveAccountNavbar: FC<{}> = () => {
     const chain = BLOCKCHAINS[0];
-    const { account } = useSelector((state: ReduxState) => state.homePage);
+    const { blockchain, evmStakes } = useSelector(
+        (state: ReduxState) => state.homePage
+    );
     const [showDrop, setshowDrop] = useState(false);
+    const route = window.location.pathname;
 
     const handleChangeChain = (e: any) => {
         // setValue(e);
@@ -29,13 +32,36 @@ export const ActiveAccountNavbar: FC<{}> = () => {
 
     return (
         <div className="activeWrapper">
-            <Link to="/stake" className="activeNavLink">
+            <Link
+                to={
+                    blockchain.chain === "BSC" && evmStakes
+                        ? "/limit"
+                        : "/stake"
+                }
+                className={`activeNavLink ${
+                    route === "/stake" ? "active-link" : ""
+                }`}
+            >
                 Stake XPNET
             </Link>
-            <Link to="/rewards" className="activeNavLink">
+            <Link
+                to={
+                    blockchain.chain === "BSC" && !evmStakes
+                        ? "error"
+                        : "/rewards"
+                }
+                className={`activeNavLink ${
+                    route === "/rewards" ? "active-link" : ""
+                }`}
+            >
                 Claim XPNET
             </Link>
-            <Link to="/gallery" className="activeNavLink">
+            <Link
+                to="/gallery"
+                className={`activeNavLink ${
+                    route === "/gallery" ? "active-link" : ""
+                }`}
+            >
                 NFT Collection
             </Link>
             <AccountChainNav />

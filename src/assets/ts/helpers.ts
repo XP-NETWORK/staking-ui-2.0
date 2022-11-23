@@ -14,6 +14,8 @@ export const addCommas = (x: Number) => {
 };
 
 export const calculateEstimatedRewards = (amount: number, duration: number) => {
+    console.log({ amount, duration });
+
     let rewards;
     switch (duration) {
         case 3:
@@ -77,7 +79,6 @@ export const calculatAPY = (duration: number) => {
 };
 
 export const getCurrentPrice = async () => {
-    // const currentPrice = (await axios.get("https://api.xp.network/current-price")).data;
     const response = await fetch("https://api.xp.network/current-price");
     let currentPrice = await response.json();
     return currentPrice;
