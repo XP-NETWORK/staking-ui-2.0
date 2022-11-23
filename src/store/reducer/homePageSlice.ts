@@ -1,11 +1,13 @@
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
+import { isUndefined } from "util";
 import { BLOCKCHAINS } from "../../assets/ts/Consts";
 
 export interface IHomePage {
     blockchain: { chain: string; img: string };
     account: string; //the user
     signer: any;
+    balance: number;
     stakeDetails: {
         amount: number;
         stakingPeriod: any;
@@ -15,6 +17,9 @@ export interface IHomePage {
     stakingClient: any;
     connectedWallet: string;
     algoDetails: any;
+    evmAccount: string;
+    evmStakes: number | undefined;
+    evmStakesArray: [] | undefined;
     // tokenName: string; //collection name
     // tokenSymbol: string; //token thicker
 }
@@ -22,20 +27,34 @@ export interface IHomePage {
 const initialState: IHomePage = {
     blockchain: BLOCKCHAINS[0],
     account: "",
+    evmAccount: "",
     signer: {},
     peraConnection: false,
     stakingClient: {},
     stakeDetails: { amount: 0, stakingPeriod: 0, isAgree: false },
     connectedWallet: "",
     algoDetails: {},
-    // tokenName: "",
-    // tokenSymbol: "",
+    evmStakes: undefined,
+    balance: 0,
+    evmStakesArray: undefined,
 };
 
 const homePageSlice = createSlice({
     name: "homePage",
     initialState,
     reducers: {
+        setEVMStakesArray(state: any, action: any) {
+            state.evmStakesArray = action.payload;
+        },
+        setBalance(state: any, action: any) {
+            state.balance = action.payload;
+        },
+        setEvmStakes(state: any, action: any) {
+            state.evmStakes = action.payload;
+        },
+        setEvmAccount(state: any, action: any) {
+            state.evmAccount = action.payload;
+        },
         setAlgoDetails(state: any, action: any) {
             state.algoDetails = action.payload;
         },
@@ -82,6 +101,10 @@ const homePageSlice = createSlice({
 });
 
 export const {
+    setEVMStakesArray,
+    setBalance,
+    setEvmStakes,
+    setEvmAccount,
     setBlockchain,
     setPeraConnection,
     setAccount,

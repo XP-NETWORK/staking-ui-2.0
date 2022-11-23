@@ -6,6 +6,7 @@ import PDF from "../../assets/Terms.pdf";
 import { ReduxState } from "../../store/store";
 import {
     setAlgoDetails,
+    setBalance,
     setClient,
     setStakeDetails,
 } from "../../store/reducer/homePageSlice";
@@ -46,47 +47,13 @@ export const Stake: FC<Props> = ({}) => {
     const [currentXpnetPrice, setCurrentXpnetPrice] = useState(0);
     const [optInResponse, setOptInResponse] = useState("");
 
-    const [balance, setBalance] = useState(0);
+    // const [balance, setBalance] = useState(0);
     const [amount, setAmount] = useState(0);
     const [duration, setDuration] = useState(3);
     const [isAgree, setIsAgree] = useState(false);
     const [optInApps, setOptInApps] = useState(false);
-    const { signer, account, stakingClient, algoDetails } = useSelector(
-        (state: ReduxState) => state.homePage
-    );
-
-    useEffect(() => {
-        const getBalance = async () => {
-            if (stakingClient.sender !== "") {
-                const _accountInformation = await stakingClient.client
-                    .accountInformation(stakingClient.sender)
-                    .do();
-                setOptInApps(_accountInformation["apps-local-state"]);
-                const assetInfo = await stakingClient.client
-                    .accountAssetInformation(stakingClient.sender, assetIdx)
-                    .do();
-                const balance = assetInfo["asset-holding"]["amount"];
-                setBalance(balance);
-            }
-        };
-        getBalance().catch(console.error);
-
-        const getCurrency = async () => {
-            let currency = await getCurrentPrice();
-            setCurrentXpnetPrice(currency);
-        };
-        getCurrency().catch(console.error);
-    }, [stakingClient, optInResponse]);
-
-    useEffect(() => {
-        const algoDetails = new AlgoDetails(duration);
-        dispatch(setAlgoDetails(algoDetails));
-        const updateClient = async () => {
-            let client = await createClient(signer, account, duration);
-            dispatch(setClient(client));
-        };
-        updateClient().catch(console.error);
-    }, [duration, dispatch, signer, account]);
+    const { signer, account, evmAccount, stakingClient, algoDetails, balance } =
+        useSelector((state: ReduxState) => state.homePage);
 
     const handleMaxAmount = () => {
         setAmount(balance);
@@ -117,6 +84,29 @@ export const Stake: FC<Props> = ({}) => {
     };
 
     useEffect(() => {
+        const getBalance = async () => {
+            if (stakingClient.sender !== "") {
+                const _accountInformation = await stakingClient.client
+                    .accountInformation(stakingClient.sender)
+                    .do();
+                setOptInApps(_accountInformation["apps-local-state"]);
+                const assetInfo = await stakingClient.client
+                    .accountAssetInformation(stakingClient.sender, assetIdx)
+                    .do();
+                const balance = assetInfo["asset-holding"]["amount"];
+                // setBalance(balance);
+                dispatch(setBalance(balance));
+            }
+        };
+        getBalance().catch(console.error);
+        const getCurrency = async () => {
+            let currency = await getCurrentPrice();
+            setCurrentXpnetPrice(currency);
+        };
+        getCurrency().catch(console.error);
+    }, [stakingClient, optInResponse]);
+
+    useEffect(() => {
         let stake = {
             amount: amount,
             stakingPeriod: duration,
@@ -125,7 +115,17 @@ export const Stake: FC<Props> = ({}) => {
         dispatch(setStakeDetails({ ...stake }));
     }, [amount, duration, isAgree, dispatch]);
 
-    if (!account) return <Navigate to="/" replace />;
+    useEffect(() => {
+        const algoDetails = new AlgoDetails(duration);
+        dispatch(setAlgoDetails(algoDetails));
+        const updateClient = async () => {
+            let client = await createClient(signer, account, duration);
+            dispatch(setClient(client));
+        };
+        if (account) updateClient().catch(console.error);
+    }, [duration, dispatch, signer, account]);
+
+    if (!account && !evmAccount) return <Navigate to="/" replace />;
     else
         return (
             <>
@@ -142,7 +142,7 @@ export const Stake: FC<Props> = ({}) => {
                                     className="titleProp"
                                     style={{ opacity: "1" }}
                                 >
-                                    Balance: {balance} {XPNET}
+                                    {`Balance: ${balance} XPNET`}
                                 </label>
                             </div>
                             <div className="row">
@@ -289,7 +289,7 @@ export const Stake: FC<Props> = ({}) => {
                                 >
                                     <label className="prop">Est. APY</label>
                                     <label className="value">
-                                        {calculatAPY(duration)} %
+                                        {/* {calculatAPY(duration)} % */}
                                     </label>
                                 </div>
                                 <div
@@ -314,10 +314,10 @@ export const Stake: FC<Props> = ({}) => {
                                             ).toFixed(2)}
                                         </span>
                                         <label className="value">
-                                            {calculateEstimatedRewards(
+                                            {/* {calculateEstimatedRewards(
                                                 amount,
                                                 duration
-                                            )}{" "}
+                                            )}{" "} */}
                                             {XPNET}
                                         </label>
                                     </div>
@@ -332,7 +332,7 @@ export const Stake: FC<Props> = ({}) => {
                                 >
                                     <label className="prop">End Date</label>
                                     <label className="value">
-                                        {calculateEndDate(duration)}
+                                        {/* {calculateEndDate(duration)} */}
                                     </label>
                                 </div>
                             </div>

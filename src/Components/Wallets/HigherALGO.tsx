@@ -1,10 +1,8 @@
 import React, { FC } from "react";
 import { useDispatch } from "react-redux";
 import {
-    setAccount,
     setConnectedWallet,
     setPeraConnection,
-    setSigner,
 } from "../../store/reducer/homePageSlice";
 import {
     connectAlgoSigner,

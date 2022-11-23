@@ -1,6 +1,5 @@
 import { useNavigate, useParams } from "react-router";
 import { useDispatch } from "react-redux";
-import { HigherALGO } from "./HigherALGO";
 import { createClient } from "../../assets/ts/algoUtils";
 
 import {
@@ -9,9 +8,10 @@ import {
     setSigner,
 } from "../../store/reducer/homePageSlice";
 import { appAdress3Months } from "../../assets/ts/Consts";
-import icon from "../../assets/wallets/AlgoSigner.png";
+import icon from "../../assets/wallets/WalletConnect.svg";
+import { HigherEVM } from "./HigherEVM";
 
-const AlgoSigner = ({ connect }: { connect: Function }) => {
+const WalletConnect = ({ connect }: { connect: Function }) => {
     let { to } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -32,9 +32,9 @@ const AlgoSigner = ({ connect }: { connect: Function }) => {
     return (
         <button onClick={handleClick} className="connectBtn">
             <img style={{ width: "28px" }} src={icon} alt="" />
-            AlgoSigner
+            WalletConnect
         </button>
     );
 };
 
-export default HigherALGO(AlgoSigner);
+export default HigherEVM(WalletConnect);

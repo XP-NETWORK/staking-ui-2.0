@@ -4,11 +4,22 @@ import WalletConnect from "@walletconnect/client";
 import MyAlgoConnect from "@randlabs/myalgo-connect";
 import store from "../../store/store";
 import algosdk from "algosdk";
+import { Connectors } from "web3-react";
 import {
     setAccount,
     setConnectedWallet,
     setSigner,
 } from "../../store/reducer/homePageSlice";
+import Web3 from "web3";
+import { getAmountOfEVMTokensStaked } from "../../assets/ts/evmUtils";
+
+const { InjectedConnector, NetworkOnlyConnector } = Connectors;
+
+let web3 = new Web3(Web3.givenProvider || "https://bsc-dataseed.binance.org/");
+
+const MetaMask = new InjectedConnector({ supportedNetworks: [56] });
+
+export const connectors = { MetaMask };
 
 const peraWallet = new PeraWalletConnect({
     bridge: "https://bridge.walletconnect.org",
@@ -72,4 +83,35 @@ export const getMyAlgoConnect = async (testnet: boolean) => {
     // console.log("myalgo", { signer, address: accounts[0].address });
 
     return { signer, address: accounts[0].address };
+};
+
+declare global {
+    interface Window {
+        ethereum: any | undefined;
+    }
+}
+
+export const connectMetaMask = async () => {
+    let accounts: string[];
+    let stakes: number | undefined;
+
+    if (typeof window.ethereum !== "undefined") {
+        try {
+            accounts = await window.ethereum.request({
+                method: "eth_requestAccounts",
+            });
+            const chainId = await web3.eth.getChainId();
+            stakes = await getAmountOfEVMTokensStaked(accounts[0]);
+            if (accounts && chainId !== 56) {
+                window.ethereum.request({
+                    method: "wallet_switchEthereumChain",
+                    params: [{ chainId: "0x38" }],
+                });
+            }
+            return { accounts, stakes };
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    }
 };
