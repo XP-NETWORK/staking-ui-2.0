@@ -1,29 +1,21 @@
 import { FC, useEffect, useState } from "react";
 import classNames from "classnames";
 import { useSelector } from "react-redux";
-import moment from "moment";
 import { APY, assetIdx, subAppId, XPNET } from "../../assets/ts/Consts";
 import { addCommas, calculateEndDate } from "../../assets/ts/helpers";
-import left from "../../assets/images/left.svg";
-import right from "../../assets/images/right.svg";
-import copy from "../../assets/images/copy.svg";
 import lock from "../../assets/images/lock.svg";
 import { Navigate, useNavigate } from "react-router-dom";
 import { ProgressStaking } from "../../Components/ProgressStaking/ProgressStaking";
 import NFT from "../../assets/images/nftRewards/0.jpeg";
-import NFT1 from "../../assets/images/nftRewards/1.jpeg";
-import NFT2 from "../../assets/images/nftRewards/2.jpeg";
-import NFT3 from "../../assets/images/nftRewards/3.jpeg";
-import NFT4 from "../../assets/images/nftRewards/4.jpeg";
 import { ReduxState } from "../../store/store";
 import { Error } from "../../Components/Error/Error";
-import { createClients } from "../../assets/ts/algoUtils";
 import { Staking } from "../../assets/ts/StakingClient";
 import { HOCClaimRewards } from "./HOCClaimRewards";
 import "./claimRewards.scss";
 import { getTokenOfOwnerByIndex } from "../../assets/ts/evmUtils";
 import { useDispatch } from "react-redux";
 import { setEVMStakesArray } from "../../store/reducer/homePageSlice";
+import { NFTRewards } from "./Rewards";
 
 interface Props {
     chain: string;
@@ -43,7 +35,7 @@ const ClaimRewards = ({ chain }: Props) => {
     const [apy, setApy] = useState(APY[3]);
     const [btnActive, setBtnActive] = useState(1);
     const [earned, setEarned] = useState(0);
-    const { evmStakes, account, evmAccount } = useSelector(
+    const { evmStakes, account, evmAccount, evmStakesArray } = useSelector(
         (state: ReduxState) => state.homePage
     );
 
@@ -244,8 +236,8 @@ const ClaimRewards = ({ chain }: Props) => {
                         </div>
                         {/* </div> */}
                     </div>
-
-                    <div className={classNames("containerRight", "container")}>
+                    <NFTRewards stakes={evmStakesArray} />
+                    {/* <div className={classNames("containerRight", "container")}>
                         <h1>NFT Rewards</h1>
                         <label className="line" />
                         <div className={classNames("sectionWrapper")}>
@@ -328,7 +320,7 @@ const ClaimRewards = ({ chain }: Props) => {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             )}
 
