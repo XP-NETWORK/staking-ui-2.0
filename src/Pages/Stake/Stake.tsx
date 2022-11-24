@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import PDF from "../../assets/Terms.pdf";
 import { ReduxState } from "../../store/store";
 import {
+    setActiveSessionStakes,
     setAlgoDetails,
     setBalance,
     setClient,
@@ -12,15 +13,13 @@ import {
     setXPNetPrice,
 } from "../../store/reducer/homePageSlice";
 import { createClient, optInt, stake } from "../../assets/ts/algoUtils";
-
-import { AlgoDetails, assetIdx, XPNET } from "../../assets/ts/Consts";
-
 import {
-    calculatAPY,
-    calculateEndDate,
-    calculateEstimatedRewards,
-    getCurrentPrice,
-} from "../../assets/ts/helpers";
+    AlgoDetails,
+    assetIdx,
+    IActiveSessionSTake,
+    XPNET,
+} from "../../assets/ts/Consts";
+import { getCurrentPrice } from "../../assets/ts/helpers";
 import xpnet from "../../assets/images/coin/XPNET.svg";
 import nft from "../../assets/images/nft.png";
 import info from "../../assets/images/info.svg";
@@ -30,6 +29,7 @@ import "./stake.scss";
 import { StakingPeriod } from "../../Components/StakingPeriods/StakingPeriod";
 import { OPTINButton } from "../../Components/Buttons/OPTINButton";
 import { STAKEButton } from "../../Components/Buttons/STAKEButton";
+import { ThreeCircles } from "react-loader-spinner";
 
 interface Props {}
 
@@ -47,12 +47,11 @@ export const Stake: FC<Props> = ({}) => {
     const dispatch = useDispatch();
     const [currentXpnetPrice, setCurrentXpnetPrice] = useState(0);
     const [optInResponse, setOptInResponse] = useState("");
-
-    // const [balance, setBalance] = useState(0);
     const [amount, setAmount] = useState(0);
     const [duration, setDuration] = useState(3);
     const [isAgree, setIsAgree] = useState(false);
     const [optInApps, setOptInApps] = useState(false);
+    const [loader, setLoader] = useState(false);
     const { signer, account, evmAccount, stakingClient, algoDetails, balance } =
         useSelector((state: ReduxState) => state.homePage);
 
@@ -70,13 +69,21 @@ export const Stake: FC<Props> = ({}) => {
     };
 
     const handleStake = async () => {
-        const resp = await stake(
-            account,
-            Number(amount),
-            stakingClient,
-            algoDetails
-        );
-        console.log("Stake succeed: ", resp);
+        setLoader(true);
+        try {
+            const resp = await stake(
+                account,
+                Number(amount),
+                stakingClient,
+                algoDetails
+            );
+            let _stake: IActiveSessionSTake;
+            _stake = { txID: resp.txID, txInfo: resp.txInfo };
+            dispatch(setActiveSessionStakes(_stake));
+        } catch (error) {
+            console.log(error);
+        }
+        setLoader(false);
     };
 
     const optIntAsset = async () => {
@@ -129,7 +136,22 @@ export const Stake: FC<Props> = ({}) => {
 
     if (!account && !evmAccount) return <Navigate to="/" replace />;
     else
-        return (
+        return loader ? (
+            <div className="claim-rewards-loader">
+                <ThreeCircles
+                    height="100"
+                    width="100"
+                    color="#E22440"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                    visible={true}
+                    ariaLabel="three-circles-rotating"
+                    outerCircleColor=""
+                    innerCircleColor=""
+                    middleCircleColor=""
+                />
+            </div>
+        ) : (
             <>
                 <div className="stakeWrapper">
                     <div className={classNames("containerLeft", "container")}>

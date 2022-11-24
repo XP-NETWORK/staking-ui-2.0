@@ -2,15 +2,16 @@ import React, { useEffect, useState } from "react";
 import left from "../../assets/images/left.svg";
 import right from "../../assets/images/right.svg";
 import classNames from "classnames";
-import ClipboardCopy from "../../Components/ClipboardCopy/ClipboardCopy.tsx";
-import { IAlgoStake } from "../../assets/ts/Consts";
+import ClipboardCopy from "../ClipboardCopy/ClipboardCopy.tsx";
+import { IEVMStake, IFetchedStake } from "../../assets/ts/Consts";
 
 interface Props {
-    stakes: IAlgoStake[];
+    stakes: IEVMStake[];
+    algoStakes: IFetchedStake[];
     setIndex: any;
 }
 
-export const NFTRewards = ({ stakes, setIndex }: Props) => {
+export const NFTRewards = ({ stakes, setIndex, algoStakes }: Props) => {
     const [mainStake, setMainStake] = useState(0);
     const handleSwap = (next: boolean) => {
         switch (next) {

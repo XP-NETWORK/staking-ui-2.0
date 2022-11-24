@@ -16,6 +16,12 @@ import store from "../../store/store";
 const apiKey = process.env.REACT_APP_API_TOKEN?.toString();
 export const algod = new algosdk.Algodv2(apiKey as string, algodUri, algodPort);
 
+const algoService = axios.create({
+    baseURL: process.env.REACT_APP_ALGO_SERVICE,
+    timeout: 10000,
+    headers: {},
+});
+
 export const createClient = async (
     signer: any,
     account: string,
@@ -64,7 +70,7 @@ export const stake = async (
     stakingClient: any,
     algoDetails: any
 ) => {
-    debugger;
+    // debugger;
     const axfer: any = algosdk.makeAssetTransferTxnWithSuggestedParams(
         address,
         algosdk.getApplicationAddress(stakingClient.appId),
@@ -132,36 +138,107 @@ export const createClients = async (signer: any, account: string) => {
     return clients;
 };
 
-export const getAlgoRewards = async (owner: string) => {
+const getRewardsForSingleAppId = (appId: number, owner: string) => {
+    return new Promise((resolve: any, reject: any) => {
+        algoService.get(`/earned/${appId}/${owner}`);
+        // .then((response) => {
+        //     return resolve(response.data);
+        // })
+        // .catch((error) => {
+        //     return reject(error.message);
+        // });
+    });
+};
+
+export const getAlgoReward = async (owner: string) => {
     let appIds = [
         appAdress3Months,
         appAdress6Months,
         appAdress9Months,
         appAdress12Months,
     ];
-    let rewards: any = [];
-    var config = {
-        method: "get",
-        url: "http://65.109.38.98:5000/earned/952936663/4NVPEZXC7JD2B74LWLJK6OTVL4RMEG25E4ZJDZPKMQSVWLD6IHAJEEVR4Q",
-        headers: {},
-    };
 
-    axios(config)
-        .then(function (response) {
-            console.log(JSON.stringify(response.data));
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-    // appIds.forEach(async (e: any) => {
-    //     try {
-    //         const resp = await axios.get(
-    //             `http://65.109.38.98:5000/earned/${e}/${owner}`
-    //         );
-    //         const rewards = resp.data;
-    //         rewards.push(rewards);
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // });
+    let promises: any = [];
+    let rewards: any = [];
+    for (let appId of appIds) {
+        const promise = algoService.get(`/earned/${appId}/${owner}`);
+        promises.push(promise);
+    }
+    try {
+        const res = await Promise.allSettled(
+            appIds.map((item) => algoService.get(`/earned/${item}/${owner}`))
+        );
+        if (res) {
+            rewards = res.map((e: any, i) => {
+                let obj: any;
+                if (e.status === "rejected") {
+                    obj = {
+                        status: e.status,
+                        reason: e.reason.message,
+                    };
+                } else
+                    obj = {
+                        earned: e.value.data.data.earned,
+                        appid: e.value.data.data.appId,
+                    };
+                return obj;
+            });
+        }
+    } catch (error) {
+        console.log(error);
+    }
+    return rewards;
+};
+
+export const getAllAlgoStakes = async (owner: string) => {
+    let appIds = [
+        appAdress3Months,
+        appAdress6Months,
+        appAdress9Months,
+        appAdress12Months,
+    ];
+
+    let allStakes: any = [];
+    try {
+        const res = await Promise.allSettled(
+            appIds.map((item) =>
+                algoService.get(`/get-all-stakings/${item}/${owner}`)
+            )
+        );
+        if (res) {
+            allStakes = res.map((e: any, i) => {
+                let obj: any;
+                if (e.status === "rejected") {
+                    obj = {
+                        status: e.status,
+                        reason: e.reason.message,
+                    };
+                } else
+                    obj = {
+                        ...e.value.data.data,
+                    };
+                return obj;
+            });
+        }
+    } catch (error) {
+        console.log(error);
+    }
+    const arr = parseArray(allStakes);
+    return arr;
+};
+
+const parseArray = (array: []) => {
+    let newArr: any = [];
+    for (let index = 0; index < array.length; index++) {
+        let element: [];
+        element = array[index];
+        if (Object.keys(element).length > 0) {
+            const withNestedKeys = Object.values(element);
+            for (let index = 0; index < withNestedKeys.length; index++) {
+                const obj = withNestedKeys[index];
+                newArr.push(obj);
+            }
+        }
+    }
+    return newArr;
 };

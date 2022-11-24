@@ -1,7 +1,13 @@
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import { isUndefined } from "util";
-import { BLOCKCHAINS, IAlgoStake } from "../../assets/ts/Consts";
+import {
+    BLOCKCHAINS,
+    IActiveSessionSTake,
+    IAlgoRewards,
+    IEVMStake,
+    IFetchedStake,
+} from "../../assets/ts/Consts";
 
 export interface IHomePage {
     blockchain: { chain: string; img: string };
@@ -19,8 +25,11 @@ export interface IHomePage {
     algoDetails: any;
     evmAccount: string;
     evmStakes: number | undefined;
-    evmStakesArray: IAlgoStake[];
+    evmStakesArray: IEVMStake[];
     XPNetPrice: number;
+    activeSessionStakes: IActiveSessionSTake[];
+    fetchedAlgoStakes: IFetchedStake[];
+    algoRewards: IAlgoRewards[];
     // tokenName: string; //collection name
     // tokenSymbol: string; //token thicker
 }
@@ -39,12 +48,26 @@ const initialState: IHomePage = {
     balance: 0,
     evmStakesArray: [],
     XPNetPrice: 0,
+    activeSessionStakes: [],
+    fetchedAlgoStakes: [],
+    algoRewards: [],
 };
 
 const homePageSlice = createSlice({
     name: "homePage",
     initialState,
     reducers: {
+        setActiveSessionStakes(state: any, action: any) {
+            const arr = state.activeSessionStakes;
+            arr.push(action.payload);
+            state.activeSessionStakes = arr;
+        },
+        setFetchedAlgoStakes(state: any, action: any) {
+            state.fetchedAlgoStakes = action.payload;
+        },
+        setAlgoRewards(state: any, action: any) {
+            state.algoRewards = action.payload;
+        },
         setXPNetPrice(state: any, action: any) {
             state.XPNetPrice = action.payload;
         },
@@ -106,6 +129,9 @@ const homePageSlice = createSlice({
 });
 
 export const {
+    setActiveSessionStakes,
+    setFetchedAlgoStakes,
+    setAlgoRewards,
     setXPNetPrice,
     setEVMStakesArray,
     setBalance,

@@ -19,13 +19,18 @@ import "./claimRewards.scss";
 import { getTokenOfOwnerByIndex, totalSupply } from "../../assets/ts/evmUtils";
 import { useDispatch } from "react-redux";
 import {
+    setAlgoRewards,
     setEVMStakesArray,
+    setFetchedAlgoStakes,
     setXPNetPrice,
 } from "../../store/reducer/homePageSlice";
-import { NFTRewards } from "./NFTRewards";
+// import { NFTRewards } from "../../Components/Rewards/NFTRewards";
 import { ThreeCircles } from "react-loader-spinner";
-import RewardsDetails from "./RewardsDetails";
-import { getAlgoRewards } from "../../assets/ts/algoUtils";
+// import RewardsDetails from "../../Components/Rewards/RewardsDetails";
+import { getAlgoReward, getAllAlgoStakes } from "../../assets/ts/algoUtils";
+import { NFTRewards } from "../../Components/Rewards/NFTRewards";
+import RewardsDetails from "../../Components/Rewards/RewardsDetails";
+import AlgoRewardsDetails from "../../Components/Rewards/AlgoRewardsDetails";
 // import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 interface Props {
@@ -40,8 +45,16 @@ const ClaimRewards = ({ chain }: Props) => {
     const [algoStakes, setAlgoStakes] = useState("");
     const [indexOfStake, setIndexOfStake] = useState(0);
 
-    const { evmStakes, account, evmAccount, evmStakesArray, algoDetails } =
-        useSelector((state: ReduxState) => state.homePage);
+    const {
+        evmStakes,
+        account,
+        evmAccount,
+        evmStakesArray,
+        algoDetails,
+        fetchedAlgoStakes,
+        algoRewards,
+        activeSessionStakes,
+    } = useSelector((state: ReduxState) => state.homePage);
 
     const handleClaimXPNET = async () => {
         let stakingAmount;
@@ -104,16 +117,24 @@ const ClaimRewards = ({ chain }: Props) => {
     };
 
     const showLoader = () => {
-        if (algoStakes || evmStakesArray.length > 0) {
+        if (
+            (fetchedAlgoStakes.length > 0 && algoRewards.length > 0) ||
+            evmStakesArray.length > 0
+        ) {
             return false;
         } else return true;
     };
 
     useEffect(() => {
-        const algoRewards = async () => {
-            const rewards = await getAlgoRewards(account);
+        const algoRewardsAndStakes = async () => {
+            const rewards = await getAlgoReward(account);
+            dispatch(setAlgoRewards(rewards));
+            const stakes = await getAllAlgoStakes(account);
+            dispatch(setFetchedAlgoStakes(stakes));
         };
-        if (account) algoRewards();
+        if (account) {
+            algoRewardsAndStakes();
+        }
         const getEVMStakes = async (evmStakes: any) => {
             const tokens = await getTokenOfOwnerByIndex(evmStakes, evmAccount);
             dispatch(setEVMStakesArray(tokens));
@@ -132,8 +153,20 @@ const ClaimRewards = ({ chain }: Props) => {
     if (!account && !evmAccount) return <Navigate to="/" replace />;
     return !showLoader() ? (
         <div className="stakeWrapper">
-            <RewardsDetails stake={evmStakesArray[indexOfStake]} />
-            <NFTRewards stakes={evmStakesArray} setIndex={setIndexOfStake} />
+            {chain === "Algorand" ? (
+                <AlgoRewardsDetails
+                    rewards={algoRewards}
+                    sessionStakes={activeSessionStakes}
+                    stakes={fetchedAlgoStakes}
+                />
+            ) : (
+                <RewardsDetails stake={evmStakesArray[indexOfStake]} />
+            )}
+            <NFTRewards
+                stakes={evmStakesArray}
+                setIndex={setIndexOfStake}
+                algoStakes={fetchedAlgoStakes}
+            />
         </div>
     ) : (
         <div className="claim-rewards-loader">

@@ -3,6 +3,8 @@ import { EVMContract, EVMStakeContract } from "./Consts";
 import axios from "axios";
 import moment from "moment";
 
+// REACT_APP_ALGO_SERVICE
+
 const web3 = new Web3(
     Web3.givenProvider || "https://bsc-dataseed.binance.org/"
 );

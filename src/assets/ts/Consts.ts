@@ -5,7 +5,7 @@ import XPNETTOKEN from "./../../ABI/xpNetToken.json";
 import STAKETOKEN from "./../../ABI/xpNetStaker.json";
 import { AbiItem } from "web3-utils";
 
-export interface IAlgoStake {
+export interface IEVMStake {
     amount: string;
     correction: string;
     image: string;
@@ -17,6 +17,26 @@ export interface IAlgoStake {
     staker: string;
     startTime: string;
     availableRewards: string;
+}
+
+export interface IActiveSessionSTake {
+    txID: string;
+    txInfo: any;
+}
+
+export interface IFetchedStake {
+    appId: string;
+    id: number;
+    lockTime: number;
+    owner: string;
+    stakingTime: number;
+    timeToUnlock: number;
+    tokensStaked: number;
+    tokensStakedWithBonus: number;
+}
+export interface IAlgoRewards {
+    appid: string;
+    earned: number;
 }
 
 export const STAKING_LIMIT_ALGO = 10000000;

@@ -1,8 +1,8 @@
 import React from "react";
-import { ProgressStaking } from "../../Components/ProgressStaking/ProgressStaking";
+import { ProgressStaking } from "../ProgressStaking/ProgressStaking";
 import classNames from "classnames";
 import lock from "../../assets/images/lock.svg";
-import { IAlgoStake } from "../../assets/ts/Consts";
+import { IEVMStake } from "../../assets/ts/Consts";
 import {
     convertFromWei,
     evmAPY,
@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
 
 interface Props {
-    stake: IAlgoStake;
+    stake: IEVMStake;
 }
 export default function RewardsDetails({ stake }: Props) {
     console.log(
