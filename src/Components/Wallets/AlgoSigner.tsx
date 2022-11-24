@@ -26,7 +26,7 @@ const AlgoSigner = ({ connect }: { connect: Function }) => {
             appAdress3Months
         );
         dispatch(setClient(client));
-        to === "stake" ? navigate("/stake") : navigate("/rewards");
+        navigate("/stake");
     };
 
     return (

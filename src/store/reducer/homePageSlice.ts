@@ -1,7 +1,7 @@
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import { isUndefined } from "util";
-import { BLOCKCHAINS } from "../../assets/ts/Consts";
+import { BLOCKCHAINS, IAlgoStake } from "../../assets/ts/Consts";
 
 export interface IHomePage {
     blockchain: { chain: string; img: string };
@@ -19,7 +19,8 @@ export interface IHomePage {
     algoDetails: any;
     evmAccount: string;
     evmStakes: number | undefined;
-    evmStakesArray: [];
+    evmStakesArray: IAlgoStake[];
+    XPNetPrice: number;
     // tokenName: string; //collection name
     // tokenSymbol: string; //token thicker
 }
@@ -37,12 +38,16 @@ const initialState: IHomePage = {
     evmStakes: undefined,
     balance: 0,
     evmStakesArray: [],
+    XPNetPrice: 0,
 };
 
 const homePageSlice = createSlice({
     name: "homePage",
     initialState,
     reducers: {
+        setXPNetPrice(state: any, action: any) {
+            state.XPNetPrice = action.payload;
+        },
         setEVMStakesArray(state: any, action: any) {
             state.evmStakesArray = action.payload;
         },
@@ -101,6 +106,7 @@ const homePageSlice = createSlice({
 });
 
 export const {
+    setXPNetPrice,
     setEVMStakesArray,
     setBalance,
     setEvmStakes,

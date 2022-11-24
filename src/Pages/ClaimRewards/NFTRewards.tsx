@@ -7,16 +7,11 @@ import { IAlgoStake } from "../../assets/ts/Consts";
 
 interface Props {
     stakes: IAlgoStake[];
+    setIndex: any;
 }
 
-export const NFTRewards = ({ stakes }: Props) => {
+export const NFTRewards = ({ stakes, setIndex }: Props) => {
     const [mainStake, setMainStake] = useState(0);
-
-    console.log(
-        "🚀 ~ file: Rewards.tsx ~ line 15 ~ Rewards ~ mainImage",
-        mainStake
-    );
-
     const handleSwap = (next: boolean) => {
         switch (next) {
             case true:
@@ -30,12 +25,10 @@ export const NFTRewards = ({ stakes }: Props) => {
         }
     };
 
-    useEffect(() => {
-        if (stakes && stakes?.length > 0) {
-            const st = stakes[0];
-            // setMainStake(st);
-        }
-    }, []);
+    const handleMainStakeChange = (i: number) => {
+        setIndex(i);
+        setMainStake(i);
+    };
 
     return (
         <div className={classNames("containerRight", "container")}>
@@ -70,7 +63,7 @@ export const NFTRewards = ({ stakes }: Props) => {
                                     key={e.nftTokenId}
                                     src={e.image}
                                     alt="nft"
-                                    onClick={() => setMainStake(i)}
+                                    onClick={() => handleMainStakeChange(i)}
                                     style={{
                                         border: `${
                                             i === mainStake

@@ -15,7 +15,8 @@ export interface IAlgoStake {
     rewardWithdrawn: string;
     stakeWithdrawn: false;
     staker: string;
-    startTime: boolean;
+    startTime: string;
+    availableRewards: string;
 }
 
 export const STAKING_LIMIT_ALGO = 10000000;
@@ -61,17 +62,17 @@ export const appAdress3Months = 952936663;
 export const duration3Months = 7890000;
 export const multiplier3Months = 130000000000;
 
-// export const appAdress6Months = 952936944;
-// export const duration6Months = 15780000;
-// export const multiplier6Months = 150000000000;
+export const appAdress6Months = 952936944;
+export const duration6Months = 15780000;
+export const multiplier6Months = 150000000000;
 
-// export const appAdress9Months = 952937171;
-// export const duration9Months = 23650000;
-// export const multiplier9Months = 170000000000;
+export const appAdress9Months = 952937171;
+export const duration9Months = 23650000;
+export const multiplier9Months = 170000000000;
 
-// export const appAdress12Months = 952937415;
-// export const duration12Months = 31536000;
-// export const multiplier12Months = 190000000000;
+export const appAdress12Months = 952937415;
+export const duration12Months = 31536000;
+export const multiplier12Months = 190000000000;
 
 interface IAlgoDetails {
     appId: number | undefined;

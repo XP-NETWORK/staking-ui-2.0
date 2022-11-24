@@ -1,6 +1,16 @@
 import algosdk from "algosdk";
-import { AlgoDetails, algodPort, algodUri, assetIdx } from "./Consts";
-
+import {
+    AlgoDetails,
+    algodPort,
+    algodUri,
+    appAdress12Months,
+    appAdress3Months,
+    appAdress6Months,
+    appAdress9Months,
+    assetIdx,
+    EVMStakeContract,
+} from "./Consts";
+import axios from "axios";
 import { Staking } from "./StakingClient";
 import store from "../../store/store";
 const apiKey = process.env.REACT_APP_API_TOKEN?.toString();
@@ -120,4 +130,29 @@ export const createClients = async (signer: any, account: string) => {
         await createClient(signer, account, 12),
     ];
     return clients;
+};
+
+export const getAlgoRewards = async (owner: string) => {
+    let appIds = [
+        appAdress3Months,
+        appAdress6Months,
+        appAdress9Months,
+        appAdress12Months,
+    ];
+    let rewards: any = [];
+    const resp = await axios.get(
+        `http://65.109.38.98:5000/earned/${952936663}/${owner}`
+    );
+    // appIds.forEach(async (e: any) => {
+    //     try {
+    //         const resp = await axios.get(
+    //             `http://65.109.38.98:5000/earned/${e}/${owner}`
+    //         );
+    //         const rewards = resp.data;
+    //         rewards.push(rewards);
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // });
+    console.log({ resp });
 };

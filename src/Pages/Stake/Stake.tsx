@@ -9,6 +9,7 @@ import {
     setBalance,
     setClient,
     setStakeDetails,
+    setXPNetPrice,
 } from "../../store/reducer/homePageSlice";
 import { createClient, optInt, stake } from "../../assets/ts/algoUtils";
 
@@ -98,9 +99,10 @@ export const Stake: FC<Props> = ({}) => {
                 dispatch(setBalance(balance));
             }
         };
-        getBalance().catch(console.error);
+        if (account) getBalance().catch(console.error);
         const getCurrency = async () => {
             let currency = await getCurrentPrice();
+            dispatch(setXPNetPrice(currency));
             setCurrentXpnetPrice(currency);
         };
         getCurrency().catch(console.error);
