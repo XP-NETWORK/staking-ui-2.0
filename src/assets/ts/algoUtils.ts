@@ -13,6 +13,7 @@ import {
 import axios from "axios";
 import { Staking } from "./StakingClient";
 import store from "../../store/store";
+import moment from "moment";
 const apiKey = process.env.REACT_APP_API_TOKEN?.toString();
 export const algod = new algosdk.Algodv2(apiKey as string, algodUri, algodPort);
 
@@ -178,7 +179,7 @@ export const getAlgoReward = async (owner: string) => {
                     };
                 } else
                     obj = {
-                        earned: e.value.data.data.earned,
+                        earned: e.value.data.data.earned / 1e6,
                         appid: e.value.data.data.appId,
                     };
                 return obj;
@@ -241,4 +242,42 @@ const parseArray = (array: []) => {
         }
     }
     return newArr;
+};
+
+export const getAPY = (appId: string | undefined) => {
+    console.log({ appId });
+
+    switch (appId) {
+        case "952936663":
+            return "45";
+        case "952936944":
+            return "75";
+        case "952937171":
+            return "100";
+        case "952937415":
+            return "125";
+        default:
+            break;
+    }
+};
+
+const getStartDate = (date: string) => {
+    const seconds = parseInt(date);
+    const startDate = moment.unix(seconds).format("YYYY-MM-DD HH:MM");
+    return startDate;
+};
+
+export const getAlgoStakeEndDate = (period: string, date: string) => {
+    const startDate = getStartDate(date);
+    let expDate: any;
+    if (period === "7890000") {
+        expDate = moment(startDate).add(3, "month").format("YYYY-MM-DD hh:mm");
+    } else if (period === "15780000") {
+        expDate = moment(startDate).add(6, "month").format("YYYY-MM-DD HH:MM");
+    } else if (period === "23650000") {
+        expDate = moment(startDate).add(9, "month").format("YYYY-MM-DD HH:MM");
+    } else if (period === "31536000") {
+        expDate = moment(startDate).add(1, "year").format("YYYY-MM-DD HH:MM");
+    }
+    return expDate;
 };

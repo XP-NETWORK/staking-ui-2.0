@@ -5,6 +5,11 @@ import {
     IFetchedStake,
 } from "../../assets/ts/Consts";
 import lock from "../../assets/images/lock.svg";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { ReduxState } from "../../store/store";
+import { getAlgoStakeEndDate, getAPY } from "../../assets/ts/algoUtils";
+import { getEVMStakeEndDate } from "../../assets/ts/evmUtils";
 
 interface Props {
     rewards: IAlgoRewards[];
@@ -16,7 +21,14 @@ export default function AlgoRewardsDetails({
     sessionStakes,
     stakes,
 }: Props) {
-    // console.log({ stakes });
+    const [selectedStakeIndex, setSelectedStakeIndex] = useState(5);
+
+    const selectedStakeRewards = rewards.find(
+        (e: any) => e.appid === stakes[selectedStakeIndex].appId
+    );
+    console.log({ selectedStakeRewards });
+
+    const { XPNetPrice } = useSelector((state: ReduxState) => state.homePage);
 
     return (
         <div className={classNames("containerLeft", "container")}>
@@ -44,12 +56,13 @@ export default function AlgoRewardsDetails({
                             ></span>
                             <span className="small">
                                 ${" "}
-                                {/* {(
-                                    convertFromWei(stake?.amount) * XPNetPrice
-                                ).toFixed(2)} */}
+                                {(
+                                    stakes[selectedStakeIndex].tokensStaked *
+                                    XPNetPrice
+                                ).toFixed(2)}
                             </span>
                             <label className="value">
-                                {/* {`${convertFromWei(stake?.amount)} XPNET`} */}
+                                {`${stakes[selectedStakeIndex].tokensStaked} XPNET`}
                             </label>
                         </div>
                     </div>
@@ -59,9 +72,7 @@ export default function AlgoRewardsDetails({
                     >
                         <label className="prop">APY</label>
                         <span className="value">
-                            {/* {`${evmAPY(
-                            stake.lockInPeriod
-                        )}%`} */}
+                            {`${getAPY(selectedStakeRewards?.appid)} %`}
                         </span>
                     </div>
                     <div
@@ -69,7 +80,15 @@ export default function AlgoRewardsDetails({
                         className="row"
                         style={{ alignItems: "flex-end" }}
                     >
-                        <label className="prop">Rewards</label>
+                        <label className="prop">
+                            <a
+                                target="_blank"
+                                rel="noreferrer"
+                                href={`https://algoexplorer.io/application/${stakes[selectedStakeIndex].appId}`}
+                            >
+                                App Total Rewards
+                            </a>
+                        </label>
                         <div
                             className="column"
                             style={{
@@ -83,14 +102,15 @@ export default function AlgoRewardsDetails({
                             ></span>
                             <span className="small">
                                 ${" "}
-                                {/* {convertFromWei(
-                                    stake?.availableRewards
-                                ).toFixed(2)} */}
+                                {(
+                                    selectedStakeRewards?.earned ||
+                                    0 * XPNetPrice
+                                ).toFixed(8)}
                             </span>
                             <label className="value">
-                                {/* {`${convertFromWei(
-                                    stake?.availableRewards
-                                )} XPNET`} */}
+                                {`${selectedStakeRewards?.earned.toFixed(
+                                    8
+                                )} XPNET`}
                             </label>
                         </div>
                     </div>
@@ -100,10 +120,12 @@ export default function AlgoRewardsDetails({
                     >
                         <label className="prop">End Date</label>
                         <label className="value">
-                            {/* {getEVMStakeEndDate(
-                                stake.lockInPeriod,
-                                stake.startTime
-                            )} */}
+                            {getAlgoStakeEndDate(
+                                stakes[selectedStakeIndex].lockTime.toString(),
+                                stakes[
+                                    selectedStakeIndex
+                                ].stakingTime.toString()
+                            )}
                         </label>
                     </div>
                 </div>

@@ -16,11 +16,6 @@ interface Props {
     stake: IEVMStake;
 }
 export default function RewardsDetails({ stake }: Props) {
-    console.log(
-        "🚀 ~ file: RewardsDetails.tsx ~ line 10 ~ RewardsDetails ~ stake",
-        stake
-    );
-
     const { XPNetPrice, blockchain } = useSelector(
         (state: ReduxState) => state.homePage
     );
