@@ -8,8 +8,14 @@ import lock from "../../assets/images/lock.svg";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
-import { getAlgoStakeEndDate, getAPY } from "../../assets/ts/algoUtils";
+import {
+    getAlgoStakeEndDate,
+    getAlgoStakeProgress,
+    getAPY,
+    getRemainedDays,
+} from "../../assets/ts/algoUtils";
 import { getEVMStakeEndDate } from "../../assets/ts/evmUtils";
+import { ProgressStaking } from "../ProgressStaking/ProgressStaking";
 
 interface Props {
     rewards: IAlgoRewards[];
@@ -132,14 +138,17 @@ export default function AlgoRewardsDetails({
                 <div className="stakingDurDiv">
                     <div className="row">
                         Staking duration
-                        <span>0 days left</span>
+                        <span>{`${getRemainedDays(
+                            stakes[selectedStakeIndex].lockTime,
+                            stakes[selectedStakeIndex].stakingTime
+                        )} days left`}</span>
                     </div>
-                    {/* <ProgressStaking
-                        progress={getEVMStakeProgress(
-                            stake.lockInPeriod,
-                            stake.startTime
+                    <ProgressStaking
+                        progress={getAlgoStakeProgress(
+                            stakes[selectedStakeIndex].lockTime,
+                            stakes[selectedStakeIndex].stakingTime
                         )}
-                    /> */}
+                    />
                 </div>
                 <div className="column">
                     <button

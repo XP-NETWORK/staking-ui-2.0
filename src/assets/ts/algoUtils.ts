@@ -281,3 +281,18 @@ export const getAlgoStakeEndDate = (period: string, date: string) => {
     }
     return expDate;
 };
+
+export const getRemainedDays = (duration: number, start: number) => {
+    const today = moment().unix();
+    const days = Math.round(
+        duration / 60 / 60 / 24 - (today - start) / 60 / 60 / 24
+    );
+    return days;
+};
+
+export const getAlgoStakeProgress = (duration: number, start: number) => {
+    const dayNow = Math.floor(Date.now() / 1000);
+    const daysDuration = duration;
+    const daysPassed = dayNow - start;
+    return (daysPassed / daysDuration) * 100;
+};

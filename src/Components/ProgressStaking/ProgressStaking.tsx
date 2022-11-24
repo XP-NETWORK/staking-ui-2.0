@@ -7,6 +7,8 @@ interface Props {
 }
 
 export const ProgressStaking: FC<Props> = ({ progress }) => {
+    console.log({ progress });
+
     return (
         <>
             <div className="progress">
@@ -14,7 +16,7 @@ export const ProgressStaking: FC<Props> = ({ progress }) => {
                     <div
                         className="active-progress"
                         style={{
-                            width: "100%",
+                            width: `${progress}%`,
                         }}
                     ></div>
                 </div>
