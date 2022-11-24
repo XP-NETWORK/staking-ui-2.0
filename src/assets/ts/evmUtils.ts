@@ -2,6 +2,7 @@ import Web3 from "web3";
 import { EVMContract, EVMStakeContract } from "./Consts";
 import axios from "axios";
 import moment from "moment";
+
 const web3 = new Web3(
     Web3.givenProvider || "https://bsc-dataseed.binance.org/"
 );

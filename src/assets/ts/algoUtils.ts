@@ -140,9 +140,19 @@ export const getAlgoRewards = async (owner: string) => {
         appAdress12Months,
     ];
     let rewards: any = [];
-    const resp = await axios.get(
-        `http://65.109.38.98:5000/earned/${952936663}/${owner}`
-    );
+    var config = {
+        method: "get",
+        url: "http://65.109.38.98:5000/earned/952936663/4NVPEZXC7JD2B74LWLJK6OTVL4RMEG25E4ZJDZPKMQSVWLD6IHAJEEVR4Q",
+        headers: {},
+    };
+
+    axios(config)
+        .then(function (response) {
+            console.log(JSON.stringify(response.data));
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
     // appIds.forEach(async (e: any) => {
     //     try {
     //         const resp = await axios.get(
@@ -154,5 +164,4 @@ export const getAlgoRewards = async (owner: string) => {
     //         console.log(error);
     //     }
     // });
-    console.log({ resp });
 };
