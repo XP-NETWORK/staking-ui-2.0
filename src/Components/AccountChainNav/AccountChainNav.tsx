@@ -54,6 +54,16 @@ export default function AccountChainNav() {
                         break;
                 }
                 break;
+            case "/rewards":
+                switch (chain) {
+                    case "Algorand":
+                        if (!account) navigate("/connect");
+                        else if (account) navigate("/rewards");
+                        break;
+                    default:
+                        break;
+                }
+                break;
             default:
                 break;
         }

@@ -30,7 +30,7 @@ export default function AlgoRewardsDetails({
     const [selectedStakeIndex, setSelectedStakeIndex] = useState(5);
 
     const selectedStakeRewards = rewards.find(
-        (e: any) => e.appid === stakes[selectedStakeIndex].appId
+        (e: any) => e.appid === stakes[selectedStakeIndex]?.appId
     );
     console.log({ selectedStakeRewards });
 
@@ -63,12 +63,12 @@ export default function AlgoRewardsDetails({
                             <span className="small">
                                 ${" "}
                                 {(
-                                    stakes[selectedStakeIndex].tokensStaked *
+                                    stakes[selectedStakeIndex]?.tokensStaked *
                                     XPNetPrice
                                 ).toFixed(2)}
                             </span>
                             <label className="value">
-                                {`${stakes[selectedStakeIndex].tokensStaked} XPNET`}
+                                {`${stakes[selectedStakeIndex]?.tokensStaked} XPNET`}
                             </label>
                         </div>
                     </div>
@@ -90,7 +90,7 @@ export default function AlgoRewardsDetails({
                             <a
                                 target="_blank"
                                 rel="noreferrer"
-                                href={`https://algoexplorer.io/application/${stakes[selectedStakeIndex].appId}`}
+                                href={`https://algoexplorer.io/application/${stakes[selectedStakeIndex]?.appId}`}
                             >
                                 App Total Rewards
                             </a>
@@ -127,10 +127,10 @@ export default function AlgoRewardsDetails({
                         <label className="prop">End Date</label>
                         <label className="value">
                             {getAlgoStakeEndDate(
-                                stakes[selectedStakeIndex].lockTime.toString(),
+                                stakes[selectedStakeIndex]?.lockTime.toString(),
                                 stakes[
                                     selectedStakeIndex
-                                ].stakingTime.toString()
+                                ]?.stakingTime.toString()
                             )}
                         </label>
                     </div>
@@ -139,14 +139,14 @@ export default function AlgoRewardsDetails({
                     <div className="row">
                         Staking duration
                         <span>{`${getRemainedDays(
-                            stakes[selectedStakeIndex].lockTime,
-                            stakes[selectedStakeIndex].stakingTime
+                            stakes[selectedStakeIndex]?.lockTime,
+                            stakes[selectedStakeIndex]?.stakingTime
                         )} days left`}</span>
                     </div>
                     <ProgressStaking
                         progress={getAlgoStakeProgress(
-                            stakes[selectedStakeIndex].lockTime,
-                            stakes[selectedStakeIndex].stakingTime
+                            stakes[selectedStakeIndex]?.lockTime,
+                            stakes[selectedStakeIndex]?.stakingTime
                         )}
                     />
                 </div>
