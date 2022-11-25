@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import  { FC, useState } from "react";
 import "./gallery.scss";
 import search from "../../assets/images/search.svg";
 import { NftGalleryItem } from "../../Components/NftGalleryItem/NftGalleryItem";

@@ -113,7 +113,7 @@ export const Stake: FC<Props> = ({}) => {
             setCurrentXpnetPrice(currency);
         };
         getCurrency().catch(console.error);
-    }, [stakingClient, optInResponse]);
+    }, [stakingClient, optInResponse,dispatch,account]);
 
     useEffect(() => {
         let stake = {

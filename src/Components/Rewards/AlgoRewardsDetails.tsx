@@ -114,7 +114,7 @@ export default function AlgoRewardsDetails({
                                 ).toFixed(8)}
                             </span>
                             <label className="value">
-                                {`${selectedStakeRewards?.earned.toFixed(
+                                {`${selectedStakeRewards?.earned?.toFixed(
                                     8
                                 )} XPNET`}
                             </label>
