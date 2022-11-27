@@ -20,7 +20,9 @@ export const algod = new algosdk.Algodv2(apiKey as string, algodUri, algodPort);
 const algoService = axios.create({
     baseURL: process.env.REACT_APP_ALGO_SERVICE,
     timeout: 10000,
-    headers: {},
+    headers: {
+        crossDomain: true,
+    },
 });
 
 export const createClient = async (
@@ -221,7 +223,7 @@ export const getAllNFTsByOwner = async (
     address: string,
     stakes: IFetchedStake[]
 ) => {
-    algoService
+    await algoService
         .get(`/get-nfts-status-by-address/${address}`)
         .then(function (response) {
             let arr: any = [];
