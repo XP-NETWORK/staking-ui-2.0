@@ -135,15 +135,21 @@
     border-top: 1px solid rgba(255, 255, 255, 0.04);
     padding-top: 17px;
     overflow: hidden;
+    // position: relative;
+    // min-height: 115px;
     div {
+        // position: absolute;
+        // top: 10px;
+        transition: all 0.5s;
+
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
-        gap: 12px;
+        gap: 6px;
         img {
             cursor: pointer;
-            width: 99.5px;
-            height: 114px;
+            min-width: 96px;
+            height: 96px;
             border-radius: 10px !important;
         }
     }

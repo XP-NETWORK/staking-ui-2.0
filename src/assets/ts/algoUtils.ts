@@ -8,7 +8,6 @@ import {
     appAdress6Months,
     appAdress9Months,
     assetIdx,
-    EVMStakeContract,
 } from "./Consts";
 import axios from "axios";
 import { Staking } from "./StakingClient";
@@ -126,8 +125,6 @@ export const unstake = async (
     });
 };
 
-export const claimXPNET = async () => {};
-
 export const createClients = async (signer: any, account: string) => {
     // console.log("signer,account create clintsssss", signer, account);
     let clients = [
@@ -137,18 +134,6 @@ export const createClients = async (signer: any, account: string) => {
         await createClient(signer, account, 12),
     ];
     return clients;
-};
-
-const getRewardsForSingleAppId = (appId: number, owner: string) => {
-    return new Promise((resolve: any, reject: any) => {
-        algoService.get(`/earned/${appId}/${owner}`);
-        // .then((response) => {
-        //     return resolve(response.data);
-        // })
-        // .catch((error) => {
-        //     return reject(error.message);
-        // });
-    });
 };
 
 export const getAlgoReward = async (owner: string) => {
@@ -161,10 +146,10 @@ export const getAlgoReward = async (owner: string) => {
 
     let promises: any = [];
     let rewards: any = [];
-    for (let appId of appIds) {
-        const promise = algoService.get(`/earned/${appId}/${owner}`);
-        promises.push(promise);
-    }
+    // for (let appId of appIds) {
+    //     const promise = algoService.get(`/earned/${appId}/${owner}`);
+    //     promises.push(promise);
+    // }
     try {
         const res = await Promise.allSettled(
             appIds.map((item) => algoService.get(`/earned/${item}/${owner}`))
@@ -228,6 +213,32 @@ export const getAllAlgoStakes = async (owner: string) => {
     return arr;
 };
 
+export const getAllNFTsByOwner = async (address: string) => {
+    algoService
+        .get(`/get-nfts-status-by-address/${address}`)
+        .then(function (response) {
+            let arr: any = [];
+            for (let index = 0; index < response.data.length; index++) {
+                const element = response.data[index];
+                let uri: string;
+                axios
+                    .get(
+                        `https://indexer.algoexplorerapi.io/stats/v2/accounts/rich-list?asset-id=${element.assetId}`
+                    )
+                    .then(function (response) {
+                        uri = response.data["asset-url"];
+                        element.uri = uri;
+                        element.image = `https://nft-service-testing.s3.eu-west-1.amazonaws.com/${element.id}.png`;
+                    });
+                arr.push(element);
+            }
+            console.log({ arr });
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+};
+
 const parseArray = (array: []) => {
     let newArr: any = [];
     for (let index = 0; index < array.length; index++) {
@@ -245,8 +256,6 @@ const parseArray = (array: []) => {
 };
 
 export const getAPY = (appId: string | undefined) => {
-    console.log({ appId });
-
     switch (appId) {
         case "952936663":
             return "45";

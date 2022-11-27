@@ -33,15 +33,21 @@ export const algoConnector = new WalletConnect({
 export const connectPeraWallet = async (testnet: boolean) => {
     // debugger;
 
-    peraWallet.connect().then((newAccounts) => {
-        // Setup the disconnect event listener
-        peraWallet.connector?.on("disconnect", () => {
-            console.log("Disconnect");
+    peraWallet
+        .connect()
+        .then((newAccounts) => {
+            // Setup the disconnect event listener
+            peraWallet.connector?.on("disconnect", () => {
+                console.log("Disconnect");
+            });
+            store.dispatch(setConnectedWallet("Pera"));
+            store.dispatch(setAccount(newAccounts[0]));
+            store.dispatch(setSigner(peraWallet));
+        })
+        .catch((reason: any) => {
+            if (reason.message === "Connect modal is closed by user")
+                return false;
         });
-        store.dispatch(setConnectedWallet("Pera"));
-        store.dispatch(setAccount(newAccounts[0]));
-        store.dispatch(setSigner(peraWallet));
-    });
 };
 declare global {
     interface Window {

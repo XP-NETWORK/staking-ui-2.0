@@ -21,6 +21,7 @@ import { getAlgoReward, getAllAlgoStakes } from "../../assets/ts/algoUtils";
 import { NFTRewards } from "../../Components/Rewards/NFTRewards";
 import RewardsDetails from "../../Components/Rewards/RewardsDetails";
 import AlgoRewardsDetails from "../../Components/Rewards/AlgoRewardsDetails";
+import { AlgoNFTRewards } from "../../Components/Rewards/AlgoNFTRewards";
 
 interface Props {
     chain: string;
@@ -32,6 +33,7 @@ const ClaimRewards = ({ chain }: Props) => {
     const [amountStake, setAmountStake] = useState(0);
     const [mainImgSrc, setMainImgSrc] = useState(NFT);
     const [indexOfStake, setIndexOfStake] = useState(0);
+    const [indexOfAlgoStake, setIndexOfAlgoStake] = useState(0);
 
     const {
         evmStakes,
@@ -154,26 +156,36 @@ const ClaimRewards = ({ chain }: Props) => {
             dispatch(setXPNetPrice(currency));
         };
         getCurrency().catch(console.error);
-        // totalSupply(0, 0);
     }, [chain, evmAccount, evmStakes]);
 
     if (!account && !evmAccount) return <Navigate to="/" replace />;
     return !showLoader() ? (
         <div className="stakeWrapper">
             {chain === "Algorand" ? (
-                <AlgoRewardsDetails
-                    rewards={algoRewards}
-                    sessionStakes={activeSessionStakes}
-                    stakes={fetchedAlgoStakes}
-                />
+                <>
+                    <AlgoRewardsDetails
+                        rewards={algoRewards}
+                        sessionStakes={activeSessionStakes}
+                        stakes={fetchedAlgoStakes}
+                        stakeIndex={indexOfAlgoStake}
+                    />
+                    <AlgoNFTRewards
+                        stakes={fetchedAlgoStakes}
+                        selectedStakeIndex={indexOfAlgoStake}
+                        setIndex={setIndexOfAlgoStake}
+                    />
+                </>
             ) : (
-                <RewardsDetails stake={evmStakesArray[indexOfStake]} />
+                <>
+                    <RewardsDetails stake={evmStakesArray[indexOfStake]} />
+                    <NFTRewards
+                        stakes={evmStakesArray}
+                        setIndex={setIndexOfStake}
+                        algoStakes={fetchedAlgoStakes}
+                        selectedStakeIndex={indexOfStake}
+                    />
+                </>
             )}
-            <NFTRewards
-                stakes={evmStakesArray}
-                setIndex={setIndexOfStake}
-                algoStakes={fetchedAlgoStakes}
-            />
         </div>
     ) : (
         <div className="claim-rewards-loader">

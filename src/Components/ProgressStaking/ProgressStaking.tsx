@@ -7,8 +7,6 @@ interface Props {
 }
 
 export const ProgressStaking: FC<Props> = ({ progress }) => {
-    console.log({ progress });
-
     return (
         <>
             <div className="progress">

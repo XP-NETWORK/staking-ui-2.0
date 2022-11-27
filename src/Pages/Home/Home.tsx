@@ -41,7 +41,7 @@ export const Home: FC<Props> = () => {
                 navigate("/limit");
                 break;
             case "ALGO":
-                navigate(!account ? "/connect" : "/stake");
+                navigate(!account ? "/connect/stake" : "connect");
                 break;
             default:
                 break;

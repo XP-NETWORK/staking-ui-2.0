@@ -9,17 +9,37 @@ interface Props {
     stakes: IEVMStake[];
     algoStakes: IFetchedStake[];
     setIndex: any;
+    selectedStakeIndex: number;
 }
 
-export const NFTRewards = ({ stakes, setIndex, algoStakes }: Props) => {
-    const [mainStake, setMainStake] = useState(0);
+export const NFTRewards = ({
+    stakes,
+    setIndex,
+    algoStakes,
+    selectedStakeIndex,
+}: Props) => {
+    // const [mainStake, setMainStake] = useState(0);
+    const [x, setX] = useState(0);
     const handleSwap = (next: boolean) => {
+        // debugger;
         switch (next) {
-            case true:
-                console.log("left");
-                break;
             case false:
-                console.log("right");
+                if (selectedStakeIndex !== 0) {
+                    if (selectedStakeIndex <= 3) {
+                        setIndex(selectedStakeIndex - 1);
+                    } else {
+                        setIndex(selectedStakeIndex - 1);
+                        setX((prev) => prev + 110);
+                    }
+                }
+                break;
+            case true:
+                if (selectedStakeIndex !== stakes?.length - 1) {
+                    setIndex(selectedStakeIndex + 1);
+                    if (stakes.length > 4 && selectedStakeIndex >= 3) {
+                        setX((prev) => prev - 110);
+                    }
+                }
                 break;
             default:
                 break;
@@ -28,7 +48,6 @@ export const NFTRewards = ({ stakes, setIndex, algoStakes }: Props) => {
 
     const handleMainStakeChange = (i: number) => {
         setIndex(i);
-        setMainStake(i);
     };
 
     return (
@@ -44,7 +63,7 @@ export const NFTRewards = ({ stakes, setIndex, algoStakes }: Props) => {
                         <img src={left} alt="left" />
                     </button>
                     <img
-                        src={stakes[mainStake]?.image}
+                        src={stakes[selectedStakeIndex]?.image}
                         alt="NFT"
                         className="imgMain"
                     />
@@ -55,9 +74,9 @@ export const NFTRewards = ({ stakes, setIndex, algoStakes }: Props) => {
                         <img src={right} alt="right" />
                     </button>
                 </div>
-                <ClipboardCopy stake={stakes[mainStake]} />
+                <ClipboardCopy stake={stakes[selectedStakeIndex]} />
                 <div className="nftsRewardsContainer">
-                    <div>
+                    <div style={{ transform: `translateX(${x}px)` }}>
                         {stakes?.map((e: any, i: any) => {
                             return (
                                 <img
@@ -67,7 +86,7 @@ export const NFTRewards = ({ stakes, setIndex, algoStakes }: Props) => {
                                     onClick={() => handleMainStakeChange(i)}
                                     style={{
                                         border: `${
-                                            i === mainStake
+                                            i === selectedStakeIndex
                                                 ? " 4px solid rgba(229, 232, 240, 0.1)"
                                                 : "4px solid rgba(45, 45, 48, 0.4)"
                                         }`,
