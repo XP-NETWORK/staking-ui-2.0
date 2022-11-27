@@ -1,16 +1,20 @@
 import classNames from "classnames";
 import {
+    assetIdx,
     IActiveSessionSTake,
     IAlgoRewards,
     IFetchedStake,
+    subAppId,
 } from "../../assets/ts/Consts";
 import lock from "../../assets/images/lock.svg";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
 import {
+    createClient,
     getAlgoStakeEndDate,
     getAlgoStakeProgress,
     getAPY,
+    getMonths,
     getRemainedDays,
 } from "../../assets/ts/algoUtils";
 import { ProgressStaking } from "../ProgressStaking/ProgressStaking";
@@ -31,7 +35,66 @@ export default function AlgoRewardsDetails({
         (e: any) => e.appid === stakes[stakeIndex]?.appId
     );
 
-    const { XPNetPrice } = useSelector((state: ReduxState) => state.homePage);
+    const { XPNetPrice, signer, account } = useSelector(
+        (state: ReduxState) => state.homePage
+    );
+
+    const handleClaimXPNET = async () => {
+        debugger;
+        const client = await createClient(
+            signer,
+            account,
+            getMonths(stakes[stakeIndex]?.lockTime)
+        );
+        let rewards;
+
+        try {
+            let sp = await client.getSuggestedParams();
+            sp.flatFee = true;
+            sp.fee = 7_000;
+            let token = BigInt(assetIdx);
+            let lockTime = BigInt(stakes[stakeIndex]?.lockTime);
+            let app = subAppId;
+            rewards = await client.getReward(
+                {
+                    token,
+                    lockTime,
+                    app,
+                },
+                { suggestedParams: sp }
+            );
+            console.log({ rewards });
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const handleUnstake = async () => {
+        let rewards;
+        // if (clients !== undefined) {
+        //     try {
+        //         let client = clients[0];
+        //         let sp = await client.getSuggestedParams();
+        //         sp.flatFee = true;
+        //         sp.fee = 7_000;
+
+        //         if (amountStake > 0) {
+        //             rewards = await client.unstake(
+        //                 {
+        //                     stakeId: BigInt(0),
+        //                     token: BigInt(assetIdx),
+        //                     app: subAppId,
+        //                 },
+        //                 { suggestedParams: sp }
+        //             );
+
+        //             console.log(rewards);
+        //         }
+        //     } catch (e) {
+        //         console.log(e);
+        //     }
+        // }
+    };
 
     return (
         <div className={classNames("containerLeft", "container")}>
@@ -147,13 +210,13 @@ export default function AlgoRewardsDetails({
                 <div className="column">
                     <button
                         className={classNames("blueBtn", "mt-0")}
-                        // onClick={handleClaimXPNET}
+                        onClick={handleClaimXPNET}
                     >
                         Claim XPNET
                     </button>
                     <button
                         className={classNames("blueBtn", "blackBtn")}
-                        // onClick={handleUnstake}
+                        onClick={handleUnstake}
                     >
                         <img src={lock} alt="lock_img" />
                         Unstake

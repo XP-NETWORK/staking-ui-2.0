@@ -8,6 +8,7 @@ import {
     appAdress6Months,
     appAdress9Months,
     assetIdx,
+    IFetchedStake,
 } from "./Consts";
 import axios from "axios";
 import { Staking } from "./StakingClient";
@@ -27,8 +28,11 @@ export const createClient = async (
     account: string,
     duration: any
 ) => {
+    // debugger;
     const { connectedWallet } = store.getState().homePage;
+
     const algoDetails = new AlgoDetails(duration);
+
     const stakingContract = new Staking({
         client: algod,
         signer: async (txns) => {
@@ -213,25 +217,34 @@ export const getAllAlgoStakes = async (owner: string) => {
     return arr;
 };
 
-export const getAllNFTsByOwner = async (address: string) => {
+export const getAllNFTsByOwner = async (
+    address: string,
+    stakes: IFetchedStake[]
+) => {
     algoService
         .get(`/get-nfts-status-by-address/${address}`)
         .then(function (response) {
             let arr: any = [];
-            console.log({ response });
 
             for (let index = 0; index < response.data.length; index++) {
                 const element = response.data[index];
-                let uri: string;
-                axios
-                    .get(
-                        `https://indexer.algoexplorerapi.io/stats/v2/accounts/rich-list?asset-id=${element.assetId}`
-                    )
-                    .then(function (response) {
-                        uri = response.data["asset-url"];
-                        element.uri = uri;
-                        element.image = `https://nft-service-testing.s3.eu-west-1.amazonaws.com/${element.id}.png`;
-                    });
+                const stakeToRelate = stakes.find(
+                    (stake: IFetchedStake) => stake.txId === element.txId
+                );
+                const config = {
+                    headers: {
+                        "Access-Control-Allow-Origin": "*",
+                        "Content-Type": "application/json",
+                    },
+                };
+                axios.get(element.uri, config).then(function (response) {
+                    console.log({ response });
+
+                    if (stakeToRelate) {
+                        stakeToRelate.nftUri = response.data;
+                        stakeToRelate.displayImage = response.data["asset-url"];
+                    }
+                });
                 arr.push(element);
             }
             console.log({ arr });
@@ -308,43 +321,56 @@ export const getAlgoStakeProgress = (duration: number, start: number) => {
     return (daysPassed / daysDuration) * 100;
 };
 
-interface IStake {
-    appId: string;
-    owner: string;
-    id: number;
-    timeToUnlock: number;
-    stakingTime: number;
-    tokensStaked: number;
-    tokensStakedWithBonus: number;
-    lockTime: number;
-    txId: string;
-    nft: INFT;
-}
-interface INFT {
-    assetId: number;
-    createdDate: string;
-    id: number;
-    isClaimed: number;
-    timeStamp: number;
-    uri: string;
-}
+// interface IStake {
+//     appId: string;
+//     owner: string;
+//     id: number;
+//     timeToUnlock: number;
+//     stakingTime: number;
+//     tokensStaked: number;
+//     tokensStakedWithBonus: number;
+//     lockTime: number;
+//     txId: string;
+//     nft: INFT;
+// }
+// interface INFT {
+//     assetId: number;
+//     createdDate: string;
+//     id: number;
+//     isClaimed: number;
+//     timeStamp: number;
+//     uri: string;
+// }
 
-const STAKE: IStake = {
-    appId: "952936663",
-    owner: "4NVPEZXC7JD2B74LWLJK6OTVL4RMEG25E4ZJDZPKMQSVWLD6IHAJEEVR4Q",
-    id: 0,
-    timeToUnlock: 1676951623,
-    stakingTime: 1669061623,
-    tokensStaked: 1500,
-    tokensStakedWithBonus: 16875,
-    lockTime: 7890000,
-    txId: "UROTHREHJZLJQOOMDLFPH6TF73QSL7WJHM6XDXUU3F6JB7PSDENA",
-    nft: {
-        assetId: 958846747,
-        createdDate: "Sun, 27 Nov 2022 09:32:10 GMT",
-        id: 1,
-        isClaimed: 0,
-        timeStamp: 1669061627,
-        uri: "https://nft-service-testing.s3.eu-west-1.amazonaws.com/1.json",
-    },
+// const STAKE: IStake = {
+//     appId: "952936663",
+//     owner: "4NVPEZXC7JD2B74LWLJK6OTVL4RMEG25E4ZJDZPKMQSVWLD6IHAJEEVR4Q",
+//     id: 0,
+//     timeToUnlock: 1676951623,
+//     stakingTime: 1669061623,
+//     tokensStaked: 1500,
+//     tokensStakedWithBonus: 16875,
+//     lockTime: 7890000,
+//     txId: "UROTHREHJZLJQOOMDLFPH6TF73QSL7WJHM6XDXUU3F6JB7PSDENA",
+//     nft: {
+//         assetId: 958846747,
+//         createdDate: "Sun, 27 Nov 2022 09:32:10 GMT",
+//         id: 1,
+//         isClaimed: 0,
+//         timeStamp: 1669061627,
+//         uri: "https://nft-service-testing.s3.eu-west-1.amazonaws.com/1.json",
+//     },
+// };
+
+export const getMonths = (duration: number) => {
+    switch (duration) {
+        case 31536000:
+            return 12;
+        case 23650000:
+            return 9;
+        case 15780000:
+            return 6;
+        default:
+            return 3;
+    }
 };

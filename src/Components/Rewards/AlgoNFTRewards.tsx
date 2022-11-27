@@ -24,7 +24,7 @@ export const AlgoNFTRewards = ({
 
     useEffect(() => {
         if (account) {
-            getAllNFTsByOwner(account);
+            getAllNFTsByOwner(account, stakes);
         }
     }, []);
 

@@ -13,7 +13,6 @@ import icon from "../../assets/wallets/AlgoSigner.png";
 
 const AlgoSigner = ({ connect }: { connect: Function }) => {
     let { to } = useParams();
-    console.log("🚀 ~ file: AlgoSigner.tsx ~ line 16 ~ AlgoSigner ~ to", to);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 

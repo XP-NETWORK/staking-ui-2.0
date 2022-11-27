@@ -108,11 +108,6 @@ export const Stake: FC<Props> = ({}) => {
     useEffect(() => {
         const getBalance = async () => {
             if (stakingClient.sender !== "") {
-                const txParams = await stakingClient.client
-                    .getTransactionParams()
-                    .do();
-                console.log({ txParams });
-
                 const _accountInformation = await stakingClient.client
                     .accountInformation(stakingClient.sender)
                     .do();

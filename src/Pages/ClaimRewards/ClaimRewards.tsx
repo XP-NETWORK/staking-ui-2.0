@@ -47,66 +47,6 @@ const ClaimRewards = ({ chain }: Props) => {
         blockchain,
     } = useSelector((state: ReduxState) => state.homePage);
 
-    const handleClaimXPNET = async () => {
-        let stakingAmount;
-        if (clients !== undefined) {
-            let client = clients[0];
-            stakingAmount = await client.getAccountState(account);
-
-            const { dynamic_account_valuetsba } = stakingAmount;
-            try {
-                let sp = await client.getSuggestedParams();
-                sp.flatFee = true;
-                sp.fee = 7_000;
-
-                if (dynamic_account_valuetsba > 0) {
-                    await client.getReward(
-                        {
-                            token: BigInt(assetIdx),
-                            lockTime: BigInt(algoDetails.duration),
-                            app: subAppId,
-                        },
-                        { suggestedParams: sp }
-                    );
-                }
-            } catch (e) {
-                console.error(JSON.parse(JSON.stringify(e)));
-            }
-        }
-    };
-
-    const handleUnstake = async () => {
-        let rewards;
-        if (clients !== undefined) {
-            try {
-                let client = clients[0];
-                let sp = await client.getSuggestedParams();
-                sp.flatFee = true;
-                sp.fee = 7_000;
-
-                if (amountStake > 0) {
-                    rewards = await client.unstake(
-                        {
-                            stakeId: BigInt(0),
-                            token: BigInt(assetIdx),
-                            app: subAppId,
-                        },
-                        { suggestedParams: sp }
-                    );
-
-                    console.log(rewards);
-                }
-            } catch (e) {
-                console.log(e);
-            }
-        }
-    };
-
-    const handlePrev = () => {
-        let num = mainImgSrc[mainImgSrc.length - 1] + 1;
-        setMainImgSrc(`NFT${num}`);
-    };
-
     const showLoader = () => {
         switch (blockchain.chain) {
             case "BSC":

@@ -33,6 +33,9 @@ export interface IFetchedStake {
     timeToUnlock: number;
     tokensStaked: number;
     tokensStakedWithBonus: number;
+    txId: string;
+    nftUri: any;
+    displayImage: string;
 }
 export interface IAlgoRewards {
     appid: string;
