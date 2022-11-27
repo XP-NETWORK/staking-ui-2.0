@@ -56,7 +56,7 @@ export const Home: FC<Props> = () => {
                 break;
             case "ALGO":
                 dispatch(setBlockchain(BLOCKCHAINS[0]));
-                navigate(!account ? "/connect" : "/rewards");
+                navigate(!account ? "/connect/rewards" : "/rewards");
                 break;
             default:
                 break;

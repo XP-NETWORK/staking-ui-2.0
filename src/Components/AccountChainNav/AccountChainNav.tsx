@@ -57,8 +57,11 @@ export default function AccountChainNav() {
             case "/rewards":
                 switch (chain) {
                     case "Algorand":
-                        if (!account) navigate("/connect");
+                        if (!account) navigate("/connect/rewards");
                         else if (account) navigate("/rewards");
+                        break;
+                    case "BSC":
+                        if (!evmAccount) navigate("/connect/evm");
                         break;
                     default:
                         break;

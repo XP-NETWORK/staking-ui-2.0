@@ -1,22 +1,14 @@
-import { FC, useEffect, useState } from "react";
-import classNames from "classnames";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { APY, assetIdx, subAppId, XPNET } from "../../assets/ts/Consts";
-import {
-    addCommas,
-    calculateEndDate,
-    getCurrentPrice,
-} from "../../assets/ts/helpers";
-import lock from "../../assets/images/lock.svg";
-import { Navigate, useNavigate } from "react-router-dom";
-import { ProgressStaking } from "../../Components/ProgressStaking/ProgressStaking";
+import { assetIdx, subAppId } from "../../assets/ts/Consts";
+import { getCurrentPrice } from "../../assets/ts/helpers";
+import { Navigate } from "react-router-dom";
 import NFT from "../../assets/images/nftRewards/0.jpeg";
 import { ReduxState } from "../../store/store";
-import { Error } from "../../Components/Error/Error";
 import { Staking } from "../../assets/ts/StakingClient";
 import { HOCClaimRewards } from "./HOCClaimRewards";
 import "./claimRewards.scss";
-import { getTokenOfOwnerByIndex, totalSupply } from "../../assets/ts/evmUtils";
+import { getTokenOfOwnerByIndex } from "../../assets/ts/evmUtils";
 import { useDispatch } from "react-redux";
 import {
     setAlgoRewards,
@@ -24,14 +16,11 @@ import {
     setFetchedAlgoStakes,
     setXPNetPrice,
 } from "../../store/reducer/homePageSlice";
-// import { NFTRewards } from "../../Components/Rewards/NFTRewards";
 import { ThreeCircles } from "react-loader-spinner";
-// import RewardsDetails from "../../Components/Rewards/RewardsDetails";
 import { getAlgoReward, getAllAlgoStakes } from "../../assets/ts/algoUtils";
 import { NFTRewards } from "../../Components/Rewards/NFTRewards";
 import RewardsDetails from "../../Components/Rewards/RewardsDetails";
 import AlgoRewardsDetails from "../../Components/Rewards/AlgoRewardsDetails";
-// import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 interface Props {
     chain: string;
@@ -42,7 +31,6 @@ const ClaimRewards = ({ chain }: Props) => {
     const [clients, setClients] = useState<Staking[]>();
     const [amountStake, setAmountStake] = useState(0);
     const [mainImgSrc, setMainImgSrc] = useState(NFT);
-    const [algoStakes, setAlgoStakes] = useState("");
     const [indexOfStake, setIndexOfStake] = useState(0);
 
     const {
@@ -54,6 +42,7 @@ const ClaimRewards = ({ chain }: Props) => {
         fetchedAlgoStakes,
         algoRewards,
         activeSessionStakes,
+        blockchain,
     } = useSelector((state: ReduxState) => state.homePage);
 
     const handleClaimXPNET = async () => {
@@ -117,6 +106,24 @@ const ClaimRewards = ({ chain }: Props) => {
     };
 
     const showLoader = () => {
+        switch (blockchain.chain) {
+            case "BSC":
+                if (evmAccount) {
+                    if (evmStakesArray.length > 0) return false;
+                    else return true;
+                }
+                break;
+            case "Algorand":
+                if (account) {
+                    if (fetchedAlgoStakes.length > 0 && algoRewards.length > 0)
+                        return false;
+                    else return true;
+                }
+                break;
+            default:
+                break;
+        }
+
         if (
             (fetchedAlgoStakes.length > 0 && algoRewards.length > 0) ||
             evmStakesArray.length > 0

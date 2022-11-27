@@ -61,7 +61,7 @@ export default function RewardsDetails({ stake }: Props) {
                     >
                         <label className="prop">APY</label>
                         <span className="value">{`${evmAPY(
-                            stake.lockInPeriod
+                            stake?.lockInPeriod
                         )}%`}</span>
                     </div>
                     <div
@@ -101,8 +101,8 @@ export default function RewardsDetails({ stake }: Props) {
                         <label className="prop">End Date</label>
                         <label className="value">
                             {getEVMStakeEndDate(
-                                stake.lockInPeriod,
-                                stake.startTime
+                                stake?.lockInPeriod,
+                                stake?.startTime
                             )}
                         </label>
                     </div>
@@ -114,8 +114,8 @@ export default function RewardsDetails({ stake }: Props) {
                     </div>
                     <ProgressStaking
                         progress={getEVMStakeProgress(
-                            stake.lockInPeriod,
-                            stake.startTime
+                            stake?.lockInPeriod,
+                            stake?.startTime
                         )}
                     />
                 </div>

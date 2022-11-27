@@ -2,7 +2,7 @@ import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 
 import {
-    setBalance,
+    setBlockchain,
     setEvmAccount,
     setEvmStakes,
 } from "../../store/reducer/homePageSlice";
@@ -20,7 +20,7 @@ const MetaMask = ({ connect }: { connect: Function }) => {
         dispatch(setEvmAccount(response.accounts[0]));
         dispatch(setEvmStakes(Number(response.stakes)));
         if (Number(response.stakes) > 0) {
-            dispatch(setBalance(BLOCKCHAINS[1]));
+            dispatch(setBlockchain(BLOCKCHAINS[1]));
             navigate("/rewards");
         } else {
             navigate("/error");
