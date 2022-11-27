@@ -14,6 +14,7 @@ import axios from "axios";
 import { Staking } from "./StakingClient";
 import store from "../../store/store";
 import moment from "moment";
+import { updateNFTUriToFetchedStakes } from "../../store/reducer/homePageSlice";
 const apiKey = process.env.REACT_APP_API_TOKEN?.toString();
 export const algod = new algosdk.Algodv2(apiKey as string, algodUri, algodPort);
 
@@ -230,16 +231,30 @@ export const getAllNFTsByOwner = async (
 
             for (let index = 0; index < response.data.length; index++) {
                 const element = response.data[index];
-                const stakeToRelate = stakes.find(
-                    (stake: IFetchedStake) => stake.txId === element.txId
-                );
+
                 axios.get(element.uri).then(function (response) {
+                    // let stakeToRelate = stakes.find(
+                    //     (stake: IFetchedStake) => stake.txId === element.txId
+                    // );
+                    // uri, txId, displayImage
+                    console.log({ element });
+
+                    const nftToRelate = {
+                        uri: JSON.parse(JSON.stringify(response.data)),
+                        txId: element.txId,
+                        displayImage: response.data.image,
+                    };
+                    store.dispatch(updateNFTUriToFetchedStakes(nftToRelate));
+
                     console.log({ response });
 
-                    if (stakeToRelate) {
-                        stakeToRelate.nftUri = response.data;
-                        stakeToRelate.displayImage = response.data["asset-url"];
-                    }
+                    // const data = JSON.parse(JSON.stringify(response.data));
+                    // console.log({ stakeToRelate, data });
+
+                    // if (stakeToRelate) {
+                    //     stakeToRelate.nftUri = data;
+                    //     stakeToRelate.displayImage = response.data.image;
+                    // }
                 });
                 arr.push(element);
             }

@@ -1,5 +1,6 @@
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
+import { stat } from "fs";
 import { isUndefined } from "util";
 import {
     BLOCKCHAINS,
@@ -57,6 +58,18 @@ const homePageSlice = createSlice({
     name: "homePage",
     initialState,
     reducers: {
+        updateNFTUriToFetchedStakes(state: any, action: any) {
+            const newArr = state.fetchedAlgoStakes;
+            const { uri, txId, displayImage } = action.payload;
+            const updated = newArr.map((e: any) => {
+                if (e.txId === txId) {
+                    e.nftUri = uri;
+                    e.displayImage = displayImage;
+                }
+                return e;
+            });
+            state.fetchedAlgoStakes = updated;
+        },
         setActiveSessionStakes(state: any, action: any) {
             const arr = state.activeSessionStakes;
             arr.push(action.payload);
@@ -129,6 +142,7 @@ const homePageSlice = createSlice({
 });
 
 export const {
+    updateNFTUriToFetchedStakes,
     setActiveSessionStakes,
     setFetchedAlgoStakes,
     setAlgoRewards,

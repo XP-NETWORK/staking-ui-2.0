@@ -7,6 +7,10 @@ interface Props {
 }
 
 export default function ClipboardCopy({ stake, index }: Props) {
+    console.log(
+        "🚀 ~ file: ClipboardCopy.tsx.tsx ~ line 10 ~ ClipboardCopy ~ stake",
+        stake
+    );
     const [isCopied, setIsCopied] = useState(false);
 
     const copyTextToClipboard = async (copyText: string) => {
@@ -34,11 +38,13 @@ export default function ClipboardCopy({ stake, index }: Props) {
 
     return (
         <div className="copyContainer">
-            <label>{stake?.image}</label>
+            <label>{stake?.image || stake?.displayImage}</label>
             <img
                 src={copy}
                 alt="copy"
-                onClick={() => handleCopyClick(stake?.image)}
+                onClick={() =>
+                    handleCopyClick(stake?.image || stake?.displayImage)
+                }
                 className="copyBtn"
             />
         </div>
