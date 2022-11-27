@@ -199,10 +199,10 @@ export const getAllAlgoStakes = async (owner: string) => {
             allStakes = res.map((e: any, i) => {
                 let obj: any;
                 if (e.status === "rejected") {
-                    obj = {
-                        status: e.status,
-                        reason: e.reason.message,
-                    };
+                    // obj = {
+                    //     status: e.status,
+                    //     reason: e.reason.message,
+                    // };
                 } else
                     obj = {
                         ...e.value.data.data,
@@ -231,13 +231,7 @@ export const getAllNFTsByOwner = async (
                 const stakeToRelate = stakes.find(
                     (stake: IFetchedStake) => stake.txId === element.txId
                 );
-                const config = {
-                    headers: {
-                        "Access-Control-Allow-Origin": "*",
-                        "Content-Type": "application/json",
-                    },
-                };
-                axios.get(element.uri, config).then(function (response) {
+                axios.get(element.uri).then(function (response) {
                     console.log({ response });
 
                     if (stakeToRelate) {
