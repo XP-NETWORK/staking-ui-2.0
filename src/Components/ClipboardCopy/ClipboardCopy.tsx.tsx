@@ -3,9 +3,10 @@ import copy from "../../assets/images/copy.svg";
 
 interface Props {
     stake: any;
+    index: number;
 }
 
-export default function ClipboardCopy({ stake }: Props) {
+export default function ClipboardCopy({ stake, index }: Props) {
     const [isCopied, setIsCopied] = useState(false);
 
     const copyTextToClipboard = async (copyText: string) => {

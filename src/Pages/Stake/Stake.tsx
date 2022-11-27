@@ -52,6 +52,7 @@ export const Stake: FC<Props> = ({}) => {
     const [isAgree, setIsAgree] = useState(false);
     const [optInApps, setOptInApps] = useState(false);
     const [loader, setLoader] = useState(false);
+    const [inputErr, setInputErr] = useState(false);
     const { signer, account, evmAccount, stakingClient, algoDetails, balance } =
         useSelector((state: ReduxState) => state.homePage);
 
@@ -60,7 +61,20 @@ export const Stake: FC<Props> = ({}) => {
     };
 
     const handleChangeAmount = (e: any) => {
-        setAmount(e.target.value);
+        if (e.target.value < 1500) {
+            setAmount(e.target.value);
+            setInputErr(true);
+        } else {
+            setAmount(e.target.value);
+            setInputErr(false);
+        }
+    };
+
+    const handleInputOnBlur = (e: any) => {
+        if (inputErr) {
+            setAmount(0);
+            setInputErr(false);
+        }
     };
 
     const handleFocusAmount = (e: any) => {
@@ -94,6 +108,11 @@ export const Stake: FC<Props> = ({}) => {
     useEffect(() => {
         const getBalance = async () => {
             if (stakingClient.sender !== "") {
+                const txParams = await stakingClient.client
+                    .getTransactionParams()
+                    .do();
+                console.log({ txParams });
+
                 const _accountInformation = await stakingClient.client
                     .accountInformation(stakingClient.sender)
                     .do();
@@ -169,17 +188,20 @@ export const Stake: FC<Props> = ({}) => {
                                     {`Balance: ${balance} XPNET`}
                                 </label>
                             </div>
-                            <div className="row">
-                                <div className="amountInput">
+                            <div className="row stake-amount-input__container">
+                                <div
+                                    className={`amountInput${
+                                        inputErr ? "--error" : ""
+                                    }`}
+                                >
                                     <input
                                         id="amount-box"
                                         type="number"
                                         onFocus={handleFocusAmount}
                                         onChange={(e) => handleChangeAmount(e)}
+                                        onBlur={handleInputOnBlur}
                                         value={amount}
-                                        // defaultValue={0}
                                         placeholder={"0"}
-                                        // placeholder={`${amount} MIN staking requirement 1500 XPNET`}
                                     />
                                     <label
                                         className="placeholder deskOnly"
@@ -215,13 +237,18 @@ export const Stake: FC<Props> = ({}) => {
                                     {XPNET}
                                 </label>
 
-                                {/* <input
-                type="text"
-                className="amountInput"
-                placeholder={`${amount} MIN staking requirement 1500 XPNET`}
-              /> */}
+                                <div
+                                    className="stake-amount-input-error"
+                                    style={{
+                                        visibility: !inputErr
+                                            ? "hidden"
+                                            : "visible",
+                                    }}
+                                >
+                                    Minimum staking requirement is 1500 XPNET{" "}
+                                </div>
                             </div>
-                            <label className="titleProp">
+                            <label className="titleProp staking-period-title">
                                 Select staking period
                             </label>
                             <div className={classNames("row", "wrapPeriods")}>

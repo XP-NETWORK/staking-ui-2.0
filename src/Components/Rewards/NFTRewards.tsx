@@ -74,7 +74,10 @@ export const NFTRewards = ({
                         <img src={right} alt="right" />
                     </button>
                 </div>
-                <ClipboardCopy stake={stakes[selectedStakeIndex]} />
+                <ClipboardCopy
+                    index={selectedStakeIndex}
+                    stake={stakes[selectedStakeIndex]}
+                />
                 <div className="nftsRewardsContainer">
                     <div style={{ transform: `translateX(${x}px)` }}>
                         {stakes?.map((e: any, i: any) => {

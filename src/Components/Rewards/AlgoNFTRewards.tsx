@@ -70,7 +70,13 @@ export const AlgoNFTRewards = ({
                     >
                         <img src={left} alt="left" />
                     </button>
-                    <img src="#" alt="NFT" className="imgMain" />
+                    <img
+                        src={`https://nft-service-testing.s3.eu-west-1.amazonaws.com/${
+                            selectedStakeIndex + 1
+                        }.png`}
+                        alt="NFT"
+                        className="imgMain"
+                    />
                     <button
                         className="btnWrap"
                         onClick={() => handleSwap(true)}
@@ -78,14 +84,19 @@ export const AlgoNFTRewards = ({
                         <img src={right} alt="right" />
                     </button>
                 </div>
-                <ClipboardCopy stake={stakes[selectedStakeIndex]} />
+                <ClipboardCopy
+                    index={selectedStakeIndex}
+                    stake={stakes[selectedStakeIndex]}
+                />
                 <div className="nftsRewardsContainer">
                     <div style={{ transform: `translateX(${x}px)` }}>
                         {stakes?.map((e: any, i: any) => {
                             return (
                                 <img
                                     key={i}
-                                    src={e.image}
+                                    src={`https://nft-service-testing.s3.eu-west-1.amazonaws.com/${
+                                        i + 1
+                                    }.png`}
                                     alt="nft"
                                     onClick={() => handleMainStakeChange(i)}
                                     style={{

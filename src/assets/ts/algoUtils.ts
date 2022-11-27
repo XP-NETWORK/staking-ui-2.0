@@ -218,6 +218,8 @@ export const getAllNFTsByOwner = async (address: string) => {
         .get(`/get-nfts-status-by-address/${address}`)
         .then(function (response) {
             let arr: any = [];
+            console.log({ response });
+
             for (let index = 0; index < response.data.length; index++) {
                 const element = response.data[index];
                 let uri: string;
@@ -304,4 +306,45 @@ export const getAlgoStakeProgress = (duration: number, start: number) => {
     const daysDuration = duration;
     const daysPassed = dayNow - start;
     return (daysPassed / daysDuration) * 100;
+};
+
+interface IStake {
+    appId: string;
+    owner: string;
+    id: number;
+    timeToUnlock: number;
+    stakingTime: number;
+    tokensStaked: number;
+    tokensStakedWithBonus: number;
+    lockTime: number;
+    txId: string;
+    nft: INFT;
+}
+interface INFT {
+    assetId: number;
+    createdDate: string;
+    id: number;
+    isClaimed: number;
+    timeStamp: number;
+    uri: string;
+}
+
+const STAKE: IStake = {
+    appId: "952936663",
+    owner: "4NVPEZXC7JD2B74LWLJK6OTVL4RMEG25E4ZJDZPKMQSVWLD6IHAJEEVR4Q",
+    id: 0,
+    timeToUnlock: 1676951623,
+    stakingTime: 1669061623,
+    tokensStaked: 1500,
+    tokensStakedWithBonus: 16875,
+    lockTime: 7890000,
+    txId: "UROTHREHJZLJQOOMDLFPH6TF73QSL7WJHM6XDXUU3F6JB7PSDENA",
+    nft: {
+        assetId: 958846747,
+        createdDate: "Sun, 27 Nov 2022 09:32:10 GMT",
+        id: 1,
+        isClaimed: 0,
+        timeStamp: 1669061627,
+        uri: "https://nft-service-testing.s3.eu-west-1.amazonaws.com/1.json",
+    },
 };
