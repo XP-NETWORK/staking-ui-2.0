@@ -94,6 +94,24 @@ export const appAdress12Months = 952937415;
 export const duration12Months = 31536000;
 export const multiplier12Months = 190000000000;
 
+export const BSC = {
+    id: 56,
+    name: "BSC",
+    network: "BSC",
+    nativeCurrency: {
+        decimals: 18,
+        name: "BCS",
+        symbol: "BNB",
+    },
+    rpcUrls: {
+        default: "https://bsc-dataseed.binance.org/",
+    },
+    blockExplorers: {
+        default: { name: "BSCScan", url: "https://bscscan.com" },
+    },
+    testnet: false,
+};
+
 interface IAlgoDetails {
     appId: number | undefined;
     duration: number;

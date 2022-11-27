@@ -12,8 +12,27 @@ import {
 } from "../../store/reducer/homePageSlice";
 import Web3 from "web3";
 import { getAmountOfEVMTokensStaked } from "../../assets/ts/evmUtils";
+import {
+    EthereumClient,
+    modalConnectors,
+    walletConnectProvider,
+} from "@web3modal/ethereum";
+import { BSC } from "../../assets/ts/Consts";
+import { Web3Modal } from "@web3modal/react";
+import { configureChains, createClient, WagmiConfig } from "wagmi";
 
-const { InjectedConnector, NetworkOnlyConnector } = Connectors;
+const chains = [BSC];
+
+// const { provider } = configureChains(chains, [
+//   walletConnectProvider({ projectId: "<YOUR_PROJECT_ID>" })
+// ]);
+// const wagmiClient = createClient({
+//   autoConnect: true,
+//   connectors: modalConnectors({ appName: "web3Modal", chains }),
+//   provider,
+// });
+
+const { InjectedConnector } = Connectors;
 
 let web3 = new Web3(Web3.givenProvider || "https://bsc-dataseed.binance.org/");
 
@@ -24,7 +43,7 @@ export const connectors = { MetaMask };
 const peraWallet = new PeraWalletConnect({
     bridge: "https://bridge.walletconnect.org",
 });
-const algod = algosdk.Algodv2;
+
 export const algoConnector = new WalletConnect({
     bridge: "https://bridge.walletconnect.org", // Required
     qrcodeModal: QRCodeModal,
@@ -84,12 +103,6 @@ export const getMyAlgoConnect = async (testnet: boolean) => {
 
     return { signer, address: accounts[0].address };
 };
-
-declare global {
-    interface Window {
-        ethereum: any | undefined;
-    }
-}
 
 export const connectMetaMask = async () => {
     let accounts: string[];
