@@ -59,6 +59,7 @@ const homePageSlice = createSlice({
     initialState,
     reducers: {
         updateNFTUriToFetchedStakes(state: any, action: any) {
+            // debugger;
             const newArr = state.fetchedAlgoStakes;
             const { uri, txId, displayImage } = action.payload;
             const updated = newArr.map((e: any) => {

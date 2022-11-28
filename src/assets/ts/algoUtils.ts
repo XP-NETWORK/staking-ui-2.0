@@ -77,7 +77,7 @@ export const stake = async (
     stakingClient: any,
     algoDetails: any
 ) => {
-    // debugger;
+    debugger;
     const axfer: any = algosdk.makeAssetTransferTxnWithSuggestedParams(
         address,
         algosdk.getApplicationAddress(stakingClient.appId),
@@ -94,6 +94,8 @@ export const stake = async (
             axfer: axfer,
             lockTime_: algoDetails.duration,
         });
+        console.log({ resp });
+
         return resp;
     } catch (error) {
         console.log(error);
@@ -201,6 +203,8 @@ export const getAllAlgoStakes = async (owner: string) => {
         if (res) {
             allStakes = res.map((e: any, i) => {
                 let obj: any;
+                console.log({ e });
+
                 if (e.status === "rejected") {
                     // obj = {
                     //     status: e.status,
@@ -217,6 +221,8 @@ export const getAllAlgoStakes = async (owner: string) => {
         console.log(error);
     }
     const arr = parseArray(allStakes);
+    console.log({ arr });
+
     return arr;
 };
 

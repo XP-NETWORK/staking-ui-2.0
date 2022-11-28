@@ -70,30 +70,29 @@ export default function AlgoRewardsDetails({
     };
 
     const handleUnstake = async () => {
-        // let rewards;
-        // const client = await createClient(
-        //     signer,
-        //     account,
-        //     getMonths(stakes[stakeIndex]?.lockTime)
-        // );
-        //     try {
-        //         let sp = await client.getSuggestedParams();
-        //         sp.flatFee = true;
-        //         sp.fee = 7_000;
-        //         if (amountStake > 0) {
-        //             rewards = await client.unstake(
-        //                 {
-        //                     stakeId: BigInt(0),
-        //                     token: BigInt(assetIdx),
-        //                     app: subAppId,
-        //                 },
-        //                 { suggestedParams: sp }
-        //             );
-        //             console.log(rewards);
-        //         }
-        //     } catch (e) {
-        //         console.log(e);
-        //     }
+        let rewards;
+        const client = await createClient(
+            signer,
+            account,
+            getMonths(stakes[stakeIndex]?.lockTime)
+        );
+        try {
+            let sp = await client.getSuggestedParams();
+            sp.flatFee = true;
+            sp.fee = 7_000;
+
+            rewards = await client.unstake(
+                {
+                    stakeId: BigInt(0),
+                    token: BigInt(assetIdx),
+                    app: subAppId,
+                },
+                { suggestedParams: sp }
+            );
+            console.log(rewards);
+        } catch (e) {
+            console.log(e);
+        }
     };
 
     return (

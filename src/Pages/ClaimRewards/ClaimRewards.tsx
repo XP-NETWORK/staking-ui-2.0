@@ -17,7 +17,11 @@ import {
     setXPNetPrice,
 } from "../../store/reducer/homePageSlice";
 import { ThreeCircles } from "react-loader-spinner";
-import { getAlgoReward, getAllAlgoStakes } from "../../assets/ts/algoUtils";
+import {
+    createClient,
+    getAlgoReward,
+    getAllAlgoStakes,
+} from "../../assets/ts/algoUtils";
 import { NFTRewards } from "../../Components/Rewards/NFTRewards";
 import RewardsDetails from "../../Components/Rewards/RewardsDetails";
 import AlgoRewardsDetails from "../../Components/Rewards/AlgoRewardsDetails";
@@ -45,6 +49,7 @@ const ClaimRewards = ({ chain }: Props) => {
         algoRewards,
         activeSessionStakes,
         blockchain,
+        signer,
     } = useSelector((state: ReduxState) => state.homePage);
 
     const showLoader = () => {
@@ -72,6 +77,29 @@ const ClaimRewards = ({ chain }: Props) => {
         ) {
             return false;
         } else return true;
+    };
+
+    const handleUnstake = async () => {
+        debugger;
+        let rewards;
+        const client = await createClient(signer, account, 3);
+        try {
+            let sp = await client.getSuggestedParams();
+            sp.flatFee = true;
+            sp.fee = 7_000;
+
+            rewards = await client.unstake(
+                {
+                    stakeId: BigInt(0),
+                    token: BigInt(assetIdx),
+                    app: subAppId,
+                },
+                { suggestedParams: sp }
+            );
+            console.log(rewards);
+        } catch (e) {
+            console.log(e);
+        }
     };
 
     useEffect(() => {
@@ -129,6 +157,7 @@ const ClaimRewards = ({ chain }: Props) => {
         </div>
     ) : (
         <div className="claim-rewards-loader">
+            {/* <div onClick={handleUnstake}>unstake</div> */}
             <ThreeCircles
                 height="100"
                 width="100"
