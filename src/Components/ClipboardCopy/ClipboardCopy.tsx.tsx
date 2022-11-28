@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import copy from "../../assets/images/copy.svg";
+import { IFetchedStake } from "../../assets/ts/Consts";
 
 interface Props {
     stake: any;
@@ -38,12 +39,12 @@ export default function ClipboardCopy({ stake, index }: Props) {
 
     return (
         <div className="copyContainer">
-            <label>{stake?.image || stake?.displayImage}</label>
+            <label>Asset Id {stake?.image || stake?.nftUri?.assetId}</label>
             <img
                 src={copy}
                 alt="copy"
                 onClick={() =>
-                    handleCopyClick(stake?.image || stake?.displayImage)
+                    handleCopyClick(stake?.image || stake?.nftUri?.assetId)
                 }
                 className="copyBtn"
             />

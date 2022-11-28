@@ -240,7 +240,7 @@ export const getAllNFTsByOwner = async (
                     console.log({ element });
 
                     const nftToRelate = {
-                        uri: JSON.parse(JSON.stringify(response.data)),
+                        uri: { ...element },
                         txId: element.txId,
                         displayImage: response.data.image,
                     };
