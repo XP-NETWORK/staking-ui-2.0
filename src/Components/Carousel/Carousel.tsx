@@ -17,7 +17,7 @@ export default function Carousel({
 }: Props) {
     return (
         <div className="nftsRewardsContainer">
-            <div style={{ transform: `translateX(${x}px)` }}>
+            <div>
                 {stakes?.map((e: IFetchedStake, i: any) => {
                     return (
                         <CarouselItem
@@ -25,26 +25,12 @@ export default function Carousel({
                             changeId={handleMainStakeChange}
                             index={i}
                             selectedIndex={selectedStakeIndex}
+                            length={stakes.length}
                         />
-                        // <div className="carousel-item__wrapper">
-                        //     <img
-                        //         key={i}
-                        //         src={e.displayImage}
-                        //         alt="nft"
-                        //         onClick={() => handleMainStakeChange(i)}
-                        //         style={{
-                        //             border: `${
-                        //                 i === selectedStakeIndex
-                        //                     ? " 4px solid rgba(229, 232, 240, 0.1)"
-                        //                     : "4px solid rgba(45, 45, 48, 0.4)"
-                        //             }`,
-                        //         }}
-                        //     />
-                        //     <div className="item-loader"></div>
-                        // </div>
                     );
                 })}
             </div>
         </div>
     );
 }
+//style={{ transform: `translateX(${x}px)` }}

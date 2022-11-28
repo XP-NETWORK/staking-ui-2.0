@@ -4,17 +4,22 @@ interface Props {
     changeId: any;
     index: number;
     selectedIndex: number;
+    length: number;
 }
 export default function CarouselItem({
     item,
     changeId,
     index,
     selectedIndex,
+    length,
 }: Props) {
     const [loaded, setLoaded] = useState(false);
 
     return (
-        <div className="carousel-item__wrapper">
+        <div
+            style={{ display: index < selectedIndex - 4 ? "none" : "block" }}
+            className="carousel-item__wrapper"
+        >
             <img
                 onLoad={(e) => setLoaded(true)}
                 src={item.displayImage}

@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
 import { getAllNFTsByOwner } from "../../assets/ts/algoUtils";
 import Carousel from "../Carousel/Carousel";
+import CarouselMainItem from "../Carousel/CarouselMainItemList";
 interface Props {
     stakes: IFetchedStake[];
     setIndex: any;
@@ -72,11 +73,16 @@ export const AlgoNFTRewards = ({
                     >
                         <img src={left} alt="left" />
                     </button>
-                    <img
+                    <CarouselMainItem
+                        stakes={stakes}
+                        selectedStakeIndex={selectedStakeIndex}
+                    />
+                    {/* <img
                         src={stakes[selectedStakeIndex].displayImage}
                         alt="NFT"
                         className="imgMain"
-                    />
+                    /> */}
+
                     <button
                         className="btnWrap"
                         onClick={() => handleSwap(true)}
