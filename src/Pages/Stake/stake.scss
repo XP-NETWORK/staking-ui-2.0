@@ -398,7 +398,7 @@ input[type="number"]::-webkit-outer-spin-button {
         font-size: 14px;
     }
     .wrapPeriods {
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         gap: 10px;
         button {
             width: 48%;

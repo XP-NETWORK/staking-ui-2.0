@@ -66,16 +66,13 @@ export const getTokenOfOwnerByIndex = async (
 ) => {
     let tokensArr = [];
     let allKeysInfo: any;
-
+    // "0xa796A5a95a1dDEF1d557d38DF9Fe86dc2b204D63"
     if (tokenAmount) {
         const num = tokenAmount;
         for (let i = 0; i < num; i++) {
             try {
                 const tokenId = await EVMStakeContract.methods
-                    .tokenOfOwnerByIndex(
-                        "0xa796A5a95a1dDEF1d557d38DF9Fe86dc2b204D63",
-                        i
-                    )
+                    .tokenOfOwnerByIndex(owner, i)
                     .call();
                 const availableRewards = await showAvailableRewards(tokenId);
                 const tokenDetails = await getStakeById(Number(tokenId));

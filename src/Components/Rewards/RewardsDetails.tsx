@@ -8,6 +8,7 @@ import {
     evmAPY,
     getEVMStakeEndDate,
     getEVMStakeProgress,
+    unstakeEVMStake,
 } from "../../assets/ts/evmUtils";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
@@ -16,7 +17,7 @@ interface Props {
     stake: IEVMStake;
 }
 export default function RewardsDetails({ stake }: Props) {
-    const { XPNetPrice, blockchain } = useSelector(
+    const { XPNetPrice, blockchain, evmAccount } = useSelector(
         (state: ReduxState) => state.homePage
     );
 
@@ -121,8 +122,11 @@ export default function RewardsDetails({ stake }: Props) {
                 </div>
                 <div className="column">
                     <button
+                        // disabled={true}
                         className={classNames("blueBtn", "mt-0")}
-                        // onClick={handleClaimXPNET}
+                        // onClick={() =>
+                        //     unstakeEVMStake(stake.nftTokenId, evmAccount)
+                        // }
                     >
                         Claim XPNET
                     </button>

@@ -87,7 +87,7 @@ export const Stake: FC<Props> = ({}) => {
         try {
             const resp = await stake(
                 account,
-                Number(amount),
+                Number(amount * 1e6),
                 stakingClient,
                 algoDetails
             );
@@ -101,8 +101,15 @@ export const Stake: FC<Props> = ({}) => {
     };
 
     const optIntAsset = async () => {
-        const resp = await optInt(stakingClient);
-        setOptInResponse(resp);
+        setLoader(true);
+        try {
+            const resp = await optInt(stakingClient);
+            setOptInResponse(resp);
+        } catch (error) {
+            console.log(error);
+            setLoader(false);
+        }
+        setLoader(false);
     };
 
     useEffect(() => {

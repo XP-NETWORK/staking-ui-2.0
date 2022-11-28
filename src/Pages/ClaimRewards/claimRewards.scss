@@ -394,7 +394,10 @@
         flex-wrap: wrap;
         gap: 10px;
         button {
+            justify-content: center;
+            align-items: center;
             width: 48%;
+            height: 100px !important;
             padding: 16px 8px;
             flex-direction: row;
             font-weight: 400;

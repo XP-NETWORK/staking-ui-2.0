@@ -14,7 +14,10 @@ export const Footer: FC<Props> = () => {
                     <div>XP.NETWORK</div>
                 </div>
             </div>
-            <div>© 2022 XP.NETWORK Ltd. All Rights Reserved</div>
+            <div className="all-rights">
+                © 2022 XP.NETWORK Ltd.
+                <br /> All Rights Reserved
+            </div>
         </div>
     );
 };

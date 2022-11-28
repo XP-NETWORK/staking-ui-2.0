@@ -37,8 +37,8 @@ h1 {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        padding: 24px 18px 34px;
-        gap: 22px;
+        padding: 20px;
+        gap: 18px;
         width: -webkit-fill-available;
         background: rgba(202, 202, 220, 0.1);
         backdrop-filter: blur(22px);
@@ -138,7 +138,7 @@ button {
     border-radius: 36px;
     position: absolute;
     z-index: 1;
-    top: -10px;
+    top: -14px;
     right: 30px;
     //   border: 7px solid;
 
@@ -185,5 +185,10 @@ button {
     .btnsContainer {
         width: inherit;
         gap: 8px;
+    }
+    .stakingLimit {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
     }
 }
