@@ -56,12 +56,7 @@ export const algodApiKey = process.env.REACT_APP_API_TOKEN;
 // export const algodTestnetUri = "https://node.testnet.algoexplorerapi.io";
 export const algodUri = "https://algorand-node.xp.network/";
 export const algodPort = 443;
-
-// !!!!!!
-export const assetIdx = 952937827;
-// ??????????
-
-// export const assetIdx = 959409586;
+export const assetIdx = 959409586;
 
 const web3 = new Web3(
     Web3.givenProvider || "https://bsc-dataseed.binance.org/"
@@ -85,20 +80,20 @@ Created sub app: 952937619, address:4Z7OK2KLMBNDPFFGATFFXLOUZTIZGMN7LWPRW6TOKSZI
 Created Asset with id: 952937827 and in tx: 7FIZEV37GBSAVIWZH43L7BOEFAHPUXXFPDSRNDPVESQYEFK5YH4A
 */
 
-// !!!!
-export const appAdress3Months = 952936663;
+// 3 different contracts - every staking periog has her own contract
+export const appAdress3Months = 959408755;
 export const duration3Months = 7890000;
 export const multiplier3Months = 130000000000;
 
-export const appAdress6Months = 952936944;
+export const appAdress6Months = 959408945;
 export const duration6Months = 15780000;
 export const multiplier6Months = 150000000000;
 
-export const appAdress9Months = 952937171;
+export const appAdress9Months = 959409100;
 export const duration9Months = 23650000;
 export const multiplier9Months = 170000000000;
 
-export const appAdress12Months = 952937415;
+export const appAdress12Months = 959409291;
 export const duration12Months = 31536000;
 export const multiplier12Months = 190000000000;
 
@@ -147,7 +142,7 @@ export class AlgoDetails implements IAlgoDetails {
                 ? appAdress9Months //! 9 month app id
                 : _duration === 6
                 ? appAdress6Months //! 6 month app id
-                : 959408755; //! 3 month app id
+                : appAdress3Months; //! 3 month app id
         this.multiplier =
             _duration === 12
                 ? multiplier12Months //! multiplier for 12 month
@@ -168,8 +163,4 @@ export const communityAddress =
     "CVQFPJPBG4F5XKRHC4LNOTW325NUCFO4SC4K5KYHHVN7YHL3HJWPHODKV4"; //my add-lost tokens
 export const maxLoss = 75000000000;
 
-// !!!!
-export const subAppId = BigInt(952937619);
-// ?????
-
-// export const subAppId = BigInt(959409434);
+export const subAppId = BigInt(959409434);

@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
 import { getAllNFTsByOwner } from "../../assets/ts/algoUtils";
+import Carousel from "../Carousel/Carousel";
 interface Props {
     stakes: IFetchedStake[];
     setIndex: any;
@@ -19,8 +20,9 @@ export const AlgoNFTRewards = ({
     setIndex,
 }: Props) => {
     const [x, setX] = useState(0);
-
-    const { account } = useSelector((state: ReduxState) => state.homePage);
+    const { account, fetchedAlgoStakes } = useSelector(
+        (state: ReduxState) => state.homePage
+    );
 
     useEffect(() => {
         if (account) {
@@ -86,7 +88,13 @@ export const AlgoNFTRewards = ({
                     index={selectedStakeIndex}
                     stake={stakes[selectedStakeIndex]}
                 />
-                <div className="nftsRewardsContainer">
+                <Carousel
+                    stakes={stakes}
+                    x={x}
+                    selectedStakeIndex={selectedStakeIndex}
+                    handleMainStakeChange={handleMainStakeChange}
+                />
+                {/* <div className="nftsRewardsContainer">
                     <div style={{ transform: `translateX(${x}px)` }}>
                         {stakes?.map((e: IFetchedStake, i: any) => {
                             return (
@@ -106,7 +114,7 @@ export const AlgoNFTRewards = ({
                             );
                         })}
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
     );

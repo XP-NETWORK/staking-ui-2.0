@@ -33,9 +33,7 @@ interface Props {
 
 const ClaimRewards = ({ chain }: Props) => {
     const dispatch = useDispatch();
-    const [clients, setClients] = useState<Staking[]>();
-    const [amountStake, setAmountStake] = useState(0);
-    const [mainImgSrc, setMainImgSrc] = useState(NFT);
+
     const [indexOfStake, setIndexOfStake] = useState(0);
     const [indexOfAlgoStake, setIndexOfAlgoStake] = useState(0);
 
@@ -44,7 +42,6 @@ const ClaimRewards = ({ chain }: Props) => {
         account,
         evmAccount,
         evmStakesArray,
-        algoDetails,
         fetchedAlgoStakes,
         algoRewards,
         activeSessionStakes,
@@ -107,7 +104,8 @@ const ClaimRewards = ({ chain }: Props) => {
             const rewards = await getAlgoReward(account);
             dispatch(setAlgoRewards(rewards));
             const stakes = await getAllAlgoStakes(account);
-            dispatch(setFetchedAlgoStakes(stakes));
+            if (fetchedAlgoStakes?.length !== stakes?.length)
+                dispatch(setFetchedAlgoStakes(stakes));
         };
         if (account) {
             algoRewardsAndStakes();

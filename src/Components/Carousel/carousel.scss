@@ -1,0 +1,38 @@
+.carousel-item__wrapper {
+    position: relative;
+}
+.item-loader {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    min-width: 96px;
+    height: 96px;
+    border-radius: 10px !important;
+    background-color: rgb(199, 199, 199);
+    overflow: hidden;
+}
+.item-loader::after {
+    content: "";
+    position: absolute;
+    top: -20px;
+    left: -100px;
+    width: 150%;
+    height: 200%;
+    transform: rotate(200deg);
+    opacity: 0.3;
+    background: linear-gradient(
+        270deg,
+        rgba(255, 255, 255, 0) 40%,
+        rgba(255, 255, 255, 1) 50%,
+        rgba(255, 255, 255, 0) 60%
+    );
+    animation: shine 2.5s infinite;
+}
+@keyframes shine {
+    from {
+        left: -100%;
+    }
+    to {
+        left: 100%;
+    }
+}

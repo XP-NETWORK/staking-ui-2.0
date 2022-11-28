@@ -27,12 +27,18 @@ interface Props {
 }
 export default function AlgoRewardsDetails({
     rewards,
-    sessionStakes,
     stakes,
     stakeIndex,
 }: Props) {
+    console.log(
+        "🚀 ~ file: AlgoRewardsDetails.tsx ~ line 33 ~ stakes",
+        stakes,
+        stakes[stakeIndex],
+        "index: ",
+        stakeIndex
+    );
     const selectedStakeRewards = rewards.find(
-        (e: any) => e.appid === stakes[stakeIndex]?.appId
+        (e: any) => e?.appid === stakes[stakeIndex]?.appId
     );
 
     const { XPNetPrice, signer, account } = useSelector(
@@ -40,7 +46,6 @@ export default function AlgoRewardsDetails({
     );
 
     const handleClaimXPNET = async () => {
-        debugger;
         const client = await createClient(
             signer,
             account,
@@ -215,7 +220,8 @@ export default function AlgoRewardsDetails({
                     </button>
                     <button
                         className={classNames("blueBtn", "blackBtn")}
-                        onClick={handleUnstake}
+                        // onClick={handleUnstake}
+                        style={{ pointerEvents: "none" }}
                     >
                         <img src={lock} alt="lock_img" />
                         Unstake
