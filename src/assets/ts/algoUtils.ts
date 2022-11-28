@@ -9,6 +9,7 @@ import {
     appAdress9Months,
     assetIdx,
     IFetchedStake,
+    subAppId,
 } from "./Consts";
 import axios from "axios";
 import { Staking } from "./StakingClient";
@@ -110,26 +111,29 @@ export const optInt = async (stakingClient: any) => {
 };
 
 export const unstake = async (
-    address: string,
-    amount: number,
-    duration: number,
-    stakingClient: any,
-    algoDetails: any
+    signer: any,
+    account: string,
+    duration: number
 ) => {
-    const axfer: any = algosdk.makeAssetTransferTxnWithSuggestedParams(
-        address,
-        algosdk.getApplicationAddress(stakingClient.appId),
-        undefined,
-        undefined,
-        amount,
-        undefined,
-        assetIdx as any,
-        await algod.getTransactionParams().do()
-    );
-    await stakingClient.stake({
-        axfer: axfer,
-        lockTime_: algoDetails.duration,
-    });
+    let rewards;
+    const client = await createClient(signer, account, getMonths(duration));
+    try {
+        let sp = await client.getSuggestedParams();
+        sp.flatFee = true;
+        sp.fee = 7_000;
+
+        rewards = await client.unstake(
+            {
+                stakeId: BigInt(0),
+                token: BigInt(assetIdx),
+                app: subAppId,
+            },
+            { suggestedParams: sp }
+        );
+        console.log(rewards);
+    } catch (e) {
+        console.log(e);
+    }
 };
 
 export const createClients = async (signer: any, account: string) => {
@@ -164,16 +168,12 @@ export const getAlgoReward = async (owner: string) => {
         if (res) {
             rewards = res.map((e: any, i) => {
                 let obj: any;
-                if (e.status === "rejected") {
-                    obj = {
-                        status: e.status,
-                        reason: e.reason.message,
-                    };
-                } else
+                if (e.status !== "rejected") {
                     obj = {
                         earned: e.value.data.data.earned / 1e6,
                         appid: e.value.data.data.appId,
                     };
+                }
                 return obj;
             });
         }
@@ -201,16 +201,14 @@ export const getAllAlgoStakes = async (owner: string) => {
         if (res) {
             allStakes = res.map((e: any, i) => {
                 let obj: any;
-                if (e.status === "rejected") {
-                    // obj = {
-                    //     status: e.status,
-                    //     reason: e.reason.message,
-                    // };
-                } else
+
+                if (e.status !== "rejected") {
                     obj = {
                         ...e.value.data.data,
                     };
-                return obj;
+                }
+                console.log({ obj });
+                if (obj) return obj;
             });
         }
     } catch (error) {
@@ -228,37 +226,19 @@ export const getAllNFTsByOwner = async (
         .get(`/get-nfts-status-by-address/${address}`)
         .then(function (response) {
             let arr: any = [];
-
             for (let index = 0; index < response.data.length; index++) {
                 const element = response.data[index];
-
                 axios.get(element.uri).then(function (response) {
-                    // let stakeToRelate = stakes.find(
-                    //     (stake: IFetchedStake) => stake.txId === element.txId
-                    // );
-                    // uri, txId, displayImage
-                    console.log({ element });
-
                     const nftToRelate = {
                         uri: { ...element },
                         txId: element.txId,
                         displayImage: response.data.image,
                     };
                     store.dispatch(updateNFTUriToFetchedStakes(nftToRelate));
-
-                    console.log({ response });
-
-                    // const data = JSON.parse(JSON.stringify(response.data));
-                    // console.log({ stakeToRelate, data });
-
-                    // if (stakeToRelate) {
-                    //     stakeToRelate.nftUri = data;
-                    //     stakeToRelate.displayImage = response.data.image;
-                    // }
                 });
                 arr.push(element);
             }
-            console.log({ arr });
+            // console.log({ arr });
         })
         .catch(function (error) {
             console.log(error);
@@ -266,11 +246,12 @@ export const getAllNFTsByOwner = async (
 };
 
 const parseArray = (array: []) => {
+    // debugger;
     let newArr: any = [];
     for (let index = 0; index < array.length; index++) {
         let element: [];
         element = array[index];
-        if (Object.keys(element).length > 0) {
+        if (element && Object.keys(element).length > 0) {
             const withNestedKeys = Object.values(element);
             for (let index = 0; index < withNestedKeys.length; index++) {
                 const obj = withNestedKeys[index];
@@ -283,13 +264,13 @@ const parseArray = (array: []) => {
 
 export const getAPY = (appId: string | undefined) => {
     switch (appId) {
-        case "952936663":
+        case appAdress3Months.toString():
             return "45";
-        case "952936944":
+        case appAdress6Months.toString():
             return "75";
-        case "952937171":
+        case appAdress9Months.toString():
             return "100";
-        case "952937415":
+        case appAdress12Months.toString():
             return "125";
         default:
             break;

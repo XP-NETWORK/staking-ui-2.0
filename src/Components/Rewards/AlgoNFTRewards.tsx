@@ -19,8 +19,9 @@ export const AlgoNFTRewards = ({
     setIndex,
 }: Props) => {
     const [x, setX] = useState(0);
-
-    const { account } = useSelector((state: ReduxState) => state.homePage);
+    const { account, fetchedAlgoStakes } = useSelector(
+        (state: ReduxState) => state.homePage
+    );
 
     useEffect(() => {
         if (account) {

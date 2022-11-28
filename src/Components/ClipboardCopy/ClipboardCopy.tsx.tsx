@@ -8,10 +8,6 @@ interface Props {
 }
 
 export default function ClipboardCopy({ stake, index }: Props) {
-    console.log(
-        "🚀 ~ file: ClipboardCopy.tsx.tsx ~ line 10 ~ ClipboardCopy ~ stake",
-        stake
-    );
     const [isCopied, setIsCopied] = useState(false);
 
     const copyTextToClipboard = async (copyText: string) => {
