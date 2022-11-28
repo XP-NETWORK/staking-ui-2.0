@@ -180,7 +180,7 @@ export const Stake: FC<Props> = ({}) => {
                                     className="titleProp"
                                     style={{ opacity: "1" }}
                                 >
-                                    {`Balance: ${balance} XPNET`}
+                                    {`Balance: ${balance / 1e6} XPNET`}
                                 </label>
                             </div>
                             <div className="row stake-amount-input__container">
