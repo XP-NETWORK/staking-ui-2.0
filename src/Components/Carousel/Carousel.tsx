@@ -17,7 +17,7 @@ export default function Carousel({
 }: Props) {
     return (
         <div className="nftsRewardsContainer">
-            <div>
+            <div style={{ transform: `translateX(${x}px)` }}>
                 {stakes?.map((e: IFetchedStake, i: any) => {
                     return (
                         <CarouselItem

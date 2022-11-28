@@ -17,7 +17,7 @@ export default function CarouselItem({
 
     return (
         <div
-            style={{ display: index < selectedIndex - 4 ? "none" : "block" }}
+            // style={{ display: index < selectedIndex - 4 ? "none" : "block" }}
             className="carousel-item__wrapper"
         >
             <img
