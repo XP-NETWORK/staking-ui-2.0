@@ -3,12 +3,12 @@
 }
 .item-loader {
     position: absolute;
-    top: 4px;
-    left: 4px;
-    min-width: 96px;
-    height: 96px;
+    // top: 4px;
+    // left: 4px;
+    min-width: 104px;
+    height: 104px;
     border-radius: 10px !important;
-    background-color: rgb(199, 199, 199);
+    background-color: rgb(82, 82, 82);
     overflow: hidden;
 }
 .item-loader::after {

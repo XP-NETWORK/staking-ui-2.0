@@ -10,6 +10,7 @@ import ClaimRewards from "./Pages/ClaimRewards/ClaimRewards";
 import { Gallery } from "./Pages/Gallery/Gallery";
 import { Error } from "./Components/Error/Error";
 import { StakingLimitPopup } from "./Components/StakingLimitPopup/StakingLimitPopup";
+import WrongRoute from "./Pages/WrongRoute/WrongRoute";
 
 function App() {
     return (
@@ -21,10 +22,11 @@ function App() {
                     <Route path="/connect" element={<Connect />} />
                     <Route path="/stake" element={<Stake />} />
                     <Route path="/rewards" element={<ClaimRewards />} />
-                    {/* <Route path="/rewards:evm" element={<ClaimRewards />} /> */}
+                    {/* <Route path="/rewards/:txId" element={<ClaimRewards />} /> */}
                     <Route path="/gallery" element={<Gallery />} />
                     <Route path="/error" element={<Error />} />
                     <Route path="/limit" element={<StakingLimitPopup />} />
+                    <Route path="*" element={<WrongRoute />} />
                     {/*  <Route path="/associationDonation" element={<DonationMain />}>
           <Route index element={<Donation />} />
             <Route path="/associationDonation/Receipt" element={<DonationDetails />} />

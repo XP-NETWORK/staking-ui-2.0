@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { assetIdx, subAppId } from "../../assets/ts/Consts";
 import { getCurrentPrice } from "../../assets/ts/helpers";
-import { Navigate } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import NFT from "../../assets/images/nftRewards/0.jpeg";
 import { ReduxState } from "../../store/store";
 import { Staking } from "../../assets/ts/StakingClient";
@@ -33,6 +33,11 @@ interface Props {
 
 const ClaimRewards = ({ chain }: Props) => {
     const dispatch = useDispatch();
+    const { txId } = useParams();
+    console.log(
+        "🚀 ~ file: ClaimRewards.tsx ~ line 37 ~ ClaimRewards ~ txId",
+        txId
+    );
 
     const [indexOfStake, setIndexOfStake] = useState(0);
     const [indexOfAlgoStake, setIndexOfAlgoStake] = useState(0);

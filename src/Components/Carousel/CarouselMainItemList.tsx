@@ -12,7 +12,10 @@ export default function CarouselMainItemList({
         <div>
             {stakes.map((stake: IFetchedStake, i) => {
                 return (
-                    <div className="carousel-main-image__wrapper">
+                    <div
+                        key={`m-${i}`}
+                        className="carousel-main-image__wrapper"
+                    >
                         <img
                             key={i}
                             style={{

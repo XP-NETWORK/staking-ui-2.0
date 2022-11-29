@@ -21,6 +21,7 @@ export default function Carousel({
                 {stakes?.map((e: IFetchedStake, i: any) => {
                     return (
                         <CarouselItem
+                            key={i}
                             item={e}
                             changeId={handleMainStakeChange}
                             index={i}

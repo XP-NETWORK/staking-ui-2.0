@@ -89,14 +89,12 @@ export const stake = async (
         assetIdx as any,
         await algod.getTransactionParams().do()
     );
-
     try {
         const resp = await stakingClient.stake({
             axfer: axfer,
             lockTime_: algoDetails.duration,
         });
         console.log({ resp });
-
         return resp;
     } catch (error) {
         console.log(error);
@@ -317,46 +315,31 @@ export const getAlgoStakeProgress = (duration: number, start: number) => {
     return (daysPassed / daysDuration) * 100;
 };
 
-// interface IStake {
-//     appId: string;
-//     owner: string;
-//     id: number;
-//     timeToUnlock: number;
-//     stakingTime: number;
-//     tokensStaked: number;
-//     tokensStakedWithBonus: number;
-//     lockTime: number;
-//     txId: string;
-//     nft: INFT;
-// }
-// interface INFT {
-//     assetId: number;
-//     createdDate: string;
-//     id: number;
-//     isClaimed: number;
-//     timeStamp: number;
-//     uri: string;
-// }
+export const checkOptInApps = async (client: any) => {
+    try {
+        const _accountInformation = await client.client
+            .accountInformation(client.sender)
+            .do();
+        return _accountInformation;
+    } catch (error) {
+        console.log(error);
+        return;
+    }
+};
 
-// const STAKE: IStake = {
-//     appId: "952936663",
-//     owner: "4NVPEZXC7JD2B74LWLJK6OTVL4RMEG25E4ZJDZPKMQSVWLD6IHAJEEVR4Q",
-//     id: 0,
-//     timeToUnlock: 1676951623,
-//     stakingTime: 1669061623,
-//     tokensStaked: 1500,
-//     tokensStakedWithBonus: 16875,
-//     lockTime: 7890000,
-//     txId: "UROTHREHJZLJQOOMDLFPH6TF73QSL7WJHM6XDXUU3F6JB7PSDENA",
-//     nft: {
-//         assetId: 958846747,
-//         createdDate: "Sun, 27 Nov 2022 09:32:10 GMT",
-//         id: 1,
-//         isClaimed: 0,
-//         timeStamp: 1669061627,
-//         uri: "https://nft-service-testing.s3.eu-west-1.amazonaws.com/1.json",
-//     },
-// };
+export const getXpNetBalance = async (client: any) => {
+    try {
+        if (client.sender !== "") {
+            const assetInfo = await client.client
+                .accountAssetInformation(client.sender, assetIdx)
+                .do();
+            return assetInfo["asset-holding"]["amount"];
+        }
+    } catch (error) {
+        console.log(error);
+        return;
+    }
+};
 
 export const getMonths = (duration: number) => {
     switch (duration) {

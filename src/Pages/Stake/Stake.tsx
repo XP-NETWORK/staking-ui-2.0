@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import { useSelector, useDispatch } from "react-redux";
 import PDF from "../../assets/Terms.pdf";
@@ -12,7 +12,13 @@ import {
     setStakeDetails,
     setXPNetPrice,
 } from "../../store/reducer/homePageSlice";
-import { createClient, optInt, stake } from "../../assets/ts/algoUtils";
+import {
+    checkOptInApps,
+    createClient,
+    getXpNetBalance,
+    optInt,
+    stake,
+} from "../../assets/ts/algoUtils";
 import {
     AlgoDetails,
     assetIdx,
@@ -45,6 +51,7 @@ export const Stake: FC<Props> = ({}) => {
         );
     });
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [currentXpnetPrice, setCurrentXpnetPrice] = useState(0);
     const [optInResponse, setOptInResponse] = useState("");
     const [amount, setAmount] = useState(0);
@@ -53,8 +60,15 @@ export const Stake: FC<Props> = ({}) => {
     const [optInApps, setOptInApps] = useState(false);
     const [loader, setLoader] = useState(false);
     const [inputErr, setInputErr] = useState(false);
-    const { signer, account, evmAccount, stakingClient, algoDetails, balance } =
-        useSelector((state: ReduxState) => state.homePage);
+    const {
+        signer,
+        account,
+        evmAccount,
+        stakingClient,
+        algoDetails,
+        balance,
+        activeSessionStakes,
+    } = useSelector((state: ReduxState) => state.homePage);
 
     const handleMaxAmount = () => {
         setAmount(balance);
@@ -84,6 +98,7 @@ export const Stake: FC<Props> = ({}) => {
 
     const handleStake = async () => {
         setLoader(true);
+        let _stake: IActiveSessionSTake;
         try {
             const resp = await stake(
                 account,
@@ -91,9 +106,10 @@ export const Stake: FC<Props> = ({}) => {
                 stakingClient,
                 algoDetails
             );
-            let _stake: IActiveSessionSTake;
+
             _stake = { txID: resp.txID, txInfo: resp.txInfo };
             dispatch(setActiveSessionStakes(_stake));
+            if (_stake) navigate(`/rewards`);
         } catch (error) {
             console.log(error);
         }
@@ -113,19 +129,17 @@ export const Stake: FC<Props> = ({}) => {
     };
 
     useEffect(() => {
+        const optInApps = async () => {
+            const apps = await checkOptInApps(stakingClient);
+            setOptInApps(apps["apps-local-state"]);
+        };
+        optInApps();
+    }, [optInResponse, stakingClient]);
+
+    useEffect(() => {
         const getBalance = async () => {
-            if (stakingClient.sender !== "") {
-                const _accountInformation = await stakingClient.client
-                    .accountInformation(stakingClient.sender)
-                    .do();
-                setOptInApps(_accountInformation["apps-local-state"]);
-                const assetInfo = await stakingClient.client
-                    .accountAssetInformation(stakingClient.sender, assetIdx)
-                    .do();
-                const balance = assetInfo["asset-holding"]["amount"];
-                // setBalance(balance);
-                dispatch(setBalance(balance));
-            }
+            const balance = await getXpNetBalance(stakingClient);
+            dispatch(setBalance(balance));
         };
         if (account) getBalance().catch(console.error);
         const getCurrency = async () => {
@@ -134,7 +148,7 @@ export const Stake: FC<Props> = ({}) => {
             setCurrentXpnetPrice(currency);
         };
         getCurrency().catch(console.error);
-    }, [stakingClient, optInResponse]);
+    }, [stakingClient, activeSessionStakes, account, dispatch]);
 
     useEffect(() => {
         let stake = {

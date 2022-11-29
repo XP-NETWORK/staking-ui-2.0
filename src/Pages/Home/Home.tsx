@@ -63,15 +63,8 @@ export const Home: FC<Props> = () => {
         }
     };
 
-    // useEffect(() => {
-    //     if (evmCheck) {
-    //     } else if (algoCheck) {
-    //     }
-    // }, []);
-
     return (
         <>
-            {/* <div className="homeWrapperMargin"> */}
             <img src={bg} className={classNames("bg", "deskOnly")} alt="bg" />
             <img src={bgMob} className={classNames("bg", "mobOnly")} alt="bg" />
             <div className="homeWrapper">

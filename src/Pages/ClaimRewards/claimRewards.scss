@@ -244,6 +244,9 @@
 .flexStart {
     align-items: flex-start;
     margin-top: 11px !important;
+    img {
+        cursor: pointer;
+    }
 }
 .paddingBottom {
     padding-bottom: 27px;
@@ -286,6 +289,11 @@
 .blackBtn {
     margin-top: 12px !important;
     background: rgba(255, 255, 255, 0.04);
+}
+.blackBtn--disabled {
+    margin-top: 12px !important;
+    background: rgba(2, 198, 139, 0.04);
+    color: #02c68b;
 }
 
 .stakingDurDiv {

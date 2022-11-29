@@ -30,13 +30,6 @@ export default function AlgoRewardsDetails({
     stakes,
     stakeIndex,
 }: Props) {
-    console.log(
-        "🚀 ~ file: AlgoRewardsDetails.tsx ~ line 33 ~ stakes",
-        stakes,
-        stakes[stakeIndex],
-        "index: ",
-        stakeIndex
-    );
     const selectedStakeRewards = rewards.find(
         (e: any) => e?.appid === stakes[stakeIndex]?.appId
     );
@@ -74,31 +67,31 @@ export default function AlgoRewardsDetails({
         }
     };
 
-    const handleUnstake = async () => {
-        let rewards;
-        const client = await createClient(
-            signer,
-            account,
-            getMonths(stakes[stakeIndex]?.lockTime)
-        );
-        try {
-            let sp = await client.getSuggestedParams();
-            sp.flatFee = true;
-            sp.fee = 7_000;
+    // const handleUnstake = async () => {
+    //     let rewards;
+    //     const client = await createClient(
+    //         signer,
+    //         account,
+    //         getMonths(stakes[stakeIndex]?.lockTime)
+    //     );
+    //     try {
+    //         let sp = await client.getSuggestedParams();
+    //         sp.flatFee = true;
+    //         sp.fee = 7_000;
 
-            rewards = await client.unstake(
-                {
-                    stakeId: BigInt(0),
-                    token: BigInt(assetIdx),
-                    app: subAppId,
-                },
-                { suggestedParams: sp }
-            );
-            console.log(rewards);
-        } catch (e) {
-            console.log(e);
-        }
-    };
+    //         rewards = await client.unstake(
+    //             {
+    //                 stakeId: BigInt(0),
+    //                 token: BigInt(assetIdx),
+    //                 app: subAppId,
+    //             },
+    //             { suggestedParams: sp }
+    //         );
+    //         console.log(rewards);
+    //     } catch (e) {
+    //         console.log(e);
+    //     }
+    // };
 
     return (
         <div className={classNames("containerLeft", "container")}>

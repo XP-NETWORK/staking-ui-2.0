@@ -6,9 +6,11 @@ import ClipboardCopy from "../ClipboardCopy/ClipboardCopy.tsx";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
-import { getAllNFTsByOwner } from "../../assets/ts/algoUtils";
+import { getAllAlgoStakes, getAllNFTsByOwner } from "../../assets/ts/algoUtils";
 import Carousel from "../Carousel/Carousel";
 import CarouselMainItem from "../Carousel/CarouselMainItemList";
+import { useDispatch } from "react-redux";
+import { setFetchedAlgoStakes } from "../../store/reducer/homePageSlice";
 interface Props {
     stakes: IFetchedStake[];
     setIndex: any;
@@ -20,16 +22,28 @@ export const AlgoNFTRewards = ({
     selectedStakeIndex,
     setIndex,
 }: Props) => {
+    const dispatch = useDispatch();
     const [x, setX] = useState(0);
-    const { account, fetchedAlgoStakes } = useSelector(
+    const { account, fetchedAlgoStakes, activeSessionStakes } = useSelector(
         (state: ReduxState) => state.homePage
     );
 
     useEffect(() => {
         if (account) {
             getAllNFTsByOwner(account, stakes);
+            // const stakes = await getAllAlgoStakes(account);
+            // if (fetchedAlgoStakes?.length !== stakes?.length)
+            //     dispatch(setFetchedAlgoStakes(stakes));
         }
     }, []);
+
+    useEffect(() => {
+        const updateAlgoSTakes = async () => {
+            const stakes = await getAllAlgoStakes(account);
+            dispatch(setFetchedAlgoStakes(stakes));
+        };
+        updateAlgoSTakes();
+    }, [activeSessionStakes]);
 
     const handleSwap = (next: boolean) => {
         // debugger;
