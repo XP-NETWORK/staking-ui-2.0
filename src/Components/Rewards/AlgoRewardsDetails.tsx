@@ -119,12 +119,14 @@ export default function AlgoRewardsDetails({
                             <span className="small">
                                 ${" "}
                                 {(
-                                    stakes[stakeIndex]?.tokensStaked *
+                                    (stakes[stakeIndex]?.tokensStaked / 1e6) *
                                     XPNetPrice
                                 ).toFixed(2)}
                             </span>
                             <label className="value">
-                                {`${stakes[stakeIndex]?.tokensStaked} XPNET`}
+                                {`${
+                                    stakes[stakeIndex]?.tokensStaked / 1e6
+                                } XPNET`}
                             </label>
                         </div>
                     </div>

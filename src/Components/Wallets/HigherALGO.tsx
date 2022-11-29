@@ -25,11 +25,7 @@ export const HigherALGO = (OriginalComponent: React.FC<any>) => {
                     dispatch(setConnectedWallet("AlgoSigner"));
                     return algosignerAccount;
                 case "Pera":
-                    let peraAccount: any = await connectPeraWallet(false); //!! testnet:true
-                    console.log(
-                        "🚀 ~ file: HigherALGO.tsx ~ line 29 ~ handleWalletConnection ~ peraAccount",
-                        peraAccount
-                    );
+                    let peraAccount = await connectPeraWallet(false); //!! testnet:true
                     dispatch(setPeraConnection(true));
                     return peraAccount;
                 default:

@@ -294,6 +294,9 @@
     margin-top: 12px !important;
     background: rgba(2, 198, 139, 0.04);
     color: #02c68b;
+    span {
+        display: flex;
+    }
 }
 
 .stakingDurDiv {
@@ -312,6 +315,36 @@
             color: #ffffff;
         }
     }
+}
+.carousel-main-image__wrapper {
+    position: relative;
+}
+.carousel-main-image-placeholder {
+    position: absolute;
+    top: 0px;
+    background-color: rgb(82, 82, 82);
+    // border-radius: 10px;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.carousel-main-image-placeholder::after {
+    content: "";
+    position: absolute;
+    top: -40px;
+    left: -100px;
+    width: 150%;
+    height: 200%;
+    transform: rotate(200deg);
+    opacity: 0.3;
+    background: linear-gradient(
+        270deg,
+        rgba(255, 255, 255, 0) 40%,
+        rgba(255, 255, 255, 1) 50%,
+        rgba(255, 255, 255, 0) 60%
+    );
+    animation: shine 2.5s infinite;
 }
 
 .rewardsContainerMain {
@@ -543,5 +576,14 @@
                 height: 89px;
             }
         }
+    }
+}
+
+@keyframes shine {
+    from {
+        left: -100%;
+    }
+    to {
+        left: 100%;
     }
 }

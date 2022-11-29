@@ -1,21 +1,8 @@
-// import {
-//     appAdress12Months,
-//     appAdress3Months,
-//     appAdress6Months,
-//     appAdress9Months,
-//     duration3Months,
-//     duration9Months,
-//     duration6Months,
-//     duration12Months,
-// } from "./Consts";
-
 export const addCommas = (x: Number) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
 export const calculateEstimatedRewards = (amount: number, duration: number) => {
-    console.log({ amount, duration });
-
     let rewards;
     switch (duration) {
         case 3:

@@ -1,11 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { assetIdx, subAppId } from "../../assets/ts/Consts";
 import { getCurrentPrice } from "../../assets/ts/helpers";
-import { Navigate, useParams } from "react-router-dom";
-import NFT from "../../assets/images/nftRewards/0.jpeg";
+import { Navigate, useNavigate } from "react-router-dom";
 import { ReduxState } from "../../store/store";
-import { Staking } from "../../assets/ts/StakingClient";
 import { HOCClaimRewards } from "./HOCClaimRewards";
 import "./claimRewards.scss";
 import { getTokenOfOwnerByIndex } from "../../assets/ts/evmUtils";
@@ -33,15 +31,10 @@ interface Props {
 
 const ClaimRewards = ({ chain }: Props) => {
     const dispatch = useDispatch();
-    const { txId } = useParams();
-    console.log(
-        "🚀 ~ file: ClaimRewards.tsx ~ line 37 ~ ClaimRewards ~ txId",
-        txId
-    );
-
+    const navigate = useNavigate();
     const [indexOfStake, setIndexOfStake] = useState(0);
     const [indexOfAlgoStake, setIndexOfAlgoStake] = useState(0);
-
+    let timeOut = useRef();
     const {
         evmStakes,
         account,
@@ -81,28 +74,44 @@ const ClaimRewards = ({ chain }: Props) => {
         } else return true;
     };
 
-    const handleUnstake = async () => {
-        debugger;
-        let rewards;
-        const client = await createClient(signer, account, 3);
-        try {
-            let sp = await client.getSuggestedParams();
-            sp.flatFee = true;
-            sp.fee = 7_000;
+    // const handleUnstake = async () => {
+    //     debugger;
+    //     let rewards;
+    //     const client = await createClient(signer, account, 3);
+    //     try {
+    //         let sp = await client.getSuggestedParams();
+    //         sp.flatFee = true;
+    //         sp.fee = 7_000;
 
-            rewards = await client.unstake(
-                {
-                    stakeId: BigInt(0),
-                    token: BigInt(assetIdx),
-                    app: subAppId,
-                },
-                { suggestedParams: sp }
-            );
-            console.log(rewards);
-        } catch (e) {
-            console.log(e);
-        }
-    };
+    //         rewards = await client.unstake(
+    //             {
+    //                 stakeId: BigInt(0),
+    //                 token: BigInt(assetIdx),
+    //                 app: subAppId,
+    //             },
+    //             { suggestedParams: sp }
+    //         );
+    //         console.log(rewards);
+    //     } catch (e) {
+    //         console.log(e);
+    //     }
+    // };
+
+    useEffect(() => {
+        const t = setTimeout(() => {
+            switch (blockchain.chain) {
+                case "BSC":
+                    if (evmStakesArray.length === 0) navigate("/error");
+                    break;
+                case "Algorand":
+                    if (fetchedAlgoStakes.length === 0) navigate("/error");
+                    break;
+                default:
+                    break;
+            }
+        }, 10000);
+        return () => clearTimeout(t);
+    }, [blockchain, evmStakesArray, fetchedAlgoStakes, navigate]);
 
     useEffect(() => {
         const algoRewardsAndStakes = async () => {

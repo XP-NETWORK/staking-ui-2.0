@@ -207,7 +207,6 @@ export const getAllAlgoStakes = async (owner: string) => {
                         ...e.value.data.data,
                     };
                 }
-                console.log({ obj });
                 if (obj) return obj;
             });
         }
@@ -215,8 +214,6 @@ export const getAllAlgoStakes = async (owner: string) => {
         console.log(error);
     }
     const arr = parseArray(allStakes);
-    console.log({ arr });
-
     return arr;
 };
 
@@ -286,7 +283,7 @@ const getStartDate = (date: string) => {
 };
 
 export const getAlgoStakeEndDate = (period: string, date: string) => {
-    period = period.toString();
+    period = period?.toString();
     const startDate = getStartDate(date);
     let expDate: any;
     if (period === "7890000") {
