@@ -19,16 +19,16 @@ export const calculateEstimatedRewards = (amount: number, duration: number) => {
     let rewards;
     switch (duration) {
         case 3:
-            rewards = 1.45 * amount;
+            rewards = 1.45 * amount - amount;
             break;
         case 6:
-            rewards = 1.75 * amount;
+            rewards = 1.75 * amount - amount;
             break;
         case 9:
-            rewards = 2 * amount;
+            rewards = 2 * amount - amount;
             break;
         case 12:
-            rewards = 2.25 * amount;
+            rewards = 2.25 * amount - amount;
             break;
         default:
             rewards = 0;

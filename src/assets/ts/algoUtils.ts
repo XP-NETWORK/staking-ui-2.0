@@ -286,6 +286,7 @@ const getStartDate = (date: string) => {
 };
 
 export const getAlgoStakeEndDate = (period: string, date: string) => {
+    period = period.toString();
     const startDate = getStartDate(date);
     let expDate: any;
     if (period === "7890000") {

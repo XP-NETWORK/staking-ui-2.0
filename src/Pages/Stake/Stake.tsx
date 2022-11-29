@@ -15,6 +15,8 @@ import {
 import {
     checkOptInApps,
     createClient,
+    getAlgoStakeEndDate,
+    getAPY,
     getXpNetBalance,
     optInt,
     stake,
@@ -25,7 +27,10 @@ import {
     IActiveSessionSTake,
     XPNET,
 } from "../../assets/ts/Consts";
-import { getCurrentPrice } from "../../assets/ts/helpers";
+import {
+    calculateEstimatedRewards,
+    getCurrentPrice,
+} from "../../assets/ts/helpers";
 import xpnet from "../../assets/images/coin/XPNET.svg";
 import nft from "../../assets/images/nft.png";
 import info from "../../assets/images/info.svg";
@@ -36,6 +41,7 @@ import { StakingPeriod } from "../../Components/StakingPeriods/StakingPeriod";
 import { OPTINButton } from "../../Components/Buttons/OPTINButton";
 import { STAKEButton } from "../../Components/Buttons/STAKEButton";
 import { ThreeCircles } from "react-loader-spinner";
+import moment from "moment";
 
 interface Props {}
 
@@ -60,6 +66,7 @@ export const Stake: FC<Props> = ({}) => {
     const [optInApps, setOptInApps] = useState(false);
     const [loader, setLoader] = useState(false);
     const [inputErr, setInputErr] = useState(false);
+    const toDayInUnix = moment().unix();
     const {
         signer,
         account,
@@ -356,7 +363,8 @@ export const Stake: FC<Props> = ({}) => {
                                 >
                                     <label className="prop">Est. APY</label>
                                     <label className="value">
-                                        {/* {calculatAPY(duration)} % */}
+                                        {getAPY(algoDetails?.appId?.toString())}{" "}
+                                        %
                                     </label>
                                 </div>
                                 <div
@@ -381,10 +389,10 @@ export const Stake: FC<Props> = ({}) => {
                                             ).toFixed(2)}
                                         </span>
                                         <label className="value">
-                                            {/* {calculateEstimatedRewards(
+                                            {calculateEstimatedRewards(
                                                 amount,
                                                 duration
-                                            )}{" "} */}
+                                            )}{" "}
                                             {XPNET}
                                         </label>
                                     </div>
@@ -399,7 +407,10 @@ export const Stake: FC<Props> = ({}) => {
                                 >
                                     <label className="prop">End Date</label>
                                     <label className="value">
-                                        {/* {calculateEndDate(duration)} */}
+                                        {getAlgoStakeEndDate(
+                                            algoDetails?.duration,
+                                            toDayInUnix?.toString()
+                                        )}
                                     </label>
                                 </div>
                             </div>

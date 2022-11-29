@@ -148,7 +148,7 @@ export default function AlgoRewardsDetails({
                                 rel="noreferrer"
                                 href={`https://algoexplorer.io/application/${stakes[stakeIndex]?.appId}`}
                             >
-                                App Total Rewards
+                                App Claimable Rewards
                             </a>
                         </label>
                         <div
