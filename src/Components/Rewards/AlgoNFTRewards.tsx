@@ -24,13 +24,12 @@ export const AlgoNFTRewards = ({
 }: Props) => {
     const dispatch = useDispatch();
     const [x, setX] = useState(0);
-    const { account, fetchedAlgoStakes, activeSessionStakes } = useSelector(
-        (state: ReduxState) => state.homePage
-    );
+    const { account, fetchedAlgoStakes, activeSessionStakes, nfts } =
+        useSelector((state: ReduxState) => state.homePage);
 
     useEffect(() => {
         if (account) {
-            getAllNFTsByOwner(account, stakes);
+            getAllNFTsByOwner(account);
             // const stakes = await getAllAlgoStakes(account);
             // if (fetchedAlgoStakes?.length !== stakes?.length)
             //     dispatch(setFetchedAlgoStakes(stakes));
@@ -109,6 +108,7 @@ export const AlgoNFTRewards = ({
                     stake={stakes[selectedStakeIndex]}
                 />
                 <Carousel
+                    nfts={nfts}
                     stakes={stakes}
                     x={x}
                     selectedStakeIndex={selectedStakeIndex}

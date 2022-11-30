@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { INFT } from "../../assets/ts/Consts";
 interface Props {
     item: any;
     changeId: any;

@@ -1,5 +1,5 @@
 import React from "react";
-import { IFetchedStake } from "../../assets/ts/Consts";
+import { IFetchedStake, INFT } from "../../assets/ts/Consts";
 import "./carousel.scss";
 import CarouselItem from "./CarouselItem";
 interface Props {
@@ -7,6 +7,7 @@ interface Props {
     x: number;
     selectedStakeIndex: number;
     handleMainStakeChange: any;
+    nfts: INFT[];
 }
 
 export default function Carousel({
@@ -14,11 +15,12 @@ export default function Carousel({
     x,
     selectedStakeIndex,
     handleMainStakeChange,
+    nfts,
 }: Props) {
     return (
         <div className="nftsRewardsContainer">
             <div style={{ transform: `translateX(${x}px)` }}>
-                {stakes?.map((e: IFetchedStake, i: any) => {
+                {nfts?.map((e: INFT, i: any) => {
                     return (
                         <CarouselItem
                             key={i}
