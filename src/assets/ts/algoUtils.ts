@@ -207,13 +207,14 @@ export const getAllAlgoStakes = async (owner: string) => {
         if (res) {
             allStakes = res.map((e: any, i) => {
                 let obj: any;
-
                 if (e.status !== "rejected") {
                     obj = {
                         ...e.value.data.data,
                     };
                 }
-                if (obj) return obj;
+                if (obj) {
+                    return obj;
+                }
             });
         }
     } catch (error) {
@@ -224,36 +225,15 @@ export const getAllAlgoStakes = async (owner: string) => {
 };
 
 export const getAllNFTsByOwner = async (address: string) => {
-    algoService
-        .get(`/get-nfts-status-by-address/${address}`)
-        .then(function (response) {
-            parse(response.data);
-            // for (let index = 0; index < response.data.length; index++) {
-            //     const element: INFT = response.data[index];
-            //     let nft: INFT;
-
-            //     axios.get(element.Uri).then(function (response) {
-            //         const urlUsed = response.config.url;
-
-            //         const uri: INFTURI = response.data;
-
-            //         nft = {
-            //             CD: element.CD,
-            //             Uri: uri,
-            //             address: element.address,
-            //             appId: 959408945,
-            //             assetId: element.assetId,
-            //             isClaimed: element.isClaimed,
-            //             stakeId: element.stakeId,
-            //             timeStamp: element.timeStamp,
-            //             txId: element.txId,
-            //         };
-            //     });
-            // }
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+    try {
+        const response = await algoService.get(
+            `/get-nfts-status-by-address/${address}`
+        );
+        const parsed = await parse(response.data);
+        return parsed;
+    } catch (error) {
+        console.log(error);
+    }
 };
 
 const parse = async (nfts: any[]) => {
@@ -267,7 +247,7 @@ const parse = async (nfts: any[]) => {
         relatedNft.Uri = e.value.data;
         return relatedNft;
     });
-    store.dispatch(setNFTSByOwner(parsed));
+    return parsed;
 };
 
 // const parseNFT = async (nfts: INFT[]) => {

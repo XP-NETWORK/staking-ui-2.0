@@ -1,5 +1,7 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { IFetchedStake, INFT } from "../../assets/ts/Consts";
+import { ReduxState } from "../../store/store";
 import "./carousel.scss";
 import CarouselItem from "./CarouselItem";
 interface Props {
@@ -15,8 +17,10 @@ export default function Carousel({
     x,
     selectedStakeIndex,
     handleMainStakeChange,
-    nfts,
-}: Props) {
+}: // nfts,
+Props) {
+    const nfts = useSelector((state: ReduxState) => state.homePage.nfts);
+
     return (
         <div className="nftsRewardsContainer">
             <div style={{ transform: `translateX(${x}px)` }}>
@@ -28,7 +32,6 @@ export default function Carousel({
                             changeId={handleMainStakeChange}
                             index={i}
                             selectedIndex={selectedStakeIndex}
-                            length={stakes.length}
                         />
                     );
                 })}

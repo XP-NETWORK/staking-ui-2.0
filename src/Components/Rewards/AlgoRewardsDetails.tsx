@@ -34,7 +34,7 @@ export default function AlgoRewardsDetails({
         (e: any) => e?.appid === stakes[stakeIndex]?.appId
     );
 
-    const { XPNetPrice, signer, account } = useSelector(
+    const { XPNetPrice, signer, account, selectedNFTtxId } = useSelector(
         (state: ReduxState) => state.homePage
     );
 

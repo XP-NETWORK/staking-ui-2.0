@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import left from "../../assets/images/left.svg";
 import right from "../../assets/images/right.svg";
 import classNames from "classnames";
-import ClipboardCopy from "../ClipboardCopy/ClipboardCopy.tsx";
+import ClipboardCopy from "../ClipboardCopy/ClipboardCopy";
 import { IEVMStake, IFetchedStake } from "../../assets/ts/Consts";
 
 interface Props {
@@ -76,7 +76,7 @@ export const NFTRewards = ({
                 </div>
                 <ClipboardCopy
                     index={selectedStakeIndex}
-                    stake={stakes[selectedStakeIndex]}
+                    item={stakes[selectedStakeIndex]}
                 />
                 <div className="nftsRewardsContainer">
                     <div style={{ transform: `translateX(${x}px)` }}>

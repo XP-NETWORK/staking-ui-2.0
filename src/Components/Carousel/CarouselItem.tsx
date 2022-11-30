@@ -1,31 +1,34 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { INFT } from "../../assets/ts/Consts";
+import { setSelectedNFT } from "../../store/reducer/homePageSlice";
 interface Props {
     item: any;
     changeId: any;
     index: number;
     selectedIndex: number;
-    length: number;
 }
 export default function CarouselItem({
     item,
     changeId,
     index,
     selectedIndex,
-    length,
 }: Props) {
+    const dispatch = useDispatch();
     const [loaded, setLoaded] = useState(false);
 
+    const handleSelect = () => {
+        changeId(index);
+        dispatch(setSelectedNFT(item?.txId));
+    };
+
     return (
-        <div
-            // style={{ display: index < selectedIndex - 4 ? "none" : "block" }}
-            className="carousel-item__wrapper"
-        >
+        <div className="carousel-item__wrapper">
             <img
                 onLoad={(e) => setLoaded(true)}
-                src={item.displayImage}
+                src={item.Uri.image}
                 alt="nft"
-                onClick={() => changeId(index)}
+                onClick={handleSelect}
                 style={{
                     border: `${
                         index === selectedIndex

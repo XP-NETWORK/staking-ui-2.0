@@ -1,14 +1,15 @@
 import React, { useState } from "react";
+import { INFT } from "../../assets/ts/Consts";
 
 interface Props {
     index: number;
-    stake: any;
+    nft: INFT;
     selectedStakeIndex: number;
 }
 
 export default function CarouselMainItem({
     index,
-    stake,
+    nft,
     selectedStakeIndex,
 }: Props) {
     const [loaded, setLoaded] = useState(false);
@@ -25,7 +26,7 @@ export default function CarouselMainItem({
                 style={{
                     display: selectedStakeIndex === index ? "block" : "none",
                 }}
-                src={stake.displayImage}
+                src={nft.Uri.image}
                 alt="NFT"
                 className="imgMain"
             />
