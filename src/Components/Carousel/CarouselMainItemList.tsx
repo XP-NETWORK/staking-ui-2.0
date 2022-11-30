@@ -14,6 +14,7 @@ export default function CarouselMainItemList({
             {stakes.map((stake: IFetchedStake, i) => {
                 return (
                     <CarouselMainItem
+                        key={i}
                         index={i}
                         selectedStakeIndex={selectedStakeIndex}
                         stake={stake}

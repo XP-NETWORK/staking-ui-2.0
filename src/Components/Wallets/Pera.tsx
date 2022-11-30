@@ -45,7 +45,7 @@ const Pera = ({
 
     useEffect(() => {
         if (account) {
-            navigate(`/${to}`);
+            navigate(`/${to || "stake"}`);
             dispatch(setPeraConnection(false));
         }
         if (account) getClient();

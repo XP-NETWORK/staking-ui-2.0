@@ -21,10 +21,6 @@ export const algod = new algosdk.Algodv2(apiKey as string, algodUri, algodPort);
 
 const algoService = axios.create({
     baseURL: process.env.REACT_APP_ALGO_SERVICE,
-    timeout: 10000,
-    headers: {
-        crossDomain: true,
-    },
 });
 
 export const createClient = async (
@@ -183,6 +179,11 @@ export const getAlgoReward = async (owner: string) => {
     return rewards;
 };
 
+// export const getAllAccountData = async (owner: string) => {
+//     const stakes = await getAllAlgoStakes(owner);
+//     getAllNFTsByOwner(owner, stakes);
+// };
+
 export const getAllAlgoStakes = async (owner: string) => {
     let appIds = [
         appAdress3Months,
@@ -221,13 +222,17 @@ export const getAllNFTsByOwner = async (
     address: string,
     stakes: IFetchedStake[]
 ) => {
-    await algoService
+    algoService
         .get(`/get-nfts-status-by-address/${address}`)
         .then(function (response) {
+            console.log(
+                "🚀 ~ file: algoUtils.ts ~ line 228 ~ response",
+                response
+            );
             let arr: any = [];
             for (let index = 0; index < response.data.length; index++) {
                 const element = response.data[index];
-                axios.get(element.uri).then(function (response) {
+                axios.get(element.Uri).then(function (response) {
                     const nftToRelate = {
                         uri: { ...element },
                         txId: element.txId,
@@ -237,7 +242,6 @@ export const getAllNFTsByOwner = async (
                 });
                 arr.push(element);
             }
-            // console.log({ arr });
         })
         .catch(function (error) {
             console.log(error);

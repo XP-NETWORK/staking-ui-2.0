@@ -34,7 +34,7 @@ const MyAlgo = ({ connect }: { connect: Function }) => {
         );
 
         dispatch(setClient(client));
-        navigate(`/${to}`);
+        navigate(`/${to || "stake"}`);
     };
     return (
         <button onClick={handleClick} className="connectBtn">
