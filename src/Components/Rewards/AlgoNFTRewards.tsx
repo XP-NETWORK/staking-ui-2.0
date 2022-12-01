@@ -50,7 +50,7 @@ export const AlgoNFTRewards = ({
             dispatch(setFetchedAlgoStakes(stakes));
         };
         updateAlgoSTakes();
-    }, [activeSessionStakes]);
+    }, [activeSessionStakes, account, dispatch]);
 
     const handleSwap = (next: boolean) => {
         // debugger;

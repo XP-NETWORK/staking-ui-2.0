@@ -212,9 +212,7 @@ export const getAllAlgoStakes = async (owner: string) => {
                         ...e.value.data.data,
                     };
                 }
-                if (obj) {
-                    return obj;
-                }
+                return obj;
             });
         }
     } catch (error) {

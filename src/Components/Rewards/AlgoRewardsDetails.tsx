@@ -18,6 +18,7 @@ import {
     getRemainedDays,
 } from "../../assets/ts/algoUtils";
 import { ProgressStaking } from "../ProgressStaking/ProgressStaking";
+import { useEffect } from "react";
 
 interface Props {
     rewards: IAlgoRewards[];
@@ -92,6 +93,16 @@ export default function AlgoRewardsDetails({
     //         console.log(e);
     //     }
     // };
+
+    useEffect(() => {
+        const stake = stakes.find((stake: IFetchedStake) => {
+            return stake.txId === selectedNFTtxId;
+        });
+        console.log(
+            "🚀 ~ file: AlgoRewardsDetails.tsx ~ line 99 ~ useEffect ~ stake",
+            stake
+        );
+    }, []);
 
     return (
         <div className={classNames("containerLeft", "container")}>
