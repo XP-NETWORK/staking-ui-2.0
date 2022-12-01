@@ -67,7 +67,6 @@ export const AlgoNFTRewards = ({
                         const index = nfts.findIndex(
                             (e: INFT) => e.txId === selectedNFTtxId
                         );
-                        console.log({ index });
                         dispatch(setSelectedNFT(nfts[index - 1].txId));
                         setIndex(selectedStakeIndex - 1);
                         setX((prev) => prev + 110);

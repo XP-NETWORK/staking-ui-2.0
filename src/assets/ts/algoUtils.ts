@@ -8,6 +8,7 @@ import {
     appAdress6Months,
     appAdress9Months,
     assetIdx,
+    IAlgoRewards,
     IFetchedStake,
     INFT,
     INFTURI,
@@ -285,15 +286,15 @@ const parseArray = (array: []) => {
     return newArr;
 };
 
-export const getAPY = (appId: string | undefined) => {
-    switch (appId) {
-        case appAdress3Months.toString():
+export const getAPY = (rewards: IAlgoRewards | undefined) => {
+    switch (rewards?.appid) {
+        case appAdress3Months:
             return "45";
-        case appAdress6Months.toString():
+        case appAdress6Months:
             return "75";
-        case appAdress9Months.toString():
+        case appAdress9Months:
             return "100";
-        case appAdress12Months.toString():
+        case appAdress12Months:
             return "125";
         default:
             break;

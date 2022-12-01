@@ -25,7 +25,7 @@ export interface IActiveSessionSTake {
 }
 
 export interface IFetchedStake {
-    appId: string;
+    appId: number;
     id: number;
     lockTime: number;
     owner: string;
@@ -38,7 +38,7 @@ export interface IFetchedStake {
     displayImage: string;
 }
 export interface IAlgoRewards {
-    appid: string;
+    appid: number;
     earned: number;
 }
 
