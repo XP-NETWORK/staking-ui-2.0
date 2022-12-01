@@ -18,6 +18,7 @@ import {
     getRemainedDays,
 } from "../../assets/ts/algoUtils";
 import { ProgressStaking } from "../ProgressStaking/ProgressStaking";
+import { useEffect, useState } from "react";
 
 interface Props {
     rewards: IAlgoRewards[];
@@ -30,11 +31,14 @@ export default function AlgoRewardsDetails({
     stakes,
     stakeIndex,
 }: Props) {
-    const selectedStakeRewards = rewards.find(
-        (e: any) => e?.appid === stakes[stakeIndex]?.appId
+    const [selectedStake, setSelectedStake] = useState<IFetchedStake>(
+        stakes[0]
+    );
+    const selectedStakeRewards: IAlgoRewards | undefined = rewards.find(
+        (rewards: IAlgoRewards) => rewards.appid === selectedStake?.appId
     );
 
-    const { XPNetPrice, signer, account } = useSelector(
+    const { XPNetPrice, signer, account, selectedNFTtxId } = useSelector(
         (state: ReduxState) => state.homePage
     );
 
@@ -93,6 +97,13 @@ export default function AlgoRewardsDetails({
     //     }
     // };
 
+    useEffect(() => {
+        const stake = stakes.find((stake: IFetchedStake, index: number) => {
+            return stake.txId === selectedNFTtxId;
+        });
+        if (stake) setSelectedStake(stake);
+    }, [selectedNFTtxId, stakes]);
+
     return (
         <div className={classNames("containerLeft", "container")}>
             <h1>Claim Rewards</h1>
@@ -119,14 +130,12 @@ export default function AlgoRewardsDetails({
                             <span className="small">
                                 ${" "}
                                 {(
-                                    (stakes[stakeIndex]?.tokensStaked / 1e6) *
+                                    (selectedStake?.tokensStaked / 1e6) *
                                     XPNetPrice
                                 ).toFixed(2)}
                             </span>
                             <label className="value">
-                                {`${
-                                    stakes[stakeIndex]?.tokensStaked / 1e6
-                                } XPNET`}
+                                {`${selectedStake?.tokensStaked / 1e6} XPNET`}
                             </label>
                         </div>
                     </div>
@@ -136,7 +145,7 @@ export default function AlgoRewardsDetails({
                     >
                         <label className="prop">APY</label>
                         <span className="value">
-                            {`${getAPY(selectedStakeRewards?.appid)} %`}
+                            {`${getAPY(selectedStakeRewards)} %`}
                         </span>
                     </div>
                     <div
@@ -185,8 +194,8 @@ export default function AlgoRewardsDetails({
                         <label className="prop">End Date</label>
                         <label className="value">
                             {getAlgoStakeEndDate(
-                                stakes[stakeIndex]?.lockTime.toString(),
-                                stakes[stakeIndex]?.stakingTime.toString()
+                                selectedStake?.lockTime.toString(),
+                                selectedStake?.stakingTime.toString()
                             )}
                         </label>
                     </div>
@@ -195,14 +204,14 @@ export default function AlgoRewardsDetails({
                     <div className="row">
                         Staking duration
                         <span>{`${getRemainedDays(
-                            stakes[stakeIndex]?.lockTime,
-                            stakes[stakeIndex]?.stakingTime
+                            selectedStake.lockTime,
+                            selectedStake.stakingTime
                         )} days left`}</span>
                     </div>
                     <ProgressStaking
                         progress={getAlgoStakeProgress(
-                            stakes[stakeIndex]?.lockTime,
-                            stakes[stakeIndex]?.stakingTime
+                            selectedStake?.lockTime,
+                            selectedStake?.stakingTime
                         )}
                     />
                 </div>

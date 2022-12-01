@@ -8,6 +8,7 @@ import {
     IAlgoRewards,
     IEVMStake,
     IFetchedStake,
+    INFT,
 } from "../../assets/ts/Consts";
 
 export interface IHomePage {
@@ -31,8 +32,8 @@ export interface IHomePage {
     activeSessionStakes: IActiveSessionSTake[];
     fetchedAlgoStakes: IFetchedStake[];
     algoRewards: IAlgoRewards[];
-    // tokenName: string; //collection name
-    // tokenSymbol: string; //token thicker
+    nfts: INFT[];
+    selectedNFTtxId: string;
 }
 
 const initialState: IHomePage = {
@@ -52,12 +53,20 @@ const initialState: IHomePage = {
     activeSessionStakes: [],
     fetchedAlgoStakes: [],
     algoRewards: [],
+    nfts: [],
+    selectedNFTtxId: "",
 };
 
 const homePageSlice = createSlice({
     name: "homePage",
     initialState,
     reducers: {
+        setSelectedNFT(state: any, action: any) {
+            state.selectedNFTtxId = action.payload;
+        },
+        setNFTSByOwner(state: any, action: any) {
+            state.nfts = action.payload;
+        },
         updateNFTUriToFetchedStakes(state: any, action: any) {
             // debugger;
             const newArr = state.fetchedAlgoStakes;
@@ -143,6 +152,8 @@ const homePageSlice = createSlice({
 });
 
 export const {
+    setSelectedNFT,
+    setNFTSByOwner,
     updateNFTUriToFetchedStakes,
     setActiveSessionStakes,
     setFetchedAlgoStakes,

@@ -1,42 +1,31 @@
 import React from "react";
-import { IFetchedStake } from "../../assets/ts/Consts";
+import { useSelector } from "react-redux";
+import { IFetchedStake, INFT } from "../../assets/ts/Consts";
+import { ReduxState } from "../../store/store";
 import CarouselMainItem from "./CarouselMainItem";
 interface Props {
-    stakes: IFetchedStake[];
+    nfts: INFT[];
     selectedStakeIndex: number;
 }
 export default function CarouselMainItemList({
-    stakes,
+    // nfts,
     selectedStakeIndex,
 }: Props) {
+    const { nfts } = useSelector((state: ReduxState) => state.homePage);
+
     return (
         <div>
-            {stakes.map((stake: IFetchedStake, i) => {
-                return (
-                    <CarouselMainItem
-                        key={i}
-                        index={i}
-                        selectedStakeIndex={selectedStakeIndex}
-                        stake={stake}
-                    />
-                    // <div
-                    //     key={`m-${i}`}
-                    //     className="carousel-main-image__wrapper"
-                    // >
-                    //     <img
-                    //         key={i}
-                    //         style={{
-                    //             display:
-                    //                 selectedStakeIndex === i ? "block" : "none",
-                    //         }}
-                    //         src={stake.displayImage}
-                    //         alt="NFT"
-                    //         className="imgMain"
-                    //     />
-                    //     <div className="carousel-main-image-placeholder"></div>
-                    // </div>
-                );
-            })}
+            {nfts &&
+                nfts?.map((nft: INFT, i) => {
+                    return (
+                        <CarouselMainItem
+                            key={i}
+                            index={i}
+                            selectedStakeIndex={selectedStakeIndex}
+                            nft={nft}
+                        />
+                    );
+                })}
         </div>
     );
 }

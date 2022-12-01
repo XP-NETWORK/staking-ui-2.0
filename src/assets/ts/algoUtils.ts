@@ -8,14 +8,20 @@ import {
     appAdress6Months,
     appAdress9Months,
     assetIdx,
+    IAlgoRewards,
     IFetchedStake,
+    INFT,
+    INFTURI,
     subAppId,
 } from "./Consts";
 import axios from "axios";
 import { Staking } from "./StakingClient";
 import store from "../../store/store";
 import moment from "moment";
-import { updateNFTUriToFetchedStakes } from "../../store/reducer/homePageSlice";
+import {
+    setNFTSByOwner,
+    updateNFTUriToFetchedStakes,
+} from "../../store/reducer/homePageSlice";
 const apiKey = process.env.REACT_APP_API_TOKEN?.toString();
 export const algod = new algosdk.Algodv2(apiKey as string, algodUri, algodPort);
 
@@ -202,13 +208,12 @@ export const getAllAlgoStakes = async (owner: string) => {
         if (res) {
             allStakes = res.map((e: any, i) => {
                 let obj: any;
-
                 if (e.status !== "rejected") {
                     obj = {
                         ...e.value.data.data,
                     };
                 }
-                if (obj) return obj;
+                return obj;
             });
         }
     } catch (error) {
@@ -218,35 +223,51 @@ export const getAllAlgoStakes = async (owner: string) => {
     return arr;
 };
 
-export const getAllNFTsByOwner = async (
-    address: string,
-    stakes: IFetchedStake[]
-) => {
-    algoService
-        .get(`/get-nfts-status-by-address/${address}`)
-        .then(function (response) {
-            console.log(
-                "🚀 ~ file: algoUtils.ts ~ line 228 ~ response",
-                response
-            );
-            let arr: any = [];
-            for (let index = 0; index < response.data.length; index++) {
-                const element = response.data[index];
-                axios.get(element.Uri).then(function (response) {
-                    const nftToRelate = {
-                        uri: { ...element },
-                        txId: element.txId,
-                        displayImage: response.data.image,
-                    };
-                    store.dispatch(updateNFTUriToFetchedStakes(nftToRelate));
-                });
-                arr.push(element);
-            }
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+export const getAllNFTsByOwner = async (address: string) => {
+    try {
+        const response = await algoService.get(
+            `/get-nfts-status-by-address/${address}`
+        );
+        const parsed = await parse(response.data);
+        return parsed;
+    } catch (error) {
+        console.log(error);
+    }
 };
+
+const parse = async (nfts: any[]) => {
+    const allSettled = await Promise.allSettled(
+        nfts.map((e: INFT) => axios.get(e.Uri))
+    );
+    const parsed = allSettled.map((e: any) => {
+        const relatedNft = nfts.find(
+            (nft: INFT) => nft.Uri === e.value.config.url
+        );
+        relatedNft.Uri = e.value.data;
+        return relatedNft;
+    });
+    return parsed;
+};
+
+// const parseNFT = async (nfts: INFT[]) => {
+//     console.log({ nfts });
+
+//     const promises: any[] = nfts.map((element: INFT) => axios.get(element.Uri));
+//     const fulfilledUris = await Promise.allSettled(promises);
+
+//     const parsedNfts = fulfilledUris.map((item: any) => {
+//         console.log(item.value.data);
+
+//         // const nft = nfts.find((nft: INFT) => {
+//         //     const uri = nft.Uri;
+//         //     const ident = uri.slice(
+//         //         uri.lastIndexOf(".json") - 1,
+//         //         uri.lastIndexOf(".json")
+//         //     );
+//         //     return item.value.data.name === ident;
+//         // });
+//     });
+// };
 
 const parseArray = (array: []) => {
     // debugger;
@@ -265,15 +286,15 @@ const parseArray = (array: []) => {
     return newArr;
 };
 
-export const getAPY = (appId: string | undefined) => {
-    switch (appId) {
-        case appAdress3Months.toString():
+export const getAPY = (rewards: IAlgoRewards | undefined) => {
+    switch (rewards?.appid) {
+        case appAdress3Months:
             return "45";
-        case appAdress6Months.toString():
+        case appAdress6Months:
             return "75";
-        case appAdress9Months.toString():
+        case appAdress9Months:
             return "100";
-        case appAdress12Months.toString():
+        case appAdress12Months:
             return "125";
         default:
             break;

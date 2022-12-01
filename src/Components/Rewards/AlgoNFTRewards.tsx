@@ -1,16 +1,21 @@
 import classNames from "classnames";
-import { IFetchedStake } from "../../assets/ts/Consts";
+import { IFetchedStake, INFT } from "../../assets/ts/Consts";
 import left from "../../assets/images/left.svg";
 import right from "../../assets/images/right.svg";
-import ClipboardCopy from "../ClipboardCopy/ClipboardCopy.tsx";
+// import ClipboardCopy from "../ClipboardCopy/ClipboardCopy";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
 import { getAllAlgoStakes, getAllNFTsByOwner } from "../../assets/ts/algoUtils";
 import Carousel from "../Carousel/Carousel";
-import CarouselMainItem from "../Carousel/CarouselMainItemList";
+import CarouselMainItemList from "../Carousel/CarouselMainItemList";
 import { useDispatch } from "react-redux";
-import { setFetchedAlgoStakes } from "../../store/reducer/homePageSlice";
+import {
+    setFetchedAlgoStakes,
+    setNFTSByOwner,
+    setSelectedNFT,
+} from "../../store/reducer/homePageSlice";
+import ClipboardCopy from "../ClipboardCopy/ClipboardCopy";
 interface Props {
     stakes: IFetchedStake[];
     setIndex: any;
@@ -24,16 +29,18 @@ export const AlgoNFTRewards = ({
 }: Props) => {
     const dispatch = useDispatch();
     const [x, setX] = useState(0);
-    const { account, fetchedAlgoStakes, activeSessionStakes } = useSelector(
+    const { account, activeSessionStakes, nfts, selectedNFTtxId } = useSelector(
         (state: ReduxState) => state.homePage
     );
 
     useEffect(() => {
+        const nfts = async () => {
+            const nfts = await getAllNFTsByOwner(account);
+            dispatch(setNFTSByOwner(nfts));
+            if (nfts) dispatch(setSelectedNFT(nfts[0].txId));
+        };
         if (account) {
-            getAllNFTsByOwner(account, stakes);
-            // const stakes = await getAllAlgoStakes(account);
-            // if (fetchedAlgoStakes?.length !== stakes?.length)
-            //     dispatch(setFetchedAlgoStakes(stakes));
+            nfts();
         }
     }, []);
 
@@ -43,7 +50,7 @@ export const AlgoNFTRewards = ({
             dispatch(setFetchedAlgoStakes(stakes));
         };
         updateAlgoSTakes();
-    }, [activeSessionStakes]);
+    }, [activeSessionStakes, account, dispatch]);
 
     const handleSwap = (next: boolean) => {
         // debugger;
@@ -51,8 +58,16 @@ export const AlgoNFTRewards = ({
             case false:
                 if (selectedStakeIndex !== 0) {
                     if (selectedStakeIndex <= 3) {
+                        const index = nfts.findIndex(
+                            (e: INFT) => e.txId === selectedNFTtxId
+                        );
+                        dispatch(setSelectedNFT(nfts[index - 1].txId));
                         setIndex(selectedStakeIndex - 1);
                     } else {
+                        const index = nfts.findIndex(
+                            (e: INFT) => e.txId === selectedNFTtxId
+                        );
+                        dispatch(setSelectedNFT(nfts[index - 1].txId));
                         setIndex(selectedStakeIndex - 1);
                         setX((prev) => prev + 110);
                     }
@@ -61,6 +76,10 @@ export const AlgoNFTRewards = ({
             case true:
                 if (selectedStakeIndex !== stakes?.length - 1) {
                     setIndex(selectedStakeIndex + 1);
+                    const index = nfts.findIndex(
+                        (e: INFT) => e.txId === selectedNFTtxId
+                    );
+                    dispatch(setSelectedNFT(nfts[index + 1].txId));
                     if (stakes.length > 4 && selectedStakeIndex >= 3) {
                         setX((prev) => prev - 110);
                     }
@@ -87,16 +106,10 @@ export const AlgoNFTRewards = ({
                     >
                         <img src={left} alt="left" />
                     </button>
-                    <CarouselMainItem
-                        stakes={stakes}
+                    <CarouselMainItemList
+                        nfts={nfts}
                         selectedStakeIndex={selectedStakeIndex}
                     />
-                    {/* <img
-                        src={stakes[selectedStakeIndex].displayImage}
-                        alt="NFT"
-                        className="imgMain"
-                    /> */}
-
                     <button
                         className="btnWrap"
                         onClick={() => handleSwap(true)}
@@ -106,9 +119,10 @@ export const AlgoNFTRewards = ({
                 </div>
                 <ClipboardCopy
                     index={selectedStakeIndex}
-                    stake={stakes[selectedStakeIndex]}
+                    item={nfts[selectedStakeIndex]}
                 />
                 <Carousel
+                    nfts={nfts}
                     stakes={stakes}
                     x={x}
                     selectedStakeIndex={selectedStakeIndex}

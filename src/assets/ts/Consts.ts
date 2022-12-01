@@ -25,7 +25,7 @@ export interface IActiveSessionSTake {
 }
 
 export interface IFetchedStake {
-    appId: string;
+    appId: number;
     id: number;
     lockTime: number;
     owner: string;
@@ -38,8 +38,48 @@ export interface IFetchedStake {
     displayImage: string;
 }
 export interface IAlgoRewards {
-    appid: string;
+    appid: number;
     earned: number;
+}
+
+export interface INFT {
+    CD: string;
+    Uri: any;
+    address: string;
+    appId: number;
+    assetId: number;
+    isClaimed: boolean;
+    stakeId: number;
+    timeStamp: number;
+    txId: string;
+}
+
+export interface INFTURI {
+    name: string;
+    description: string;
+    image: string;
+    image_integrity: string;
+    properties: IProperties;
+}
+
+interface IProperties {
+    creator: string;
+    created_at: string;
+    traits: Traits;
+}
+
+interface Traits {
+    Back: string;
+    Body: string;
+    Tattoo: string;
+    Shoes: string;
+    Pants: string;
+    Clothes: string;
+    Eyes: string;
+    Mouth: string;
+    Weapon: string;
+    Hair: string;
+    Acc: string;
 }
 
 export const STAKING_LIMIT_ALGO = 10000000;
