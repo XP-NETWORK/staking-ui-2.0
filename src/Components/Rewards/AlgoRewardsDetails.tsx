@@ -49,7 +49,7 @@ export default function AlgoRewardsDetails({
             getMonths(stakes[stakeIndex]?.lockTime)
         );
         let rewards;
-
+        debugger;
         try {
             let sp = await client.getSuggestedParams();
             sp.flatFee = true;

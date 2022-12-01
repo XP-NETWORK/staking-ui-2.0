@@ -35,7 +35,7 @@ export const AlgoNFTRewards = ({
 
     useEffect(() => {
         const nfts = async () => {
-            const nfts = await getAllNFTsByOwner(account);
+            const nfts = await getAllNFTsByOwner(account, stakes);
             dispatch(setNFTSByOwner(nfts));
             if (nfts) dispatch(setSelectedNFT(nfts[0].txId));
         };

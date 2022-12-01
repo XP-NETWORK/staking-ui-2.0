@@ -117,6 +117,7 @@ export const unstake = async (
     account: string,
     duration: number
 ) => {
+    debugger;
     let rewards;
     const client = await createClient(signer, account, getMonths(duration));
     try {
@@ -223,16 +224,30 @@ export const getAllAlgoStakes = async (owner: string) => {
     return arr;
 };
 
-export const getAllNFTsByOwner = async (address: string) => {
+export const getAllNFTsByOwner = async (
+    address: string,
+    stakes: IFetchedStake[]
+) => {
     try {
         const response = await algoService.get(
             `/get-nfts-status-by-address/${address}`
         );
         const parsed = await parse(response.data);
-        return parsed;
+        const arr = findNotExist(parsed, stakes);
+        return arr;
     } catch (error) {
         console.log(error);
     }
+};
+
+const findNotExist = (nfts: INFT[], stakes: IFetchedStake[]) => {
+    const filteredNfts = nfts.filter((nft: INFT) => {
+        const unstakedTxId = stakes.find((stake: IFetchedStake) => {
+            return stake.txId === nft.txId;
+        });
+        return unstakedTxId ? nft : undefined;
+    });
+    return filteredNfts;
 };
 
 const parse = async (nfts: any[]) => {
