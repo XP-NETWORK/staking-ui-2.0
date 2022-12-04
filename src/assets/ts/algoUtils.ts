@@ -11,17 +11,13 @@ import {
     IAlgoRewards,
     IFetchedStake,
     INFT,
-    INFTURI,
     subAppId,
 } from "./Consts";
 import axios from "axios";
 import { Staking } from "./StakingClient";
 import store from "../../store/store";
 import moment from "moment";
-import {
-    setNFTSByOwner,
-    updateNFTUriToFetchedStakes,
-} from "../../store/reducer/homePageSlice";
+
 const apiKey = process.env.REACT_APP_API_TOKEN?.toString();
 export const algod = new algosdk.Algodv2(apiKey as string, algodUri, algodPort);
 
@@ -74,6 +70,36 @@ export const createClient = async (
     return stakingContract;
 };
 
+// const setSigner = async (wallet:string) => {
+//     // signer: async (txns) => {
+//         const s = txns?.map((e) => {
+//             return {
+//                 txn: Buffer.from(e.toByte()).toString("base64"),
+//             };
+//         });
+//         let signed: any;
+//         switch (connectedWallet) {
+//             case "AlgoSigner":
+//                 signed = await signer.signTxn(s);
+//                 return signed?.map((e: any) =>
+//                     Buffer.from(e.blob, "base64")
+//                 );
+//             case "MyAlgo":
+//                 signed = await signer.signTxns(s);
+//                 return signed?.map((e: any) => Buffer.from(e, "base64"));
+//             case "Pera":
+//                 const multipleTxnGroups = txns.map((n) => {
+//                     return { txn: n, signers: [account] };
+//                 });
+
+//                 signed = await signer.signTransaction([multipleTxnGroups]);
+//                 return signed?.map((e: any) => Buffer.from(e, "base64"));
+//             default:
+//                 break;
+//         }
+//     // },
+// }
+
 export const stake = async (
     address: string,
     amount: number,
@@ -120,6 +146,7 @@ export const unstake = async (
     debugger;
     let rewards;
     const client = await createClient(signer, account, getMonths(duration));
+
     try {
         let sp = await client.getSuggestedParams();
         sp.flatFee = true;
@@ -389,5 +416,44 @@ export const getMonths = (duration: number) => {
             return 6;
         default:
             return 3;
+    }
+};
+
+export const checkIfOpIn = async (assetId: number, owner: string) => {
+    try {
+        const isOptIn = await algod
+            .accountAssetInformation(owner, assetId)
+            .do();
+        console.log({ isOptIn });
+    } catch (error) {
+        return false;
+    }
+};
+
+export const optInAsset = async (
+    owner: string,
+    assetId: number,
+    params: any,
+    signer: any
+) => {
+    try {
+        console.log({ params });
+
+        const txn = await algosdk.makeAssetTransferTxnWithSuggestedParams(
+            owner,
+            algosdk.getApplicationAddress(assetId),
+            undefined,
+            undefined,
+            0,
+            undefined,
+            assetId,
+            params
+        );
+        console.log({ txn });
+
+        const txn_b64 = await signer.encoding.msgpackToBase64(txn.toByte());
+        await signer.signTxn([{ txn: txn_b64 }]);
+    } catch (error) {
+        console.log(error);
     }
 };

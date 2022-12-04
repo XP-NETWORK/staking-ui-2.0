@@ -6,7 +6,11 @@ import right from "../../assets/images/right.svg";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
-import { getAllAlgoStakes, getAllNFTsByOwner } from "../../assets/ts/algoUtils";
+import {
+    checkIfOpIn,
+    getAllAlgoStakes,
+    getAllNFTsByOwner,
+} from "../../assets/ts/algoUtils";
 import Carousel from "../Carousel/Carousel";
 import CarouselMainItemList from "../Carousel/CarouselMainItemList";
 import { useDispatch } from "react-redux";
@@ -16,6 +20,8 @@ import {
     setSelectedNFT,
 } from "../../store/reducer/homePageSlice";
 import ClipboardCopy from "../ClipboardCopy/ClipboardCopy";
+import { Staking } from "../../assets/ts/StakingClient";
+import AlgoNFTActions from "./AlgoNFTActions";
 interface Props {
     stakes: IFetchedStake[];
     setIndex: any;
@@ -29,9 +35,18 @@ export const AlgoNFTRewards = ({
 }: Props) => {
     const dispatch = useDispatch();
     const [x, setX] = useState(0);
-    const { account, activeSessionStakes, nfts, selectedNFTtxId } = useSelector(
-        (state: ReduxState) => state.homePage
-    );
+    const {
+        account,
+        activeSessionStakes,
+        nfts,
+        selectedNFTtxId,
+        stakingClient,
+    } = useSelector((state: ReduxState) => state.homePage);
+
+    const isAssetOptIn = () => {
+        checkIfOpIn(nfts[selectedStakeIndex]?.assetId, account);
+    };
+    isAssetOptIn();
 
     useEffect(() => {
         const nfts = async () => {
@@ -117,10 +132,23 @@ export const AlgoNFTRewards = ({
                         <img src={right} alt="right" />
                     </button>
                 </div>
-                <ClipboardCopy
-                    index={selectedStakeIndex}
-                    item={nfts[selectedStakeIndex]}
-                />
+                <AlgoNFTActions nfts={nfts} index={selectedStakeIndex} />
+                {/* <div className="nft-actions">
+                    <ClipboardCopy
+                        index={selectedStakeIndex}
+                        item={nfts[selectedStakeIndex]}
+                    />
+                    <div className="nft-actions-button">Opt-In</div>
+                    <div
+                        className={`nft-actions-button${
+                            nfts[selectedStakeIndex]?.isClaimed
+                                ? "--disabled"
+                                : ""
+                        }`}
+                    >
+                        Claim
+                    </div>
+                </div> */}
                 <Carousel
                     nfts={nfts}
                     stakes={stakes}

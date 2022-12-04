@@ -19,11 +19,6 @@ export const Connect: FC<Props> = ({}) => {
         (state: ReduxState) => state.homePage.blockchain
     ).chain;
 
-    const pathname = window.location.pathname;
-    const evmStake = pathname
-        .slice(pathname.lastIndexOf("/") + 1)
-        .match(/evm-stake|evm-rewards/);
-
     return (
         <>
             <div className="connectWraper">
@@ -35,7 +30,7 @@ export const Connect: FC<Props> = ({}) => {
                     <img src={close} onClick={() => navigate("/")} />
                 </div>
                 <div className="connectBtns">
-                    {evmStake || blockchain === "BSC" ? (
+                    {blockchain === "BSC" ? (
                         <>
                             <MetaMask />
                             <WalletConnect />

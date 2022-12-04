@@ -35,11 +35,11 @@ export default function ClipboardCopy({ item, index }: Props) {
 
     return (
         <div className="copyContainer">
-            <label>Asset Id {item?.image || item?.appId}</label>
+            <label>Asset Id {item?.image || item?.assetId}</label>
             <img
                 src={copy}
                 alt="copy"
-                onClick={() => handleCopyClick(item?.image || item?.appId)}
+                onClick={() => handleCopyClick(item?.image || item?.assetId)}
                 className="copyBtn"
             />
         </div>
