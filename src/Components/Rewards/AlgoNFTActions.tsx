@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { optInAsset } from "../../assets/ts/algoUtils";
+import { checkIfOpIn, optInAsset } from "../../assets/ts/algoUtils";
 import { INFT } from "../../assets/ts/Consts";
 import { ReduxState } from "../../store/store";
 import ClipboardCopy from "../ClipboardCopy/ClipboardCopy";
@@ -15,21 +15,48 @@ export default function AlgoNFTActions({ index, nfts }: Props) {
         (state: ReduxState) => state.homePage
     );
 
+    const [isOptIn, setIsOptIn] = useState(false);
+    const [optInBtnDisabled, setOptInDisabled] = useState(false);
+
     const handleOptIn = async () => {
+        setOptInDisabled(true);
         try {
-            let params = await stakingClient.client.getTransactionParams().do();
-            params.fee = 7_000;
-            params.flatFee = true;
-            optInAsset(account, nfts[index]?.assetId, params, signer);
+            const txId = await optInAsset(
+                account,
+                nfts[index]?.assetId,
+                signer,
+                stakingClient
+            );
+            if (txId) setIsOptIn(true);
+            setOptInDisabled(false);
         } catch (error) {
             console.log(error);
+            setOptInDisabled(false);
         }
+    };
+
+    const isAssetOptIn = async () => {
+        const res = await checkIfOpIn(nfts[index]?.assetId, account);
+        if (res) setIsOptIn(true);
+        else setIsOptIn(false);
+    };
+    isAssetOptIn();
+
+    useEffect(() => {}, [isOptIn]);
+
+    const style: React.CSSProperties = {
+        pointerEvents: optInBtnDisabled ? "none" : "auto",
+        opacity: optInBtnDisabled ? "0.6" : "1",
     };
 
     return (
         <div className="nft-actions">
             <ClipboardCopy index={index} item={nfts[index]} />
-            <div onClick={handleOptIn} className="nft-actions-button">
+            <div
+                style={style}
+                onClick={handleOptIn}
+                className={`nft-actions-button${isOptIn ? "--disabled" : ""}`}
+            >
                 Opt-In
             </div>
             <div

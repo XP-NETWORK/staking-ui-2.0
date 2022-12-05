@@ -1,0 +1,42 @@
+.page-not-found__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.page-not-found-image {
+    width: 220px;
+}
+.page-not-found-image img {
+    width: 100%;
+}
+.page-not-found-content {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+.page-not-found-header {
+    margin-top: 10px;
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 120%;
+}
+.page-not-found-btn {
+    width: 183px;
+    height: 52px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #2388ff;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 600px) {
+    .page-not-found__container {
+        margin-top: 50px;
+    }
+}

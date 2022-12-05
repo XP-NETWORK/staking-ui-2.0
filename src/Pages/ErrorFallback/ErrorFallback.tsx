@@ -1,11 +1,12 @@
 import React from "react";
-import { useNavigate } from "react-router";
 import image from "./../../assets/images/404.png";
-import "./wrongRoute.scss";
 
-export default function WrongRoute() {
-    const navigate = useNavigate();
+interface errProps {
+    error: any;
+    resetErrorBoundary: any;
+}
 
+export default function ErrorFallback({ error, resetErrorBoundary }: errProps) {
     return (
         <div className="page-not-found__container">
             <div className="page-not-found-image">
@@ -13,10 +14,13 @@ export default function WrongRoute() {
             </div>
             <div className="page-not-found-content">
                 <div className="page-not-found-header">Oops!</div>
-                <div>It’s just a 404 error.</div>
+                <div>Something went wrong.</div>
                 <div>The page you are looking for is not available.</div>
             </div>
-            <div onClick={() => navigate("/")} className="page-not-found-btn">
+            <div
+                onClick={() => window.location.reload()}
+                className="page-not-found-btn"
+            >
                 Back to Homepage
             </div>
         </div>

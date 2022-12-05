@@ -10,6 +10,9 @@ import MetaMask from "../Wallets/MetaMask";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
 import WalletConnect from "../Wallets/WalletConnect";
+import { Web3Modal } from "@web3modal/react";
+import { WagmiConfig } from "wagmi";
+import { ethereumClient, wagmiClient, wcId } from "../Wallets/walletConnectors";
 
 interface Props {}
 
@@ -32,8 +35,10 @@ export const Connect: FC<Props> = ({}) => {
                 <div className="connectBtns">
                     {blockchain === "BSC" ? (
                         <>
-                            <MetaMask />
-                            <WalletConnect />
+                            <WagmiConfig client={wagmiClient}>
+                                <MetaMask />
+                                <WalletConnect />
+                            </WagmiConfig>
                         </>
                     ) : (
                         <>

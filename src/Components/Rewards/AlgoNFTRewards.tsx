@@ -43,11 +43,6 @@ export const AlgoNFTRewards = ({
         stakingClient,
     } = useSelector((state: ReduxState) => state.homePage);
 
-    const isAssetOptIn = () => {
-        checkIfOpIn(nfts[selectedStakeIndex]?.assetId, account);
-    };
-    isAssetOptIn();
-
     useEffect(() => {
         const nfts = async () => {
             const nfts = await getAllNFTsByOwner(account, stakes);

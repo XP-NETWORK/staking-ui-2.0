@@ -1,33 +1,35 @@
-import { useNavigate, useParams } from "react-router";
-import { useDispatch } from "react-redux";
-import { createClient } from "../../assets/ts/algoUtils";
-
-import {
-    setAccount,
-    setClient,
-    setSigner,
-} from "../../store/reducer/homePageSlice";
-import { appAdress3Months } from "../../assets/ts/Consts";
 import icon from "../../assets/wallets/WalletConnect.svg";
 import { HigherEVM } from "./HigherEVM";
+import { useAccount } from "wagmi";
+import { useWeb3Modal } from "@web3modal/react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setEvmAccount } from "../../store/reducer/homePageSlice";
+import { useContract } from "wagmi";
+import xpNetStaker from "./../../ABI/xpNetStaker.json";
 
 const WalletConnect = ({ connect }: { connect: Function }) => {
-    let { to } = useParams();
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const { address, isConnecting, isDisconnected } = useAccount();
+    const evmStake = process.env.REACT_APP_XPNET_STAKE_TOKEN as string;
+
+    const contract = useContract({
+        address: evmStake,
+        abi: xpNetStaker,
+    });
+
+    const { open } = useWeb3Modal();
 
     const handleClick = async () => {
-        let account = await connect("AlgoSigner");
-        dispatch(setAccount(account.address));
-        dispatch(setSigner(account.signer));
-        let client = await createClient(
-            account.signer,
-            account.address,
-            appAdress3Months
-        );
-        dispatch(setClient(client));
-        to === "stake" ? navigate("/stake") : navigate("/rewards");
+        if (!address) open();
+        else dispatch(setEvmAccount(address));
     };
+
+    useEffect(() => {
+        if (address) {
+            dispatch(setEvmAccount(address));
+        }
+    }, [address]);
 
     return (
         <button onClick={handleClick} className="connectBtn">

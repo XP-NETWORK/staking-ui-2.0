@@ -17,6 +17,7 @@ import axios from "axios";
 import { Staking } from "./StakingClient";
 import store from "../../store/store";
 import moment from "moment";
+import { Base64 } from "js-base64";
 
 const apiKey = process.env.REACT_APP_API_TOKEN?.toString();
 export const algod = new algosdk.Algodv2(apiKey as string, algodUri, algodPort);
@@ -424,7 +425,7 @@ export const checkIfOpIn = async (assetId: number, owner: string) => {
         const isOptIn = await algod
             .accountAssetInformation(owner, assetId)
             .do();
-        console.log({ isOptIn });
+        return isOptIn;
     } catch (error) {
         return false;
     }
@@ -433,27 +434,47 @@ export const checkIfOpIn = async (assetId: number, owner: string) => {
 export const optInAsset = async (
     owner: string,
     assetId: number,
-    params: any,
-    signer: any
+    signer: any,
+    client: any
 ) => {
     try {
-        console.log({ params });
-
-        const txn = await algosdk.makeAssetTransferTxnWithSuggestedParams(
-            owner,
-            algosdk.getApplicationAddress(assetId),
-            undefined,
-            undefined,
-            0,
-            undefined,
-            assetId,
-            params
-        );
-        console.log({ txn });
-
-        const txn_b64 = await signer.encoding.msgpackToBase64(txn.toByte());
-        await signer.signTxn([{ txn: txn_b64 }]);
+        let params = await client.client.getTransactionParams().do();
+        params.fee = 7_000;
+        params.flatFee = true;
+        const optInTxn =
+            await algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
+                from: owner,
+                to: owner,
+                amount: 0,
+                assetIndex: assetId,
+                suggestedParams: params,
+            });
+        const encodedTx = Base64.fromUint8Array(optInTxn.toByte());
+        const signedTx = await signer.signTxn([{ txn: encodedTx }]);
+        const res = await signer.send({
+            ledger: "MainNet",
+            tx: signedTx[0].blob,
+        });
+        await waitTxnConfirm(res.txId);
+        return res.txId;
     } catch (error) {
         console.log(error);
+    }
+};
+
+const waitTxnConfirm = async (txId: any) => {
+    const status = await algod.status().do();
+    let lastRound = status["last-round"];
+    algod.pendingTransactionsInformation();
+    let pendingInfo: any = await algod
+        .pendingTransactionInformation(txId)
+        .do()
+        .catch(() => ({}));
+    while (
+        !(pendingInfo["confirmed-round"] && pendingInfo["confirmed-round"] > 0)
+    ) {
+        lastRound += 1;
+        await algod.statusAfterBlock(lastRound).do();
+        pendingInfo = await algod.pendingTransactionInformation(txId).do();
     }
 };
