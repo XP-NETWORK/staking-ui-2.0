@@ -34,14 +34,19 @@ export default function ClipboardCopy({ item, index }: Props) {
     };
 
     return (
-        <div className="copyContainer">
-            <label>Asset Id {item?.image || item?.assetId}</label>
-            <img
-                src={copy}
-                alt="copy"
-                onClick={() => handleCopyClick(item?.image || item?.assetId)}
-                className="copyBtn"
-            />
+        <div className="clipboard__wrapper">
+            <div className="clipboard-label">Asset Id: </div>
+            <div className="copyContainer">
+                <label>{item?.image || item?.assetId}</label>
+                <img
+                    src={copy}
+                    alt="copy"
+                    onClick={() =>
+                        handleCopyClick(item?.image || item?.assetId)
+                    }
+                    className="copyBtn"
+                />
+            </div>
         </div>
     );
 }

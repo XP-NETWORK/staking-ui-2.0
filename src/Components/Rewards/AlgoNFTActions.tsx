@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { checkIfOpIn, optInAsset } from "../../assets/ts/algoUtils";
+import {
+    checkIfOpIn,
+    optInAsset,
+    transferOptedInAsset,
+} from "../../assets/ts/algoUtils";
 import { INFT } from "../../assets/ts/Consts";
+import { updateClaimedNft } from "../../store/reducer/homePageSlice";
 import { ReduxState } from "../../store/store";
 import ClipboardCopy from "../ClipboardCopy/ClipboardCopy";
 
@@ -15,8 +21,12 @@ export default function AlgoNFTActions({ index, nfts }: Props) {
         (state: ReduxState) => state.homePage
     );
 
+    const dispatch = useDispatch();
     const [isOptIn, setIsOptIn] = useState(false);
     const [optInBtnDisabled, setOptInDisabled] = useState(false);
+    const [claimed, setClaimed] = useState(false);
+
+    const [claimBtnDisabled, setClaimDisabled] = useState(false);
 
     const handleOptIn = async () => {
         setOptInDisabled(true);
@@ -35,6 +45,15 @@ export default function AlgoNFTActions({ index, nfts }: Props) {
         }
     };
 
+    const handleClaim = async () => {
+        setClaimDisabled(true);
+        const res = await transferOptedInAsset(nfts[index]?.assetId, account);
+        if (res) {
+            dispatch(updateClaimedNft(nfts[index]?.txId));
+            setClaimDisabled(false);
+        } else setClaimDisabled(false);
+    };
+
     const isAssetOptIn = async () => {
         const res = await checkIfOpIn(nfts[index]?.assetId, account);
         if (res) setIsOptIn(true);
@@ -42,27 +61,37 @@ export default function AlgoNFTActions({ index, nfts }: Props) {
     };
     isAssetOptIn();
 
-    useEffect(() => {}, [isOptIn]);
-
-    const style: React.CSSProperties = {
+    const optInStyle: React.CSSProperties = {
         pointerEvents: optInBtnDisabled ? "none" : "auto",
         opacity: optInBtnDisabled ? "0.6" : "1",
     };
+    const claimStyle: React.CSSProperties = {
+        pointerEvents: claimBtnDisabled ? "none" : "auto",
+        opacity: claimBtnDisabled ? "0.6" : "1",
+    };
+
+    useEffect(() => {}, [index, nfts]);
 
     return (
         <div className="nft-actions">
             <ClipboardCopy index={index} item={nfts[index]} />
             <div
-                style={style}
+                style={optInStyle}
                 onClick={handleOptIn}
                 className={`nft-actions-button${isOptIn ? "--disabled" : ""}`}
             >
                 Opt-In
             </div>
             <div
-                className={`nft-actions-button${
-                    nfts[index]?.isClaimed ? "--disabled" : ""
-                }`}
+                style={claimStyle}
+                onClick={handleClaim}
+                className={
+                    isOptIn
+                        ? `nft-actions-button${
+                              nfts[index]?.isClaimed ? "--disabled" : ""
+                          }`
+                        : "nft-actions-button--unoptined"
+                }
             >
                 Claim
             </div>

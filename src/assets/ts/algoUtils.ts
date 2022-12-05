@@ -478,3 +478,20 @@ const waitTxnConfirm = async (txId: any) => {
         pendingInfo = await algod.pendingTransactionInformation(txId).do();
     }
 };
+
+export const transferOptedInAsset = async (
+    assetId: number,
+    address: string
+) => {
+    debugger;
+    try {
+        const res = await algoService.post("/transfer-asset", {
+            assetId,
+            address,
+        });
+        if (res.data) return true;
+    } catch (error) {
+        console.log(error);
+        return false;
+    }
+};
