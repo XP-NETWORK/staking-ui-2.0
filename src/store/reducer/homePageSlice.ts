@@ -61,6 +61,17 @@ const homePageSlice = createSlice({
     name: "homePage",
     initialState,
     reducers: {
+        updateClaimedNft(state: any, action: any) {
+            const arr = state.nfts;
+            const txId = action.payload;
+            const updatedArr = arr.map((e: INFT) => {
+                if (e.txId === txId) {
+                    e.isClaimed = true;
+                    return e;
+                } else return e;
+            });
+            state.nfts = updatedArr;
+        },
         setSelectedNFT(state: any, action: any) {
             state.selectedNFTtxId = action.payload;
         },
@@ -152,6 +163,7 @@ const homePageSlice = createSlice({
 });
 
 export const {
+    updateClaimedNft,
     setSelectedNFT,
     setNFTSByOwner,
     updateNFTUriToFetchedStakes,

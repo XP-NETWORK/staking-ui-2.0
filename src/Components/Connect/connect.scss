@@ -2,6 +2,10 @@
 //   background-image: none;
 // }
 
+.w3m-modal-overlay {
+    background-color: unset;
+}
+
 .connectWraper {
     display: flex;
     flex-direction: column;

@@ -12,8 +12,52 @@ import {
 } from "../../store/reducer/homePageSlice";
 import Web3 from "web3";
 import { getAmountOfEVMTokensStaked } from "../../assets/ts/evmUtils";
+import {
+    EthereumClient,
+    modalConnectors,
+    walletConnectProvider,
+} from "@web3modal/ethereum";
 
-const { InjectedConnector, NetworkOnlyConnector } = Connectors;
+import { Web3Modal } from "@web3modal/react";
+
+import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
+
+const BSC = {
+    id: 56,
+    name: "BSC",
+    network: "BSC",
+    nativeCurrency: {
+        decimals: 18,
+        name: "BCS",
+        symbol: "BNB",
+    },
+    rpcUrls: {
+        default: "https://bsc-dataseed.binance.org/",
+    },
+    blockExplorers: {
+        default: { name: "BSCScan", url: "https://bscscan.com" },
+    },
+    testnet: false,
+};
+
+const chains = [BSC];
+
+export const wcId = process.env.REACT_APP_WC_PROJECT_ID as string;
+
+const { provider } = configureChains(chains, [
+    walletConnectProvider({ projectId: wcId }),
+]);
+
+export const wagmiClient = createClient({
+    autoConnect: true,
+    connectors: modalConnectors({ appName: "web3Modal", chains }),
+    provider,
+});
+
+// Web3Modal Ethereum Client
+export const ethereumClient = new EthereumClient(wagmiClient, chains);
+
+const { InjectedConnector } = Connectors;
 
 let web3 = new Web3(Web3.givenProvider || "https://bsc-dataseed.binance.org/");
 
@@ -24,7 +68,6 @@ export const connectors = { MetaMask };
 const peraWallet = new PeraWalletConnect({
     bridge: "https://bridge.walletconnect.org",
 });
-const algod = algosdk.Algodv2;
 export const algoConnector = new WalletConnect({
     bridge: "https://bridge.walletconnect.org", // Required
     qrcodeModal: QRCodeModal,
@@ -91,11 +134,11 @@ export const getMyAlgoConnect = async (testnet: boolean) => {
     return { signer, address: accounts[0].address };
 };
 
-declare global {
-    interface Window {
-        ethereum: any | undefined;
-    }
-}
+// declare global {
+//     interface Window {
+//         ethereum: any | undefined;
+//     }
+// }
 
 export const connectMetaMask = async () => {
     let accounts: string[];

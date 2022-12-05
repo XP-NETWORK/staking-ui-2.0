@@ -10,6 +10,9 @@ import MetaMask from "../Wallets/MetaMask";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
 import WalletConnect from "../Wallets/WalletConnect";
+import { Web3Modal } from "@web3modal/react";
+import { WagmiConfig } from "wagmi";
+import { ethereumClient, wagmiClient, wcId } from "../Wallets/walletConnectors";
 
 interface Props {}
 
@@ -18,11 +21,6 @@ export const Connect: FC<Props> = ({}) => {
     const blockchain = useSelector(
         (state: ReduxState) => state.homePage.blockchain
     ).chain;
-
-    const pathname = window.location.pathname;
-    const evmStake = pathname
-        .slice(pathname.lastIndexOf("/") + 1)
-        .match(/evm-stake|evm-rewards/);
 
     return (
         <>
@@ -35,10 +33,12 @@ export const Connect: FC<Props> = ({}) => {
                     <img src={close} onClick={() => navigate("/")} />
                 </div>
                 <div className="connectBtns">
-                    {evmStake || blockchain === "BSC" ? (
+                    {blockchain === "BSC" ? (
                         <>
-                            <MetaMask />
-                            <WalletConnect />
+                            <WagmiConfig client={wagmiClient}>
+                                <MetaMask />
+                                <WalletConnect />
+                            </WagmiConfig>
                         </>
                     ) : (
                         <>

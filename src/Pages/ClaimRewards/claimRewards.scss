@@ -116,19 +116,24 @@
     line-height: 126%;
     opacity: 0.5;
 }
+.clipboard-label {
+    display: flex;
+    align-items: center;
+}
 .copyContainer {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     padding: 12px 12px 12px 16px;
-    width: -webkit-fill-available;
+    min-width: 104px;
     background: rgba(27, 27, 29, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.04);
     border-radius: 6px;
     border-radius: 6px;
     font-weight: 400;
     font-size: 14px;
+    gap: 6px;
 }
 
 .nftsRewardsContainer {
@@ -290,6 +295,10 @@
     margin-top: 12px !important;
     background: rgba(255, 255, 255, 0.04);
 }
+.clipboard__wrapper {
+    display: flex;
+    gap: 10px;
+}
 .blackBtn--disabled {
     margin-top: 12px !important;
     background: rgba(2, 198, 139, 0.04);
@@ -352,7 +361,6 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    // padding: 0px 26px;
     .imgMain {
         width: 292px;
         height: 292px;
@@ -390,6 +398,57 @@
     flex-direction: column;
     gap: 18px;
     justify-content: space-between;
+}
+.nft-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+.nft-actions-button {
+    width: 100px;
+    background: #2388ff;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+.nft-actions-button--unoptined {
+    width: 100px;
+    background: rgba(255, 255, 255, 0.04);
+    color: #959596;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+.nft-actions-button--disabled {
+    background: rgba(2, 198, 139, 0.04);
+    border-radius: 6px;
+    color: #02c68b;
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
 }
 
 @media screen and (max-width: 600px) {
@@ -431,6 +490,7 @@
         font-weight: 600;
         font-size: 14px;
     }
+
     .wrapPeriods {
         flex-wrap: wrap;
         gap: 10px;
@@ -450,6 +510,7 @@
             }
         }
     }
+
     .containerNft {
         img {
             width: 109px;

@@ -11,17 +11,14 @@ import {
     IAlgoRewards,
     IFetchedStake,
     INFT,
-    INFTURI,
     subAppId,
 } from "./Consts";
 import axios from "axios";
 import { Staking } from "./StakingClient";
 import store from "../../store/store";
 import moment from "moment";
-import {
-    setNFTSByOwner,
-    updateNFTUriToFetchedStakes,
-} from "../../store/reducer/homePageSlice";
+import { Base64 } from "js-base64";
+
 const apiKey = process.env.REACT_APP_API_TOKEN?.toString();
 export const algod = new algosdk.Algodv2(apiKey as string, algodUri, algodPort);
 
@@ -74,6 +71,36 @@ export const createClient = async (
     return stakingContract;
 };
 
+// const setSigner = async (wallet:string) => {
+//     // signer: async (txns) => {
+//         const s = txns?.map((e) => {
+//             return {
+//                 txn: Buffer.from(e.toByte()).toString("base64"),
+//             };
+//         });
+//         let signed: any;
+//         switch (connectedWallet) {
+//             case "AlgoSigner":
+//                 signed = await signer.signTxn(s);
+//                 return signed?.map((e: any) =>
+//                     Buffer.from(e.blob, "base64")
+//                 );
+//             case "MyAlgo":
+//                 signed = await signer.signTxns(s);
+//                 return signed?.map((e: any) => Buffer.from(e, "base64"));
+//             case "Pera":
+//                 const multipleTxnGroups = txns.map((n) => {
+//                     return { txn: n, signers: [account] };
+//                 });
+
+//                 signed = await signer.signTransaction([multipleTxnGroups]);
+//                 return signed?.map((e: any) => Buffer.from(e, "base64"));
+//             default:
+//                 break;
+//         }
+//     // },
+// }
+
 export const stake = async (
     address: string,
     amount: number,
@@ -120,6 +147,7 @@ export const unstake = async (
     debugger;
     let rewards;
     const client = await createClient(signer, account, getMonths(duration));
+
     try {
         let sp = await client.getSuggestedParams();
         sp.flatFee = true;
@@ -389,5 +417,81 @@ export const getMonths = (duration: number) => {
             return 6;
         default:
             return 3;
+    }
+};
+
+export const checkIfOpIn = async (assetId: number, owner: string) => {
+    try {
+        const isOptIn = await algod
+            .accountAssetInformation(owner, assetId)
+            .do();
+        return isOptIn;
+    } catch (error) {
+        return false;
+    }
+};
+
+export const optInAsset = async (
+    owner: string,
+    assetId: number,
+    signer: any,
+    client: any
+) => {
+    try {
+        let params = await client.client.getTransactionParams().do();
+        params.fee = 7_000;
+        params.flatFee = true;
+        const optInTxn =
+            await algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
+                from: owner,
+                to: owner,
+                amount: 0,
+                assetIndex: assetId,
+                suggestedParams: params,
+            });
+        const encodedTx = Base64.fromUint8Array(optInTxn.toByte());
+        const signedTx = await signer.signTxn([{ txn: encodedTx }]);
+        const res = await signer.send({
+            ledger: "MainNet",
+            tx: signedTx[0].blob,
+        });
+        await waitTxnConfirm(res.txId);
+        return res.txId;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+const waitTxnConfirm = async (txId: any) => {
+    const status = await algod.status().do();
+    let lastRound = status["last-round"];
+    algod.pendingTransactionsInformation();
+    let pendingInfo: any = await algod
+        .pendingTransactionInformation(txId)
+        .do()
+        .catch(() => ({}));
+    while (
+        !(pendingInfo["confirmed-round"] && pendingInfo["confirmed-round"] > 0)
+    ) {
+        lastRound += 1;
+        await algod.statusAfterBlock(lastRound).do();
+        pendingInfo = await algod.pendingTransactionInformation(txId).do();
+    }
+};
+
+export const transferOptedInAsset = async (
+    assetId: number,
+    address: string
+) => {
+    debugger;
+    try {
+        const res = await algoService.post("/transfer-asset", {
+            assetId,
+            address,
+        });
+        if (res.data) return true;
+    } catch (error) {
+        console.log(error);
+        return false;
     }
 };

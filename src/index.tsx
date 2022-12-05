@@ -6,14 +6,17 @@ import store from "./store/store";
 import { Provider } from "react-redux";
 
 import reportWebVitals from "./reportWebVitals";
+import { Web3Modal } from "@web3modal/react";
+import { ethereumClient, wcId } from "./Components/Wallets/walletConnectors";
 
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
+    document.getElementById("root") as HTMLElement
 );
 root.render(
-  <Provider store={store}>
-    <App />
-  </Provider>
+    <Provider store={store}>
+        <App />
+        <Web3Modal projectId={wcId} ethereumClient={ethereumClient} />
+    </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
