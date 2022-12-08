@@ -8,7 +8,6 @@ import {
     appAdress6Months,
     appAdress9Months,
     assetIdx,
-    IAlgoRewards,
     IFetchedStake,
     INFT,
     subAppId,
@@ -28,6 +27,44 @@ export const algod = new algosdk.Algodv2(algodToken, algodUri, algodPort);
 const algoService = axios.create({
     baseURL: process.env.REACT_APP_ALGO_SERVICE,
 });
+
+export const getTokenStaked = async () => {
+    let appIds = [
+        appAdress3Months,
+        appAdress6Months,
+        appAdress9Months,
+        appAdress12Months,
+    ];
+
+    let arr = await Promise.allSettled(
+        appIds.map((e: any) => {
+            var config = {
+                method: "get",
+                url: `https://mainnet-algorand.api.purestake.io/idx2/v2/applications/${e}`,
+                headers: {
+                    "x-api-key": "kZWDAxYR7Y6S6RoyfGIi28SATZ5DfTIs5pF0UMW4",
+                    Authorization:
+                        "Bearer kZWDAxYR7Y6S6RoyfGIi28SATZ5DfTIs5pF0UMW4",
+                },
+            };
+            return axios(config);
+        })
+    );
+    let s: any = [];
+    let staked = 0;
+    arr.forEach((e: any) => {
+        e.value.data.application.params["global-state"].forEach(
+            (value: any) => {
+                if (value.key === "ZHluYW1pY19hcHBfdmFsdWVfdW5pdGd0c3JvdQ==") {
+                    const i = value.value.uint / 1e6;
+                    staked = staked + i;
+                    s.push(i);
+                }
+            }
+        );
+    });
+    return staked;
+};
 
 export const createClient = async (
     signer: any,
@@ -537,4 +574,4 @@ export const getNFTCollection = async () => {
     }
     const nfts = await Promise.allSettled(arr);
 };
-getNFTCollection();
+// getNFTCollection();

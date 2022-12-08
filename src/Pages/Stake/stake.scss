@@ -339,29 +339,18 @@ input[type="number"]::-webkit-outer-spin-button {
     gap: 25px;
 }
 
-// .wrapPeriods div {
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: space-between;
-//   width: -webkit-fill-available;;
-// }
-
 @media screen and (max-width: 1100px) {
-    //   .stakeWrapper {
-    //     flex-direction: column;
-    //     gap: 20px;
-    //     width: -webkit-fill-available;
-    //     justify-content: center;
-    //     align-items: center;
-    //   }
 }
 
 @media screen and (max-width: 600px) {
+    .placeholder {
+        margin-left: 15px;
+        font-size: 11px;
+    }
     .stakeWrapper {
         flex-direction: column;
         gap: 9px;
-        // position: absolute;
-        // left: 0;
+
         width: -webkit-fill-available;
     }
     .container .sectionWrapper {
@@ -427,16 +416,11 @@ input[type="number"]::-webkit-outer-spin-button {
         flex-wrap: wrap;
         gap: 0px;
         justify-content: space-between;
-        // .summaryBox :nth-child(1) { order: 1; }
-        // .summaryBox :nth-child(2) { order: 3; }
-        // .summaryBox :nth-child(3) { order: 2; }
-        // .summaryBox :nth-child(4) { order: 4; }
         .row {
             flex-direction: column-reverse;
             width: 44%;
             align-items: flex-start !important;
             padding: 10px 7px;
-            /* gap: 9px; */
             justify-content: space-between;
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 6px;
@@ -476,9 +460,9 @@ input[type="number"]::-webkit-outer-spin-button {
         justify-content: space-between;
         flex-wrap: wrap;
         width: -webkit-fill-available !important;
-        gap: 0px;
+        gap: 6px;
         .row {
-            width: 39vw !important;
+            flex-basis: 35%;
         }
         #row1 {
             order: 1;
@@ -497,7 +481,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
 @media screen and (max-width: 500px) {
     .periods .row {
-        width: 39% !important;
+        // flex-basis: 39% !important;
     }
 }
 

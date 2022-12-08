@@ -19,15 +19,15 @@ import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
 import { useDispatch } from "react-redux";
 import { setBlockchain } from "../../store/reducer/homePageSlice";
+import { getTokenStaked } from "../../assets/ts/algoUtils";
 
 interface Props {}
 
 export const Home: FC<Props> = () => {
     const searchParams = new URLSearchParams(window.location.search);
-    const evmCheck = searchParams.get("evmCheck");
-    const algoCheck = searchParams.get("algoCheck");
 
-    const [totalStakeInAlgo, settotalStakeInAlgo] = useState(1);
+    const [totalStakeInAlgo, setTotalStakeInAlgo] = useState(0);
+
     const { blockchain, account, evmAccount } = useSelector(
         (state: ReduxState) => state.homePage
     );
@@ -62,6 +62,14 @@ export const Home: FC<Props> = () => {
                 break;
         }
     };
+
+    useEffect(() => {
+        const getTotal = async () => {
+            const staked = await getTokenStaked();
+            setTotalStakeInAlgo(staked);
+        };
+        getTotal();
+    }, []);
 
     return (
         <>
@@ -114,6 +122,7 @@ export const Home: FC<Props> = () => {
                         <ProgressBar
                             totalStaking={totalStakeInAlgo}
                             stakingLimit={STAKING_LIMIT_ALGO}
+                            chain={"algo"}
                         />
                         <div className={classNames("btnsContainer", "mobOnly")}>
                             <button
@@ -166,6 +175,7 @@ export const Home: FC<Props> = () => {
                         <ProgressBar
                             totalStaking={TOTAL_STAKED_BSC}
                             stakingLimit={TOTAL_STAKED_BSC}
+                            chain={"BSC"}
                         />
                         <div className={classNames("btnsContainer", "mobOnly")}>
                             <button
