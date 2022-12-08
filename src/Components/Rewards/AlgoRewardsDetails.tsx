@@ -6,7 +6,6 @@ import {
     IFetchedStake,
     subAppId,
 } from "../../assets/ts/Consts";
-import lock from "../../assets/images/lock.svg";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
 import {
@@ -19,6 +18,8 @@ import {
 } from "../../assets/ts/algoUtils";
 import { ProgressStaking } from "../ProgressStaking/ProgressStaking";
 import { useEffect, useState } from "react";
+import CLAIMButton from "../Buttons/CLAIMButton";
+import UNSTAKEButton from "../Buttons/UNSTAKEButton";
 
 interface Props {
     rewards: IAlgoRewards[];
@@ -42,34 +43,34 @@ export default function AlgoRewardsDetails({
         (state: ReduxState) => state.homePage
     );
 
-    const handleClaimXPNET = async () => {
-        const client = await createClient(
-            signer,
-            account,
-            getMonths(stakes[stakeIndex]?.lockTime)
-        );
-        let rewards;
-        debugger;
-        try {
-            let sp = await client.getSuggestedParams();
-            sp.flatFee = true;
-            sp.fee = 7_000;
-            let token = BigInt(assetIdx);
-            let lockTime = BigInt(stakes[stakeIndex]?.lockTime);
-            let app = subAppId;
-            rewards = await client.getReward(
-                {
-                    token,
-                    lockTime,
-                    app,
-                },
-                { suggestedParams: sp }
-            );
-            console.log({ rewards });
-        } catch (e) {
-            console.log(e);
-        }
-    };
+    // const handleClaimXPNET = async () => {
+    //     const client = await createClient(
+    //         signer,
+    //         account,
+    //         getMonths(stakes[stakeIndex]?.lockTime)
+    //     );
+    //     let rewards;
+    //     debugger;
+    //     try {
+    //         let sp = await client.getSuggestedParams();
+    //         sp.flatFee = true;
+    //         sp.fee = 7_000;
+    //         let token = BigInt(assetIdx);
+    //         let lockTime = BigInt(stakes[stakeIndex]?.lockTime);
+    //         let app = subAppId;
+    //         rewards = await client.getReward(
+    //             {
+    //                 token,
+    //                 lockTime,
+    //                 app,
+    //             },
+    //             { suggestedParams: sp }
+    //         );
+    //         console.log({ rewards });
+    //     } catch (e) {
+    //         console.log(e);
+    //     }
+    // };
 
     // const handleUnstake = async () => {
     //     let rewards;
@@ -216,20 +217,18 @@ export default function AlgoRewardsDetails({
                     />
                 </div>
                 <div className="column">
-                    <button
-                        className={classNames("blueBtn", "mt-0")}
-                        onClick={handleClaimXPNET}
-                    >
-                        Claim XPNET
-                    </button>
-                    <button
-                        className={classNames("blueBtn", "blackBtn")}
-                        // onClick={handleUnstake}
-                        style={{ pointerEvents: "none" }}
-                    >
-                        <img src={lock} alt="lock_img" />
-                        Unstake
-                    </button>
+                    <CLAIMButton
+                        signer={signer}
+                        account={account}
+                        stakes={stakes}
+                        index={stakeIndex}
+                    />
+                    <UNSTAKEButton
+                        signer={signer}
+                        account={account}
+                        stakes={stakes}
+                        index={stakeIndex}
+                    />
                 </div>
             </div>
         </div>

@@ -23,7 +23,6 @@ import {
 } from "../../assets/ts/algoUtils";
 import {
     AlgoDetails,
-    assetIdx,
     IActiveSessionSTake,
     XPNET,
 } from "../../assets/ts/Consts";
@@ -42,6 +41,7 @@ import { OPTINButton } from "../../Components/Buttons/OPTINButton";
 import { STAKEButton } from "../../Components/Buttons/STAKEButton";
 import { ThreeCircles } from "react-loader-spinner";
 import moment from "moment";
+import StakingPeriods from "../../Components/StakingPeriods/StakingPeriods";
 
 interface Props {}
 
@@ -208,10 +208,9 @@ export const Stake: FC<Props> = ({}) => {
                                     className="titleProp"
                                     style={{ opacity: "1" }}
                                 >
-                                    {`Balance: ${(balance
-                                        ? balance / 1e6
-                                        : 0
-                                    ).toFixed(2)} XPNET`}
+                                    {`Balance: ${
+                                        balance ? balance / 1e6 : 0
+                                    } XPNET`}
                                 </label>
                             </div>
                             <div className="row stake-amount-input__container">
@@ -277,18 +276,11 @@ export const Stake: FC<Props> = ({}) => {
                             <label className="titleProp staking-period-title">
                                 Select staking period
                             </label>
-                            <div className={classNames("row", "wrapPeriods")}>
-                                {periods.map((e, i) => {
-                                    return (
-                                        <StakingPeriod
-                                            key={i}
-                                            duration={(i + 1) * 3}
-                                            setDuration={setDuration}
-                                            durationSelected={duration}
-                                        />
-                                    );
-                                })}
-                            </div>
+                            <StakingPeriods
+                                periods={periods}
+                                setDuration={setDuration}
+                                duration={duration}
+                            />
                             <div className="containerNft">
                                 <img src={nft} alt="nft_img" />
                                 <div>

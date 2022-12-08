@@ -5,17 +5,20 @@ interface Props {
     index: number;
     nft: INFT;
     selectedStakeIndex: number;
+    updateLoadedInMain: Function;
 }
 
 export default function CarouselMainItem({
     index,
     nft,
     selectedStakeIndex,
+    updateLoadedInMain,
 }: Props) {
     const [loaded, setLoaded] = useState(false);
 
     const handleLoaded = () => {
         setLoaded(true);
+        updateLoadedInMain(true);
     };
 
     return (

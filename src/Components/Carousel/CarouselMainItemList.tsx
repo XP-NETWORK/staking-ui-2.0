@@ -1,15 +1,16 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { IFetchedStake, INFT } from "../../assets/ts/Consts";
+import { INFT } from "../../assets/ts/Consts";
 import { ReduxState } from "../../store/store";
 import CarouselMainItem from "./CarouselMainItem";
 interface Props {
     nfts: INFT[];
     selectedStakeIndex: number;
+    setLoaded: any;
 }
 export default function CarouselMainItemList({
-    // nfts,
     selectedStakeIndex,
+    setLoaded,
 }: Props) {
     const { nfts } = useSelector((state: ReduxState) => state.homePage);
 
@@ -23,6 +24,7 @@ export default function CarouselMainItemList({
                             index={i}
                             selectedStakeIndex={selectedStakeIndex}
                             nft={nft}
+                            updateLoadedInMain={setLoaded}
                         />
                     );
                 })}
