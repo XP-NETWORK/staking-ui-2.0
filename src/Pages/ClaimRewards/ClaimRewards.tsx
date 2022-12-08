@@ -44,7 +44,6 @@ const ClaimRewards = ({ chain }: Props) => {
         algoRewards,
         activeSessionStakes,
         blockchain,
-        signer,
     } = useSelector((state: ReduxState) => state.homePage);
 
     const showLoader = () => {
@@ -74,29 +73,6 @@ const ClaimRewards = ({ chain }: Props) => {
         } else return true;
     };
 
-    // const handleUnstake = async () => {
-    //     debugger;
-    //     let rewards;
-    //     const client = await createClient(signer, account, 3);
-    //     try {
-    //         let sp = await client.getSuggestedParams();
-    //         sp.flatFee = true;
-    //         sp.fee = 7_000;
-
-    //         rewards = await client.unstake(
-    //             {
-    //                 stakeId: BigInt(0),
-    //                 token: BigInt(assetIdx),
-    //                 app: subAppId,
-    //             },
-    //             { suggestedParams: sp }
-    //         );
-    //         console.log(rewards);
-    //     } catch (e) {
-    //         console.log(e);
-    //     }
-    // };
-
     useEffect(() => {
         const t = setTimeout(() => {
             switch (blockchain.chain) {
@@ -114,12 +90,31 @@ const ClaimRewards = ({ chain }: Props) => {
     }, [blockchain, evmStakesArray, fetchedAlgoStakes, navigate]);
 
     useEffect(() => {
+        let rewardsInt: any;
+        let stakesInt: any;
         const algoRewardsAndStakes = async () => {
-            const rewards = await getAlgoReward(account);
-            dispatch(setAlgoRewards(rewards));
-            const stakes = await getAllAlgoStakes(account);
+            let rewards = await getAlgoReward(account);
+            if (!rewards) {
+                rewardsInt = setInterval(
+                    async () => (rewards = await getAlgoReward(account)),
+                    200
+                );
+            } else if (rewards) {
+                dispatch(setAlgoRewards(rewards));
+                clearInterval(rewardsInt);
+            }
+            let stakes = await getAllAlgoStakes(account);
             if (fetchedAlgoStakes?.length !== stakes?.length)
                 dispatch(setFetchedAlgoStakes(stakes));
+            if (!stakes) {
+                stakesInt = setInterval(
+                    async () => (stakes = await getAlgoReward(account)),
+                    200
+                );
+            } else if (stakes) {
+                dispatch(setAlgoRewards(rewards));
+                clearInterval(stakesInt);
+            }
         };
         if (account) {
             algoRewardsAndStakes();
@@ -136,6 +131,10 @@ const ClaimRewards = ({ chain }: Props) => {
             dispatch(setXPNetPrice(currency));
         };
         getCurrency().catch(console.error);
+        return () => {
+            clearInterval(rewardsInt);
+            clearInterval(stakesInt);
+        };
     }, [chain, evmAccount, evmStakes]);
 
     if (!account && !evmAccount) return <Navigate to="/" replace />;

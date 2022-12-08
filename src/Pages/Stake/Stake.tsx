@@ -358,8 +358,7 @@ export const Stake: FC<Props> = ({}) => {
                                 >
                                     <label className="prop">Est. APY</label>
                                     <label className="value">
-                                        {getAPY(algoDetails?.appId?.toString())}{" "}
-                                        %
+                                        {getAPY(algoDetails)} %
                                     </label>
                                 </div>
                                 <div
@@ -435,6 +434,7 @@ export const Stake: FC<Props> = ({}) => {
                                     isAgree={isAgree}
                                     optInApps={optInApps}
                                     durationSelected={duration}
+                                    inputErr={inputErr}
                                 />
                                 <OPTINButton
                                     optIntAsset={optIntAsset}

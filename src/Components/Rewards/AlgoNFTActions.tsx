@@ -24,7 +24,6 @@ export default function AlgoNFTActions({ index, nfts }: Props) {
     const dispatch = useDispatch();
     const [isOptIn, setIsOptIn] = useState(false);
     const [optInBtnDisabled, setOptInDisabled] = useState(false);
-    const [claimed, setClaimed] = useState(false);
 
     const [claimBtnDisabled, setClaimDisabled] = useState(false);
 

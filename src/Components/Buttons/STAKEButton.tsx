@@ -14,6 +14,7 @@ interface Props {
     optInApps: any;
     durationSelected: number;
     isAgree: boolean;
+    inputErr: boolean;
 }
 
 export const STAKEButton: FC<Props> = ({
@@ -21,6 +22,7 @@ export const STAKEButton: FC<Props> = ({
     optInApps,
     durationSelected,
     isAgree,
+    inputErr,
 }) => {
     const algoDetails = useSelector(
         (state: ReduxState) => state.homePage.algoDetails
@@ -38,7 +40,7 @@ export const STAKEButton: FC<Props> = ({
     return (
         <button
             className="blueBtn"
-            disabled={!isDisabled(isAgree, durationSelected)}
+            disabled={!isDisabled(isAgree, durationSelected) || inputErr}
             onClick={() => handleStake()}
         >
             Stake

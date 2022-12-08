@@ -74,36 +74,6 @@ export const createClient = async (
     return stakingContract;
 };
 
-// const setSigner = async (wallet:string) => {
-//     // signer: async (txns) => {
-//         const s = txns?.map((e) => {
-//             return {
-//                 txn: Buffer.from(e.toByte()).toString("base64"),
-//             };
-//         });
-//         let signed: any;
-//         switch (connectedWallet) {
-//             case "AlgoSigner":
-//                 signed = await signer.signTxn(s);
-//                 return signed?.map((e: any) =>
-//                     Buffer.from(e.blob, "base64")
-//                 );
-//             case "MyAlgo":
-//                 signed = await signer.signTxns(s);
-//                 return signed?.map((e: any) => Buffer.from(e, "base64"));
-//             case "Pera":
-//                 const multipleTxnGroups = txns.map((n) => {
-//                     return { txn: n, signers: [account] };
-//                 });
-
-//                 signed = await signer.signTransaction([multipleTxnGroups]);
-//                 return signed?.map((e: any) => Buffer.from(e, "base64"));
-//             default:
-//                 break;
-//         }
-//     // },
-// }
-
 export const stake = async (
     address: string,
     amount: number,
@@ -126,7 +96,6 @@ export const stake = async (
             axfer: axfer,
             lockTime_: algoDetails.duration,
         });
-        console.log({ resp });
         return resp;
     } catch (error) {
         console.log(error);
@@ -312,15 +281,17 @@ const parseArray = (array: []) => {
     return newArr;
 };
 
-export const getAPY = (rewards: IAlgoRewards | undefined) => {
-    switch (rewards?.appid) {
-        case appAdress3Months:
+export const getAPY = (rewards: any | undefined) => {
+    const appId = rewards?.appId;
+
+    switch (true) {
+        case appAdress3Months === appId:
             return "25";
-        case appAdress6Months:
+        case appAdress6Months === appId:
             return "50";
-        case appAdress9Months:
+        case appAdress9Months === appId:
             return "75";
-        case appAdress12Months:
+        case appAdress12Months === appId:
             return "100";
         default:
             break;
@@ -334,6 +305,7 @@ const getStartDate = (date: string) => {
 };
 
 export const getAlgoStakeEndDate = (period: string, date: string) => {
+    // debugger;
     period = period?.toString();
     const startDate = getStartDate(date);
     let expDate: any;
@@ -404,11 +376,11 @@ export const getMonths = (duration: number) => {
 };
 
 export const checkIfOpIn = async (assetId: number, owner: string) => {
+    let isOptIn: any;
     try {
-        const isOptIn = await algod
-            .accountAssetInformation(owner, assetId)
-            .do();
-        return isOptIn;
+        isOptIn = await algod.accountAssetInformation(owner, assetId).do();
+        if (isOptIn.message === "account asset info not found") return false;
+        else return isOptIn;
     } catch (error) {
         return false;
     }
@@ -546,24 +518,23 @@ export const unstakeTokens = async (
     }
 };
 
-export const getArrayOfImages = () => {
-    const array = new Array(150).fill(
-        (e: any, i: number) =>
-            `https://nft-service-testing.s3.eu-west-1.amazonaws.com/${i}.png`
-    );
+// export const getArrayOfImages = () => {
+//     const array = new Array(101).fill(
+//         (e: any, i: number) =>
+//             `https://nft-service-testing.s3.eu-west-1.amazonaws.com/${i}.png`
+//     );
 
-    console.log(array);
-};
+//     console.log(array);
+// };
 
 export const getNFTCollection = async () => {
     const arr = [];
-    for (let index = 0; index < 100; index++) {
+    for (let index = 1; index < 101; index++) {
         const element = axios.get(
             `https://nft-service-testing.s3.eu-west-1.amazonaws.com/${index}.json`
         );
         arr.push(element);
     }
     const nfts = await Promise.allSettled(arr);
-    console.log({ nfts });
 };
 getNFTCollection();
