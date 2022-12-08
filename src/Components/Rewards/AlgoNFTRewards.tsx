@@ -2,15 +2,10 @@ import classNames from "classnames";
 import { IFetchedStake, INFT } from "../../assets/ts/Consts";
 import left from "../../assets/images/left.svg";
 import right from "../../assets/images/right.svg";
-// import ClipboardCopy from "../ClipboardCopy/ClipboardCopy";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
-import {
-    checkIfOpIn,
-    getAllAlgoStakes,
-    getAllNFTsByOwner,
-} from "../../assets/ts/algoUtils";
+import { getAllAlgoStakes, getAllNFTsByOwner } from "../../assets/ts/algoUtils";
 import Carousel from "../Carousel/Carousel";
 import CarouselMainItemList from "../Carousel/CarouselMainItemList";
 import { useDispatch } from "react-redux";
@@ -19,8 +14,7 @@ import {
     setNFTSByOwner,
     setSelectedNFT,
 } from "../../store/reducer/homePageSlice";
-import ClipboardCopy from "../ClipboardCopy/ClipboardCopy";
-import { Staking } from "../../assets/ts/StakingClient";
+
 import AlgoNFTActions from "./AlgoNFTActions";
 interface Props {
     stakes: IFetchedStake[];
@@ -35,13 +29,10 @@ export const AlgoNFTRewards = ({
 }: Props) => {
     const dispatch = useDispatch();
     const [x, setX] = useState(0);
-    const {
-        account,
-        activeSessionStakes,
-        nfts,
-        selectedNFTtxId,
-        stakingClient,
-    } = useSelector((state: ReduxState) => state.homePage);
+    const [mainImageLoaded, setMainImageLoaded] = useState(false);
+    const { account, activeSessionStakes, nfts, selectedNFTtxId } = useSelector(
+        (state: ReduxState) => state.homePage
+    );
 
     useEffect(() => {
         const nfts = async () => {
@@ -105,74 +96,56 @@ export const AlgoNFTRewards = ({
     };
 
     return (
-        <div className={classNames("containerRight", "container")}>
-            <h1>NFT Rewards</h1>
-            <label className="line" />
-            <div className={classNames("sectionWrapper")}>
-                <div className="rewardsContainerMain">
-                    <button
-                        className="btnWrap"
-                        onClick={() => handleSwap(false)}
-                    >
-                        <img src={left} alt="left" />
-                    </button>
-                    <CarouselMainItemList
+        <div className="algo-nft-rewards__wrapper">
+            <div className={classNames("containerRight", "container")}>
+                <h1>NFT Rewards</h1>
+                <label className="line" />
+                <div className={classNames("sectionWrapper")}>
+                    <div className="rewardsContainerMain">
+                        <button
+                            className="btnWrap"
+                            onClick={() => handleSwap(false)}
+                        >
+                            <img src={left} alt="left" />
+                        </button>
+                        <CarouselMainItemList
+                            nfts={nfts}
+                            selectedStakeIndex={selectedStakeIndex}
+                            setLoaded={setMainImageLoaded}
+                        />
+                        <button
+                            className="btnWrap"
+                            onClick={() => handleSwap(true)}
+                        >
+                            <img src={right} alt="right" />
+                        </button>
+                    </div>
+                    <AlgoNFTActions nfts={nfts} index={selectedStakeIndex} />
+                    <Carousel
                         nfts={nfts}
+                        stakes={stakes}
+                        x={x}
                         selectedStakeIndex={selectedStakeIndex}
+                        handleMainStakeChange={handleMainStakeChange}
                     />
-                    <button
-                        className="btnWrap"
-                        onClick={() => handleSwap(true)}
-                    >
-                        <img src={right} alt="right" />
-                    </button>
                 </div>
-                <AlgoNFTActions nfts={nfts} index={selectedStakeIndex} />
-                {/* <div className="nft-actions">
-                    <ClipboardCopy
-                        index={selectedStakeIndex}
-                        item={nfts[selectedStakeIndex]}
-                    />
-                    <div className="nft-actions-button">Opt-In</div>
-                    <div
-                        className={`nft-actions-button${
-                            nfts[selectedStakeIndex]?.isClaimed
-                                ? "--disabled"
-                                : ""
-                        }`}
-                    >
-                        Claim
-                    </div>
-                </div> */}
-                <Carousel
-                    nfts={nfts}
-                    stakes={stakes}
-                    x={x}
-                    selectedStakeIndex={selectedStakeIndex}
-                    handleMainStakeChange={handleMainStakeChange}
-                />
-                {/* <div className="nftsRewardsContainer">
-                    <div style={{ transform: `translateX(${x}px)` }}>
-                        {stakes?.map((e: IFetchedStake, i: any) => {
-                            return (
-                                <img
-                                    key={i}
-                                    src={e.displayImage}
-                                    alt="nft"
-                                    onClick={() => handleMainStakeChange(i)}
-                                    style={{
-                                        border: `${
-                                            i === selectedStakeIndex
-                                                ? " 4px solid rgba(229, 232, 240, 0.1)"
-                                                : "4px solid rgba(45, 45, 48, 0.4)"
-                                        }`,
-                                    }}
-                                />
-                            );
-                        })}
-                    </div>
-                </div> */}
             </div>
+            {/* {!mainImageLoaded && (
+                <div className={classNames("right-placeholder container")}>
+                    <h1>NFT Rewards</h1>
+                    <label className="line" />
+                    <div className="nft-rewards-placeholder">
+                        <div className="image-placeholder"></div>
+                        <div className="actions-placeholder"></div>
+                        <div className="nfts-btns-placeholder">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
+            )} */}
         </div>
     );
 };

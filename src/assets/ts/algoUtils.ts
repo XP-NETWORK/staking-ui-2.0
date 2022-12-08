@@ -19,8 +19,11 @@ import store from "../../store/store";
 import moment from "moment";
 import { Base64 } from "js-base64";
 
-const apiKey = process.env.REACT_APP_API_TOKEN?.toString();
-export const algod = new algosdk.Algodv2(apiKey as string, algodUri, algodPort);
+const apiKey = process.env.REACT_APP_API_TOKEN as string;
+const algodToken = {
+    "x-api-key": apiKey,
+};
+export const algod = new algosdk.Algodv2(algodToken, algodUri, algodPort);
 
 const algoService = axios.create({
     baseURL: process.env.REACT_APP_ALGO_SERVICE,
@@ -292,26 +295,6 @@ const parse = async (nfts: any[]) => {
     return parsed;
 };
 
-// const parseNFT = async (nfts: INFT[]) => {
-//     console.log({ nfts });
-
-//     const promises: any[] = nfts.map((element: INFT) => axios.get(element.Uri));
-//     const fulfilledUris = await Promise.allSettled(promises);
-
-//     const parsedNfts = fulfilledUris.map((item: any) => {
-//         console.log(item.value.data);
-
-//         // const nft = nfts.find((nft: INFT) => {
-//         //     const uri = nft.Uri;
-//         //     const ident = uri.slice(
-//         //         uri.lastIndexOf(".json") - 1,
-//         //         uri.lastIndexOf(".json")
-//         //     );
-//         //     return item.value.data.name === ident;
-//         // });
-//     });
-// };
-
 const parseArray = (array: []) => {
     // debugger;
     let newArr: any = [];
@@ -332,13 +315,13 @@ const parseArray = (array: []) => {
 export const getAPY = (rewards: IAlgoRewards | undefined) => {
     switch (rewards?.appid) {
         case appAdress3Months:
-            return "45";
+            return "25";
         case appAdress6Months:
-            return "75";
+            return "50";
         case appAdress9Months:
-            return "100";
+            return "75";
         case appAdress12Months:
-            return "125";
+            return "100";
         default:
             break;
     }
@@ -450,7 +433,9 @@ export const optInAsset = async (
                 suggestedParams: params,
             });
         const encodedTx = Base64.fromUint8Array(optInTxn.toByte());
-        const signedTx = await signer.signTxn([{ txn: encodedTx }]);
+        const signedTx =
+            (await signer.signTxn([{ txn: encodedTx }])) ||
+            signer.signTransaction([{ txn: encodedTx }]);
         const res = await signer.send({
             ledger: "MainNet",
             tx: signedTx[0].blob,
@@ -495,3 +480,90 @@ export const transferOptedInAsset = async (
         return false;
     }
 };
+
+export const claimRewards = async (
+    signer: any,
+    account: string,
+    stakes: IFetchedStake[],
+    index: number
+) => {
+    const client = await createClient(
+        signer,
+        account,
+        getMonths(stakes[index]?.lockTime)
+    );
+    let rewards;
+    // debugger;
+    try {
+        let sp = await client.getSuggestedParams();
+        sp.flatFee = true;
+        sp.fee = 7_000;
+        let token = BigInt(assetIdx);
+        let lockTime = BigInt(stakes[index]?.lockTime);
+        let app = subAppId;
+        rewards = await client.getReward(
+            {
+                token,
+                lockTime,
+                app,
+            },
+            { suggestedParams: sp }
+        );
+        return rewards;
+    } catch (e) {
+        console.log(e);
+    }
+};
+
+export const unstakeTokens = async (
+    signer: {},
+    account: string,
+    stakes: IFetchedStake[],
+    index: number
+) => {
+    let ustaked;
+    const client = await createClient(
+        signer,
+        account,
+        getMonths(stakes[index]?.lockTime)
+    );
+    try {
+        let sp = await client.getSuggestedParams();
+        sp.flatFee = true;
+        sp.fee = 7_000;
+
+        ustaked = await client.unstake(
+            {
+                stakeId: BigInt(0),
+                token: BigInt(assetIdx),
+                app: subAppId,
+            },
+            { suggestedParams: sp }
+        );
+        return ustaked;
+    } catch (e) {
+        console.log(e);
+    }
+};
+
+export const getArrayOfImages = () => {
+    const array = new Array(150).fill(
+        (e: any, i: number) =>
+            `https://nft-service-testing.s3.eu-west-1.amazonaws.com/${i}.png`
+    );
+
+    console.log(array);
+};
+
+export const getNFTCollection = async () => {
+    const arr = [];
+    for (let index = 0; index < 100; index++) {
+        const element = axios.get(
+            `https://nft-service-testing.s3.eu-west-1.amazonaws.com/${index}.json`
+        );
+        arr.push(element);
+    }
+    const nfts = await Promise.allSettled(arr);
+    console.log({ nfts });
+};
+getNFTCollection();
