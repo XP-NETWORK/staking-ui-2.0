@@ -444,7 +444,7 @@
 .periodsRewards {
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 10px;
     justify-content: space-between;
 }
 .nft-actions {
@@ -503,8 +503,7 @@
     .stakeWrapper {
         flex-direction: column;
         gap: 9px;
-        // position: absolute;
-        // left: 0;
+
         width: -webkit-fill-available;
     }
     .container .sectionWrapper {
@@ -600,7 +599,6 @@
         border: none !important;
         .agree {
             width: -webkit-fill-available !important;
-            //   flex-direction: row !important;
         }
     }
     .blueBtn {
@@ -642,7 +640,7 @@
         flex-wrap: wrap;
         width: -webkit-fill-available !important;
         .row {
-            width: 39vw !important;
+            width: 30vw !important;
         }
         #row1 {
             order: 1;
@@ -661,7 +659,7 @@
 
 @media screen and (max-width: 500px) {
     .periodsRewards .row {
-        width: 39% !important;
+        width: 35% !important;
     }
 }
 

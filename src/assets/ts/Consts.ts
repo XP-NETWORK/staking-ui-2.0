@@ -82,7 +82,7 @@ interface Traits {
     Acc: string;
 }
 
-export const STAKING_LIMIT_ALGO = 10000000;
+export const STAKING_LIMIT_ALGO = 50000000;
 export const TOTAL_STAKED_BSC = 50000000;
 export const XPNET = "XPNET";
 export const APY = { 3: 45, 6: 75, 9: 100, 12: 125 };
