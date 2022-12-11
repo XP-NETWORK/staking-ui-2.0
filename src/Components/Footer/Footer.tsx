@@ -15,8 +15,8 @@ export const Footer: FC<Props> = () => {
                 </div>
             </div>
             <div className="all-rights">
-                © 2022 XP.NETWORK Ltd.
-                <br /> All Rights Reserved
+                <span>© 2022 XP.NETWORK Ltd.</span>
+                <span>All Rights Reserved</span>
             </div>
         </div>
     );
