@@ -21,6 +21,7 @@ import { useDispatch } from "react-redux";
 import {
     setBlockchain,
     setConnectModalShow,
+    setNavigateRoute,
 } from "../../store/reducer/homePageSlice";
 import { getTokenStaked } from "../../assets/ts/algoUtils";
 import { createPortal } from "react-dom";
@@ -48,8 +49,8 @@ interface Props {}
 
 export const Home: FC<Props> = () => {
     const [totalStakeInAlgo, setTotalStakeInAlgo] = useState(0);
-    const [showModal, setShowModal] = useState(false);
-    const { blockchain, account, evmAccount } = useSelector(
+    const [navigateTo, setNavigateTo] = useState<string>("");
+    const { blockchain, account, evmAccount, showConnectModal } = useSelector(
         (state: ReduxState) => state.homePage
     );
 
@@ -72,12 +73,14 @@ export const Home: FC<Props> = () => {
     };
 
     const handleClickOnStake = (typeOfStake: string) => {
+        // debugger;
         if (typeOfStake === "ALGO" ? account : evmAccount) {
             handleBlockchainSelect(typeOfStake);
             navigate("/stake");
         } else {
             handleBlockchainSelect(typeOfStake);
-            setShowModal(true);
+            dispatch(setConnectModalShow(true));
+            dispatch(setNavigateRoute("/stake"));
         }
     };
 
@@ -87,7 +90,8 @@ export const Home: FC<Props> = () => {
             navigate("/rewards");
         } else {
             handleBlockchainSelect(typeOfClaim);
-            setShowModal(true);
+            dispatch(setConnectModalShow(true));
+            dispatch(setNavigateRoute("/rewards"));
         }
     };
 
@@ -99,14 +103,12 @@ export const Home: FC<Props> = () => {
         getTotal();
     }, []);
 
-    // useEffect(() => {}, [showModal]);
-
     return (
         <>
             <div id="modal-root"></div>
-            {showModal && (
+            {showConnectModal && (
                 <ConnectModal>
-                    <ConnectModalBody setShowModal={setShowModal} />
+                    <ConnectModalBody />
                 </ConnectModal>
             )}
             <img src={bg} className={classNames("bg", "deskOnly")} alt="bg" />

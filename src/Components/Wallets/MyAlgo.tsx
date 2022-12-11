@@ -10,23 +10,25 @@ import { appAdress3Months } from "../../assets/ts/Consts";
 import {
     setAccount,
     setClient,
+    setConnectModalShow,
     setSigner,
 } from "../../store/reducer/homePageSlice";
 
-const MyAlgo = ({ connect }: { connect: Function }) => {
-    let { to } = useParams();
+interface Props {
+    connect: Function;
+}
+
+const MyAlgo = ({ connect }: Props) => {
+    const { navigateRoute } = useSelector(
+        (state: ReduxState) => state.homePage
+    );
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    //   const { signer, account } = useSelector(
-    //     (state: ReduxState) => state.homePage
-    //   );
 
     const handleClick = async () => {
         let account = await connect("MyAlgo");
-        //console.log("here", { account });
         dispatch(setAccount(account.address));
         dispatch(setSigner(account.signer));
-        // console.log("look here", { account });
         let client = await createClient(
             account.signer,
             account.address,
@@ -34,7 +36,8 @@ const MyAlgo = ({ connect }: { connect: Function }) => {
         );
 
         dispatch(setClient(client));
-        navigate(`/${to || "stake"}`);
+        navigate(navigateRoute);
+        dispatch(setConnectModalShow(false));
     };
     return (
         <button onClick={handleClick} className="connectBtn">

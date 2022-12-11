@@ -6,17 +6,28 @@ import { createClient } from "../../assets/ts/algoUtils";
 import {
     setAccount,
     setClient,
+    setConnectModalShow,
     setSigner,
 } from "../../store/reducer/homePageSlice";
 import { appAdress3Months } from "../../assets/ts/Consts";
 import icon from "../../assets/wallets/AlgoSigner.png";
+import { useSelector } from "react-redux";
+import { ReduxState } from "../../store/store";
 
-const AlgoSigner = ({ connect }: { connect: Function }) => {
-    let { to } = useParams();
+interface Props {
+    connect: Function;
+}
+
+const AlgoSigner = ({ connect }: Props) => {
+    const { navigateRoute } = useSelector(
+        (state: ReduxState) => state.homePage
+    );
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleClick = async () => {
+        // debugger;
         let account = await connect("AlgoSigner");
         dispatch(setAccount(account.address));
         dispatch(setSigner(account.signer));
@@ -26,7 +37,8 @@ const AlgoSigner = ({ connect }: { connect: Function }) => {
             appAdress3Months
         );
         dispatch(setClient(client));
-        navigate(`/${to || "stake"}`);
+        navigate(navigateRoute);
+        dispatch(setConnectModalShow(false));
     };
 
     return (

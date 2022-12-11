@@ -35,6 +35,7 @@ export interface IHomePage {
     nfts: INFT[];
     selectedNFTtxId: string;
     showConnectModal: boolean;
+    navigateRoute: string;
 }
 
 const initialState: IHomePage = {
@@ -57,12 +58,16 @@ const initialState: IHomePage = {
     nfts: [],
     selectedNFTtxId: "",
     showConnectModal: false,
+    navigateRoute: "",
 };
 
 const homePageSlice = createSlice({
     name: "homePage",
     initialState,
     reducers: {
+        setNavigateRoute(state: any, action: any) {
+            state.navigateRoute = action.payload;
+        },
         setConnectModalShow(state: any, action: any) {
             state.showConnectModal = action.payload;
         },
@@ -155,6 +160,7 @@ const homePageSlice = createSlice({
 });
 
 export const {
+    setNavigateRoute,
     setConnectModalShow,
     updateClaimedNft,
     setSelectedNFT,

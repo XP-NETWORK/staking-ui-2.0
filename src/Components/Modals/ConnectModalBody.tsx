@@ -12,16 +12,17 @@ import Pera from "../Wallets/Pera";
 import MyAlgo from "../Wallets/MyAlgo";
 import AlgoSigner from "../Wallets/AlgoSigner";
 import { useOnClickOutside } from "../../assets/ts/helpers";
+import { useDispatch } from "react-redux";
+import { setConnectModalShow } from "../../store/reducer/homePageSlice";
 
-interface Props {
-    setShowModal: any;
-}
+interface Props {}
 
-export default function ConnectModalBody({ setShowModal }: Props) {
-    const navigate = useNavigate();
+export default function ConnectModalBody({}: Props) {
+    const dispatch = useDispatch();
     const { blockchain } = useSelector((state: ReduxState) => state.homePage);
+
     const ref = React.useRef<HTMLInputElement>(null);
-    useOnClickOutside(ref, () => setShowModal(false));
+    useOnClickOutside(ref, () => dispatch(setConnectModalShow(false)));
     return (
         <div
             className="connect-modal"
@@ -44,7 +45,7 @@ export default function ConnectModalBody({ setShowModal }: Props) {
                     </label>
                     <img
                         src={close}
-                        onClick={() => setShowModal(false)}
+                        onClick={() => dispatch(setConnectModalShow(false))}
                         alt=""
                     />
                 </div>

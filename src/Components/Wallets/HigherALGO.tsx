@@ -15,6 +15,7 @@ export const HigherALGO = (OriginalComponent: React.FC<any>) => {
         const getStyles = () => {};
         const dispatch = useDispatch();
         const handleWalletConnection = async (wallet: string) => {
+            // debugger;
             switch (wallet) {
                 case "MyAlgo":
                     let accountMyAlgo = await getMyAlgoConnect(false); //!! testnet:true

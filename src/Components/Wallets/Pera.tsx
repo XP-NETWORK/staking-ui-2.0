@@ -6,29 +6,54 @@ import { ReduxState } from "../../store/store";
 import { PeraWalletConnect } from "@perawallet/connect";
 import { useNavigate, useParams } from "react-router";
 import {
+    setAccount,
     setClient,
+    setConnectedWallet,
     setPeraConnection,
+    setSigner,
 } from "../../store/reducer/homePageSlice";
 import { useDispatch } from "react-redux";
 import { appAdress3Months } from "../../assets/ts/Consts";
 import { createClient } from "../../assets/ts/algoUtils";
 
-const Pera = ({
-    styles,
-    connect,
-}: {
+interface Props {
     styles: () => Object;
     connect: Function;
-}) => {
+}
+
+const Pera = ({ styles, connect }: Props) => {
+    const { navigateRoute } = useSelector(
+        (state: ReduxState) => state.homePage
+    );
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const peraWallet = useMemo(() => {
-        const wallet = new PeraWalletConnect();
+        const wallet = new PeraWalletConnect({
+            bridge: "https://bridge.walletconnect.org",
+        });
         return wallet;
     }, []);
 
-    // const peraWallet = new PeraWalletConnect();
+    const connectPeraWallet = async () => {
+        peraWallet
+            .connect()
+            .then((newAccounts) => {
+                peraWallet.connector?.on("disconnect", () => {
+                    console.log("Disconnect");
+                });
+                dispatch(setConnectedWallet("Pera"));
+                dispatch(setAccount(newAccounts[0]));
+                dispatch(setSigner(peraWallet));
+                dispatch(setPeraConnection(false));
+                getClient();
+                navigate(navigateRoute);
+            })
+            .catch((reason: any) => {
+                if (reason.message === "Connect modal is closed by user")
+                    return false;
+            });
+    };
 
     const account = useSelector((state: ReduxState) => state.homePage.account);
     const signer = useSelector((state: ReduxState) => state.homePage.account);
@@ -36,20 +61,11 @@ const Pera = ({
     const peraConnection = useSelector(
         (state: ReduxState) => state.homePage.peraConnection
     );
-    let { to } = useParams();
 
     const getClient = useCallback(async () => {
         let client = await createClient(signer, account, appAdress3Months);
         dispatch(setClient(client));
     }, [account, dispatch, signer]);
-
-    useEffect(() => {
-        if (account) {
-            navigate(`/${to || "stake"}`);
-            dispatch(setPeraConnection(false));
-        }
-        if (account) getClient();
-    }, [account, navigate, to, dispatch, getClient]);
 
     useEffect(() => {
         peraWallet
@@ -68,7 +84,7 @@ const Pera = ({
     }, [peraConnection, peraWallet]);
 
     const handleClick = async () => {
-        await connect("Pera");
+        connectPeraWallet();
     };
 
     return (
