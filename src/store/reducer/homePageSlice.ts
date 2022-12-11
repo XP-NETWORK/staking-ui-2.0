@@ -34,6 +34,7 @@ export interface IHomePage {
     algoRewards: IAlgoRewards[];
     nfts: INFT[];
     selectedNFTtxId: string;
+    showConnectModal: boolean;
 }
 
 const initialState: IHomePage = {
@@ -55,12 +56,16 @@ const initialState: IHomePage = {
     algoRewards: [],
     nfts: [],
     selectedNFTtxId: "",
+    showConnectModal: false,
 };
 
 const homePageSlice = createSlice({
     name: "homePage",
     initialState,
     reducers: {
+        setConnectModalShow(state: any, action: any) {
+            state.showConnectModal = action.payload;
+        },
         updateClaimedNft(state: any, action: any) {
             const arr = state.nfts;
             const txId = action.payload;
@@ -144,25 +149,13 @@ const homePageSlice = createSlice({
         setBlockchain(state: any, action: any) {
             state.blockchain = action.payload;
         },
-
-        // setToken(state: { tokenName: string }, action: PayloadAction<string>) {
-        //   state.tokenName = action.payload;
-        //   // console.log("collection name in redux:", state.tokenName);
-        // },
-
-        // seTokenSymbol(
-        //   state: { tokenSymbol: string },
-        //   action: PayloadAction<string>
-        // ) {
-        //   state.tokenSymbol = action.payload;
-        //   // console.log("token thicker in redux:", state.tokenSymbol);
-        // },
     },
 
     extraReducers: {},
 });
 
 export const {
+    setConnectModalShow,
     updateClaimedNft,
     setSelectedNFT,
     setNFTSByOwner,

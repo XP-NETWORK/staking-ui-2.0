@@ -8,6 +8,8 @@ import { Provider } from "react-redux";
 import reportWebVitals from "./reportWebVitals";
 import { Web3Modal } from "@web3modal/react";
 import { ethereumClient, wcId } from "./Components/Wallets/walletConnectors";
+import Modal from "react-bootstrap/Modal";
+// import ConnectModal from "./Components/Modals/ConnectModal";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement

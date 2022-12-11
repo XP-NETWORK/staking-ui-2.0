@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, ReactNode, useRef } from "react";
 import "./App.css";
 import { Home } from "./Pages/Home/Home";
 import "normalize.css";
@@ -14,27 +14,30 @@ import WrongRoute from "./Pages/WrongRoute/WrongRoute";
 
 function App() {
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Main />}>
-                    <Route index element={<Home />} />
-                    <Route path="/connect/:to" element={<Connect />} />
-                    <Route path="/connect" element={<Connect />} />
-                    <Route path="/stake" element={<Stake />} />
-                    <Route path="/rewards" element={<ClaimRewards />} />
-                    {/* <Route path="/rewards/:txId" element={<ClaimRewards />} /> */}
-                    <Route path="/gallery" element={<Gallery />} />
-                    <Route path="/error" element={<Error />} />
-                    <Route path="/limit" element={<StakingLimitPopup />} />
-                    <Route path="*" element={<WrongRoute />} />
-                    {/*  <Route path="/associationDonation" element={<DonationMain />}>
-          <Route index element={<Donation />} />
-            <Route path="/associationDonation/Receipt" element={<DonationDetails />} />
-          </Route>
-          <Route path="/payment-completed" element={<PaymentCompleted/>}/> */}
-                </Route>
-            </Routes>
-        </BrowserRouter>
+        <>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<Main />}>
+                        <Route index element={<Home />} />
+                        <Route path="/connect/:to" element={<Connect />} />
+                        <Route path="/connect" element={<Connect />} />
+                        <Route path="/stake" element={<Stake />} />
+                        <Route path="/rewards" element={<ClaimRewards />} />
+                        <Route path="/gallery" element={<Gallery />} />
+                        <Route path="/error" element={<Error />} />
+                        <Route path="/limit" element={<StakingLimitPopup />} />
+                        <Route path="*" element={<WrongRoute />} />
+                        {/*  
+                        <Route path="/associationDonation" element={<DonationMain />}>
+                                <Route index element={<Donation />} />
+                                <Route path="/associationDonation/Receipt" element={<DonationDetails />} />
+                        </Route>
+                         <Route path="/payment-completed" element={<PaymentCompleted/>}/>
+                         */}
+                    </Route>
+                </Routes>
+            </BrowserRouter>
+        </>
     );
 }
 

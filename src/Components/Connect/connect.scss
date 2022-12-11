@@ -13,14 +13,13 @@
     padding: 32px 24px 34px 24px;
     gap: 20px;
     width: 302px;
-    // height: 298px;
-    background: rgba(202, 202, 220, 0.1);
+    background: #2d2d31;
     backdrop-filter: blur(22px);
     border-radius: 20px;
-
     position: relative;
     margin: 0 auto;
-    margin-top: 51px;
+    -webkit-box-shadow: 5px 5px 22px 5px rgba(0, 0, 0, 0.43);
+    box-shadow: 5px 5px 22px 5px rgba(0, 0, 0, 0.43);
     p {
         padding: 10px;
         background: rgba(38, 38, 41, 0.6);

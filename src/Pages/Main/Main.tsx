@@ -5,6 +5,8 @@ import { Navbar } from "../../Components/Navbar/Navbar";
 import { ErrorBoundary } from "react-error-boundary";
 import "./main.scss";
 import ErrorFallback from "../ErrorFallback/ErrorFallback";
+import { Modal } from "react-bootstrap";
+// import ConnectModal from "../../Components/Modals/ConnectModal";
 
 interface Props {}
 
@@ -12,6 +14,7 @@ export const Main: FC<Props> = ({}) => {
     return (
         <div className="appWrapper">
             <Navbar />
+
             <ErrorBoundary
                 FallbackComponent={ErrorFallback}
                 onReset={() => {

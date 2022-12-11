@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState, ReactNode, useRef } from "react";
 import { useNavigate } from "react-router";
 import algorand from "../../assets/images/Algorand.svg";
 import bsc from "../../assets/images/BSC.svg";
@@ -18,48 +18,76 @@ import "./home.scss";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
 import { useDispatch } from "react-redux";
-import { setBlockchain } from "../../store/reducer/homePageSlice";
+import {
+    setBlockchain,
+    setConnectModalShow,
+} from "../../store/reducer/homePageSlice";
 import { getTokenStaked } from "../../assets/ts/algoUtils";
+import { createPortal } from "react-dom";
+import ConnectModalBody from "../../Components/Modals/ConnectModalBody";
+
+type ModalProps = {
+    children: ReactNode;
+};
+
+function ConnectModal({ children }: ModalProps) {
+    const x = document.createElement("div");
+    const modalRoot = document.getElementById("modal-root") as HTMLElement;
+    useEffect(() => {
+        //const el = elRef.current!; // non-null assertion because it will never be null
+        modalRoot?.appendChild(x);
+        return () => {
+            modalRoot?.removeChild(x);
+        };
+    }, []);
+
+    return createPortal(children, x);
+}
 
 interface Props {}
 
 export const Home: FC<Props> = () => {
-    const searchParams = new URLSearchParams(window.location.search);
-
     const [totalStakeInAlgo, setTotalStakeInAlgo] = useState(0);
-
+    const [showModal, setShowModal] = useState(false);
     const { blockchain, account, evmAccount } = useSelector(
         (state: ReduxState) => state.homePage
     );
 
+    const ref = useRef();
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const handleClickOnStake = (typeOfStake: string) => {
-        switch (typeOfStake) {
+    const handleBlockchainSelect = (chan: string) => {
+        switch (chan) {
             case "EVM":
-                navigate("/limit");
+                dispatch(setBlockchain(BLOCKCHAINS[1]));
                 break;
             case "ALGO":
-                navigate(!account ? "/connect/stake" : "stake");
+                dispatch(setBlockchain(BLOCKCHAINS[0]));
                 break;
             default:
                 break;
         }
     };
 
+    const handleClickOnStake = (typeOfStake: string) => {
+        if (typeOfStake === "ALGO" ? account : evmAccount) {
+            handleBlockchainSelect(typeOfStake);
+            navigate("/stake");
+        } else {
+            handleBlockchainSelect(typeOfStake);
+            setShowModal(true);
+        }
+    };
+
     const handleClickOnClaim = (typeOfClaim: string) => {
-        switch (typeOfClaim) {
-            case "EVM":
-                dispatch(setBlockchain(BLOCKCHAINS[1]));
-                navigate(!evmAccount ? "/connect" : "/rewards");
-                break;
-            case "ALGO":
-                dispatch(setBlockchain(BLOCKCHAINS[0]));
-                navigate(!account ? "/connect/rewards" : "/rewards");
-                break;
-            default:
-                break;
+        if (typeOfClaim === "ALGO" ? account : evmAccount) {
+            handleBlockchainSelect(typeOfClaim);
+            navigate("/rewards");
+        } else {
+            handleBlockchainSelect(typeOfClaim);
+            setShowModal(true);
         }
     };
 
@@ -71,8 +99,16 @@ export const Home: FC<Props> = () => {
         getTotal();
     }, []);
 
+    // useEffect(() => {}, [showModal]);
+
     return (
         <>
+            <div id="modal-root"></div>
+            {showModal && (
+                <ConnectModal>
+                    <ConnectModalBody setShowModal={setShowModal} />
+                </ConnectModal>
+            )}
             <img src={bg} className={classNames("bg", "deskOnly")} alt="bg" />
             <img src={bgMob} className={classNames("bg", "mobOnly")} alt="bg" />
             <div className="homeWrapper">
@@ -194,7 +230,6 @@ export const Home: FC<Props> = () => {
                     </div>
                 </div>
             </div>
-            {/* </div> */}
         </>
     );
 };
