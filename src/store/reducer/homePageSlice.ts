@@ -37,6 +37,7 @@ export interface IHomePage {
     showConnectModal: boolean;
     navigateRoute: string;
     showErrorModal: boolean;
+    showLimitModal: boolean;
 }
 
 const initialState: IHomePage = {
@@ -61,12 +62,16 @@ const initialState: IHomePage = {
     showConnectModal: false,
     navigateRoute: "",
     showErrorModal: false,
+    showLimitModal: false,
 };
 
 const homePageSlice = createSlice({
     name: "homePage",
     initialState,
     reducers: {
+        setLimitModal(state: any, action: any) {
+            state.showLimitModal = action.payload;
+        },
         setErrorModal(state: any, action: any) {
             state.showErrorModal = action.payload;
         },
@@ -188,6 +193,7 @@ export const {
     setStakeDetails,
     setConnectedWallet,
     setAlgoDetails,
+    setLimitModal,
 } = homePageSlice.actions;
 
 export default homePageSlice;

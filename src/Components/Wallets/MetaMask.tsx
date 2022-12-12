@@ -3,8 +3,10 @@ import { useDispatch } from "react-redux";
 
 import {
     setBlockchain,
+    setErrorModal,
     setEvmAccount,
     setEvmStakes,
+    setLimitModal,
 } from "../../store/reducer/homePageSlice";
 import icon from "../../assets/wallets/MetaMask.svg";
 import { HigherEVM } from "./HigherEVM";
@@ -16,14 +18,14 @@ const MetaMask = ({ connect }: { connect: Function }) => {
 
     const handleClick = async () => {
         const response = await connect("MetaMask");
-
+        debugger;
         dispatch(setEvmAccount(response.accounts[0]));
         dispatch(setEvmStakes(Number(response.stakes)));
         if (Number(response.stakes) > 0) {
             dispatch(setBlockchain(BLOCKCHAINS[1]));
             navigate("/rewards");
         } else {
-            navigate("/error");
+            dispatch(setLimitModal(true));
         }
     };
 

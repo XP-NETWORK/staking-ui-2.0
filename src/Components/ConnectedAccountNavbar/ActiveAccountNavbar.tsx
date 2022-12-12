@@ -37,6 +37,7 @@ export const ActiveAccountNavbar: FC<{}> = () => {
     return (
         <div className="activeWrapper">
             <Link
+                style={claimLinkStyle}
                 to={
                     blockchain.chain === "BSC" && evmStakes
                         ? "/limit"

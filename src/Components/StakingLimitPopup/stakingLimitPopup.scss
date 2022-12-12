@@ -4,18 +4,19 @@
 
 .limitWraper {
     position: relative;
-    margin: 0 auto;
-    margin-top: 59px;
+    margin: -260px auto 0 auto;
+
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    // gap: 35px;
-
     width: 426px;
     height: 533.9px;
+    background: #1b1b1d;
 
-    background: rgba(202, 202, 220, 0.1);
+    -webkit-box-shadow: 5px 5px 22px 5px rgba(0, 0, 0, 0.43);
+    box-shadow: 5px 5px 22px 5px rgba(0, 0, 0, 0.43);
+    background-image: url("../../assets/images/popup-bg.png");
     backdrop-filter: blur(22px);
     border-radius: 20px;
     font-weight: 400;
@@ -39,6 +40,12 @@
         width: 358px;
         text-align: center;
     }
+    .limitWraper-close {
+        position: absolute;
+        top: -25px;
+        right: 15px;
+        cursor: pointer;
+    }
     .btns {
         display: flex;
         flex-direction: row;
@@ -56,17 +63,23 @@
             font-size: 16px;
             width: 135px;
             height: 40px;
-
             border-radius: 6px;
+            transition: all 0.25s;
         }
         .stakeBtn {
-            color: #282829;
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.18);
         }
         .changeWalletBtn {
             background: rgba(255, 255, 255, 0.08);
             color: #ffffff;
             border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        :hover {
+            color: #282829;
+            background: #ffffff;
+            cursor: pointer;
         }
     }
     .algoBtnPop {
@@ -82,6 +95,7 @@
         border: 3.72px solid #bbbec21a;
         font-weight: 400;
         font-size: 17.3085px;
+        cursor: pointer;
         img {
             width: 39.69px;
             height: 39.69px;

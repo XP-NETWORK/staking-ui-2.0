@@ -97,7 +97,6 @@ export const Stake: FC<Props> = ({}) => {
         algoDetails,
         balance,
         activeSessionStakes,
-        showErrorModal,
     } = useSelector((state: ReduxState) => state.homePage);
 
     const handleMaxAmount = () => {
@@ -169,15 +168,15 @@ export const Stake: FC<Props> = ({}) => {
 
     useEffect(() => {
         // ! NO NEED
-        const getBalance = async () => {
-            const balance = await getXpNetBalance(stakingClient);
-            if (balance) dispatch(setBalance(balance));
-            else {
-                dispatch(setBalance(balance));
-                console.log("Oh nooooooo");
-            }
-        };
-        if (account) getBalance().catch(console.error);
+        // const getBalance = async () => {
+        //     const balance = await getXpNetBalance(stakingClient);
+        //     if (balance) dispatch(setBalance(balance));
+        //     else {
+        //         dispatch(setBalance(balance));
+        //         console.log("Oh nooooooo");
+        //     }
+        // };
+        // if (account) getBalance().catch(console.error);
         const getCurrency = async () => {
             let currency = await getCurrentPrice();
             dispatch(setXPNetPrice(currency));
@@ -224,12 +223,12 @@ export const Stake: FC<Props> = ({}) => {
             </div>
         ) : (
             <>
-                <div id="no-xp-modal"></div>
+                {/* <div id="no-xp-modal"></div>
                 {showErrorModal && (
                     <NoXpNetModal>
                         <ErrorModalBody />
                     </NoXpNetModal>
-                )}
+                )} */}
                 <div className="stakeWrapper">
                     <div className={classNames("containerLeft", "container")}>
                         <h1>Stake XPNET</h1>

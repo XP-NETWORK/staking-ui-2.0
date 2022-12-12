@@ -1,9 +1,34 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
+import {
+    setConnectModalShow,
+    setErrorModal,
+} from "../../store/reducer/homePageSlice";
+import close from "../../assets/images/close-icon.svg";
 
 interface Props {}
 
 export default function ErrorModalBody({}: Props) {
     const mobile = window.innerWidth < 600;
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const handleButtonClick = (btn: string) => {
+        switch (btn) {
+            case "Bridge":
+                window.open("https://token.bridge.xp.network/", "_blank");
+                dispatch(setErrorModal(false));
+
+                break;
+            case "Change":
+                dispatch(setErrorModal(false));
+                dispatch(setConnectModalShow(true));
+                break;
+            default:
+                break;
+        }
+    };
 
     return (
         <div
@@ -20,33 +45,22 @@ export default function ErrorModalBody({}: Props) {
                 zIndex: 99,
             }}
         >
-            {/* <div className="errorWraper">
-                <h4>Oh nooooo</h4>
-                <p>Seems you don’t have any XPNET staked.</p>
-                <div className="btns">
-                    <button className="stakeBtn">Stake XPNET</button>
-                    <button
-                        className="changeWalletBtn"
-                        // onClick={() => navigate("/")}
-                    >
-                        Change wallet
-                    </button>
-                </div>
-            </div> */}
             <div className="errorWraper">
+                <span className="errorWraper-close">
+                    <img src={close} alt="" />
+                </span>
                 <h4>Oh nooooo</h4>
                 <p>Seems you don’t have any XPNET to stake.</p>
                 <div className="btns">
-                    <button className="stakeBtn">Stake XPNET</button>
                     <button
                         className="changeWalletBtn"
-                        // onClick={() => navigate("/")}
+                        onClick={() => handleButtonClick("Change")}
                     >
                         Change wallet
                     </button>
                     <button
                         className="changeWalletBtn"
-                        // onClick={() => navigate("/")}
+                        onClick={() => handleButtonClick("Bridge")}
                     >
                         XPNET Bridge
                     </button>

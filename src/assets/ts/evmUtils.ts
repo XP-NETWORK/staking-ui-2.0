@@ -28,9 +28,7 @@ export const getEvmXpNetBalance = async (address: string) => {
 export const getAmountOfEVMTokensStaked = async (address: string) => {
     debugger;
     try {
-        const stakes = await EVMStakeContract.methods
-            .balanceOf("0xa796A5a95a1dDEF1d557d38DF9Fe86dc2b204D63")
-            .call();
+        const stakes = await EVMStakeContract.methods.balanceOf(address).call();
         return Number(stakes) || undefined;
     } catch (error) {
         console.log(error);

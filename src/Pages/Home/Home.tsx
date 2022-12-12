@@ -39,23 +39,6 @@ import { createPortal } from "react-dom";
 import ConnectModalBody from "../../Components/Modals/ConnectModalBody";
 import { getTokenOfOwnerByIndex } from "../../assets/ts/evmUtils";
 
-type ConnectModalProps = {
-    children: ReactNode;
-};
-
-function ConnectModal({ children }: ConnectModalProps) {
-    const x = document.createElement("div");
-    const modalRoot = document.getElementById("modal-root") as HTMLElement;
-    useEffect(() => {
-        //const el = elRef.current!; // non-null assertion because it will never be null
-        modalRoot?.appendChild(x);
-        return () => {
-            modalRoot?.removeChild(x);
-        };
-    }, []);
-    return createPortal(children, x);
-}
-
 interface HomeProps {}
 
 export const Home: FC<HomeProps> = () => {
@@ -66,9 +49,9 @@ export const Home: FC<HomeProps> = () => {
         blockchain,
         account,
         evmAccount,
-        showConnectModal,
         stakingClient,
         fetchedAlgoStakes,
+        balance,
     } = useSelector((state: ReduxState) => state.homePage);
 
     const dispatch = useDispatch();
@@ -88,9 +71,13 @@ export const Home: FC<HomeProps> = () => {
     };
 
     const handleClickOnStake = (typeOfStake: string) => {
+        debugger;
         if (typeOfStake === "ALGO" ? account : evmAccount) {
-            handleBlockchainSelect(typeOfStake);
-            navigate("/stake");
+            if (!balance) dispatch(setErrorModal(true));
+            else {
+                handleBlockchainSelect(typeOfStake);
+                navigate("/stake");
+            }
         } else {
             handleBlockchainSelect(typeOfStake);
             dispatch(setConnectModalShow(true));
@@ -100,8 +87,8 @@ export const Home: FC<HomeProps> = () => {
 
     const handleClickOnClaim = (typeOfClaim: string) => {
         if (typeOfClaim === "ALGO" ? account : evmAccount) {
-            handleBlockchainSelect(typeOfClaim);
-            navigate("/rewards");
+            if (!balance) dispatch(setErrorModal(true));
+            else navigate("/rewards");
         } else {
             handleBlockchainSelect(typeOfClaim);
             dispatch(setConnectModalShow(true));
@@ -177,12 +164,12 @@ export const Home: FC<HomeProps> = () => {
 
     return (
         <>
-            <div id="modal-root"></div>
-            {showConnectModal && (
+            {/* <div id="modal-root"></div> */}
+            {/* {showConnectModal && (
                 <ConnectModal>
                     <ConnectModalBody />
                 </ConnectModal>
-            )}
+            )} */}
             <img src={bg} className={classNames("bg", "deskOnly")} alt="bg" />
             <img src={bgMob} className={classNames("bg", "mobOnly")} alt="bg" />
             <div className="homeWrapper">

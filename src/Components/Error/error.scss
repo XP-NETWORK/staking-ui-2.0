@@ -5,17 +5,16 @@
 .errorWraper {
     position: relative;
     margin: -240px auto 0 auto;
-
+    justify-content: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
     width: 350px;
     height: 377px;
-    background: rgba(202, 202, 220, 0.1);
+    background: #1b1b1d;
     -webkit-box-shadow: 5px 5px 22px 5px rgba(0, 0, 0, 0.43);
     box-shadow: 5px 5px 22px 5px rgba(0, 0, 0, 0.43);
-    backdrop-filter: blur(22px);
     background-image: url("../../assets/images/popup-bg.png");
     background-repeat: no-repeat;
     background-size: cover;
@@ -24,7 +23,7 @@
     font-size: 16px;
     line-height: 160%;
     h4 {
-        margin-top: 50px;
+        margin-top: 00px;
         margin-bottom: 10px;
         font-weight: 600;
         font-size: 24px;
@@ -33,6 +32,12 @@
         margin: 0;
         width: 229px;
         text-align: center;
+    }
+    .errorWraper-close {
+        position: absolute;
+        right: 25px;
+        top: 25px;
+        cursor: pointer;
     }
     .btns {
         display: flex;
