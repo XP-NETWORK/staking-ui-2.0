@@ -391,7 +391,10 @@ export const getXpNetBalance = async (client: any) => {
             const assetInfo = await client.client
                 .accountAssetInformation(client.sender, assetIdx)
                 .do();
-            return assetInfo["asset-holding"]["amount"];
+            if (assetInfo.message) {
+                console.log(assetInfo.message);
+                return 0;
+            } else return assetInfo["asset-holding"]["amount"];
         }
     } catch (error) {
         console.log(error);

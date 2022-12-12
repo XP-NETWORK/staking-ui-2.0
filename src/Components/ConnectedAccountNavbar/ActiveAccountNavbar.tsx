@@ -13,14 +13,18 @@ import AccountChainNav from "../AccountChainNav/AccountChainNav";
 
 export const ActiveAccountNavbar: FC<{}> = () => {
     const chain = BLOCKCHAINS[0];
-    const { blockchain, evmStakes } = useSelector(
+
+    const { blockchain, evmStakes, balance } = useSelector(
         (state: ReduxState) => state.homePage
     );
+    // console.log(blockchain.chain);
+
     const [showDrop, setshowDrop] = useState(false);
     const route = window.location.pathname;
 
-    const handleChangeChain = (e: any) => {
-        // setValue(e);
+    const claimLinkStyle: React.CSSProperties = {
+        pointerEvents:
+            blockchain.chain === "Algorand" && !balance ? "none" : "auto",
     };
 
     let title = (
@@ -45,6 +49,7 @@ export const ActiveAccountNavbar: FC<{}> = () => {
                 Stake XPNET
             </Link>
             <Link
+                style={claimLinkStyle}
                 to={
                     blockchain.chain === "BSC" && !evmStakes
                         ? "error"

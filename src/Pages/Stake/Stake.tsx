@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState, ReactNode, useRef } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import { useSelector, useDispatch } from "react-redux";
@@ -42,6 +42,28 @@ import { STAKEButton } from "../../Components/Buttons/STAKEButton";
 import { ThreeCircles } from "react-loader-spinner";
 import moment from "moment";
 import StakingPeriods from "../../Components/StakingPeriods/StakingPeriods";
+import { createPortal } from "react-dom";
+import ErrorModalBody from "../../Components/Modals/ErrorModalBody";
+
+type NoXpNetModalProps = {
+    children: ReactNode;
+};
+
+function NoXpNetModal({ children }: NoXpNetModalProps) {
+    const modalRoot = document.querySelector("#no-xp-modal") as HTMLElement;
+
+    const elRef = useRef<HTMLDivElement | null>(null);
+    if (!elRef.current) elRef.current = document.createElement("div");
+
+    useEffect(() => {
+        const el = elRef.current!; // non-null assertion because it will never be null
+        modalRoot?.appendChild(el);
+        return () => {
+            modalRoot.removeChild(el);
+        };
+    }, []);
+    return createPortal(children, elRef.current);
+}
 
 interface Props {}
 
@@ -75,6 +97,7 @@ export const Stake: FC<Props> = ({}) => {
         algoDetails,
         balance,
         activeSessionStakes,
+        showErrorModal,
     } = useSelector((state: ReduxState) => state.homePage);
 
     const handleMaxAmount = () => {
@@ -136,6 +159,7 @@ export const Stake: FC<Props> = ({}) => {
     };
 
     useEffect(() => {
+        // ! NEED
         const optInApps = async () => {
             const apps = await checkOptInApps(stakingClient);
             setOptInApps(apps["apps-local-state"]);
@@ -144,9 +168,14 @@ export const Stake: FC<Props> = ({}) => {
     }, [optInResponse, stakingClient]);
 
     useEffect(() => {
+        // ! NO NEED
         const getBalance = async () => {
             const balance = await getXpNetBalance(stakingClient);
-            dispatch(setBalance(balance));
+            if (balance) dispatch(setBalance(balance));
+            else {
+                dispatch(setBalance(balance));
+                console.log("Oh nooooooo");
+            }
         };
         if (account) getBalance().catch(console.error);
         const getCurrency = async () => {
@@ -155,7 +184,7 @@ export const Stake: FC<Props> = ({}) => {
             setCurrentXpnetPrice(currency);
         };
         getCurrency().catch(console.error);
-    }, [stakingClient, activeSessionStakes, account, dispatch]);
+    }, [stakingClient, activeSessionStakes, account]);
 
     useEffect(() => {
         let stake = {
@@ -164,7 +193,7 @@ export const Stake: FC<Props> = ({}) => {
             isAgree: isAgree,
         };
         dispatch(setStakeDetails({ ...stake }));
-    }, [amount, duration, isAgree, dispatch]);
+    }, [amount, duration, isAgree]);
 
     useEffect(() => {
         const algoDetails = new AlgoDetails(duration);
@@ -174,7 +203,7 @@ export const Stake: FC<Props> = ({}) => {
             dispatch(setClient(client));
         };
         if (account) updateClient().catch(console.error);
-    }, [duration, dispatch, signer, account]);
+    }, [duration, signer, account]);
 
     if (!account && !evmAccount) return <Navigate to="/" replace />;
     else
@@ -195,6 +224,12 @@ export const Stake: FC<Props> = ({}) => {
             </div>
         ) : (
             <>
+                <div id="no-xp-modal"></div>
+                {showErrorModal && (
+                    <NoXpNetModal>
+                        <ErrorModalBody />
+                    </NoXpNetModal>
+                )}
                 <div className="stakeWrapper">
                     <div className={classNames("containerLeft", "container")}>
                         <h1>Stake XPNET</h1>

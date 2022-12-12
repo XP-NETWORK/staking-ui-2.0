@@ -23,18 +23,22 @@ export default function ConnectModalBody({}: Props) {
 
     const ref = React.useRef<HTMLInputElement>(null);
     useOnClickOutside(ref, () => dispatch(setConnectModalShow(false)));
+
+    const mobile = window.innerWidth < 600;
+
     return (
         <div
             className="connect-modal"
             style={{
-                position: "absolute",
+                position: "fixed",
                 left: "0px",
+                top: mobile ? "-20px" : "60px",
                 display: "grid",
                 placeItems: "center",
-                height: "80%",
+                height: "110%",
                 width: "100%",
                 backdropFilter: "blur(15px)",
-                zIndex: 99,
+                zIndex: "99",
             }}
         >
             <div ref={ref} className="connectWraper">
