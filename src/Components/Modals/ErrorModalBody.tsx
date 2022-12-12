@@ -6,13 +6,15 @@ import {
     setErrorModal,
 } from "../../store/reducer/homePageSlice";
 import close from "../../assets/images/close-icon.svg";
+import { useOnClickOutside } from "../../assets/ts/helpers";
 
 interface Props {}
 
 export default function ErrorModalBody({}: Props) {
     const mobile = window.innerWidth < 600;
-    const navigate = useNavigate();
     const dispatch = useDispatch();
+    const ref = React.useRef<HTMLInputElement>(null);
+    useOnClickOutside(ref, () => dispatch(setErrorModal(false)));
 
     const handleButtonClick = (btn: string) => {
         switch (btn) {
@@ -45,8 +47,11 @@ export default function ErrorModalBody({}: Props) {
                 zIndex: 99,
             }}
         >
-            <div className="errorWraper">
-                <span className="errorWraper-close">
+            <div ref={ref} className="errorWraper">
+                <span
+                    onClick={() => dispatch(setErrorModal(false))}
+                    className="errorWraper-close"
+                >
                     <img src={close} alt="" />
                 </span>
                 <h4>Oh nooooo</h4>
