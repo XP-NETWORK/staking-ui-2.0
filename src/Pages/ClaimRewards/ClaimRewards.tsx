@@ -10,6 +10,7 @@ import { getTokenOfOwnerByIndex } from "../../assets/ts/evmUtils";
 import { useDispatch } from "react-redux";
 import {
     setAlgoRewards,
+    setErrorModal,
     setEVMStakesArray,
     setFetchedAlgoStakes,
     setXPNetPrice,
@@ -36,7 +37,6 @@ const ClaimRewards = ({ chain }: Props) => {
     const [indexOfAlgoStake, setIndexOfAlgoStake] = useState(0);
     let timeOut = useRef();
     const {
-        evmStakes,
         account,
         evmAccount,
         evmStakesArray,
@@ -44,6 +44,7 @@ const ClaimRewards = ({ chain }: Props) => {
         algoRewards,
         activeSessionStakes,
         blockchain,
+        evmStakes,
     } = useSelector((state: ReduxState) => state.homePage);
 
     const showLoader = () => {
@@ -75,67 +76,70 @@ const ClaimRewards = ({ chain }: Props) => {
 
     useEffect(() => {
         const t = setTimeout(() => {
+            // debugger;
             switch (blockchain.chain) {
                 case "BSC":
-                    if (evmStakesArray.length === 0) navigate("/error");
+                    if (evmStakesArray.length === 0) {
+                        navigate("/");
+                        dispatch(setErrorModal(true));
+                    }
                     break;
                 case "Algorand":
-                    if (fetchedAlgoStakes.length === 0) navigate("/error");
+                    if (fetchedAlgoStakes.length === 0) {
+                        navigate("/");
+                        dispatch(setErrorModal(true));
+                    }
                     break;
                 default:
                     break;
             }
-        }, 10000);
+        }, 20000);
         return () => clearTimeout(t);
     }, [blockchain, evmStakesArray, fetchedAlgoStakes, navigate]);
 
-    // useEffect(() => {
-    // let rewardsInt: any;
-    // let stakesInt: any;
-    // const algoRewardsAndStakes = async () => {
-    //     let rewards = await getAlgoReward(account);
-    //     if (!rewards) {
-    //         rewardsInt = setInterval(
-    //             async () => (rewards = await getAlgoReward(account)),
-    //             200
-    //         );
-    //     } else if (rewards) {
-    //         dispatch(setAlgoRewards(rewards));
-    //         clearInterval(rewardsInt);
-    //     }
-    //     let stakes = await getAllAlgoStakes(account);
-    //     if (fetchedAlgoStakes?.length !== stakes?.length)
-    //         dispatch(setFetchedAlgoStakes(stakes));
-    //     if (!stakes) {
-    //         stakesInt = setInterval(
-    //             async () => (stakes = await getAlgoReward(account)),
-    //             200
-    //         );
-    //     } else if (stakes) {
-    //         dispatch(setAlgoRewards(rewards));
-    //         clearInterval(stakesInt);
-    //     }
-    // };
-    // if (account) {
-    //     algoRewardsAndStakes();
-    // }
-    // const getEVMStakes = async (evmStakes: any) => {
-    //     const tokens = await getTokenOfOwnerByIndex(evmStakes, evmAccount);
-    //     dispatch(setEVMStakesArray(tokens));
-    // };
-    // if (chain === "BSC" && evmStakes) {
-    //     getEVMStakes(evmStakes);
-    // }
-    // const getCurrency = async () => {
-    //     let currency = await getCurrentPrice();
-    //     dispatch(setXPNetPrice(currency));
-    // };
-    // getCurrency().catch(console.error);
-    // return () => {
-    //     clearInterval(rewardsInt);
-    //     clearInterval(stakesInt);
-    // };
-    // }, [chain, evmAccount, evmStakes]);
+    useEffect(() => {
+        // let rewardsInt: any;
+        // let stakesInt: any;
+        // const algoRewardsAndStakes = async () => {
+        //     let rewards = await getAlgoReward(account);
+        //     if (!rewards) {
+        //         rewardsInt = setInterval(
+        //             async () => (rewards = await getAlgoReward(account)),
+        //             200
+        //         );
+        //     } else if (rewards) {
+        //         dispatch(setAlgoRewards(rewards));
+        //         clearInterval(rewardsInt);
+        //     }
+        //     let stakes = await getAllAlgoStakes(account);
+        //     if (fetchedAlgoStakes?.length !== stakes?.length)
+        //         dispatch(setFetchedAlgoStakes(stakes));
+        //     if (!stakes) {
+        //         stakesInt = setInterval(
+        //             async () => (stakes = await getAlgoReward(account)),
+        //             200
+        //         );
+        //     } else if (stakes) {
+        //         dispatch(setAlgoRewards(rewards));
+        //         clearInterval(stakesInt);
+        //     }
+        // };
+        // if (account) {
+        //     algoRewardsAndStakes();
+        // }
+        const getEVMStakes = async (evmStakes: any) => {
+            const tokens = await getTokenOfOwnerByIndex(evmStakes, evmAccount);
+            dispatch(setEVMStakesArray(tokens));
+        };
+        if (chain === "BSC" && evmStakes) {
+            getEVMStakes(evmStakes);
+        }
+        const getCurrency = async () => {
+            let currency = await getCurrentPrice();
+            dispatch(setXPNetPrice(currency));
+        };
+        getCurrency().catch(console.error);
+    }, [chain, evmAccount, evmStakes]);
 
     if (!account && !evmAccount) return <Navigate to="/" replace />;
     return !showLoader() ? (

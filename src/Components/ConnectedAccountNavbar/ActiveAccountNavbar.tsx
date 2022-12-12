@@ -10,6 +10,8 @@ import classNames from "classnames";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
 import AccountChainNav from "../AccountChainNav/AccountChainNav";
+import { useDispatch } from "react-redux";
+import { setLimitModal } from "../../store/reducer/homePageSlice";
 
 export const ActiveAccountNavbar: FC<{}> = () => {
     const chain = BLOCKCHAINS[0];
@@ -17,7 +19,7 @@ export const ActiveAccountNavbar: FC<{}> = () => {
     const { blockchain, evmStakes, balance } = useSelector(
         (state: ReduxState) => state.homePage
     );
-    // console.log(blockchain.chain);
+    const dispatch = useDispatch();
 
     const [showDrop, setshowDrop] = useState(false);
     const route = window.location.pathname;
@@ -36,19 +38,27 @@ export const ActiveAccountNavbar: FC<{}> = () => {
 
     return (
         <div className="activeWrapper">
-            <Link
-                style={claimLinkStyle}
-                to={
-                    blockchain.chain === "BSC" && evmStakes
-                        ? "/limit"
-                        : "/stake"
-                }
-                className={`activeNavLink ${
-                    route === "/stake" ? "active-link" : ""
-                }`}
-            >
-                Stake XPNET
-            </Link>
+            {blockchain.chain !== "BSC" ? (
+                <Link
+                    style={claimLinkStyle}
+                    to={"/stake"}
+                    className={`activeNavLink ${
+                        route === "/stake" ? "active-link" : ""
+                    }`}
+                >
+                    Stake XPNET
+                </Link>
+            ) : (
+                <div
+                    style={{ cursor: "pointer" }}
+                    onClick={() => dispatch(setLimitModal(true))}
+                    className={`activeNavLink ${
+                        route === "/stake" ? "active-link" : ""
+                    }`}
+                >
+                    Stake XPNET
+                </div>
+            )}
             <Link
                 style={claimLinkStyle}
                 to={

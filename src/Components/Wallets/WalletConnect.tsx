@@ -4,18 +4,24 @@ import { useAccount } from "wagmi";
 import { useWeb3Modal } from "@web3modal/react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setEvmAccount } from "../../store/reducer/homePageSlice";
+import { setEvmAccount, setEvmStakes } from "../../store/reducer/homePageSlice";
 import { useContract } from "wagmi";
 import xpNetStaker from "./../../ABI/xpNetStaker.json";
+import xpNetToken from "./../../ABI/xpNetToken.json";
+import { getAmountOfEVMTokensStaked } from "../../assets/ts/evmUtils";
 
 const WalletConnect = ({ connect }: { connect: Function }) => {
     const dispatch = useDispatch();
     const { address, isConnecting, isDisconnected } = useAccount();
-    const evmStake = process.env.REACT_APP_XPNET_STAKE_TOKEN as string;
 
-    const contract = useContract({
-        address: evmStake,
+    const stakeContract = useContract({
+        address: process.env.REACT_APP_XPNET_STAKE_TOKEN as string,
         abi: xpNetStaker,
+    });
+
+    const xpNetContract = useContract({
+        address: process.env.REACT_APP_XPNET_TOKEN as string,
+        abi: xpNetToken,
     });
 
     const { open } = useWeb3Modal();
@@ -25,9 +31,20 @@ const WalletConnect = ({ connect }: { connect: Function }) => {
         else dispatch(setEvmAccount(address));
     };
 
+    const amountOfTokenByIndex = async (address: string) => {
+        let stakes: number | undefined;
+        try {
+            stakes = await getAmountOfEVMTokensStaked(address, stakeContract);
+            dispatch(setEvmStakes(stakes));
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     useEffect(() => {
         if (address) {
             dispatch(setEvmAccount(address));
+            amountOfTokenByIndex(address);
         }
     }, [address]);
 

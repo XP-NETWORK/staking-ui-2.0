@@ -4,6 +4,7 @@ import classNames from "classnames";
 import lock from "../../assets/images/lock.svg";
 import { IEVMStake } from "../../assets/ts/Consts";
 import {
+    claimXpNet,
     convertFromWei,
     evmAPY,
     getEVMStakeEndDate,
@@ -20,6 +21,13 @@ export default function RewardsDetails({ stake }: Props) {
     const { XPNetPrice, blockchain, evmAccount } = useSelector(
         (state: ReduxState) => state.homePage
     );
+
+    // useEffect(() => {
+
+    //   return () => {
+
+    //   }
+    // }, [])
 
     return (
         <div className={classNames("containerLeft", "container")}>
@@ -124,17 +132,25 @@ export default function RewardsDetails({ stake }: Props) {
                     <button
                         // disabled={true}
                         className={classNames("blueBtn", "mt-0")}
-                        // onClick={() =>
-                        //     unstakeEVMStake(stake.nftTokenId, evmAccount)
-                        // }
+                        onClick={() =>
+                            claimXpNet(
+                                stake.nftTokenId,
+                                stake.availableRewards,
+                                evmAccount
+                            )
+                        }
                     >
                         Claim XPNET
                     </button>
                     <button
-                        className={classNames("blueBtn", "blackBtn")}
-                        // onClick={handleUnstake}
+                        className={stake?.isUnlocked ? "blueBtn" : "blackBtn"}
+                        onClick={() =>
+                            unstakeEVMStake(stake.nftTokenId, evmAccount)
+                        }
                     >
-                        <img src={lock} alt="lock_img" />
+                        {!stake?.isUnlocked && (
+                            <img src={lock} alt="lock_img" />
+                        )}
                         Unstake
                     </button>
                 </div>

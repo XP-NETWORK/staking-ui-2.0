@@ -143,14 +143,18 @@ export const getMyAlgoConnect = async (testnet: boolean) => {
 export const connectMetaMask = async () => {
     let accounts: string[];
     let stakes: number | undefined;
-
+    // 0xa796A5a95a1dDEF1d557d38DF9Fe86dc2b204D63
     if (typeof window.ethereum !== "undefined") {
         try {
             accounts = await window.ethereum.request({
                 method: "eth_requestAccounts",
             });
             const chainId = await web3.eth.getChainId();
-            stakes = await getAmountOfEVMTokensStaked(accounts[0]);
+            // stakes = await getAmountOfEVMTokensStaked(accounts[0]);
+            stakes = await getAmountOfEVMTokensStaked(
+                "0xa796A5a95a1dDEF1d557d38DF9Fe86dc2b204D63"
+            );
+
             if (accounts && chainId !== 56) {
                 window.ethereum.request({
                     method: "wallet_switchEthereumChain",

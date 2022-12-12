@@ -18,7 +18,7 @@ const MetaMask = ({ connect }: { connect: Function }) => {
 
     const handleClick = async () => {
         const response = await connect("MetaMask");
-        debugger;
+        // debugger;
         dispatch(setEvmAccount(response.accounts[0]));
         dispatch(setEvmStakes(Number(response.stakes)));
         if (Number(response.stakes) > 0) {

@@ -43,7 +43,6 @@ import { ThreeCircles } from "react-loader-spinner";
 import moment from "moment";
 import StakingPeriods from "../../Components/StakingPeriods/StakingPeriods";
 import { createPortal } from "react-dom";
-import ErrorModalBody from "../../Components/Modals/ErrorModalBody";
 
 type NoXpNetModalProps = {
     children: ReactNode;

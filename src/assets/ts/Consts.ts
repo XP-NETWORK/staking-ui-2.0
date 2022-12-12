@@ -17,6 +17,7 @@ export interface IEVMStake {
     staker: string;
     startTime: string;
     availableRewards: string;
+    isUnlocked: boolean;
 }
 
 export interface IActiveSessionSTake {
