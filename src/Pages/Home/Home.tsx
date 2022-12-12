@@ -26,6 +26,7 @@ import {
     setErrorModal,
     setEVMStakesArray,
     setFetchedAlgoStakes,
+    setLimitModal,
     setNavigateRoute,
     setXPNetPrice,
 } from "../../store/reducer/homePageSlice";
@@ -52,6 +53,7 @@ export const Home: FC<HomeProps> = () => {
         stakingClient,
         fetchedAlgoStakes,
         balance,
+        evmStakesArray,
     } = useSelector((state: ReduxState) => state.homePage);
 
     const dispatch = useDispatch();
@@ -72,16 +74,18 @@ export const Home: FC<HomeProps> = () => {
 
     const handleClickOnStake = (typeOfStake: string) => {
         debugger;
-        if (typeOfStake === "ALGO" ? account : evmAccount) {
-            if (!balance) dispatch(setErrorModal(true));
+        if (typeOfStake === "ALGO") {
+            if (!account) {
+                dispatch(setConnectModalShow(true));
+            } else if (account && !balance) dispatch(setErrorModal(true));
             else {
                 handleBlockchainSelect(typeOfStake);
                 navigate("/stake");
             }
         } else {
             handleBlockchainSelect(typeOfStake);
-            dispatch(setConnectModalShow(true));
-            dispatch(setNavigateRoute("/stake"));
+            dispatch(setLimitModal(true));
+            // dispatch(setNavigateRoute("/stake"));
         }
     };
 
@@ -90,9 +94,13 @@ export const Home: FC<HomeProps> = () => {
             if (!balance) dispatch(setErrorModal(true));
             else navigate("/rewards");
         } else {
-            handleBlockchainSelect(typeOfClaim);
-            dispatch(setConnectModalShow(true));
-            dispatch(setNavigateRoute("/rewards"));
+            if (evmStakesArray.length < 0) {
+                dispatch(setLimitModal(true));
+            } else {
+                handleBlockchainSelect(typeOfClaim);
+                dispatch(setConnectModalShow(true));
+                dispatch(setNavigateRoute("/rewards"));
+            }
         }
     };
 
