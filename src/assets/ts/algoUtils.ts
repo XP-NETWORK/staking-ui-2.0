@@ -567,14 +567,47 @@ export const unstakeTokens = async (
 //     console.log(array);
 // };
 
-export const getNFTCollection = async () => {
+export const getNFTCollection = async (i: number) => {
     const arr = [];
-    for (let index = 1; index < 101; index++) {
+    for (let index = i; index < i + 5; index++) {
         const element = axios.get(
             `https://nft-service-testing.s3.eu-west-1.amazonaws.com/${index}.json`
         );
         arr.push(element);
     }
     const nfts = await Promise.allSettled(arr);
+    console.log("🚀 ~ file: algoUtils.ts:579 ~ getNFTCollection ~ nfts", nfts);
 };
-// getNFTCollection();
+
+export const getTotalStaked = async () => {
+    let appIds = [
+        appAdress3Months,
+        appAdress6Months,
+        appAdress9Months,
+        appAdress12Months,
+    ];
+    const promises = appIds.map((id: any) => {
+        var config = {
+            method: "get",
+            url: "https://mainnet-algorand.api.purestake.io/idx2/v2/applications/970373105",
+            headers: {
+                "x-api-key": apiKey,
+            },
+        };
+        return axios(config);
+    });
+
+    const settled = await Promise.allSettled(promises);
+    let totalStaked = 0;
+    settled.forEach((element: any) => {
+        element.value.data.application.params["global-state"].forEach(
+            (key: any) => {
+                if (key.key === "ZHluYW1pY19hcHBfdmFsdWVfdW5pdGd0c3JvdQ==") {
+                    totalStaked = totalStaked + key.value.uint / 1e6;
+                }
+            }
+        );
+    });
+    return totalStaked;
+};
+getTotalStaked();

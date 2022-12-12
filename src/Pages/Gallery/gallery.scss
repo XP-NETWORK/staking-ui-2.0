@@ -1,86 +1,100 @@
 .galleryPage {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 32px;
-  margin-top: 45px;
-  align-items: center;
-  input {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 45px;
     align-items: center;
-    padding: 10px 10px 10px 16px;
-    gap: 10px;
-    background: #29292c;
-    border: 1px solid #3d3d41;
-    border-radius: 6px;
-    width: 591px;
-    background-image: url("../../assets/images/search.svg");
-    background-repeat: no-repeat;
-    background-position: right 3% bottom 45%;
-    color: #ffffff;
-  }
-  input:focus {
-    opacity: 0.5;
-  }
+    input {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 10px 10px 10px 16px;
+        gap: 10px;
+        background: #29292c;
+        border: 1px solid #3d3d41;
+        border-radius: 6px;
+        width: 591px;
+        background-image: url("../../assets/images/search.svg");
+        background-repeat: no-repeat;
+        background-position: right 3% bottom 45%;
+        color: #ffffff;
+    }
+    input:focus {
+        opacity: 0.5;
+    }
 }
 
 .nfts {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: -webkit-fill-available;
-  justify-content: space-between;
-  gap: 24px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: -webkit-fill-available;
+    height: 496px;
+    justify-content: space-evenly;
+    gap: 24px;
+    overflow-y: scroll;
+}
+.nfts::-webkit-scrollbar {
+    width: 12px; /* width of the entire scrollbar */
+    cursor: pointer;
 }
 
-.nfts::after {
-  content: "";
-  flex: auto;
+.nfts::-webkit-scrollbar-track {
+    background: #1b1b1d;
+    /* color of the tracking area */
+}
+
+.nfts::-webkit-scrollbar-thumb {
+    background: #29292c; /* color of the scroll thumb */
+    border-radius: 20px; /* roundness of the scroll thumb */
+    border-top: 0px;
+    border-bottom: 0px;
+    border: 3px solid transparent; /* creates padding around scroll thumb */
 }
 
 .noNfts {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0px;
-  gap: 16px;
-  font-weight: 400;
-  font-size: 16px;
-  label {
-    font-size: 24px;
-  }
-  button {
-    font-weight: 500;
-    font-size: 16px;
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    padding: 16px 36px;
-    gap: 10px;
-    background: #2388ff;
-    border-radius: 6px;
-  }
+    padding: 0px;
+    gap: 16px;
+    font-weight: 400;
+    font-size: 16px;
+    label {
+        font-size: 24px;
+    }
+    button {
+        font-weight: 500;
+        font-size: 16px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 16px 36px;
+        gap: 10px;
+        background: #2388ff;
+        border-radius: 6px;
+    }
 }
 
 @media screen and (max-width: 650px) {
-  .galleryPage {
-    width: 90vw;
-    margin: 0 auto;
-    margin-top: 34px;
-    h1 {
-      font-weight: 600;
-      font-size: 2rem;
+    .galleryPage {
+        width: 90vw;
+        margin: 0 auto;
+        margin-top: 34px;
+        h1 {
+            font-weight: 600;
+            font-size: 2rem;
+        }
+        input {
+            width: -webkit-fill-available;
+        }
     }
-    input {
-      width: -webkit-fill-available;
-    }
-  }
 }
 
 @media screen and (max-width: 390px) {
-  .nfts {
-    gap: 12px;
-  }
+    .nfts {
+        gap: 12px;
+    }
 }

@@ -1,49 +1,47 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
 
 .App {
-  text-align: center;
+    text-align: center;
 }
 
 body {
-  background: #1b1b1d;
-  /* background-image: url("/src/assets/images/desk/bg.png");
+    background: #1b1b1d;
+    /* background-image: url("/src/assets/images/desk/bg.png");
   background-repeat: no-repeat;
   background-size: contain; */
-  color: #ffffff;
-  font-family: "Inter";
-  font-style: normal;
+    color: #ffffff;
+    font-family: "Inter";
+    font-style: normal;
 }
 
 a {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 h1 {
-  font-weight: 500;
-  font-size: 46px;
-  line-height: 120%;
+    font-weight: 500;
+    font-size: 46px;
+    line-height: 120%;
 }
 
 .mobOnly {
-  display: none !important;
+    display: none !important;
 }
 
 .deskOnly {
-  display: flex !important;
+    display: flex !important;
 }
 
-
-.connectBtn{
-  cursor: pointer;
+.connectBtn {
+    cursor: pointer;
 }
 
 @media screen and (max-width: 600px) {
-  .mobOnly {
-    display: flex !important;
-  }
+    .mobOnly {
+        display: flex !important;
+    }
 
-  .deskOnly {
-    display: none !important;
-  }
+    .deskOnly {
+        display: none !important;
+    }
 }
-
