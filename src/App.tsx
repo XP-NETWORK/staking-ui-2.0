@@ -20,6 +20,9 @@ import { getXpNetBalance } from "./assets/ts/algoUtils";
 import { setBalance } from "./store/reducer/homePageSlice";
 import { useDisconnect } from "wagmi";
 import LimitModalBody from "./Components/Modals/LimitModalBody";
+import bg from "./assets/images/desk/bg.png";
+import bgMob from "./assets/images/mob/bg.png";
+import classNames from "classnames";
 
 type ModalProps = {
     children: ReactNode;
@@ -96,6 +99,8 @@ function App() {
 
     return (
         <>
+            <img src={bg} className={classNames("bg", "deskOnly")} alt="bg" />
+            <img src={bgMob} className={classNames("bg", "mobOnly")} alt="bg" />
             <BrowserRouter>
                 <div id="modal-root"></div>
                 {showConnectModal && (

@@ -32,7 +32,7 @@ export default function ConnectModalBody({}: Props) {
             style={{
                 position: "fixed",
                 left: "0px",
-                top: mobile ? "-20px" : "60px",
+                top: mobile ? "-20px" : "0",
                 display: "grid",
                 placeItems: "center",
                 height: "110%",

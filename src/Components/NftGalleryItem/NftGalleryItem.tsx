@@ -13,6 +13,7 @@ export const NftGalleryItem: FC<Props> = ({ url, nft }) => {
         <div className="nftItemContainer">
             <img loading="lazy" src={nft.image} alt="" />
             <label>{nft.name}</label>
+            {/* <div className="nftItemContainer-placeholder"></div> */}
         </div>
     );
 };

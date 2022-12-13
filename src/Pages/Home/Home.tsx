@@ -73,7 +73,7 @@ export const Home: FC<HomeProps> = () => {
     };
 
     const handleClickOnStake = (typeOfStake: string) => {
-        debugger;
+        // debugger;
         if (typeOfStake === "ALGO") {
             if (!account) {
                 dispatch(setConnectModalShow(true));
@@ -172,14 +172,8 @@ export const Home: FC<HomeProps> = () => {
 
     return (
         <>
-            {/* <div id="modal-root"></div> */}
-            {/* {showConnectModal && (
-                <ConnectModal>
-                    <ConnectModalBody />
-                </ConnectModal>
-            )} */}
-            <img src={bg} className={classNames("bg", "deskOnly")} alt="bg" />
-            <img src={bgMob} className={classNames("bg", "mobOnly")} alt="bg" />
+            {/* <img src={bg} className={classNames("bg", "deskOnly")} alt="bg" />
+            <img src={bgMob} className={classNames("bg", "mobOnly")} alt="bg" /> */}
             <div className="homeWrapper">
                 <div>
                     <h1>Do more with XPNET</h1>
