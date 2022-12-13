@@ -569,14 +569,19 @@ export const unstakeTokens = async (
 
 export const getNFTCollection = async (i: number) => {
     const arr = [];
-    for (let index = i; index < i + 5; index++) {
+    for (let index = i; index < i + 15; index++) {
         const element = axios.get(
             `https://nft-service-testing.s3.eu-west-1.amazonaws.com/${index}.json`
         );
         arr.push(element);
     }
-    const nfts = await Promise.allSettled(arr);
-    console.log("🚀 ~ file: algoUtils.ts:579 ~ getNFTCollection ~ nfts", nfts);
+    const settled = await Promise.allSettled(arr);
+    const nfts = settled.map((e: any) => e.value.data);
+    return nfts;
+
+    // return settled.forEach((e: any) => e.value.data);
+
+    // return nfts;
 };
 
 export const getTotalStaked = async () => {
