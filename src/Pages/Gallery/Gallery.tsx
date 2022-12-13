@@ -16,34 +16,42 @@ export const Gallery: FC<Props> = ({}) => {
     const [index, setIndex] = useState(1);
     const [isFetching, setIsFetching] = useState(false);
     const [nfts, setNfts] = useState<INFTURI[]>();
+    console.log("🚀 ~ file: Gallery.tsx:19 ~ nfts", nfts);
 
     const onScroll = (e: any) => {
-        const currentScrollY = e.target.scrollTop;
-        var element = e.target;
+        const currentScrollY = e.currentTarget.scrollTop;
+        var element = e.currentTarget;
 
         if (ref.current < currentScrollY && isFetching) {
             setIsFetching(false);
         }
         if (
             element.scrollHeight - element.scrollTop <
-            element.clientHeight + 10
+            element.clientHeight + 2
         ) {
             setIsFetching(true);
-
-            setIndex(index + 20);
+            setIndex(index + 15);
         }
         ref.current = currentScrollY;
     };
 
+    const getNfts = async () => {
+        const newArr = await getNFTCollection(index);
+        console.log({ newArr });
+
+        setNfts(newArr);
+    };
+
     useEffect(() => {
-        setIndex(16);
         const getNfts = async () => {
-            const nfts = await getNFTCollection(1);
-            console.log("🚀 ~ file: Gallery.tsx:41 ~ getNfts ~ nfts", nfts);
-            setNfts(nfts);
+            const newArr = await getNFTCollection(index);
+            let newNfts = [...(nfts ? nfts : []), ...newArr];
+            console.log({ newNfts });
+
+            setNfts(newNfts);
         };
         getNfts();
-    }, []);
+    }, [index]);
 
     return (
         <div className="galleryPage">

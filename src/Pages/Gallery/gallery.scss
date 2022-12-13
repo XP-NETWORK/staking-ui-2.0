@@ -26,6 +26,7 @@
 }
 
 .nfts {
+    margin: 0 auto;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -91,10 +92,17 @@
             width: -webkit-fill-available;
         }
     }
+    .nfts {
+        gap: 12px;
+        justify-content: flex-start;
+        padding-left: 20px;
+    }
 }
 
 @media screen and (max-width: 390px) {
     .nfts {
         gap: 12px;
+        justify-content: flex-start;
+        padding-left: 20px;
     }
 }

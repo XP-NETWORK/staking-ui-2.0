@@ -578,10 +578,6 @@ export const getNFTCollection = async (i: number) => {
     const settled = await Promise.allSettled(arr);
     const nfts = settled.map((e: any) => e.value.data);
     return nfts;
-
-    // return settled.forEach((e: any) => e.value.data);
-
-    // return nfts;
 };
 
 export const getTotalStaked = async () => {
