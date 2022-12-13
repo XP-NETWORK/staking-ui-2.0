@@ -89,16 +89,10 @@ export const getTokenOfOwnerByIndex = async (
             try {
                 const tokenId = contract
                     ? await contract.methods
-                          .tokenOfOwnerByIndex(
-                              "0xa796A5a95a1dDEF1d557d38DF9Fe86dc2b204D63",
-                              i
-                          )
+                          .tokenOfOwnerByIndex(owner, i)
                           .call()
                     : await EVMStakeContract.methods
-                          .tokenOfOwnerByIndex(
-                              "0xa796A5a95a1dDEF1d557d38DF9Fe86dc2b204D63",
-                              i
-                          )
+                          .tokenOfOwnerByIndex(owner, i)
                           .call();
                 const availableRewards = await showAvailableRewards(tokenId);
                 const isUnlocked = await checkIsUnLocked(tokenId);

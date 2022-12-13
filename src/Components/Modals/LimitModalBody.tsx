@@ -4,20 +4,51 @@ import algo from "../../assets/images/coin/algo1.svg";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
 import close from "../../assets/images/close-icon.svg";
-import { setLimitModal } from "../../store/reducer/homePageSlice";
+import {
+    setBlockchain,
+    setConnectModalShow,
+    setLimitModal,
+} from "../../store/reducer/homePageSlice";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
+import { BLOCKCHAINS } from "../../assets/ts/Consts";
 
 interface Props {}
 
 export default function LimitModalBody({}: Props) {
     const mobile = window.innerWidth < 600;
     const dispatch = useDispatch();
-    const { evmStakesArray } = useSelector(
+    const navigate = useNavigate();
+    const { evmStakesArray, evmAccount, account } = useSelector(
         (state: ReduxState) => state.homePage
     );
 
-    const claimBtnStyle: React.CSSProperties = {
-        pointerEvents: evmStakesArray.length > 0 ? "auto" : "none",
+    // const claimBtnStyle: React.CSSProperties = {
+    //     pointerEvents: evmStakesArray.length > 0 ? "auto" : "none",
+    // };
+
+    const handleClickOnStake = () => {
+        if (!account) {
+            dispatch(setBlockchain(BLOCKCHAINS[0]));
+            dispatch(setLimitModal(false));
+            dispatch(setConnectModalShow(true));
+        } else {
+            dispatch(setBlockchain(BLOCKCHAINS[0]));
+            dispatch(setLimitModal(false));
+            navigate("/rewards");
+        }
+    };
+
+    const handleClickOnClaim = () => {
+        dispatch(setBlockchain(BLOCKCHAINS[1]));
+        if (evmAccount) {
+            dispatch(setLimitModal(false));
+
+            navigate("/rewards");
+        } else {
+            dispatch(setLimitModal(false));
+            dispatch(setConnectModalShow(true));
+        }
     };
 
     return (
@@ -26,7 +57,7 @@ export default function LimitModalBody({}: Props) {
             style={{
                 position: "fixed",
                 left: "0px",
-                top: mobile ? "-20px" : "60px",
+                top: mobile ? "-20px" : "0px",
                 display: "grid",
                 placeItems: "center",
                 height: "110%",
@@ -50,11 +81,21 @@ export default function LimitModalBody({}: Props) {
                 </p>
                 <div className="btns">
                     <button className="stakeBtn">Notify me</button>
-                    <button style={claimBtnStyle} className="changeWalletBtn">
+                    <button
+                        onClick={handleClickOnClaim}
+                        className="changeWalletBtn"
+                    >
                         Claim XPNET
                     </button>
                 </div>
-                <button className="algoBtnPop">
+                <button
+                    style={{
+                        pointerEvents:
+                            evmStakesArray.length > 0 ? "auto" : "none",
+                    }}
+                    onClick={handleClickOnStake}
+                    className="algoBtnPop"
+                >
                     <img src={algo} alt="algo" />
                     Stake XPNET on Algorand now!
                 </button>

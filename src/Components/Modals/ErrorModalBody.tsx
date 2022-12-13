@@ -38,7 +38,7 @@ export default function ErrorModalBody({}: Props) {
             style={{
                 position: "fixed",
                 left: "0px",
-                top: mobile ? "-20px" : "60px",
+                top: mobile ? "-20px" : "0px",
                 display: "grid",
                 placeItems: "center",
                 height: "110%",
