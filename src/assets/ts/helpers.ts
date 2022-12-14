@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useEffect } from "react";
 
 export const addCommas = (x: Number) => {
@@ -105,3 +106,26 @@ export function useOnClickOutside(ref: any, handler: any) {
         [ref, handler]
     );
 }
+
+export const fetchXPUpdate = () => {
+    return axios
+        .get("https://xpvitaldata.herokuapp.com/last-commit")
+        .then((response) => {
+            return transformToDate(response.data);
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        });
+};
+
+const transformToDate = (date: string) => {
+    const dateObj = new Date(date);
+    const month = dateObj.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+    });
+    const year = dateObj.getFullYear();
+    const tm = month + ", " + year;
+    return tm;
+};

@@ -38,6 +38,7 @@ export interface IHomePage {
     navigateRoute: string;
     showErrorModal: boolean;
     showLimitModal: boolean;
+    lastCommit: string;
 }
 
 const initialState: IHomePage = {
@@ -63,12 +64,16 @@ const initialState: IHomePage = {
     navigateRoute: "",
     showErrorModal: false,
     showLimitModal: false,
+    lastCommit: "",
 };
 
 const homePageSlice = createSlice({
     name: "homePage",
     initialState,
     reducers: {
+        setLastCommit(state: any, action: any) {
+            state.lastCommit = action.payload;
+        },
         setLimitModal(state: any, action: any) {
             state.showLimitModal = action.payload;
         },
@@ -170,6 +175,7 @@ const homePageSlice = createSlice({
 });
 
 export const {
+    setLastCommit,
     setErrorModal,
     setNavigateRoute,
     setConnectModalShow,

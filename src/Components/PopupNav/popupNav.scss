@@ -20,6 +20,40 @@
     width: 966px;
     position: relative;
 }
+.git-last {
+    display: flex;
+    gap: 4px;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 116%;
+    background: rgba(45, 45, 48);
+    padding: 2px 6px 2px 3px;
+    border-radius: 30px;
+
+    .git-last-dot-bg {
+        position: relative;
+        width: 10px;
+        height: 10px;
+
+        background: radial-gradient(
+            60% 60% at 50% 50%,
+            rgba(24, 189, 30, 0.2) 0%,
+            rgba(24, 189, 30, 0) 100%
+        );
+    }
+}
+.git-last-dot-bg::after {
+    content: "";
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    border-radius: 25px;
+    background: #18bd1e;
+}
 
 .navLinksWrapper button {
     cursor: pointer;
@@ -55,7 +89,7 @@
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    gap: 12px;
+    gap: 10px;
 }
 
 a {

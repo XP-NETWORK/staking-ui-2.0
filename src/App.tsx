@@ -17,12 +17,13 @@ import { ReduxState } from "./store/store";
 import ConnectModalBody from "./Components/Modals/ConnectModalBody";
 import ErrorModalBody from "./Components/Modals/ErrorModalBody";
 import { getXpNetBalance } from "./assets/ts/algoUtils";
-import { setBalance } from "./store/reducer/homePageSlice";
+import { setBalance, setLastCommit } from "./store/reducer/homePageSlice";
 import { useDisconnect } from "wagmi";
 import LimitModalBody from "./Components/Modals/LimitModalBody";
 import bg from "./assets/images/desk/bg.png";
 import bgMob from "./assets/images/mob/bg.png";
 import classNames from "classnames";
+import { fetchXPUpdate } from "./assets/ts/helpers";
 
 type ModalProps = {
     children: ReactNode;
@@ -76,6 +77,7 @@ function ConnectModal({ children }: ModalProps) {
 
 function App() {
     const dispatch = useDispatch();
+    // const [lastCommit, setLastCommit] = useState<string | void>("");
 
     const {
         showConnectModal,
@@ -96,6 +98,14 @@ function App() {
         };
         if (account) getBalance().catch(console.error);
     }, [account]);
+
+    useEffect(() => {
+        const getGitUpdate = async () => {
+            const commit = await fetchXPUpdate();
+            dispatch(setLastCommit(commit));
+        };
+        getGitUpdate();
+    }, []);
 
     return (
         <>

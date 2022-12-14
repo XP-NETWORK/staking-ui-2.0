@@ -9,11 +9,15 @@ import github from "../../assets/images/menu icons/github.svg";
 import blog from "../../assets/images/menu icons/blog.svg";
 
 import "./popupNav.scss";
+import { useSelector } from "react-redux";
+import { ReduxState } from "../../store/store";
 interface Props {
     close: Function;
 }
 
 export const PopupNav: FC<Props> = ({ close }) => {
+    const { lastCommit } = useSelector((state: ReduxState) => state.homePage);
+
     return (
         <>
             <div
@@ -89,6 +93,12 @@ export const PopupNav: FC<Props> = ({ close }) => {
                         >
                             <label className="title">
                                 <img src={github} alt="github_img" /> GitHub
+                                <div className="git-last">
+                                    <span className="git-last-dot-bg"></span>
+                                    <span className="git-last-date">
+                                        Last {lastCommit}
+                                    </span>
+                                </div>
                             </label>
                             <p>The latest technical updates & code releases</p>
                         </a>

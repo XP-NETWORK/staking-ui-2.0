@@ -22,7 +22,7 @@ export const ProgressBar: FC<Props> = ({
             setPercent(per);
         };
         getStaked();
-    }, []);
+    }, [totalStaking]);
 
     return (
         <>

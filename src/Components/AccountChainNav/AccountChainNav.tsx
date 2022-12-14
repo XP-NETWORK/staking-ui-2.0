@@ -7,6 +7,7 @@ import { BLOCKCHAINS } from "../../assets/ts/Consts";
 import { setBlockchain } from "../../store/reducer/homePageSlice";
 import { ReduxState } from "../../store/store";
 import "../ConnectedAccountNavbar/activeAccountNavbar.scss";
+import Jazzicon, { jsNumberForAddress } from "react-jazzicon";
 
 export default function AccountChainNav() {
     const dispatch = useDispatch();
@@ -136,13 +137,13 @@ export default function AccountChainNav() {
             </div>
 
             <label className={classNames("account", "deskOnly")}>
-                {/* <Jazzicon diameter={16} address={`${account}`} /> */}
                 {formatAccount()}
+                <Jazzicon diameter={16} seed={jsNumberForAddress(account)} />
             </label>
 
             <label className={classNames("account", "mobOnly")}>
-                {/* <Jazzicon diameter={16} address={`${account}`} /> */}
                 {formatAccount()}
+                <Jazzicon diameter={16} seed={jsNumberForAddress(account)} />
             </label>
         </div>
     );
