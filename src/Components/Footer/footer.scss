@@ -27,9 +27,13 @@
 
 @media screen and (max-width: 600px) {
     .footer {
-        width: calc(100% - 20px);
-
+        display: flex;
         flex-direction: column;
+        align-items: flex-start;
+        width: calc(100% - 20px);
         margin: 45px auto 30px auto;
+        // .all-rights {
+        //     flex-direction: column;
+        // }
     }
 }
