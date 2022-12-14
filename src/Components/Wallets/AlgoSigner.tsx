@@ -22,6 +22,10 @@ const AlgoSigner = ({ connect }: Props) => {
     const { navigateRoute } = useSelector(
         (state: ReduxState) => state.homePage
     );
+    console.log(
+        "🚀 ~ file: AlgoSigner.tsx:23 ~ AlgoSigner ~ navigateRoute",
+        navigateRoute
+    );
 
     const dispatch = useDispatch();
     const navigate = useNavigate();

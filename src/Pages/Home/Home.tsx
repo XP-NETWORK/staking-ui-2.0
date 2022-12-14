@@ -76,6 +76,7 @@ export const Home: FC<HomeProps> = () => {
         // debugger;
         if (typeOfStake === "ALGO") {
             if (!account) {
+                dispatch(setNavigateRoute("/stake"));
                 dispatch(setConnectModalShow(true));
             } else if (account && !balance) dispatch(setErrorModal(true));
             else {
