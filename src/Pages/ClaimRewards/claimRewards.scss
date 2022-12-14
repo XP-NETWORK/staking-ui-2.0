@@ -505,16 +505,30 @@
 }
 
 @media screen and (max-width: 600px) {
+    .nft-actions-button,
+    .nft-actions-button--disabled,
+    .nft-actions-button--unoptined {
+        width: 100%;
+        padding: 16px 0;
+    }
+    .nft {
+        width: 100%;
+    }
     .stakeWrapper {
         flex-direction: column;
         gap: 9px;
 
         width: -webkit-fill-available;
     }
+    .nft-actions {
+        flex-direction: column;
+    }
     .container .sectionWrapper {
         padding: 16px;
     }
-
+    .copyContainer {
+        width: 68%;
+    }
     .container {
         height: auto;
     }

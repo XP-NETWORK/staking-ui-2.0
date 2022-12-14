@@ -5,12 +5,7 @@ import { useWeb3Modal } from "@web3modal/react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setEvmAccount, setEvmStakes } from "../../store/reducer/homePageSlice";
-import {
-    useContract,
-    useContractWrite,
-    useContractRead,
-    useProvider,
-} from "wagmi";
+import { useContract, useContractRead, useProvider } from "wagmi";
 import xpNetStaker from "./../../ABI/xpNetStaker.json";
 import xpNetToken from "./../../ABI/xpNetToken.json";
 import { getAmountOfEVMTokensStaked } from "../../assets/ts/evmUtils";
@@ -30,12 +25,12 @@ const WalletConnect = ({ connect }: { connect: Function }) => {
         signerOrProvider: provider,
     });
     //! TODO
-    const { data, isError, isLoading } = useContractRead({
-        address: process.env.REACT_APP_XPNET_STAKE_TOKEN as string,
-        abi: xpNetStaker,
-        functionName: "balanceOf",
-        args: [address],
-    });
+    // const { data, isError, isLoading } = useContractRead({
+    //     address: process.env.REACT_APP_XPNET_STAKE_TOKEN as string,
+    //     abi: xpNetStaker,
+    //     functionName: "balanceOf",
+    //     args: [address],
+    // });
 
     const xpNetContract = useContract({
         address: process.env.REACT_APP_XPNET_TOKEN as string,
