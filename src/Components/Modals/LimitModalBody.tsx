@@ -58,6 +58,7 @@ export default function LimitModalBody({}: Props) {
                 position: "fixed",
                 left: "0px",
                 top: mobile ? "-20px" : "0px",
+                paddingTop: "70px",
                 display: "grid",
                 placeItems: "center",
                 height: "110%",
