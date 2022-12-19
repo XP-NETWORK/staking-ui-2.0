@@ -140,6 +140,7 @@ export const stake = async (
 };
 
 export const optInt = async (stakingClient: any) => {
+    debugger;
     try {
         const resp = await stakingClient.optIn();
         return resp;
@@ -352,7 +353,7 @@ export const getAlgoStakeEndDate = (period: string, date: string) => {
         expDate = moment(startDate).add(6, "month").format("YYYY-MM-DD HH:MM");
     } else if (period === "23650000") {
         expDate = moment(startDate).add(9, "month").format("YYYY-MM-DD HH:MM");
-    } else if (period === "31536000") {
+    } else if (period === "31540000") {
         expDate = moment(startDate).add(1, "year").format("YYYY-MM-DD HH:MM");
     }
     return expDate;

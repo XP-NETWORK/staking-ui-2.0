@@ -31,6 +31,7 @@ interface Props {
 }
 
 const ClaimRewards = ({ chain }: Props) => {
+    console.log("🚀 ~ file: ClaimRewards.tsx:34 ~ ClaimRewards ~ chain", chain);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [indexOfStake, setIndexOfStake] = useState(0);

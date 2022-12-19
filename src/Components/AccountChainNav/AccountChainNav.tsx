@@ -4,7 +4,12 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { BLOCKCHAINS } from "../../assets/ts/Consts";
-import { setBlockchain } from "../../store/reducer/homePageSlice";
+import {
+    setBlockchain,
+    setConnectedWallet,
+    setConnectModalShow,
+    setLimitModal,
+} from "../../store/reducer/homePageSlice";
 import { ReduxState } from "../../store/store";
 import "../ConnectedAccountNavbar/activeAccountNavbar.scss";
 import Jazzicon, { jsNumberForAddress } from "react-jazzicon";
@@ -20,36 +25,13 @@ export default function AccountChainNav() {
     const [showDrop, setShowDrop] = useState(false);
 
     const handleChangeChain = (chain: string) => {
-        let newblockchain = BLOCKCHAINS.find((c) => c.chain === chain);
-        dispatch(setBlockchain(newblockchain));
+        debugger;
         setShowDrop(false);
-        // debugger;
         switch (homePath) {
             case "/stake":
                 switch (chain) {
                     case "BSC":
-                        if (!evmAccount) navigate("/connect");
-                        else if (evmAccount) navigate("/limit");
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case "/limit":
-                switch (chain) {
-                    case "Algorand":
-                        if (!account) navigate("/connect");
-                        else if (account) navigate("/stake");
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case "/error":
-                switch (chain) {
-                    case "Algorand":
-                        if (!account) navigate("/connect");
-                        else if (account) navigate("/stake");
+                        dispatch(setLimitModal(true));
                         break;
                     default:
                         break;
@@ -58,11 +40,17 @@ export default function AccountChainNav() {
             case "/rewards":
                 switch (chain) {
                     case "Algorand":
-                        if (!account) navigate("/connect/rewards");
+                        dispatch(setBlockchain(BLOCKCHAINS[0]));
+
+                        if (!account) dispatch(setConnectModalShow(true));
                         else if (account) navigate("/rewards");
                         break;
                     case "BSC":
-                        if (!evmAccount) navigate("/connect/evm");
+                        if (!evmAccount) {
+                            // navigate("/");
+                            // dispatch(setBlockchain(BLOCKCHAINS[1]));
+                            dispatch(setConnectModalShow(true));
+                        } else navigate("/rewards");
                         break;
                     default:
                         break;

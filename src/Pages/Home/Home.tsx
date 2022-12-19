@@ -77,6 +77,7 @@ export const Home: FC<HomeProps> = () => {
         if (typeOfStake === "ALGO") {
             if (!account) {
                 dispatch(setNavigateRoute("/stake"));
+                dispatch(setBlockchain(BLOCKCHAINS[0]));
                 dispatch(setConnectModalShow(true));
             } else if (account && !balance) dispatch(setErrorModal(true));
             else {

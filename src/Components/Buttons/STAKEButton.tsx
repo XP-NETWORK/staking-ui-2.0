@@ -15,6 +15,7 @@ interface Props {
     durationSelected: number;
     isAgree: boolean;
     inputErr: boolean;
+    amount: number;
 }
 
 export const STAKEButton: FC<Props> = ({
@@ -24,6 +25,7 @@ export const STAKEButton: FC<Props> = ({
     isAgree,
     inputErr,
 }) => {
+    console.log("🚀 ~ file: STAKEButton.tsx:28 ~ inputErr", inputErr);
     const algoDetails = useSelector(
         (state: ReduxState) => state.homePage.algoDetails
     );
@@ -40,7 +42,7 @@ export const STAKEButton: FC<Props> = ({
     return (
         <button
             className="blueBtn"
-            disabled={!isDisabled(isAgree, durationSelected) || inputErr}
+            disabled={inputErr || !isDisabled(isAgree, durationSelected)}
             onClick={() => handleStake()}
         >
             Stake

@@ -22,13 +22,6 @@ export default function RewardsDetails({ stake }: Props) {
         (state: ReduxState) => state.homePage
     );
 
-    // useEffect(() => {
-
-    //   return () => {
-
-    //   }
-    // }, [])
-
     return (
         <div className={classNames("containerLeft", "container")}>
             <h1>Claim Rewards</h1>

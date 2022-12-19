@@ -222,12 +222,6 @@ export const Stake: FC<Props> = ({}) => {
             </div>
         ) : (
             <>
-                {/* <div id="no-xp-modal"></div>
-                {showErrorModal && (
-                    <NoXpNetModal>
-                        <ErrorModalBody />
-                    </NoXpNetModal>
-                )} */}
                 <div className="stakeWrapper">
                     <div className={classNames("containerLeft", "container")}>
                         <h1>Stake XPNET</h1>
@@ -412,7 +406,11 @@ export const Stake: FC<Props> = ({}) => {
                                         <span className="small">
                                             ${" "}
                                             {(
-                                                currentXpnetPrice * amount
+                                                currentXpnetPrice *
+                                                calculateEstimatedRewards(
+                                                    amount,
+                                                    duration
+                                                )
                                             ).toFixed(2)}
                                         </span>
                                         <label className="value">
@@ -468,6 +466,7 @@ export const Stake: FC<Props> = ({}) => {
                                     optInApps={optInApps}
                                     durationSelected={duration}
                                     inputErr={inputErr}
+                                    amount={amount}
                                 />
                                 <OPTINButton
                                     optIntAsset={optIntAsset}
