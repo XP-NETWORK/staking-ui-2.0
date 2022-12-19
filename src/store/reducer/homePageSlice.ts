@@ -39,6 +39,7 @@ export interface IHomePage {
     showErrorModal: boolean;
     showLimitModal: boolean;
     lastCommit: string;
+    evmBalance: number | undefined;
 }
 
 const initialState: IHomePage = {
@@ -65,12 +66,16 @@ const initialState: IHomePage = {
     showErrorModal: false,
     showLimitModal: false,
     lastCommit: "",
+    evmBalance: undefined,
 };
 
 const homePageSlice = createSlice({
     name: "homePage",
     initialState,
     reducers: {
+        setEvmBalance(state: any, action: any) {
+            state.evmBalance = action.payload;
+        },
         setLastCommit(state: any, action: any) {
             state.lastCommit = action.payload;
         },
@@ -175,6 +180,7 @@ const homePageSlice = createSlice({
 });
 
 export const {
+    setEvmBalance,
     setLastCommit,
     setErrorModal,
     setNavigateRoute,

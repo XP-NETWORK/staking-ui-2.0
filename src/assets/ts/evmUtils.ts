@@ -10,7 +10,7 @@ const web3 = new Web3(
 );
 
 export const convertFromWei = (wei: string) => {
-    return parseInt(Web3.utils.fromWei(wei, "ether"));
+    return wei ? parseInt(Web3.utils.fromWei(wei, "ether")) : 0;
 };
 
 export const getEvmXpNetBalance = async (address: string, contract?: any) => {
@@ -21,7 +21,7 @@ export const getEvmXpNetBalance = async (address: string, contract?: any) => {
             ? await contract.methods.balanceOf(address).call()
             : await EVMContract.methods.balanceOf(address).call();
         const balance = parseInt(Web3.utils.fromWei(weiBalance, "ether"));
-        console.log({ balance });
+        return balance;
     } catch (error) {
         console.log(error);
     }
@@ -32,12 +32,9 @@ export const getAmountOfEVMTokensStaked = async (
     contract?: any
 ) => {
     debugger;
+    const c = contract || EVMStakeContract;
     try {
-        console.log({ contract });
-
-        const stakes = contract
-            ? await contract.balanceOf(address).call()
-            : await EVMStakeContract.methods.balanceOf(address).call();
+        const stakes = await c.methods.balanceOf(address).call();
         return Number(stakes) || undefined;
     } catch (error) {
         console.log(error);
@@ -82,7 +79,6 @@ export const getTokenOfOwnerByIndex = async (
     let tokensArr = [];
     let allKeysInfo: any;
     // "0xa796A5a95a1dDEF1d557d38DF9Fe86dc2b204D63"
-    debugger;
     if (tokenAmount) {
         const num = tokenAmount;
         for (let i = 0; i < num; i++) {
@@ -96,8 +92,6 @@ export const getTokenOfOwnerByIndex = async (
                           .call();
                 const availableRewards = await showAvailableRewards(tokenId);
                 const isUnlocked = await checkIsUnLocked(tokenId);
-                console.log({ isUnlocked });
-
                 const tokenDetails = await getStakeById(Number(tokenId));
                 allKeysInfo = tokenDetails?.info;
                 const nft = await axios.get(

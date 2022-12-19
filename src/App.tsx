@@ -24,6 +24,7 @@ import bg from "./assets/images/desk/bg.png";
 import bgMob from "./assets/images/mob/bg.png";
 import classNames from "classnames";
 import { fetchXPUpdate } from "./assets/ts/helpers";
+import FetchingComponent from "./Components/DataFetching/FetchingComponent";
 
 type ModalProps = {
     children: ReactNode;
@@ -111,6 +112,7 @@ function App() {
         <>
             <img src={bg} className={classNames("bg", "deskOnly")} alt="bg" />
             <img src={bgMob} className={classNames("bg", "mobOnly")} alt="bg" />
+            <FetchingComponent />
             <BrowserRouter>
                 <div id="modal-root"></div>
                 {showConnectModal && (

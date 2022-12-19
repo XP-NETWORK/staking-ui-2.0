@@ -127,8 +127,8 @@ export default function RewardsDetails({ stake }: Props) {
                         className={classNames("blueBtn", "mt-0")}
                         onClick={() =>
                             claimXpNet(
-                                stake.nftTokenId,
-                                stake.availableRewards,
+                                stake?.nftTokenId,
+                                stake?.availableRewards,
                                 evmAccount
                             )
                         }
@@ -138,7 +138,7 @@ export default function RewardsDetails({ stake }: Props) {
                     <button
                         className={stake?.isUnlocked ? "blueBtn" : "blackBtn"}
                         onClick={() =>
-                            unstakeEVMStake(stake.nftTokenId, evmAccount)
+                            unstakeEVMStake(stake?.nftTokenId, evmAccount)
                         }
                     >
                         {!stake?.isUnlocked && (

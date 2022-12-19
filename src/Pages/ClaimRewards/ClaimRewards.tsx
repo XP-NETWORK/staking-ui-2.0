@@ -6,7 +6,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { ReduxState } from "../../store/store";
 import { HOCClaimRewards } from "./HOCClaimRewards";
 import "./claimRewards.scss";
-import { getTokenOfOwnerByIndex } from "../../assets/ts/evmUtils";
+// import { getTokenOfOwnerByIndex } from "../../assets/ts/evmUtils";
 import { useDispatch } from "react-redux";
 import {
     setAlgoRewards,
@@ -128,13 +128,13 @@ const ClaimRewards = ({ chain }: Props) => {
         // if (account) {
         //     algoRewardsAndStakes();
         // }
-        const getEVMStakes = async (evmStakes: any) => {
-            const tokens = await getTokenOfOwnerByIndex(evmStakes, evmAccount);
-            dispatch(setEVMStakesArray(tokens));
-        };
-        if (chain === "BSC" && evmStakes) {
-            getEVMStakes(evmStakes);
-        }
+        // const getEVMStakes = async (evmStakes: any) => {
+        //     const tokens = await getTokenOfOwnerByIndex(evmStakes, evmAccount);
+        //     dispatch(setEVMStakesArray(tokens));
+        // };
+        // if (chain === "BSC" && evmStakes) {
+        //     getEVMStakes(evmStakes);
+        // }
         const getCurrency = async () => {
             let currency = await getCurrentPrice();
             dispatch(setXPNetPrice(currency));
