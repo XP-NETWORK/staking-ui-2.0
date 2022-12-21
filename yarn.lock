@@ -2288,10 +2288,10 @@
   resolved "https://registry.yarnpkg.com/@pedrouid/environment/-/environment-1.0.1.tgz#858f0f8a057340e0b250398b75ead77d6f4342ec"
   integrity sha512-HaW78NszGzRZd9SeoI3JD11JqY+lubnaOx7Pewj5pfjqWXOEATpeKIFb9Z4t2WBUK2iryiXX3lzWwmYWgUL0Ug==
 
-"@perawallet/connect@^1.0.3":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@perawallet/connect/-/connect-1.0.6.tgz#66805fe0cef1d2d619199cb0267a33f9b0ea03ff"
-  integrity sha512-MBXR/evqKbZoumTWuiwJ9tD9lnR8iNGG1iTOlsBdRwhdTA6elCgdj+dWu0TpCV4ZqVvn/gpRloTueON0oeyDUw==
+"@perawallet/connect@^1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@perawallet/connect/-/connect-1.0.7.tgz#f825109ff78112ab36371f6215fd10f524464508"
+  integrity sha512-02ANpMGz0axS/BHBK5T44OoNS3sVITwOLrsle/bLg6fC7yFzM7Slsa0A/y+QiOutT0d8gXFKV3GVDYA3kBbXbg==
   dependencies:
     "@json-rpc-tools/utils" "^1.7.6"
     "@walletconnect/client" "^1.8.0"
@@ -13278,6 +13278,11 @@ react-error-overlay@^6.0.11:
   version "6.0.11"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.11.tgz#92835de5841c5cf08ba00ddd2d677b6d17ff9adb"
   integrity sha512-/6UZ2qgEyH2aqzYZgQPxEnz33NJ2gNsnHA2o5+o4wW9bLM/JYQitNP9xPhsXwC08hMMovfGe/8retsdDsczPRg==
+
+react-intersection-observer@^9.4.1:
+  version "9.4.1"
+  resolved "https://registry.yarnpkg.com/react-intersection-observer/-/react-intersection-observer-9.4.1.tgz#4ccb21e16acd0b9cf5b28d275af7055bef878f6b"
+  integrity sha512-IXpIsPe6BleFOEHKzKh5UjwRUaz/JYS0lT/HPsupWEQou2hDqjhLMStc5zyE3eQVT4Fk3FufM8Fw33qW1uyeiw==
 
 react-is@^16.13.1, react-is@^16.3.2, react-is@^16.7.0:
   version "16.13.1"

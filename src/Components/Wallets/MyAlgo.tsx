@@ -36,7 +36,7 @@ const MyAlgo = ({ connect }: Props) => {
         );
 
         dispatch(setClient(client));
-        // navigate(navigateRoute);
+        navigate(navigateRoute);
         dispatch(setConnectModalShow(false));
     };
     return (

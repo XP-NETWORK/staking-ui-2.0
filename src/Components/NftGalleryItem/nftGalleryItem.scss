@@ -7,7 +7,7 @@
     align-items: flex-start;
     border-radius: 8px;
     position: relative;
-    transition: all 1s;
+    transition: all 0.5s;
     label {
         font-weight: 400;
         font-size: 16px;
@@ -38,7 +38,9 @@
 }
 .nftItemContainer:hover {
     cursor: pointer;
+    transform: scale(1.09);
     background-color: #2d2d30 !important;
+    z-index: 100;
 }
 
 @media screen and (max-width: 650px) {

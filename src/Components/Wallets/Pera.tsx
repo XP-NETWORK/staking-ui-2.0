@@ -31,6 +31,7 @@ const Pera = ({ styles, connect }: Props) => {
     const peraWallet = useMemo(() => {
         const wallet = new PeraWalletConnect({
             bridge: "https://bridge.walletconnect.org",
+            network: "mainnet",
         });
         return wallet;
     }, []);

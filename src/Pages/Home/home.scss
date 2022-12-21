@@ -127,24 +127,28 @@ button {
 }
 
 .newStaking {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    padding: 3px 12px;
+    padding: 3px 10px;
     gap: 10px;
-    position: relative;
-    width: 211px;
-    height: 24px;
-    background: linear-gradient(104.41deg, #04abab 39.78%, #3e64ed 118.05%);
+    // background: linear-gradient(104.41deg, #04abab 39.78%, #3e64ed 118.05%);
+    border: 8px solid #0000;
+    border-radius: 10px;
+    background: linear-gradient(104.41deg, #04abab 39.78%, #3e64ed 118.05%)
+            padding-box,
+        linear-gradient(
+                104.41deg,
+                rgba(4, 171, 171, 0.21) 39.78%,
+                rgba(62, 100, 237, 0.21) 118.05%
+            )
+            border-box;
     border-radius: 36px;
     position: absolute;
     z-index: 1;
-    top: -14px;
-    right: 30px;
-    //   border: 7px solid;
-
-    // border-image-source: linear-gradient(104.41deg, rgba(4, 171, 171, 0.21) 39.78%, rgba(62, 100, 237, 0.21) 118.05%);
+    top: -18px;
+    right: 20px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 126%;
+    letter-spacing: 0.01em;
 }
 
 @media screen and (max-width: 600px) {

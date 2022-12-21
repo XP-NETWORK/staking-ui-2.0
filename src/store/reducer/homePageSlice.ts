@@ -9,6 +9,7 @@ import {
     IEVMStake,
     IFetchedStake,
     INFT,
+    INFTURI,
 } from "../../assets/ts/Consts";
 
 export interface IHomePage {
@@ -40,6 +41,7 @@ export interface IHomePage {
     showLimitModal: boolean;
     lastCommit: string;
     evmBalance: number | undefined;
+    collections: INFTURI[];
 }
 
 const initialState: IHomePage = {
@@ -67,12 +69,16 @@ const initialState: IHomePage = {
     showLimitModal: false,
     lastCommit: "",
     evmBalance: undefined,
+    collections: [],
 };
 
 const homePageSlice = createSlice({
     name: "homePage",
     initialState,
     reducers: {
+        setNFTCollection(state: any, action: any) {
+            state.collections = action.payload;
+        },
         setEvmBalance(state: any, action: any) {
             state.evmBalance = action.payload;
         },
@@ -180,6 +186,7 @@ const homePageSlice = createSlice({
 });
 
 export const {
+    setNFTCollection,
     setEvmBalance,
     setLastCommit,
     setErrorModal,

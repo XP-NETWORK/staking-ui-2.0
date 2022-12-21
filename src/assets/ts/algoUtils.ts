@@ -17,6 +17,7 @@ import { Staking } from "./StakingClient";
 import store from "../../store/store";
 import moment from "moment";
 import { Base64 } from "js-base64";
+import { SignerTransaction } from "@perawallet/connect/dist/util/model/peraWalletModels";
 
 const apiKey = process.env.REACT_APP_API_TOKEN as string;
 const algodToken = {
@@ -66,6 +67,35 @@ export const getTokenStaked = async () => {
     return staked;
 };
 
+export async function generateOptIntoAssetTxns(
+    address: string
+): Promise<SignerTransaction[]> {
+    const suggestedParams = await algod.getTransactionParams().do();
+    suggestedParams.fee = 1_000;
+    suggestedParams.flatFee = true;
+    const optInTxn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
+        from: address,
+        to: address,
+        assetIndex: assetIdx,
+        amount: 0,
+        suggestedParams,
+    });
+    const optInTxn2 = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject(
+        {
+            from: address,
+            to: address,
+            assetIndex: assetIdx,
+            amount: 0,
+            suggestedParams,
+        }
+    );
+    const multipleTxnGroups = [
+        { txn: optInTxn, signers: [address] },
+        { txn: optInTxn2, signers: [address] },
+    ];
+    return multipleTxnGroups;
+}
+
 export const createClient = async (
     signer: any,
     account: string,
@@ -98,7 +128,6 @@ export const createClient = async (
                     const multipleTxnGroups = txns.map((n) => {
                         return { txn: n, signers: [account] };
                     });
-
                     signed = await signer.signTransaction([multipleTxnGroups]);
                     return signed?.map((e: any) => Buffer.from(e, "base64"));
                 default:
@@ -320,7 +349,9 @@ const parseArray = (array: []) => {
 };
 
 export const getAPY = (rewards: any | undefined) => {
-    const appId = rewards?.appId;
+    console.log({ rewards });
+
+    const appId = rewards?.appid;
 
     switch (true) {
         case appAdress3Months === appId:
@@ -568,9 +599,22 @@ export const unstakeTokens = async (
 //     console.log(array);
 // };
 
+// export const getNFTCollection = async (i: number) => {
+//     const arr = [];
+//     for (let index = i; index < i + 15; index++) {
+//         const element = axios.get(
+//             `https://nft-service-testing.s3.eu-west-1.amazonaws.com/${index}.json`
+//         );
+//         arr.push(element);
+//     }
+//     const settled = await Promise.allSettled(arr);
+//     const nfts = settled.map((e: any) => e.value.data);
+//     return nfts;
+// };
+
 export const getNFTCollection = async (i: number) => {
     const arr = [];
-    for (let index = i; index < i + 15; index++) {
+    for (let index = 1; index < 101; index++) {
         const element = axios.get(
             `https://nft-service-testing.s3.eu-west-1.amazonaws.com/${index}.json`
         );

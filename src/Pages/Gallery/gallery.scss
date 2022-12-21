@@ -35,6 +35,8 @@
     justify-content: space-evenly;
     gap: 24px;
     overflow-y: scroll;
+    z-index: 0;
+    padding-top: 10px;
 }
 .nfts::-webkit-scrollbar {
     width: 12px; /* width of the entire scrollbar */

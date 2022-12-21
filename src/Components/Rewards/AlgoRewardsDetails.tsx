@@ -177,9 +177,9 @@ export default function AlgoRewardsDetails({
                             <span className="small">
                                 ${" "}
                                 {(
-                                    selectedStakeRewards?.earned ||
-                                    0 * XPNetPrice
-                                ).toFixed(8)}
+                                    (selectedStakeRewards?.earned || 0) *
+                                    XPNetPrice
+                                ).toFixed(3)}
                             </span>
                             <label className="value">
                                 {`${selectedStakeRewards?.earned.toFixed(

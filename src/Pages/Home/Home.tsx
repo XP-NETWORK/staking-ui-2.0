@@ -44,7 +44,8 @@ interface HomeProps {}
 
 export const Home: FC<HomeProps> = () => {
     const [totalStakeInAlgo, setTotalStakeInAlgo] = useState(0);
-
+    // const [balanceInt, setBalanceInt] = useState<number>()
+    const balanceInt = useRef<number | null>(null);
     const {
         evmStakes,
         blockchain,
@@ -107,14 +108,9 @@ export const Home: FC<HomeProps> = () => {
     };
 
     useEffect(() => {
-        const getBalance = async () => {
-            const balance = await getXpNetBalance(stakingClient);
-            balance
-                ? dispatch(setBalance(balance))
-                : dispatch(setErrorModal(true));
-            dispatch(setBalance(balance));
-        };
-        if (account) getBalance().catch(console.error);
+        // if (account) {
+        //     startInterval();
+        // }
         const getCurrency = async () => {
             let currency = await getCurrentPrice();
             dispatch(setXPNetPrice(currency));

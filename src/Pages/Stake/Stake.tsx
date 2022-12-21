@@ -9,12 +9,14 @@ import {
     setAlgoDetails,
     setBalance,
     setClient,
+    setErrorModal,
     setStakeDetails,
     setXPNetPrice,
 } from "../../store/reducer/homePageSlice";
 import {
     checkOptInApps,
     createClient,
+    generateOptIntoAssetTxns,
     getAlgoStakeEndDate,
     getAPY,
     getXpNetBalance,
@@ -79,6 +81,7 @@ export const Stake: FC<Props> = ({}) => {
     });
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const balanceInt = useRef<number | null>(null);
     const [currentXpnetPrice, setCurrentXpnetPrice] = useState(0);
     const [optInResponse, setOptInResponse] = useState("");
     const [amount, setAmount] = useState(0);
@@ -96,6 +99,7 @@ export const Stake: FC<Props> = ({}) => {
         algoDetails,
         balance,
         activeSessionStakes,
+        connectedWallet,
     } = useSelector((state: ReduxState) => state.homePage);
 
     const handleMaxAmount = () => {
@@ -146,13 +150,25 @@ export const Stake: FC<Props> = ({}) => {
 
     const optIntAsset = async () => {
         setLoader(true);
-        try {
-            const resp = await optInt(stakingClient);
-            setOptInResponse(resp);
-        } catch (error) {
-            console.log(error);
-            setLoader(false);
-        }
+        if (connectedWallet === "Pera") {
+            try {
+                const txns = await generateOptIntoAssetTxns(account);
+                console.log(
+                    "🚀 ~ file: Stake.tsx:156 ~ optIntAsset ~ txns",
+                    txns
+                );
+                const signedTxn = await signer.signTransaction([txns]);
+            } catch (error) {
+                console.log(error);
+            }
+        } else
+            try {
+                const resp = await optInt(stakingClient);
+                setOptInResponse(resp);
+            } catch (error) {
+                console.log(error);
+                setLoader(false);
+            }
         setLoader(false);
     };
 
@@ -167,15 +183,17 @@ export const Stake: FC<Props> = ({}) => {
 
     useEffect(() => {
         // ! NO NEED
-        // const getBalance = async () => {
-        //     const balance = await getXpNetBalance(stakingClient);
-        //     if (balance) dispatch(setBalance(balance));
-        //     else {
-        //         dispatch(setBalance(balance));
-        //         console.log("Oh nooooooo");
-        //     }
-        // };
-        // if (account) getBalance().catch(console.error);
+        const getBalance = async () => {
+            const balance = await getXpNetBalance(stakingClient);
+            if (balance) dispatch(setBalance(balance));
+            else if (balance) {
+                // dispatch(setErrorModal(true));
+                console.log("Oh nooooooo");
+            }
+        };
+        if (account) {
+            getBalance().catch(console.error);
+        }
         const getCurrency = async () => {
             let currency = await getCurrentPrice();
             dispatch(setXPNetPrice(currency));
@@ -200,7 +218,9 @@ export const Stake: FC<Props> = ({}) => {
             let client = await createClient(signer, account, duration);
             dispatch(setClient(client));
         };
-        if (account) updateClient().catch(console.error);
+        if (account) {
+            updateClient().catch(console.error);
+        }
     }, [duration, signer, account]);
 
     if (!account && !evmAccount) return <Navigate to="/" replace />;

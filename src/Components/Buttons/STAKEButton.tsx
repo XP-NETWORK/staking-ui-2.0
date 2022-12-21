@@ -25,7 +25,6 @@ export const STAKEButton: FC<Props> = ({
     isAgree,
     inputErr,
 }) => {
-    console.log("🚀 ~ file: STAKEButton.tsx:28 ~ inputErr", inputErr);
     const algoDetails = useSelector(
         (state: ReduxState) => state.homePage.algoDetails
     );

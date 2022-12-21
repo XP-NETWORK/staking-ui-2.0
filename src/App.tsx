@@ -17,7 +17,11 @@ import { ReduxState } from "./store/store";
 import ConnectModalBody from "./Components/Modals/ConnectModalBody";
 import ErrorModalBody from "./Components/Modals/ErrorModalBody";
 import { getXpNetBalance } from "./assets/ts/algoUtils";
-import { setBalance, setLastCommit } from "./store/reducer/homePageSlice";
+import {
+    setBalance,
+    setErrorModal,
+    setLastCommit,
+} from "./store/reducer/homePageSlice";
 import { useDisconnect } from "wagmi";
 import LimitModalBody from "./Components/Modals/LimitModalBody";
 import bg from "./assets/images/desk/bg.png";
@@ -78,27 +82,37 @@ function ConnectModal({ children }: ModalProps) {
 
 function App() {
     const dispatch = useDispatch();
+    const balanceInt = useRef<number | null>(null);
+
     // const [lastCommit, setLastCommit] = useState<string | void>("");
 
     const {
         showConnectModal,
         showErrorModal,
-        account,
         stakingClient,
         showLimitModal,
+        account,
     } = useSelector((state: ReduxState) => state.homePage);
 
-    useEffect(() => {
-        const getBalance = async () => {
-            const balance = await getXpNetBalance(stakingClient);
-            if (balance) dispatch(setBalance(balance));
-            else {
-                dispatch(setBalance(balance));
-                console.log("Oh nooooooo");
-            }
-        };
-        if (account) getBalance().catch(console.error);
-    }, [account]);
+    // const getBalance = async () => {
+    //     const balance = await getXpNetBalance(stakingClient);
+    //     balance ? dispatch(setBalance(balance)) : dispatch(setErrorModal(true));
+    //     dispatch(setBalance(balance));
+    // };
+
+    // const startInterval = () => {
+    //     if (balanceInt.current !== null) return;
+    //     balanceInt.current = window.setInterval(() => {
+    //         // if (balanceInt.current !== null) return;
+    //         getBalance();
+    //     }, 2000);
+    // };
+
+    // useEffect(() => {
+    //     if (account) {
+    //         startInterval();
+    //     }
+    // }, [stakingClient, account]);
 
     useEffect(() => {
         const getGitUpdate = async () => {

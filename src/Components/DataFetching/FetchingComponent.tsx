@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { getXpNetBalance } from "../../assets/ts/algoUtils";
 import {
-    getAmountOfEVMTokensStaked,
     getEvmXpNetBalance,
     getTokenOfOwnerByIndex,
 } from "../../assets/ts/evmUtils";
@@ -14,6 +14,7 @@ import { ReduxState } from "../../store/store";
 
 export default function FetchingComponent() {
     const dispatch = useDispatch();
+
     const { evmAccount, evmStakes } = useSelector(
         (state: ReduxState) => state.homePage
     );
