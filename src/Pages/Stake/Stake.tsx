@@ -153,11 +153,7 @@ export const Stake: FC<Props> = ({}) => {
         if (connectedWallet === "Pera") {
             try {
                 const txns = await generateOptIntoAssetTxns(account);
-                console.log(
-                    "🚀 ~ file: Stake.tsx:156 ~ optIntAsset ~ txns",
-                    txns
-                );
-                const signedTxn = await signer.signTransaction([txns]);
+                await signer.signTransaction([txns]);
             } catch (error) {
                 console.log(error);
             }

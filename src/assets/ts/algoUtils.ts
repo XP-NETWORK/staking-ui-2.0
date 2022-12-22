@@ -36,7 +36,7 @@ export const getTokenStaked = async () => {
         appAdress9Months,
         appAdress12Months,
     ];
-
+    // debugger;
     let arr = await Promise.allSettled(
         appIds.map((e: any) => {
             var config = {

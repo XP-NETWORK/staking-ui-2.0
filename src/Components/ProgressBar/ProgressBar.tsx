@@ -15,6 +15,7 @@ export const ProgressBar: FC<Props> = ({
     chain,
 }) => {
     const [percent, setPercent] = useState(0);
+    console.log("🚀 ~ file: ProgressBar.tsx:18 ~ percent", percent);
 
     useEffect(() => {
         const getStaked = async () => {
@@ -33,17 +34,18 @@ export const ProgressBar: FC<Props> = ({
                         style={{ width: `${percent}%` }}
                     ></div>
                 </div>
-                <div
-                    className="progressDetails"
-                    style={{
-                        visibility: `${percent >= 100 ? "visible" : "hidden"}`,
-                    }}
-                >
-                    <label>
+                <div className="progressDetails">
+                    <label
+                        style={{
+                            visibility: `${
+                                percent >= 100 ? "visible" : "hidden"
+                            }`,
+                        }}
+                    >
                         <img src={emojy} />
                         Staking limit is reached!
                     </label>
-                    {percent}%
+                    {percent.toFixed(1)}%
                 </div>
             </div>
         </>

@@ -18,7 +18,6 @@ export const Gallery: FC<Props> = ({}) => {
     const dispatch = useDispatch();
     const { collections } = useSelector((state: ReduxState) => state.homePage);
     const [gallery, setGallery] = useState<INFTURI[]>([]);
-    console.log("🚀 ~ file: Gallery.tsx:21 ~ gallery", gallery);
     const [input, setInput] = useState<string | undefined>("");
 
     const ref = useRef(0);
@@ -42,16 +41,16 @@ export const Gallery: FC<Props> = ({}) => {
         ref.current = currentScrollY;
     };
 
-    useEffect(() => {
-        if (input) {
-            const newCollection = collections.filter(
-                (nft: INFTURI) => nft.name === input
-            );
-            setGallery(newCollection);
-        } else {
-            setGallery(collections);
-        }
-    }, [input]);
+    // useEffect(() => {
+    //     if (input) {
+    //         const newCollection = collections.filter(
+    //             (nft: INFTURI) => nft.name === input
+    //         );
+    //         setGallery(newCollection);
+    //     } else {
+    //         setGallery(collections);
+    //     }
+    // }, []);
 
     useEffect(() => {
         const getNfts = async () => {
@@ -72,9 +71,19 @@ export const Gallery: FC<Props> = ({}) => {
                 onChange={(e) => setInput(e.target.value)}
             />
             <div onScroll={onScroll} className="nfts">
-                {gallery?.map((e: any, i: number) => (
-                    <NftGalleryItem key={i} url={e.image} nft={e} />
-                ))}
+                {input
+                    ? collections
+                          ?.filter((nft: INFTURI) => nft.name === input)
+                          .map((nft: INFTURI, i: number) => (
+                              <NftGalleryItem
+                                  key={i}
+                                  url={nft.image}
+                                  nft={nft}
+                              />
+                          ))
+                    : collections?.map((e: any, i: number) => (
+                          <NftGalleryItem key={i} url={e.image} nft={e} />
+                      ))}
             </div>
             {/* {galleryToShow.length < 1 && (
                 <div className="noNfts">

@@ -10,7 +10,8 @@ interface Props {
 
 export const NftGalleryItem: FC<Props> = ({ nft }) => {
     const cardRef = useRef(null);
-    const [isVisible, setIsVisible] = useState(false);
+
+    // const [isVisible, setIsVisible] = useState(false);
 
     const options = useMemo(() => {
         return {
@@ -20,25 +21,25 @@ export const NftGalleryItem: FC<Props> = ({ nft }) => {
         };
     }, []);
 
-    const callBackWhenObserver = (entries: any) => {
-        const [entry] = entries;
-        setIsVisible(entry.isIntersecting);
-    };
+    // const callBackWhenObserver = (entries: any) => {
+    //     const [entry] = entries;
+    //     setIsVisible(entry.isIntersecting);
+    // };
 
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            callBackWhenObserver,
-            options
-        );
-        const currentTarget = cardRef.current;
+    // useEffect(() => {
+    //     const observer = new IntersectionObserver(
+    //         callBackWhenObserver,
+    //         options
+    //     );
+    //     const currentTarget = cardRef.current;
 
-        if (currentTarget) observer.observe(currentTarget);
-        return () => {
-            if (currentTarget) {
-                observer.unobserve(currentTarget);
-            }
-        };
-    }, [cardRef, options]);
+    //     if (currentTarget) observer.observe(currentTarget);
+    //     return () => {
+    //         if (currentTarget) {
+    //             observer.unobserve(currentTarget);
+    //         }
+    //     };
+    // }, [cardRef, options]);
 
     useEffect(() => {}, [nft]);
 
