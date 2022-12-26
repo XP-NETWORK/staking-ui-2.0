@@ -150,21 +150,22 @@ export const Stake: FC<Props> = ({}) => {
 
     const optIntAsset = async () => {
         setLoader(true);
-        if (connectedWallet === "Pera") {
-            try {
-                const txns = await generateOptIntoAssetTxns(account);
-                await signer.signTransaction([txns]);
-            } catch (error) {
-                console.log(error);
-            }
-        } else
-            try {
-                const resp = await optInt(stakingClient);
-                setOptInResponse(resp);
-            } catch (error) {
-                console.log(error);
-                setLoader(false);
-            }
+        // if (connectedWallet === "Pera") {
+        //     debugger;
+        //     try {
+        //         const txns = await generateOptIntoAssetTxns(account);
+        //         await signer.signTransaction([txns]);
+        //     } catch (error) {
+        //         console.log(error);
+        //     }
+        // } else
+        try {
+            const resp = await optInt(stakingClient);
+            setOptInResponse(resp);
+        } catch (error) {
+            console.log(error);
+            setLoader(false);
+        }
         setLoader(false);
     };
 

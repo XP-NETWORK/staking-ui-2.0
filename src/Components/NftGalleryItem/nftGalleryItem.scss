@@ -9,6 +9,7 @@
     border-radius: 8px;
     position: relative;
     transition: all 0.5s;
+    overflow: hidden;
     label {
         font-weight: 400;
         font-size: 16px;
@@ -25,17 +26,19 @@
         width: -webkit-fill-available;
     }
     img {
+        padding-top: 10px;
         width: -webkit-fill-available;
         min-height: 170px;
     }
-    .nftItemContainer-placeholder {
-        position: absolute;
-        content: "";
-        width: 100%;
-        height: 100%;
-        top: 0px;
-        left: 0px;
-    }
+}
+
+.nftItemContainer-placeholder {
+    filter: blur(5px);
+    width: -webkit-fill-available;
+    min-height: 170px;
+    position: absolute;
+    content: "";
+    background-color: #2d2d30 !important;
 }
 .nftItemContainer:hover {
     cursor: pointer;

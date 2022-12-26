@@ -40,9 +40,9 @@ const Pera = ({ styles, connect }: Props) => {
         peraWallet
             .connect()
             .then((newAccounts) => {
-                peraWallet.connector?.on("disconnect", () => {
-                    console.log("Disconnect");
-                });
+                // peraWallet.connector?.on("disconnect", () => {
+                //     console.log("Disconnect");
+                // });
                 dispatch(setConnectedWallet("Pera"));
                 dispatch(setAccount(newAccounts[0]));
                 dispatch(setSigner(peraWallet));
@@ -68,21 +68,21 @@ const Pera = ({ styles, connect }: Props) => {
         dispatch(setClient(client));
     }, [account, dispatch, signer]);
 
-    useEffect(() => {
-        peraWallet
-            .reconnectSession()
-            .then((accounts) => {
-                peraWallet?.connector?.on("disconnect", () => {});
+    // useEffect(() => {
+    //     peraWallet
+    //         .reconnectSession()
+    //         .then((accounts) => {
+    //             peraWallet?.connector?.on("disconnect", () => {});
 
-                if (accounts.length) {
-                }
-            })
-            .catch((e) => console.log(e));
+    //             if (accounts.length) {
+    //             }
+    //         })
+    //         .catch((e) => console.log(e));
 
-        return () => {
-            peraWallet.disconnect();
-        };
-    }, [peraConnection, peraWallet]);
+    //     return () => {
+    //         peraWallet.disconnect();
+    //     };
+    // }, [peraConnection, peraWallet]);
 
     const handleClick = async () => {
         connectPeraWallet();

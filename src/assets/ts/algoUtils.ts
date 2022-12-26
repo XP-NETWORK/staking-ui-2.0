@@ -80,18 +80,18 @@ export async function generateOptIntoAssetTxns(
         amount: 0,
         suggestedParams,
     });
-    const optInTxn2 = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject(
-        {
-            from: address,
-            to: address,
-            assetIndex: assetIdx,
-            amount: 0,
-            suggestedParams,
-        }
-    );
+    // const optInTxn2 = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject(
+    //     {
+    //         from: address,
+    //         to: address,
+    //         assetIndex: assetIdx,
+    //         amount: 0,
+    //         suggestedParams,
+    //     }
+    // );
     const multipleTxnGroups = [
         { txn: optInTxn, signers: [address] },
-        { txn: optInTxn2, signers: [address] },
+        // { txn: optInTxn2, signers: [address] },
     ];
     return multipleTxnGroups;
 }
@@ -349,10 +349,7 @@ const parseArray = (array: []) => {
 };
 
 export const getAPY = (rewards: any | undefined) => {
-    console.log({ rewards });
-
     const appId = rewards?.appid;
-
     switch (true) {
         case appAdress3Months === appId:
             return "25";

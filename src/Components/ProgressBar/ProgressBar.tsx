@@ -15,7 +15,6 @@ export const ProgressBar: FC<Props> = ({
     chain,
 }) => {
     const [percent, setPercent] = useState(0);
-    console.log("🚀 ~ file: ProgressBar.tsx:18 ~ percent", percent);
 
     useEffect(() => {
         const getStaked = async () => {

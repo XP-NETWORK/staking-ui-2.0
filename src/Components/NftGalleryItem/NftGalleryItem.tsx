@@ -2,6 +2,7 @@ import React, { FC, useEffect, useMemo, useRef, useState } from "react";
 import "./nftGalleryItem.scss";
 import nft from "../../assets/images/gal.png";
 import { INFT, INFTURI } from "../../assets/ts/Consts";
+import placeholder from "./../../assets/images/placeholder.png";
 
 interface Props {
     url: string;
@@ -10,7 +11,8 @@ interface Props {
 
 export const NftGalleryItem: FC<Props> = ({ nft }) => {
     const cardRef = useRef(null);
-
+    const [loaded, setLoaded] = useState<boolean>(false);
+    console.log("🚀 ~ file: NftGalleryItem.tsx:14 ~ loading", loaded);
     // const [isVisible, setIsVisible] = useState(false);
 
     const options = useMemo(() => {
@@ -41,13 +43,22 @@ export const NftGalleryItem: FC<Props> = ({ nft }) => {
     //     };
     // }, [cardRef, options]);
 
-    useEffect(() => {}, [nft]);
+    // useEffect(() => {}, [nft]);
 
     return (
         <div ref={cardRef} className="nftItemContainer">
-            <img loading="lazy" src={nft.image} alt="" />
+            <img
+                onLoad={() => setLoaded(true)}
+                loading="lazy"
+                src={nft.image}
+                alt=""
+            />
             <label>{nft.name}</label>
-            <div className="nftItemContainer-placeholder"></div>
+            {!loaded && (
+                <div className="nftItemContainer-placeholder">
+                    <img src={placeholder} alt="" />
+                </div>
+            )}
         </div>
     );
 };
