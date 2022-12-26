@@ -23,7 +23,7 @@
     font-size: 16px;
     line-height: 160%;
     h4 {
-        margin-top: 00px;
+        margin-top: 0px;
         margin-bottom: 10px;
         font-weight: 600;
         font-size: 24px;
@@ -32,6 +32,36 @@
         margin: 0;
         width: 229px;
         text-align: center;
+    }
+    .notify-email__container {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 6px;
+        padding: 10px 12px;
+        display: flex;
+        gap: 10px;
+        input {
+            width: 150px;
+            background-color: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+        }
+        input::placeholder {
+            color: #fff;
+        }
+        .stakeBtn {
+            color: #282829;
+            background: #ffffff;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            width: 135px;
+            height: 40px;
+            border-radius: 6px;
+            transition: all 0.25s;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
     }
     .errorWraper-close {
         position: absolute;

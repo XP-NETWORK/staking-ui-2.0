@@ -39,6 +39,7 @@ export interface IHomePage {
     navigateRoute: string;
     showErrorModal: boolean;
     showLimitModal: boolean;
+    showNotifyModal: boolean;
     lastCommit: string;
     evmBalance: number | undefined;
     collections: INFTURI[];
@@ -70,12 +71,16 @@ const initialState: IHomePage = {
     lastCommit: "",
     evmBalance: undefined,
     collections: [],
+    showNotifyModal: false,
 };
 
 const homePageSlice = createSlice({
     name: "homePage",
     initialState,
     reducers: {
+        setShowNotifyModal(state: any, action: any) {
+            state.showNotifyModal = action.payload;
+        },
         setNFTCollection(state: any, action: any) {
             state.collections = action.payload;
         },
@@ -186,6 +191,7 @@ const homePageSlice = createSlice({
 });
 
 export const {
+    setShowNotifyModal,
     setNFTCollection,
     setEvmBalance,
     setLastCommit,

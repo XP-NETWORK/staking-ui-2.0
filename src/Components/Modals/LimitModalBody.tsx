@@ -8,6 +8,7 @@ import {
     setBlockchain,
     setConnectModalShow,
     setLimitModal,
+    setShowNotifyModal,
 } from "../../store/reducer/homePageSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
@@ -51,6 +52,11 @@ export default function LimitModalBody({}: Props) {
         }
     };
 
+    const handleClickOnNOtifyMe = () => {
+        dispatch(setLimitModal(false));
+        dispatch(setShowNotifyModal(true));
+    };
+
     return (
         <div
             className="connect-modal"
@@ -81,7 +87,12 @@ export default function LimitModalBody({}: Props) {
                     get notified.
                 </p>
                 <div className="btns">
-                    <button className="stakeBtn">Notify me</button>
+                    <button
+                        onClick={handleClickOnNOtifyMe}
+                        className="stakeBtn"
+                    >
+                        Notify me
+                    </button>
                     <button
                         onClick={handleClickOnClaim}
                         className="changeWalletBtn"
@@ -90,10 +101,10 @@ export default function LimitModalBody({}: Props) {
                     </button>
                 </div>
                 <button
-                    style={{
-                        pointerEvents:
-                            evmStakesArray.length > 0 ? "auto" : "none",
-                    }}
+                    // style={{
+                    //     pointerEvents:
+                    //         evmStakesArray.length > 0 ? "auto" : "none",
+                    // }}
                     onClick={handleClickOnStake}
                     className="algoBtnPop"
                 >

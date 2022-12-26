@@ -29,10 +29,27 @@ import bgMob from "./assets/images/mob/bg.png";
 import classNames from "classnames";
 import { fetchXPUpdate } from "./assets/ts/helpers";
 import FetchingComponent from "./Components/DataFetching/FetchingComponent";
+import NotifyFormBody from "./Components/Modals/NotifyFormBody";
 
 type ModalProps = {
     children: ReactNode;
 };
+
+function NotifyMeModal({ children }: ModalProps) {
+    const modalRoot = document.querySelector("#notify-modal") as HTMLElement;
+
+    const elRef = useRef<HTMLDivElement | null>(null);
+    if (!elRef.current) elRef.current = document.createElement("div");
+
+    useEffect(() => {
+        const el = elRef.current!; // non-null assertion because it will never be null
+        modalRoot?.appendChild(el);
+        // return () => {
+        //     modalRoot.removeChild(el);
+        // };
+    }, []);
+    return createPortal(children, elRef.current);
+}
 
 function BSCStakeLimitModal({ children }: ModalProps) {
     const modalRoot = document.querySelector("#limit-modal") as HTMLElement;
@@ -92,6 +109,7 @@ function App() {
         stakingClient,
         showLimitModal,
         account,
+        showNotifyModal,
     } = useSelector((state: ReduxState) => state.homePage);
 
     // const getBalance = async () => {
@@ -145,6 +163,12 @@ function App() {
                     <BSCStakeLimitModal>
                         <LimitModalBody />
                     </BSCStakeLimitModal>
+                )}
+                <div id="notify-modal"></div>
+                {showNotifyModal && (
+                    <NotifyMeModal>
+                        <NotifyFormBody />
+                    </NotifyMeModal>
                 )}
                 <Routes>
                     <Route path="/" element={<Main />}>
