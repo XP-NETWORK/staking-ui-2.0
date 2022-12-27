@@ -19,7 +19,10 @@ export default function ErrorModalBody({}: Props) {
     const handleButtonClick = (btn: string) => {
         switch (btn) {
             case "Bridge":
-                window.open("https://token.bridge.xp.network/", "_blank");
+                window.open(
+                    "https://token.bridge.xp.network/Transfer",
+                    "_blank"
+                );
                 dispatch(setErrorModal(false));
 
                 break;

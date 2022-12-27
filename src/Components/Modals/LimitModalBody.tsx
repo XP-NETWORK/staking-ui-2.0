@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import pop from "../../assets/images/coin/pop.svg";
 import algo from "../../assets/images/coin/algo1.svg";
 import { useSelector } from "react-redux";
@@ -13,6 +13,7 @@ import {
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { BLOCKCHAINS } from "../../assets/ts/Consts";
+import axios from "axios";
 
 interface Props {}
 
@@ -20,10 +21,12 @@ export default function LimitModalBody({}: Props) {
     const mobile = window.innerWidth < 600;
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [notify, setNotify] = useState(false);
+    const [validMail, setValidMail] = useState(false);
     const { evmStakesArray, evmAccount, account } = useSelector(
         (state: ReduxState) => state.homePage
     );
-
+    const [input, setInput] = useState("");
     // const claimBtnStyle: React.CSSProperties = {
     //     pointerEvents: evmStakesArray.length > 0 ? "auto" : "none",
     // };
@@ -53,8 +56,25 @@ export default function LimitModalBody({}: Props) {
     };
 
     const handleClickOnNOtifyMe = () => {
-        dispatch(setLimitModal(false));
-        dispatch(setShowNotifyModal(true));
+        setNotify(true);
+    };
+
+    const handleInput = (str: string) => {
+        const regex =
+            /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+        if (!str || regex.test(str) === false) {
+            setInput(str);
+            setValidMail(false);
+        } else {
+            setInput(str);
+            setValidMail(true);
+        }
+    };
+
+    const onNotifyClick = async () => {
+        // axios
+        //     .post("some/route", { email: input })
+        //     .then((e: any) => console.log(e));
     };
 
     return (
@@ -81,36 +101,55 @@ export default function LimitModalBody({}: Props) {
                     <img src={close} alt="" />
                 </span>
                 <img src={pop} alt="chains" />
-                <h4>50M Staking Limit is reached!</h4>
+                <h4>
+                    {notify
+                        ? "Stay up to date!"
+                        : "50M Staking Limit is reached!"}
+                </h4>
                 <p>
-                    Good news that more tokens are coming on BSC. Subscribe to
-                    get notified.
+                    {notify
+                        ? "Subscribe to be first to know when new XPNET staking is available on BSC"
+                        : "Good news that more tokens are coming on BSC. Subscribe to get notified."}
                 </p>
-                <div className="btns">
-                    <button
-                        onClick={handleClickOnNOtifyMe}
-                        className="stakeBtn"
-                    >
-                        Notify me
+                {!notify && (
+                    <div className="btns">
+                        <button
+                            onClick={handleClickOnNOtifyMe}
+                            className="stakeBtn"
+                        >
+                            Notify me
+                        </button>
+                        <button
+                            onClick={handleClickOnClaim}
+                            className="changeWalletBtn"
+                        >
+                            Claim XPNET
+                        </button>
+                    </div>
+                )}
+                {notify ? (
+                    <div className="notify-email__container">
+                        <input
+                            value={input}
+                            onChange={(e) => handleInput(e.target.value)}
+                            type="mail"
+                            placeholder="Enter your email"
+                        />
+                        <button
+                            onClick={onNotifyClick}
+                            className={`notify-btn${
+                                !validMail ? "--disabled" : ""
+                            }`}
+                        >
+                            Notify me
+                        </button>
+                    </div>
+                ) : (
+                    <button onClick={handleClickOnStake} className="algoBtnPop">
+                        <img src={algo} alt="algo" />
+                        Stake XPNET on Algorand now!
                     </button>
-                    <button
-                        onClick={handleClickOnClaim}
-                        className="changeWalletBtn"
-                    >
-                        Claim XPNET
-                    </button>
-                </div>
-                <button
-                    // style={{
-                    //     pointerEvents:
-                    //         evmStakesArray.length > 0 ? "auto" : "none",
-                    // }}
-                    onClick={handleClickOnStake}
-                    className="algoBtnPop"
-                >
-                    <img src={algo} alt="algo" />
-                    Stake XPNET on Algorand now!
-                </button>
+                )}
             </div>
         </div>
     );

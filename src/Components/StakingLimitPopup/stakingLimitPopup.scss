@@ -5,15 +5,15 @@
 .limitWraper {
     position: relative;
     margin: -260px auto 0 auto;
-
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    width: 426px;
-    height: 533.9px;
+    max-width: 426px;
+    // height: 533.9px
+    gap: 20px;
     background: #1b1b1d;
-
+    padding: 46px 34px 24px 34px;
     -webkit-box-shadow: 5px 5px 22px 5px rgba(0, 0, 0, 0.43);
     box-shadow: 5px 5px 22px 5px rgba(0, 0, 0, 0.43);
     background-image: url("../../assets/images/popup-bg.png");
@@ -23,26 +23,63 @@
     font-size: 16px;
     line-height: 160%;
     img {
-        padding-top: 46px;
         padding-bottom: 36px;
     }
     h4 {
-        // margin-top: 87px;
-        margin-bottom: 0;
+        margin: 0;
         font-weight: 600;
         font-size: 24px;
-        width: 300px;
         text-align: center;
-        padding-bottom: 20px;
     }
     p {
+        max-width: 358px;
         margin: 0;
-        width: 358px;
         text-align: center;
+        text-justify: inter-word;
+    }
+    .notify-email__container {
+        margin: 24px 0 30px 0;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 6px;
+        padding: 10px 12px;
+        display: flex;
+        gap: 10px;
+        input {
+            // width: 150px;
+            background-color: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+        }
+        input::placeholder {
+            color: #fff;
+        }
+        .notify-btn {
+            color: #282829;
+            background: #ffffff;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            width: 135px;
+            height: 40px;
+            border-radius: 6px;
+            transition: all 0.25s;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        .notify-btn--disabled {
+            width: 135px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 6px;
+            pointer-events: none;
+        }
     }
     .limitWraper-close {
         position: absolute;
-        top: -20px;
+        top: 25px;
         right: 25px;
         cursor: pointer;
     }
@@ -50,7 +87,7 @@
         display: flex;
         flex-direction: row;
         align-items: flex-start;
-        padding-top: 44px;
+        padding-top: 24px;
         gap: 8px;
         button {
             display: flex;
