@@ -8,12 +8,11 @@ import {
     setBlockchain,
     setConnectModalShow,
     setLimitModal,
-    setShowNotifyModal,
 } from "../../store/reducer/homePageSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { BLOCKCHAINS } from "../../assets/ts/Consts";
-import axios from "axios";
+import "../../Components/StakingLimitPopup/stakingLimitPopup.scss";
 
 interface Props {}
 

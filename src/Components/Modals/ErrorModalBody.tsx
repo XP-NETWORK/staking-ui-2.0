@@ -7,6 +7,7 @@ import {
 } from "../../store/reducer/homePageSlice";
 import close from "../../assets/images/close-icon.svg";
 import { useOnClickOutside } from "../../assets/ts/helpers";
+import "../../Components/Error/error.scss";
 
 interface Props {}
 
