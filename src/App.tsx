@@ -151,13 +151,13 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Main />}>
                         <Route index element={<Home />} />
-                        <Route path="/connect/:to" element={<Connect />} />
-                        <Route path="/connect" element={<Connect />} />
+                        {/* <Route path="/connect/:to" element={<Connect />} />
+                        <Route path="/connect" element={<Connect />} /> */}
                         <Route path="/stake" element={<Stake />} />
                         <Route path="/rewards" element={<ClaimRewards />} />
                         <Route path="/gallery" element={<Gallery />} />
-                        <Route path="/error" element={<Error />} />
-                        <Route path="/limit" element={<StakingLimitPopup />} />
+                        {/* <Route path="/error" element={<Error />} /> */}
+                        {/* <Route path="/limit" element={<StakingLimitPopup />} /> */}
                         <Route path="*" element={<WrongRoute />} />
                         {/*  
                         <Route path="/associationDonation" element={<DonationMain />}>

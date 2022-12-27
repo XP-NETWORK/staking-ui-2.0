@@ -14,6 +14,7 @@ import AlgoSigner from "../Wallets/AlgoSigner";
 import { useOnClickOutside } from "../../assets/ts/helpers";
 import { useDispatch } from "react-redux";
 import { setConnectModalShow } from "../../store/reducer/homePageSlice";
+import "./../../Components/Connect/connect.scss";
 
 interface Props {}
 

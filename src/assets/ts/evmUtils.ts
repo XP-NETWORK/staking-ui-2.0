@@ -17,9 +17,11 @@ export const getEvmXpNetBalance = async (address: string, contract?: any) => {
     let weiBalance: string;
 
     try {
-        weiBalance = contract
-            ? await contract.methods.balanceOf(address).call()
-            : await EVMContract.methods.balanceOf(address).call();
+        weiBalance =
+            // contract
+            //     ? await contract.methods.balanceOf(address).call()
+            //     :
+            await EVMContract.methods.balanceOf(address).call();
         const balance = parseInt(Web3.utils.fromWei(weiBalance, "ether"));
         return balance;
     } catch (error) {

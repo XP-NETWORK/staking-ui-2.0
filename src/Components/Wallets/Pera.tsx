@@ -1,6 +1,6 @@
 import { HigherALGO } from "./HigherALGO";
 import icon from "../../assets/wallets/Pera.svg";
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
 import { PeraWalletConnect } from "@perawallet/connect";
@@ -20,6 +20,13 @@ interface Props {
     styles: () => Object;
     connect: Function;
 }
+// type AlgorandChainIDs = 416001 | 416002 | 416003 | 4160;
+// type PeraWalletNetwork = "dev" | "testnet" | "mainnet";
+// interface PeraWalletConnectOptions {
+//     shouldShowSignTxnToast?: boolean;
+//     network?: PeraWalletNetwork;
+//     chainId?: AlgorandChainIDs;
+// }
 
 const Pera = ({ styles, connect }: Props) => {
     const { navigateRoute } = useSelector(
@@ -67,22 +74,6 @@ const Pera = ({ styles, connect }: Props) => {
         let client = await createClient(signer, account, appAdress3Months);
         dispatch(setClient(client));
     }, [account, dispatch, signer]);
-
-    // useEffect(() => {
-    //     peraWallet
-    //         .reconnectSession()
-    //         .then((accounts) => {
-    //             peraWallet?.connector?.on("disconnect", () => {});
-
-    //             if (accounts.length) {
-    //             }
-    //         })
-    //         .catch((e) => console.log(e));
-
-    //     return () => {
-    //         peraWallet.disconnect();
-    //     };
-    // }, [peraConnection, peraWallet]);
 
     const handleClick = async () => {
         connectPeraWallet();
