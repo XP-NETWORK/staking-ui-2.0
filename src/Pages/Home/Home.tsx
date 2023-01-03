@@ -121,15 +121,15 @@ export const Home: FC<HomeProps> = () => {
         let stakesInt: any;
         const algoRewardsAndStakes = async () => {
             let rewards = await getAlgoReward(account);
-            if (!rewards) {
-                rewardsInt = setInterval(
-                    async () => (rewards = await getAlgoReward(account)),
-                    200
-                );
-            } else if (rewards) {
-                dispatch(setAlgoRewards(rewards));
-                clearInterval(rewardsInt);
-            }
+            // if (!rewards) {
+            rewardsInt = setInterval(
+                async () => (rewards = await getAlgoReward(account)),
+                200
+            );
+            // } else if (rewards) {
+            dispatch(setAlgoRewards(rewards));
+            clearInterval(rewardsInt);
+            // }
             let stakes = await getAllAlgoStakes(account);
             if (fetchedAlgoStakes?.length !== stakes?.length)
                 dispatch(setFetchedAlgoStakes(stakes));

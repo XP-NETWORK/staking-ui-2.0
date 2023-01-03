@@ -34,9 +34,9 @@ export const getAmountOfEVMTokensStaked = async (
     contract?: any
 ) => {
     debugger;
-    const c = contract || EVMStakeContract;
+    // const c = contract || EVMStakeContract;
     try {
-        const stakes = await c.methods.balanceOf(address).call();
+        const stakes = await EVMStakeContract.methods.balanceOf(address).call();
         return Number(stakes) || undefined;
     } catch (error) {
         console.log(error);
@@ -45,9 +45,11 @@ export const getAmountOfEVMTokensStaked = async (
 
 export const getStakeById = async (id: number, contract?: any) => {
     try {
-        const info = contract
-            ? await contract.methods.stakes(id).call()
-            : await EVMStakeContract.methods.stakes(id).call();
+        const info =
+            // contract
+            //     ? await contract.methods.stakes(id).call()
+            //     :
+            await EVMStakeContract.methods.stakes(id).call();
         const isUnlocked = await EVMStakeContract.methods
             .checkIsUnlocked(id)
             .call();
@@ -62,11 +64,13 @@ export const showAvailableRewards = async (
     contract?: any
 ) => {
     try {
-        const available = contract
-            ? await contract.methods.showAvailableRewards(nftTokenIdId).call()
-            : await EVMStakeContract.methods
-                  .showAvailableRewards(nftTokenIdId)
-                  .call();
+        const available =
+            // contract
+            //     ? await contract.methods.showAvailableRewards(nftTokenIdId).call()
+            //     :
+            await EVMStakeContract.methods
+                .showAvailableRewards(nftTokenIdId)
+                .call();
         return available;
     } catch (error) {
         console.log(error);
@@ -85,13 +89,14 @@ export const getTokenOfOwnerByIndex = async (
         const num = tokenAmount;
         for (let i = 0; i < num; i++) {
             try {
-                const tokenId = contract
-                    ? await contract.methods
-                          .tokenOfOwnerByIndex(owner, i)
-                          .call()
-                    : await EVMStakeContract.methods
-                          .tokenOfOwnerByIndex(owner, i)
-                          .call();
+                const tokenId = contract;
+                // ? await contract.methods
+                //       .tokenOfOwnerByIndex(owner, i)
+                //       .call()
+                // :
+                await EVMStakeContract.methods
+                    .tokenOfOwnerByIndex(owner, i)
+                    .call();
                 const availableRewards = await showAvailableRewards(tokenId);
                 const isUnlocked = await checkIsUnLocked(tokenId);
                 const tokenDetails = await getStakeById(Number(tokenId));

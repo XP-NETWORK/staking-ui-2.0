@@ -1,28 +1,19 @@
-import React, { useEffect, ReactNode, useRef, useState } from "react";
+import React, { useEffect, ReactNode, useRef } from "react";
 import "./App.css";
 import { Home } from "./Pages/Home/Home";
 import "normalize.css";
-import { BrowserRouter, Route, Routes, useParams } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Main } from "./Pages/Main/Main";
-import { Connect } from "./Components/Connect/Connect";
 import { Stake } from "./Pages/Stake/Stake";
 import ClaimRewards from "./Pages/ClaimRewards/ClaimRewards";
 import { Gallery } from "./Pages/Gallery/Gallery";
-import { Error } from "./Components/Error/Error";
-import { StakingLimitPopup } from "./Components/StakingLimitPopup/StakingLimitPopup";
 import WrongRoute from "./Pages/WrongRoute/WrongRoute";
 import { createPortal } from "react-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { ReduxState } from "./store/store";
 import ConnectModalBody from "./Components/Modals/ConnectModalBody";
 import ErrorModalBody from "./Components/Modals/ErrorModalBody";
-import { getXpNetBalance } from "./assets/ts/algoUtils";
-import {
-    setBalance,
-    setErrorModal,
-    setLastCommit,
-} from "./store/reducer/homePageSlice";
-import { useDisconnect } from "wagmi";
+import { setLastCommit } from "./store/reducer/homePageSlice";
 import LimitModalBody from "./Components/Modals/LimitModalBody";
 import bg from "./assets/images/desk/bg.png";
 import bgMob from "./assets/images/mob/bg.png";
@@ -86,14 +77,9 @@ function App() {
 
     // const [lastCommit, setLastCommit] = useState<string | void>("");
 
-    const {
-        showConnectModal,
-        showErrorModal,
-        stakingClient,
-        showLimitModal,
-        account,
-        showNotifyModal,
-    } = useSelector((state: ReduxState) => state.homePage);
+    const { showConnectModal, showErrorModal, showLimitModal } = useSelector(
+        (state: ReduxState) => state.homePage
+    );
 
     // const getBalance = async () => {
     //     const balance = await getXpNetBalance(stakingClient);

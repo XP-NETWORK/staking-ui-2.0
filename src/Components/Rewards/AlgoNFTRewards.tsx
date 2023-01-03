@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { IFetchedStake, INFT } from "../../assets/ts/Consts";
+import { IFetchedStake, INFT, INFTURI } from "../../assets/ts/Consts";
 import left from "../../assets/images/left.svg";
 import right from "../../assets/images/right.svg";
 import { useEffect, useState } from "react";
@@ -35,14 +35,21 @@ export const AlgoNFTRewards = ({
     );
 
     useEffect(() => {
+        let getAllNFTsByOwnerInterval: any;
         const nfts = async () => {
-            const nfts = await getAllNFTsByOwner(account, stakes);
+            let nfts: any;
+            nfts = await getAllNFTsByOwner(account, stakes);
+            getAllNFTsByOwnerInterval = setInterval(async () => {
+                nfts = await getAllNFTsByOwner(account, stakes);
+                console.log("getAllNFTsByOwnerInterval", nfts);
+            }, 2000);
             dispatch(setNFTSByOwner(nfts));
             if (nfts) dispatch(setSelectedNFT(nfts[0].txId));
         };
         if (account) {
             nfts();
         }
+        return () => clearInterval(getAllNFTsByOwnerInterval);
     }, []);
 
     useEffect(() => {

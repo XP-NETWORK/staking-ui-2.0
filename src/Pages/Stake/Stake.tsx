@@ -179,7 +179,6 @@ export const Stake: FC<Props> = ({}) => {
     }, [optInResponse, stakingClient]);
 
     useEffect(() => {
-        // ! NO NEED
         const getBalance = async () => {
             const balance = await getXpNetBalance(stakingClient);
             if (balance) dispatch(setBalance(balance));

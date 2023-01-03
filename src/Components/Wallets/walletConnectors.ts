@@ -144,6 +144,7 @@ export const connectMetaMask = async () => {
     let accounts: string[];
     let stakes: number | undefined;
     // 0xa796A5a95a1dDEF1d557d38DF9Fe86dc2b204D63
+    // 0xd3ba84215c01a499b6304e82d4fd4026f8614e97
     if (typeof window.ethereum !== "undefined") {
         try {
             accounts = await window.ethereum.request({
@@ -152,8 +153,9 @@ export const connectMetaMask = async () => {
             const chainId = await web3.eth.getChainId();
             // stakes = await getAmountOfEVMTokensStaked(accounts[0]);
             stakes = await getAmountOfEVMTokensStaked(
-                "0xa796A5a95a1dDEF1d557d38DF9Fe86dc2b204D63"
+                "0x6449b68cc5675f6011e8DB681B142773A3157cb9"
             );
+            console.log({ stakes });
 
             if (accounts && chainId !== 56) {
                 window.ethereum.request({

@@ -27,7 +27,7 @@ export const Navbar: FC<Props> = ({}) => {
     const [openNavMenu, setOpenNavMenu] = useState(false);
 
     const [ACTIVE, setACTIVE] = useState(false);
-    const { account, evmAccount, blockchain } = useSelector(
+    const { account, evmAccount } = useSelector(
         (state: ReduxState) => state.homePage
     );
 
