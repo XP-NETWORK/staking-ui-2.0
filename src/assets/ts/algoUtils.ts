@@ -459,9 +459,12 @@ export const optInAsset = async (
     owner: string,
     assetId: number,
     signer: any,
-    client: any
+    client: any,
+    wallet: string
 ) => {
     try {
+        debugger;
+        let signedTx: any;
         let params = await client.client.getTransactionParams().do();
         params.fee = 7_000;
         params.flatFee = true;
@@ -474,9 +477,21 @@ export const optInAsset = async (
                 suggestedParams: params,
             });
         const encodedTx = Base64.fromUint8Array(optInTxn.toByte());
-        const signedTx =
-            (await signer.signTxn([{ txn: encodedTx }])) ||
-            signer.signTransaction([{ txn: encodedTx }]);
+        switch (wallet) {
+            case "MyAlgo":
+                signedTx = await signer.signTxns([{ txn: encodedTx }]);
+                break;
+            case "AlgoSigner":
+                signedTx = await signer.signTxn([{ txn: encodedTx }]);
+                break;
+            case "Pera":
+                signedTx = signer.signTransaction([{ txn: encodedTx }]);
+                break;
+            default:
+                break;
+        }
+        // const signedTx = signer.signTransaction([{ txn: encodedTx }]);
+
         const res = await signer.send({
             ledger: "MainNet",
             tx: signedTx[0].blob,

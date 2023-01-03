@@ -55,6 +55,7 @@ export const Home: FC<HomeProps> = () => {
         fetchedAlgoStakes,
         balance,
         evmStakesArray,
+        refreshTheAlgoRewards,
     } = useSelector((state: ReduxState) => state.homePage);
 
     const dispatch = useDispatch();
@@ -120,6 +121,8 @@ export const Home: FC<HomeProps> = () => {
         let rewardsInt: any;
         let stakesInt: any;
         const algoRewardsAndStakes = async () => {
+            console.log("algoRewardsAndStakes");
+
             let rewards = await getAlgoReward(account);
             // if (!rewards) {
             rewardsInt = setInterval(

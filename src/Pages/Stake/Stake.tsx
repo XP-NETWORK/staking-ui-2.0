@@ -17,7 +17,9 @@ import {
     checkOptInApps,
     createClient,
     generateOptIntoAssetTxns,
+    getAlgoReward,
     getAlgoStakeEndDate,
+    getAllAlgoStakes,
     getAPY,
     getXpNetBalance,
     optInt,
@@ -45,6 +47,7 @@ import { ThreeCircles } from "react-loader-spinner";
 import moment from "moment";
 import StakingPeriods from "../../Components/StakingPeriods/StakingPeriods";
 import { createPortal } from "react-dom";
+import { setInterval } from "timers/promises";
 
 type NoXpNetModalProps = {
     children: ReactNode;
@@ -128,7 +131,20 @@ export const Stake: FC<Props> = ({}) => {
         Url.select();
     };
 
+    const algoRewardsAndStakes = async () => {
+        debugger;
+        let stakes = await getAllAlgoStakes(account);
+        let int;
+        if (!stakes) {
+            window.setInterval(async () => {
+                stakes = await getAllAlgoStakes(account);
+            }, 5000);
+        } else clearInterval(int);
+        return stakes?.length > 0 ? true : false;
+    };
+
     const handleStake = async () => {
+        // debugger;
         setLoader(true);
         let _stake: IActiveSessionSTake;
         try {
@@ -141,7 +157,11 @@ export const Stake: FC<Props> = ({}) => {
 
             _stake = { txID: resp.txID, txInfo: resp.txInfo };
             dispatch(setActiveSessionStakes(_stake));
-            if (_stake) navigate(`/rewards`);
+
+            if (_stake) {
+                let haveStakes = await algoRewardsAndStakes();
+                if (haveStakes) navigate(`/rewards`);
+            }
         } catch (error) {
             console.log(error);
         }

@@ -49,6 +49,7 @@ const ClaimRewards = ({ chain }: Props) => {
         blockchain,
         evmStakes,
         stakingClient,
+        refreshTheAlgoRewards,
     } = useSelector((state: ReduxState) => state.homePage);
 
     const showLoader = () => {
@@ -122,6 +123,35 @@ const ClaimRewards = ({ chain }: Props) => {
         };
         getCurrency().catch(console.error);
     }, [chain, evmAccount, evmStakes]);
+
+    useEffect(() => {
+        let rewardsInt: any;
+        let stakesInt: any;
+        const algoRewardsAndStakes = async () => {
+            let rewards = await getAlgoReward(account);
+            rewardsInt = setInterval(
+                async () => (rewards = await getAlgoReward(account)),
+                200
+            );
+            dispatch(setAlgoRewards(rewards));
+            clearInterval(rewardsInt);
+            let stakes = await getAllAlgoStakes(account);
+            if (fetchedAlgoStakes?.length !== stakes?.length)
+                dispatch(setFetchedAlgoStakes(stakes));
+            if (!stakes) {
+                stakesInt = setInterval(
+                    async () => (stakes = await getAlgoReward(account)),
+                    200
+                );
+            } else if (stakes) {
+                dispatch(setAlgoRewards(rewards));
+                clearInterval(stakesInt);
+            }
+        };
+        if (account) {
+            algoRewardsAndStakes();
+        }
+    }, [refreshTheAlgoRewards]);
 
     if (!account && !evmAccount) return <Navigate to="/" replace />;
     return !showLoader() ? (

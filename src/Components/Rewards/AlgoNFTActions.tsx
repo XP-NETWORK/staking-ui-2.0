@@ -17,7 +17,7 @@ interface Props {
 }
 
 export default function AlgoNFTActions({ index, nfts }: Props) {
-    const { stakingClient, signer, account } = useSelector(
+    const { stakingClient, signer, account, connectedWallet } = useSelector(
         (state: ReduxState) => state.homePage
     );
 
@@ -34,7 +34,8 @@ export default function AlgoNFTActions({ index, nfts }: Props) {
                 account,
                 nfts[index]?.assetId,
                 signer,
-                stakingClient
+                stakingClient,
+                connectedWallet
             );
             if (txId) setIsOptIn(true);
             setOptInDisabled(false);

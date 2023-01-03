@@ -43,6 +43,7 @@ export interface IHomePage {
     lastCommit: string;
     evmBalance: number | undefined;
     collections: INFTURI[];
+    refreshTheAlgoRewards: boolean;
 }
 
 const initialState: IHomePage = {
@@ -72,12 +73,16 @@ const initialState: IHomePage = {
     evmBalance: undefined,
     collections: [],
     showNotifyModal: false,
+    refreshTheAlgoRewards: false,
 };
 
 const homePageSlice = createSlice({
     name: "homePage",
     initialState,
     reducers: {
+        setRefreshTheAlgoRewards(state: any) {
+            state.refreshTheAlgoRewards = !state.refreshTheAlgoRewards;
+        },
         setShowNotifyModal(state: any, action: any) {
             state.showNotifyModal = action.payload;
         },
@@ -191,6 +196,7 @@ const homePageSlice = createSlice({
 });
 
 export const {
+    setRefreshTheAlgoRewards,
     setShowNotifyModal,
     setNFTCollection,
     setEvmBalance,

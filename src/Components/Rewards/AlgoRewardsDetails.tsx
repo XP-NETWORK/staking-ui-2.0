@@ -43,61 +43,6 @@ export default function AlgoRewardsDetails({
         (state: ReduxState) => state.homePage
     );
 
-    // const handleClaimXPNET = async () => {
-    //     const client = await createClient(
-    //         signer,
-    //         account,
-    //         getMonths(stakes[stakeIndex]?.lockTime)
-    //     );
-    //     let rewards;
-    //     debugger;
-    //     try {
-    //         let sp = await client.getSuggestedParams();
-    //         sp.flatFee = true;
-    //         sp.fee = 7_000;
-    //         let token = BigInt(assetIdx);
-    //         let lockTime = BigInt(stakes[stakeIndex]?.lockTime);
-    //         let app = subAppId;
-    //         rewards = await client.getReward(
-    //             {
-    //                 token,
-    //                 lockTime,
-    //                 app,
-    //             },
-    //             { suggestedParams: sp }
-    //         );
-    //         console.log({ rewards });
-    //     } catch (e) {
-    //         console.log(e);
-    //     }
-    // };
-
-    // const handleUnstake = async () => {
-    //     let rewards;
-    //     const client = await createClient(
-    //         signer,
-    //         account,
-    //         getMonths(stakes[stakeIndex]?.lockTime)
-    //     );
-    //     try {
-    //         let sp = await client.getSuggestedParams();
-    //         sp.flatFee = true;
-    //         sp.fee = 7_000;
-
-    //         rewards = await client.unstake(
-    //             {
-    //                 stakeId: BigInt(0),
-    //                 token: BigInt(assetIdx),
-    //                 app: subAppId,
-    //             },
-    //             { suggestedParams: sp }
-    //         );
-    //         console.log(rewards);
-    //     } catch (e) {
-    //         console.log(e);
-    //     }
-    // };
-
     useEffect(() => {
         const stake = stakes.find((stake: IFetchedStake, index: number) => {
             return stake.txId === selectedNFTtxId;

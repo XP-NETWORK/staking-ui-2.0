@@ -81,10 +81,10 @@ export const PopupNav: FC<Props> = ({ close }) => {
                             <p>
                                 A closer look at the architecture, bridging
                                 algorithm, and security
-                            </p>
+                            </p>{" "}
+                            pclaim
                         </a>
                     </div>
-
                     <div className="popupWrapper-item">
                         <a
                             href="https://github.com/xp-network/"

@@ -1,6 +1,8 @@
 import classNames from "classnames";
 import React from "react";
+import { useDispatch } from "react-redux";
 import { claimRewards } from "../../assets/ts/algoUtils";
+import { setRefreshTheAlgoRewards } from "../../store/reducer/homePageSlice";
 import { IFetchedStake } from "./../../assets/ts/Consts";
 
 interface Props {
@@ -11,9 +13,11 @@ interface Props {
 }
 
 export default function CLAIMButton({ signer, account, stakes, index }: Props) {
+    const dispatch = useDispatch();
     const handleClaimXPNET = async () => {
         const response = await claimRewards(signer, account, stakes, index);
         console.log({ response });
+        dispatch(setRefreshTheAlgoRewards());
         // TODO pop-up to show the rewards claimed
     };
 

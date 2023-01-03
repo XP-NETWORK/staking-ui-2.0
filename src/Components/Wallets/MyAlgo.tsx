@@ -10,6 +10,7 @@ import { appAdress3Months } from "../../assets/ts/Consts";
 import {
     setAccount,
     setClient,
+    setConnectedWallet,
     setConnectModalShow,
     setSigner,
 } from "../../store/reducer/homePageSlice";
@@ -26,6 +27,7 @@ const MyAlgo = ({ connect }: Props) => {
     const navigate = useNavigate();
 
     const handleClick = async () => {
+        debugger;
         let account = await connect("MyAlgo");
         dispatch(setAccount(account.address));
         dispatch(setSigner(account.signer));
@@ -37,6 +39,7 @@ const MyAlgo = ({ connect }: Props) => {
 
         dispatch(setClient(client));
         navigate(navigateRoute);
+        dispatch(setConnectedWallet("MyAlgo"));
         dispatch(setConnectModalShow(false));
     };
     return (
