@@ -10,6 +10,7 @@ import {
     setBalance,
     setClient,
     setErrorModal,
+    setFetchedAlgoStakes,
     setStakeDetails,
     setXPNetPrice,
 } from "../../store/reducer/homePageSlice";
@@ -140,7 +141,7 @@ export const Stake: FC<Props> = ({}) => {
                 stakes = await getAllAlgoStakes(account);
             }, 5000);
         } else clearInterval(int);
-        return stakes?.length > 0 ? true : false;
+        return stakes;
     };
 
     const handleStake = async () => {
@@ -159,8 +160,11 @@ export const Stake: FC<Props> = ({}) => {
             dispatch(setActiveSessionStakes(_stake));
 
             if (_stake) {
-                let haveStakes = await algoRewardsAndStakes();
-                if (haveStakes) navigate(`/rewards`);
+                let fetchedStakes = await algoRewardsAndStakes();
+                if (fetchedStakes?.length > 0) {
+                    dispatch(setFetchedAlgoStakes(fetchedStakes));
+                    navigate(`/rewards`);
+                }
             }
         } catch (error) {
             console.log(error);
