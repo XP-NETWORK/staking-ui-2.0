@@ -41,7 +41,7 @@ export const AlgoNFTRewards = ({
             nfts = await getAllNFTsByOwner(account, stakes);
             getAllNFTsByOwnerInterval = setInterval(async () => {
                 nfts = await getAllNFTsByOwner(account, stakes);
-                console.log("getAllNFTsByOwnerInterval", nfts);
+                // console.log("getAllNFTsByOwnerInterval", nfts);
             }, 2000);
             dispatch(setNFTSByOwner(nfts));
             if (nfts) dispatch(setSelectedNFT(nfts[0].txId));
