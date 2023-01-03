@@ -76,7 +76,7 @@ export const PopupNav: FC<Props> = ({ close }) => {
                         >
                             <label className="title">
                                 <img src={whitepaper} alt="whitepaper_img" />{" "}
-                                White Paper
+                                Whitepaper
                             </label>
                             <p>
                                 A closer look at the architecture, bridging
