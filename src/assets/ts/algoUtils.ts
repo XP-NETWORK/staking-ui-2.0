@@ -710,3 +710,10 @@ export const getTotalStaked = async () => {
     return totalStaked;
 };
 getTotalStaked();
+
+export const formatTheNumber = (num: number) => {
+    console.log({ num });
+    return new Intl.NumberFormat("en-us", {
+        minimumFractionDigits: 2,
+    }).format(num);
+};

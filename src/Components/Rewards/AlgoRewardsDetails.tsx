@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
 import {
     createClient,
+    formatTheNumber,
     getAlgoStakeEndDate,
     getAlgoStakeProgress,
     getAPY,
@@ -81,7 +82,9 @@ export default function AlgoRewardsDetails({
                                 ).toFixed(2)}
                             </span>
                             <label className="value">
-                                {`${selectedStake?.tokensStaked / 1e6} XPNET`}
+                                {`${formatTheNumber(
+                                    selectedStake?.tokensStaked / 1e6
+                                )} XPNET`}
                             </label>
                         </div>
                     </div>

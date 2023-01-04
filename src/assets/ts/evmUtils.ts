@@ -10,7 +10,8 @@ const web3 = new Web3(
 );
 
 export const convertFromWei = (wei: string) => {
-    return wei ? parseInt(Web3.utils.fromWei(wei, "ether")) : 0;
+    const n = wei ? parseInt(Web3.utils.fromWei(wei, "ether")) : 0;
+    return n;
 };
 
 export const getEvmXpNetBalance = async (address: string, contract?: any) => {

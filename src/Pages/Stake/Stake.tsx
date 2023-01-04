@@ -17,6 +17,7 @@ import {
 import {
     checkOptInApps,
     createClient,
+    formatTheNumber,
     generateOptIntoAssetTxns,
     getAlgoReward,
     getAlgoStakeEndDate,
@@ -283,7 +284,9 @@ export const Stake: FC<Props> = ({}) => {
                                     style={{ opacity: "1" }}
                                 >
                                     {`Balance: ${
-                                        balance ? balance / 1e6 : 0
+                                        balance
+                                            ? formatTheNumber(balance / 1e6)
+                                            : 0
                                     } XPNET`}
                                 </label>
                             </div>
@@ -418,7 +421,7 @@ export const Stake: FC<Props> = ({}) => {
                                             ).toFixed(2)}
                                         </span>
                                         <label className="value">
-                                            {amount} {XPNET}
+                                            {formatTheNumber(amount)} {XPNET}
                                         </label>
                                     </div>
                                 </div>
@@ -461,9 +464,11 @@ export const Stake: FC<Props> = ({}) => {
                                             ).toFixed(2)}
                                         </span>
                                         <label className="value">
-                                            {calculateEstimatedRewards(
-                                                amount,
-                                                duration
+                                            {formatTheNumber(
+                                                calculateEstimatedRewards(
+                                                    amount,
+                                                    duration
+                                                )
                                             )}{" "}
                                             {XPNET}
                                         </label>
