@@ -1,5 +1,6 @@
 import algosdk from "algosdk";
 import {
+    algodApiKey,
     AlgoDetails,
     algodPort,
     algodUri,
@@ -485,28 +486,30 @@ export const optInAsset = async (
         let res: any;
         switch (wallet) {
             case "MyAlgo":
-                // const txns = [
-                //     {
-                //         txn: Buffer.from(optInTxn.toByte()).toString("base64"),
-                //     },
-                // ];
-                // const s = algoSignerWrapper(algod, algosdk)
-                // const myAlgoConnect = new MyAlgoConnect();
-                // myAlgoConnect.connect();
-                signedTx = await signer.signTxns([{ txn: encodedTx }]);
-                // console.log("signedTx: ", signedTx[0]);
-                // console.log("txns: ", txns);
-
-                // // const tx = Base64.toUint8Array(encodedTx);
-                // res = await algod.sendRawTransaction(signedTx).do();
-                // res = await signer.send({
-                //     ledger: "MainNet",
-                //     tx: signedTx[0].blob,
-                // });
-                // signedTx = await signer.signTxns([{ txn: encodedTx }]);
+                const params = await algod.getTransactionParams().do();
+                const txn =
+                    algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
+                        suggestedParams: {
+                            ...params,
+                        },
+                        from: owner,
+                        to: owner,
+                        assetIndex: assetId,
+                        amount: 0,
+                        note: undefined,
+                    });
+                // signer new MyAlgoConnect();
+                const [signedTxn] = await signer.signTxns([
+                    {
+                        txn: Buffer.from(txn.toByte()).toString("base64"),
+                    },
+                ]);
+                const txBytes = Buffer.from(signedTxn, "base64");
+                res = await algod.sendRawTransaction(txBytes).do();
                 break;
             case "AlgoSigner":
                 signedTx = await signer.signTxn([{ txn: encodedTx }]);
+                res = await algod.sendRawTransaction(signedTx).do();
                 break;
             case "Pera":
                 const suggestedParams = await algod.getTransactionParams().do();
