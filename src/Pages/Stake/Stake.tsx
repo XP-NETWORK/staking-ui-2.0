@@ -104,6 +104,7 @@ export const Stake: FC<Props> = ({}) => {
         balance,
         activeSessionStakes,
         connectedWallet,
+        fetchedAlgoStakes,
     } = useSelector((state: ReduxState) => state.homePage);
 
     const handleMaxAmount = () => {
@@ -160,9 +161,15 @@ export const Stake: FC<Props> = ({}) => {
             dispatch(setActiveSessionStakes(_stake));
 
             if (_stake) {
-                let fetchedStakes = await algoRewardsAndStakes();
-                if (fetchedStakes?.length > 0) {
-                    dispatch(setFetchedAlgoStakes(fetchedStakes));
+                let _fetchedStakes = await algoRewardsAndStakes();
+                if (
+                    fetchedAlgoStakes &&
+                    fetchedAlgoStakes.length < _fetchedStakes?.length
+                ) {
+                    dispatch(setFetchedAlgoStakes(_fetchedStakes));
+                    navigate(`/rewards`);
+                } else if (_fetchedStakes?.length > 0) {
+                    dispatch(setFetchedAlgoStakes(_fetchedStakes));
                     navigate(`/rewards`);
                 }
             }

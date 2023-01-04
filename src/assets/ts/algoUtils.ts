@@ -18,6 +18,7 @@ import store from "../../store/store";
 import moment from "moment";
 import { Base64 } from "js-base64";
 import { SignerTransaction } from "@perawallet/connect/dist/util/model/peraWalletModels";
+import MyAlgoConnect from "@randlabs/myalgo-connect";
 
 const apiKey = process.env.REACT_APP_API_TOKEN as string;
 const algodToken = {
@@ -420,6 +421,10 @@ export const getXpNetBalance = async (client: any) => {
             const assetInfo = await client.client
                 .accountAssetInformation(client.sender, assetIdx)
                 .do();
+            console.log(
+                "🚀 ~ file: algoUtils.ts:424 ~ getXpNetBalance ~ assetInfo",
+                assetInfo
+            );
             if (assetInfo.message) {
                 console.log(assetInfo.message);
                 return 0;
@@ -477,25 +482,61 @@ export const optInAsset = async (
                 suggestedParams: params,
             });
         const encodedTx = Base64.fromUint8Array(optInTxn.toByte());
+        let res: any;
         switch (wallet) {
             case "MyAlgo":
+                // const txns = [
+                //     {
+                //         txn: Buffer.from(optInTxn.toByte()).toString("base64"),
+                //     },
+                // ];
+                // const s = algoSignerWrapper(algod, algosdk)
+                // const myAlgoConnect = new MyAlgoConnect();
+                // myAlgoConnect.connect();
                 signedTx = await signer.signTxns([{ txn: encodedTx }]);
+                // console.log("signedTx: ", signedTx[0]);
+                // console.log("txns: ", txns);
+
+                // // const tx = Base64.toUint8Array(encodedTx);
+                // res = await algod.sendRawTransaction(signedTx).do();
+                // res = await signer.send({
+                //     ledger: "MainNet",
+                //     tx: signedTx[0].blob,
+                // });
+                // signedTx = await signer.signTxns([{ txn: encodedTx }]);
                 break;
             case "AlgoSigner":
                 signedTx = await signer.signTxn([{ txn: encodedTx }]);
                 break;
             case "Pera":
-                signedTx = signer.signTransaction([{ txn: encodedTx }]);
+                const suggestedParams = await algod.getTransactionParams().do();
+                const optInTxn =
+                    algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
+                        from: owner,
+                        to: owner,
+                        assetIndex: assetId,
+                        amount: 0,
+                        suggestedParams,
+                    });
+                const multipleTxnGroups = [{ txn: optInTxn, signers: [owner] }];
+                const signedTxnGroup = await signer.signTransaction([
+                    multipleTxnGroups,
+                ]);
+                res = await algod.sendRawTransaction(signedTxnGroup).do();
+                // console.log("🚀 ~ file: algoUtils.ts:535 ~ txId", txId);
                 break;
             default:
                 break;
         }
         // const signedTx = signer.signTransaction([{ txn: encodedTx }]);
-
-        const res = await signer.send({
-            ledger: "MainNet",
-            tx: signedTx[0].blob,
-        });
+        // res = await signer?.send({
+        //     ledger: "MainNet",
+        //     tx: signedTx[0].blob,
+        // })
+        // res = await window.AlgoSigner.send({
+        //     ledger: "MainNet",
+        //     tx: signedTx[0].blob,
+        // });
         await waitTxnConfirm(res.txId);
         return res.txId;
     } catch (error) {
