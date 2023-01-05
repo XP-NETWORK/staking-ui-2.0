@@ -82,7 +82,6 @@ export const PopupNav: FC<Props> = ({ close }) => {
                                 A closer look at the architecture, bridging
                                 algorithm, and security
                             </p>{" "}
-                            pclaim
                         </a>
                     </div>
                     <div className="popupWrapper-item">
