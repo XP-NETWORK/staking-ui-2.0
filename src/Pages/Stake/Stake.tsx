@@ -192,16 +192,19 @@ export const Stake: FC<Props> = ({}) => {
         // ! NEED
         const optInApps = async () => {
             const apps = await checkOptInApps(stakingClient);
-            setOptInApps(apps["apps-local-state"]);
+            if (apps) setOptInApps(apps["apps-local-state"]);
         };
         optInApps();
     }, [optInResponse, stakingClient]);
 
     useEffect(() => {
+        // debugger;
         const getBalance = async () => {
             const balance = await getXpNetBalance(stakingClient);
-            if (balance) dispatch(setBalance(balance));
-            else if (!balance) {
+            if (balance) {
+                dispatch(setErrorModal(false));
+                dispatch(setBalance(balance));
+            } else if (!balance) {
                 dispatch(setErrorModal(true));
                 console.log("Oh nooooooo");
             }

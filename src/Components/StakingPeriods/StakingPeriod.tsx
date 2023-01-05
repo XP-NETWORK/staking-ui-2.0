@@ -44,7 +44,7 @@ export const StakingPeriod: FC<Props> = ({
             }}
             onClick={() => setDuration(duration)}
         >
-            {duration === 12 ? "1 year" : `${duration} mons`}
+            {duration === 12 ? "1 year" : `${duration} months`}
             <span>{`APY ${APY(duration)}%`}</span>
         </button>
     );

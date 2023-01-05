@@ -351,7 +351,7 @@ const parseArray = (array: []) => {
 };
 
 export const getAPY = (rewards: any | undefined) => {
-    const appId = rewards?.appid;
+    const appId = rewards?.appId;
     switch (true) {
         case appAdress3Months === appId:
             return "25";
@@ -422,10 +422,7 @@ export const getXpNetBalance = async (client: any) => {
             const assetInfo = await client.client
                 .accountAssetInformation(client.sender, assetIdx)
                 .do();
-            console.log(
-                "🚀 ~ file: algoUtils.ts:424 ~ getXpNetBalance ~ assetInfo",
-                assetInfo
-            );
+
             if (assetInfo.message) {
                 console.log(assetInfo.message);
                 return 0;
