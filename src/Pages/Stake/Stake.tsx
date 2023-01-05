@@ -18,8 +18,6 @@ import {
     checkOptInApps,
     createClient,
     formatTheNumber,
-    generateOptIntoAssetTxns,
-    getAlgoReward,
     getAlgoStakeEndDate,
     getAllAlgoStakes,
     getAPY,
@@ -86,7 +84,6 @@ export const Stake: FC<Props> = ({}) => {
     });
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const balanceInt = useRef<number | null>(null);
     const [currentXpnetPrice, setCurrentXpnetPrice] = useState(0);
     const [optInResponse, setOptInResponse] = useState("");
     const [amount, setAmount] = useState(0);
@@ -104,7 +101,6 @@ export const Stake: FC<Props> = ({}) => {
         algoDetails,
         balance,
         activeSessionStakes,
-        connectedWallet,
         fetchedAlgoStakes,
     } = useSelector((state: ReduxState) => state.homePage);
 
@@ -182,15 +178,6 @@ export const Stake: FC<Props> = ({}) => {
 
     const optIntAsset = async () => {
         setLoader(true);
-        // if (connectedWallet === "Pera") {
-        //     debugger;
-        //     try {
-        //         const txns = await generateOptIntoAssetTxns(account);
-        //         await signer.signTransaction([txns]);
-        //     } catch (error) {
-        //         console.log(error);
-        //     }
-        // } else
         try {
             const resp = await optInt(stakingClient);
             setOptInResponse(resp);
@@ -214,8 +201,8 @@ export const Stake: FC<Props> = ({}) => {
         const getBalance = async () => {
             const balance = await getXpNetBalance(stakingClient);
             if (balance) dispatch(setBalance(balance));
-            else if (balance) {
-                // dispatch(setErrorModal(true));
+            else if (!balance) {
+                dispatch(setErrorModal(true));
                 console.log("Oh nooooooo");
             }
         };
