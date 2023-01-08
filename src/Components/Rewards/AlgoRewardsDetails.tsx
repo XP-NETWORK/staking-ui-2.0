@@ -170,6 +170,7 @@ export default function AlgoRewardsDetails({
                         account={account}
                         stakes={stakes}
                         index={stakeIndex}
+                        cell={false}
                     />
                     <UNSTAKEButton
                         signer={signer}

@@ -1,0 +1,121 @@
+$breakpoint-tablet: 600px;
+
+.staking-history__container {
+    background: #222225;
+    border: 1px solid rgba(79, 79, 82, 0.3);
+    border-radius: 6px;
+    // padding: 26px;
+    margin-top: 30px;
+    .staking-history-line {
+        border: 1px solid rgba(79, 79, 82, 0.3);
+    }
+}
+.history-table__container {
+    max-height: 325px;
+    overflow: auto;
+}
+.history-header {
+    font-family: "Inter";
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 126%;
+    letter-spacing: 0.03em;
+    color: #ffffff;
+    padding: 26px 26px 20px 26px;
+    // padding-bottom: 20px;
+    // padding-left: 8px;
+}
+.history-table {
+    margin-top: 20px;
+    border-collapse: collapse;
+    width: 100%;
+    td,
+    th {
+        font-family: "Inter";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 126%;
+        letter-spacing: 0.03em;
+        color: rgba(255, 255, 255, 0.9);
+        text-align: left;
+        padding: 14px 8px 14px 26px;
+    }
+    .row--gray {
+        background: rgba(255, 255, 255, 0.05);
+    }
+    .claim-btn-cell {
+        width: 65px;
+        height: 32px;
+        left: 49.5px;
+        top: 0px;
+
+        background: rgba(35, 136, 255, 0.07);
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #222225;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #555;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #888;
+}
+
+@media (max-width: $breakpoint-tablet) {
+    .history-table {
+        margin-top: 0px;
+        .history-table__container {
+            max-height: unset;
+        }
+        thead {
+            display: none;
+        }
+    }
+
+    .history-table,
+    .history-table tbody,
+    .history-table tr,
+    .history-table td {
+        display: block;
+        // width: 100%;
+    }
+    .history-table tr {
+        padding: 19px 0;
+    }
+    .history-table td {
+        display: flex;
+        justify-content: space-between;
+        padding-left: 26px;
+        padding-right: 26px;
+        text-align: left;
+        position: relative;
+    }
+
+    .history-table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0;
+        width: 50%;
+        padding-left: 15px;
+        font-size: 15px;
+        font-weight: bold;
+        text-align: left;
+    }
+}

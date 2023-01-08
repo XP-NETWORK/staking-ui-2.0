@@ -39,6 +39,7 @@ import {
 import { createPortal } from "react-dom";
 import ConnectModalBody from "../../Components/Modals/ConnectModalBody";
 import { getTokenOfOwnerByIndex } from "../../assets/ts/evmUtils";
+import { StakingHistory } from "../../Components/StakingHistory/StakingHistory";
 
 interface HomeProps {}
 
@@ -239,7 +240,6 @@ export const Home: FC<HomeProps> = () => {
                             </button>
                         </div>
                     </div>
-
                     <div className="box">
                         <div className="title">
                             <label>

@@ -48,6 +48,8 @@ import moment from "moment";
 import StakingPeriods from "../../Components/StakingPeriods/StakingPeriods";
 import { createPortal } from "react-dom";
 import { setInterval } from "timers/promises";
+import { StakingHistory } from "../../Components/StakingHistory/StakingHistory";
+import { TableContainer } from "../../Components/StakingHistory/TableContainer";
 
 type NoXpNetModalProps = {
     children: ReactNode;
@@ -519,6 +521,8 @@ export const Stake: FC<Props> = ({}) => {
                         </div>
                     </div>
                 </div>
+                <StakingHistory />
+                {/* <TableContainer /> */}
             </>
         );
 };

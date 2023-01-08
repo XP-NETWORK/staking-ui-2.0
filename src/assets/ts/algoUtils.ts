@@ -351,7 +351,7 @@ const parseArray = (array: []) => {
 };
 
 export const getAPY = (rewards: any | undefined) => {
-    const appId = rewards?.appId;
+    const appId = rewards?.appId || rewards?.appid;
     switch (true) {
         case appAdress3Months === appId:
             return "25";
@@ -712,7 +712,7 @@ export const getTotalStaked = async () => {
 getTotalStaked();
 
 export const formatTheNumber = (num: number) => {
-    console.log({ num });
+    // console.log({ num });
     return new Intl.NumberFormat("en-us", {
         minimumFractionDigits: 2,
     }).format(num);
