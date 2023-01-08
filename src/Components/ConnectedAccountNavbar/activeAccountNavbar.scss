@@ -132,6 +132,23 @@
     }
 }
 
+@media screen and (max-width: 768px) {
+    .navLinksWrapperActive {
+        margin: unset;
+        padding: 6px 0;
+        .activeWrapper {
+            padding-left: 4px;
+        }
+        .activeNavLink {
+            margin-left: 0;
+            font-size: 12px;
+        }
+        .chainAndAccountContainer {
+            margin-left: 0;
+        }
+    }
+}
+
 @media screen and (max-width: 600px) {
     .chainAndAccountContainer {
         width: 95vw;
@@ -140,6 +157,9 @@
         justify-content: space-between;
         .account {
             min-width: 110px;
+        }
+        .activeWrapper .active-link {
+            padding: 4px;
         }
     }
 }

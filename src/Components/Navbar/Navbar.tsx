@@ -48,18 +48,21 @@ export const Navbar: FC<Props> = ({}) => {
         <>
             <div className="navbar">
                 <div className="navWrapper">
-                    <img
-                        className={classNames("logo", "deskOnly")}
-                        src={xpLogo}
-                        alt="logo"
-                        onClick={handleClickLogo}
-                    />
-                    <img
-                        className={classNames("logo", "mobOnly")}
-                        src={xpLogoMob}
-                        alt="logo"
-                        onClick={handleClickLogo}
-                    />
+                    {window.innerWidth > 768 ? (
+                        <img
+                            className={classNames("logo", "deskOnly")}
+                            src={xpLogo}
+                            alt="logo"
+                            onClick={handleClickLogo}
+                        />
+                    ) : (
+                        <img
+                            // className={classNames("logo", "mobOnly")}
+                            src={xpLogoMob}
+                            alt="logo"
+                            onClick={handleClickLogo}
+                        />
+                    )}
                     {!ACTIVE && (
                         <div className="navLinksWrapper">
                             <button onMouseOver={() => setOpenResources(true)}>

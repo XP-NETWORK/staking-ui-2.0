@@ -679,6 +679,18 @@
     }
 }
 
+@media screen and (max-width: 768px) {
+    .containerLeft {
+        width: unset;
+    }
+    .containerRight {
+        width: 100%;
+    }
+    .stakeWrapper {
+        gap: 20px;
+    }
+}
+
 @media screen and (max-width: 500px) {
     .periodsRewards .row {
         width: 35% !important;
