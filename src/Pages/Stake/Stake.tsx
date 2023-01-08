@@ -355,7 +355,7 @@ export const Stake: FC<Props> = ({}) => {
                                 <div>
                                     <label>
                                         Don’t wait for 3 months - get a free NFT
-                                        right NOW
+                                        right NOW!
                                     </label>
                                     <p>
                                         A unique chain-agnostic NFT that serves
