@@ -31,6 +31,10 @@ const algoService = axios.create({
     baseURL: process.env.REACT_APP_ALGO_SERVICE,
 });
 
+export const notifyService = axios.create({
+    baseURL: "https://xpnetworkapi.herokuapp.com/stake-notify",
+});
+
 export const getTokenStaked = async () => {
     let appIds = [
         appAdress3Months,

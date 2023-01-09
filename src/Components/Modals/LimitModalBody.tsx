@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import pop from "../../assets/images/coin/pop.svg";
+import mailbox from "../../assets/images/coin/mailbox.svg";
+
 import algo from "../../assets/images/coin/algo1.svg";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
@@ -13,6 +15,8 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { BLOCKCHAINS } from "../../assets/ts/Consts";
 import "../../Components/StakingLimitPopup/stakingLimitPopup.scss";
+import axios from "axios";
+import { notifyService } from "../../assets/ts/algoUtils";
 
 interface Props {}
 
@@ -26,9 +30,7 @@ export default function LimitModalBody({}: Props) {
         (state: ReduxState) => state.homePage
     );
     const [input, setInput] = useState("");
-    // const claimBtnStyle: React.CSSProperties = {
-    //     pointerEvents: evmStakesArray.length > 0 ? "auto" : "none",
-    // };
+    const [sent, setSent] = useState(false);
 
     const handleClickOnStake = () => {
         if (!account) {
@@ -70,10 +72,107 @@ export default function LimitModalBody({}: Props) {
         }
     };
 
+    const show = () => {
+        switch (sent) {
+            case true:
+                return (
+                    <>
+                        <img src={mailbox} alt="chains" />
+                        <h4>🎉 Subscribe success</h4>
+                        <p>
+                            You will be first to know when new XPNET staking is
+                            available on BSC
+                        </p>
+                        <div className="btns">
+                            <button
+                                onClick={() => dispatch(setLimitModal(false))}
+                                className="changeWalletBtn"
+                            >
+                                Okay
+                            </button>
+                        </div>
+                    </>
+                );
+            default:
+                return (
+                    <>
+                        <img src={pop} alt="chains" />
+                        <h4>
+                            {notify
+                                ? "Stay up to date!"
+                                : "50M Staking Limit is reached!"}
+                        </h4>
+                        <p>
+                            {notify
+                                ? "Subscribe to be first to know when new XPNET staking is available on BSC."
+                                : "Good news that more tokens are coming on BSC. Subscribe to get notified."}
+                        </p>
+                        {!notify && (
+                            <div className="btns">
+                                <button
+                                    onClick={handleClickOnNOtifyMe}
+                                    className="stakeBtn"
+                                >
+                                    Notify me
+                                </button>
+                                <button
+                                    onClick={handleClickOnClaim}
+                                    className="changeWalletBtn"
+                                >
+                                    Claim XPNET
+                                </button>
+                            </div>
+                        )}
+                        {notify ? (
+                            <div className="notify-email__container">
+                                <input
+                                    value={input}
+                                    onChange={(e) =>
+                                        handleInput(e.target.value)
+                                    }
+                                    type="mail"
+                                    placeholder="Enter your email"
+                                />
+                                <button
+                                    onClick={onNotifyClick}
+                                    className={`notify-btn${
+                                        !validMail ? "--disabled" : ""
+                                    }`}
+                                >
+                                    Notify me
+                                </button>
+                            </div>
+                        ) : (
+                            <button
+                                onClick={handleClickOnStake}
+                                className="algoBtnPop"
+                            >
+                                <img src={algo} alt="algo" />
+                                Stake XPNET on Algorand now!
+                            </button>
+                        )}
+                    </>
+                );
+        }
+    };
+
     const onNotifyClick = async () => {
-        // axios
-        //     .post("some/route", { email: input })
-        //     .then((e: any) => console.log(e));
+        debugger;
+        const msg = {
+            email: input,
+            telegram: undefined,
+            firstName: undefined,
+            lastName: undefined,
+        };
+        try {
+            await axios.post(
+                "https://xpnetworkapi.herokuapp.com/stake-notify",
+                msg
+            );
+            setSent(true);
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return (
@@ -99,56 +198,7 @@ export default function LimitModalBody({}: Props) {
                 >
                     <img src={close} alt="" />
                 </span>
-                <img src={pop} alt="chains" />
-                <h4>
-                    {notify
-                        ? "Stay up to date!"
-                        : "50M Staking Limit is reached!"}
-                </h4>
-                <p>
-                    {notify
-                        ? "Subscribe to be first to know when new XPNET staking is available on BSC"
-                        : "Good news that more tokens are coming on BSC. Subscribe to get notified."}
-                </p>
-                {!notify && (
-                    <div className="btns">
-                        <button
-                            onClick={handleClickOnNOtifyMe}
-                            className="stakeBtn"
-                        >
-                            Notify me
-                        </button>
-                        <button
-                            onClick={handleClickOnClaim}
-                            className="changeWalletBtn"
-                        >
-                            Claim XPNET
-                        </button>
-                    </div>
-                )}
-                {notify ? (
-                    <div className="notify-email__container">
-                        <input
-                            value={input}
-                            onChange={(e) => handleInput(e.target.value)}
-                            type="mail"
-                            placeholder="Enter your email"
-                        />
-                        <button
-                            onClick={onNotifyClick}
-                            className={`notify-btn${
-                                !validMail ? "--disabled" : ""
-                            }`}
-                        >
-                            Notify me
-                        </button>
-                    </div>
-                ) : (
-                    <button onClick={handleClickOnStake} className="algoBtnPop">
-                        <img src={algo} alt="algo" />
-                        Stake XPNET on Algorand now!
-                    </button>
-                )}
+                {show()}
             </div>
         </div>
     );
