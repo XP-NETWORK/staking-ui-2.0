@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import xpLogo from "../../assets/images/xpnet-stake-logo.svg";
 import xpLogoMob from "../../assets/images/mob/xpnet-stake-logo.svg";
 // import hamburgerIcon from "../../assets/images/mob/menu.svg";
@@ -21,6 +21,8 @@ import { ReduxState } from "../../store/store";
 import { useSelector } from "react-redux";
 import { NavbarMobActive } from "../NavbarMobActive/NavBarMobActive";
 import AccountChainNav from "../AccountChainNav/AccountChainNav";
+import { Spin as Hamburger } from "hamburger-react";
+import { useOnClickOutside } from "../../assets/ts/helpers";
 
 interface Props {}
 
@@ -33,6 +35,7 @@ export const Navbar: FC<Props> = ({}) => {
         (state: ReduxState) => state.homePage
     );
 
+    // useOnClickOutside(ref, () => setOpenNavMenu(false));
     useEffect(() => {
         if (account || evmAccount) {
             setACTIVE(true);
@@ -117,10 +120,23 @@ export const Navbar: FC<Props> = ({}) => {
                         </div>
                     )}
                     <div
+                        style={{ pointerEvents: openNavMenu ? "none" : "auto" }}
                         className="menuIcon"
                         onClick={() => setOpenNavMenu(!openNavMenu)}
                     >
-                        {!openNavMenu ? (
+                        <Hamburger
+                            toggled={openNavMenu}
+                            toggle={setOpenNavMenu}
+                            size={20}
+                            onToggle={(toggled) => {
+                                if (toggled) {
+                                    setOpenNavMenu(true); // open a menu
+                                } else {
+                                    setOpenNavMenu(false);
+                                }
+                            }}
+                        />
+                        {/* {!openNavMenu ? (
                             <img
                                 // className={classNames("desktopOnly")}
                                 src={burger}
@@ -132,7 +148,7 @@ export const Navbar: FC<Props> = ({}) => {
                                 src={closemenu}
                                 alt="close-menu"
                             />
-                        )}
+                        )} */}
                         {/* {!openNavMenu && (
                             <img
                                 className={classNames("desktopOnly")}
@@ -159,7 +175,9 @@ export const Navbar: FC<Props> = ({}) => {
                 </div>
             )}
             {openNavMenu && !home && <NavBarMobile />}
-            {openNavMenu && home && <NavbarMobActive />}
+            {openNavMenu && home && (
+                <NavbarMobActive setOpen={setOpenNavMenu} />
+            )}
         </>
     );
 };

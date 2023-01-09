@@ -25,69 +25,71 @@ export const NavBarMobile: FC<Props> = ({}) => {
             <div className="navmobile">
                 <div className="titleNav">Resources</div>
                 <div className="linksNavMob">
-                    <a
-                        href="https://docs.xp.network/"
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        <label className="title">
-                            <img src={docs} /> Docs
-                        </label>
-                    </a>{" "}
-                    <span />
-                    <a
-                        href="https://docs.xp.network/docs/roadmap/"
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        <label className="title">
-                            <img src={roadmap} /> Roadmap
-                        </label>
-                    </a>{" "}
-                    <span />
-                    <a
-                        href="https://docs.xp.network/docs/Whitepaper2.0/introduction/"
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        <label className="title">
-                            <img src={whitepaper} /> White Paper
-                        </label>
-                    </a>{" "}
-                    <span />
-                    <a
-                        href="https://github.com/xp-network/"
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        <label className="title">
-                            <img src={github} /> GitHub
-                        </label>
-                        <div className="git-last--mobile">
-                            <div className="git-last-dot-bg"></div>
-                            <div>Latest {lastCommit}</div>
-                        </div>
-                    </a>
-                    <span />
-                    <a
-                        href="https://blog.xp.network/"
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        <label className="title">
-                            <img src={blog} /> Blog
-                        </label>
-                    </a>
-                    <span />
-                    <a
-                        href="https://xp.network/security/"
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        <label className="title">
-                            <img src={security} /> Security
-                        </label>
-                    </a>
+                    <div className="res-nav">
+                        <a
+                            href="https://docs.xp.network/"
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            <label className="title">
+                                <img src={docs} /> Docs
+                            </label>
+                        </a>{" "}
+                        <span />
+                        <a
+                            href="https://docs.xp.network/docs/roadmap/"
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            <label className="title">
+                                <img src={roadmap} /> Roadmap
+                            </label>
+                        </a>{" "}
+                        <span />
+                        <a
+                            href="https://docs.xp.network/docs/Whitepaper2.0/introduction/"
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            <label className="title">
+                                <img src={whitepaper} /> White Paper
+                            </label>
+                        </a>{" "}
+                        <span />
+                        <a
+                            href="https://github.com/xp-network/"
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            <label className="title">
+                                <img src={github} /> GitHub
+                            </label>
+                            <div className="git-last--mobile">
+                                <div className="git-last-dot-bg"></div>
+                                <div>Latest {lastCommit}</div>
+                            </div>
+                        </a>
+                        <span />
+                        <a
+                            href="https://blog.xp.network/"
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            <label className="title">
+                                <img src={blog} /> Blog
+                            </label>
+                        </a>
+                        <span />
+                        <a
+                            href="https://xp.network/security/"
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            <label className="title">
+                                <img src={security} /> Security
+                            </label>
+                        </a>
+                    </div>
                 </div>
 
                 <a

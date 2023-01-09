@@ -1,8 +1,8 @@
 import classNames from "classnames";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router";
+import { useHref, useNavigate } from "react-router";
 import { BLOCKCHAINS } from "../../assets/ts/Consts";
 import {
     setBlockchain,
@@ -13,8 +13,10 @@ import {
 import { ReduxState } from "../../store/store";
 import "../ConnectedAccountNavbar/activeAccountNavbar.scss";
 import Jazzicon, { jsNumberForAddress } from "react-jazzicon";
+import { useOnClickOutside } from "../../assets/ts/helpers";
 
 export default function AccountChainNav() {
+    const ref = useRef(null);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const homePath = window.location.pathname;
@@ -24,8 +26,11 @@ export default function AccountChainNav() {
 
     const [showDrop, setShowDrop] = useState(false);
 
+    useOnClickOutside(ref, () => setShowDrop(!showDrop));
+
     const handleChangeChain = (chain: string) => {
-        debugger;
+        // debugger;
+
         setShowDrop(false);
         switch (homePath) {
             case "/stake":
@@ -88,13 +93,21 @@ export default function AccountChainNav() {
             <img src={blockchain.img} alt={blockchain.img} />
         </div>
     );
+
+    const buttonEvents = () => {
+        if (showDrop) {
+            return "none";
+        } else if (homePath === "/" && !evmAccount) {
+            return "none";
+        } else return "auto";
+    };
+
     return (
         <div className="chainAndAccountContainer">
             <div className="dropWraper">
                 <button
                     style={{
-                        pointerEvents:
-                            homePath === "/" && !evmAccount ? "none" : "auto",
+                        pointerEvents: buttonEvents(),
                     }}
                     onClick={() => setShowDrop(!showDrop)}
                     className="dropdown"
@@ -103,7 +116,7 @@ export default function AccountChainNav() {
                 </button>
 
                 {showDrop && (
-                    <div className="item">
+                    <div ref={ref} className="item">
                         {BLOCKCHAINS.filter(
                             (c) => c.chain !== blockchain.chain
                         ).map((c, i) => {

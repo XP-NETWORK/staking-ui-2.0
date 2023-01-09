@@ -16,6 +16,7 @@
     flex-direction: row;
     align-items: center;
     margin-top: 18px;
+    margin-left: auto;
 }
 
 .activeNavLink {
@@ -55,7 +56,7 @@
         align-items: center;
         padding: 10px 12px;
         gap: 12px;
-        height: 20px;
+        height: 26px;
         background: rgba(255, 255, 255, 0.03);
         border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 8px;
@@ -69,7 +70,7 @@
         flex-direction: row;
         align-items: center;
         justify-content: center;
-        height: auto;
+        height: 48px;
         width: auto;
         border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 8px;

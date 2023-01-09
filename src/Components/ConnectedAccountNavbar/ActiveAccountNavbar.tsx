@@ -38,7 +38,7 @@ export const ActiveAccountNavbar: FC<{}> = () => {
 
     return (
         <div className="activeWrapper">
-            {blockchain.chain !== "BSC" ? (
+            {/* {blockchain.chain !== "BSC" ? (
                 <Link
                     style={claimLinkStyle}
                     to={"/stake"}
@@ -79,7 +79,7 @@ export const ActiveAccountNavbar: FC<{}> = () => {
                 }`}
             >
                 NFT Collection
-            </Link>
+            </Link> */}
             <AccountChainNav />
         </div>
     );

@@ -108,7 +108,7 @@ const MyAlgo = ({ connect }: Props) => {
     const navigate = useNavigate();
 
     const handleClick = async () => {
-        debugger;
+        // debugger;
         let account = await connect("MyAlgo");
         dispatch(setAccount(account.address));
         dispatch(setSigner(account.signer));
