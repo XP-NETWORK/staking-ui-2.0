@@ -48,19 +48,21 @@ button,
     display: none;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 768px) {
     .navbar {
         width: 100vw;
         height: 60px;
+        margin-bottom: 100px;
     }
     .navLinksWrapper {
         display: none;
     }
     .navWrapper {
         align-items: flex-end;
-        width: calc(100% - 20px);
+        // width: calc(100% - 20px);
         margin: 0 auto;
     }
+
     .menuIcon {
         display: flex;
         flex-direction: row;

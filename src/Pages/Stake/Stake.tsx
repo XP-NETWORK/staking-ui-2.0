@@ -522,7 +522,6 @@ export const Stake: FC<Props> = ({}) => {
                     </div>
                 </div>
                 <StakingHistory />
-                {/* <TableContainer /> */}
             </>
         );
 };

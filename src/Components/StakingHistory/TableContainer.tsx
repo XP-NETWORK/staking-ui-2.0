@@ -24,9 +24,9 @@ export const TableContainer: FC<Props> = ({}) => {
                 </tr>
             </thead>
             <tbody>
-                {fetchedAlgoStakes?.map((stake: IFetchedStake) => (
+                {/* {fetchedAlgoStakes?.map((stake: IFetchedStake) => (
                     <TableRow stake={stake} />
-                ))}
+                ))} */}
             </tbody>
         </Table>
     );
