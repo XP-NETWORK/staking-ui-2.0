@@ -714,6 +714,6 @@ getTotalStaked();
 export const formatTheNumber = (num: number) => {
     // console.log({ num });
     return new Intl.NumberFormat("en-us", {
-        minimumFractionDigits: 2,
+        minimumFractionDigits: 0,
     }).format(num);
 };

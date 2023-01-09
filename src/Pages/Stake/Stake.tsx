@@ -12,6 +12,7 @@ import {
     setErrorModal,
     setFetchedAlgoStakes,
     setStakeDetails,
+    setStakingNotification,
     setXPNetPrice,
 } from "../../store/reducer/homePageSlice";
 import {
@@ -47,9 +48,7 @@ import { ThreeCircles } from "react-loader-spinner";
 import moment from "moment";
 import StakingPeriods from "../../Components/StakingPeriods/StakingPeriods";
 import { createPortal } from "react-dom";
-import { setInterval } from "timers/promises";
 import { StakingHistory } from "../../Components/StakingHistory/StakingHistory";
-import { TableContainer } from "../../Components/StakingHistory/TableContainer";
 
 type NoXpNetModalProps = {
     children: ReactNode;
@@ -133,7 +132,7 @@ export const Stake: FC<Props> = ({}) => {
     };
 
     const algoRewardsAndStakes = async () => {
-        debugger;
+        // debugger;
         let stakes = await getAllAlgoStakes(account);
         let int;
         if (!stakes) {
@@ -156,7 +155,12 @@ export const Stake: FC<Props> = ({}) => {
                 algoDetails
             );
 
-            _stake = { txID: resp.txID, txInfo: resp.txInfo };
+            _stake = {
+                txID: resp.txID,
+                txInfo: resp.txInfo,
+                amount: Number(amount),
+                details: algoDetails,
+            };
             dispatch(setActiveSessionStakes(_stake));
 
             if (_stake) {
@@ -169,10 +173,12 @@ export const Stake: FC<Props> = ({}) => {
                     navigate(`/rewards`);
                 } else if (_fetchedStakes?.length > 0) {
                     dispatch(setFetchedAlgoStakes(_fetchedStakes));
-                    navigate(`/rewards`);
+                    // navigate(`/rewards`);
                 }
             }
+            dispatch(setStakingNotification("success"));
         } catch (error) {
+            dispatch(setStakingNotification("fail"));
             console.log(error);
         }
         setLoader(false);

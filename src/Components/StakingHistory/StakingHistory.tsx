@@ -36,18 +36,20 @@ export const StakingHistory: FC<Props> = ({}) => {
                                 <th></th>
                             </tr>
                         </thead>
-                        {fetchedAlgoStakes.map(
-                            (stake: IFetchedStake, index: number) => {
-                                // console.log({ index });
-                                return (
-                                    <TableRow
-                                        stake={stake}
-                                        cell={index}
-                                        key={stake.id}
-                                    />
-                                );
-                            }
-                        )}
+                        <tbody>
+                            {fetchedAlgoStakes.map(
+                                (stake: IFetchedStake, index: number) => {
+                                    // console.log({ index });
+                                    return (
+                                        <TableRow
+                                            stake={stake}
+                                            cell={index}
+                                            key={`${index} txId: ${stake.txId}`}
+                                        />
+                                    );
+                                }
+                            )}
+                        </tbody>
                     </table>
                 </div>
             </div>

@@ -23,6 +23,8 @@ export interface IEVMStake {
 export interface IActiveSessionSTake {
     txID: string;
     txInfo: any;
+    amount: number;
+    details: {};
 }
 
 export interface IFetchedStake {

@@ -20,6 +20,7 @@ import bgMob from "./assets/images/mob/bg.png";
 import classNames from "classnames";
 import { fetchXPUpdate } from "./assets/ts/helpers";
 import FetchingComponent from "./Components/DataFetching/FetchingComponent";
+import { StakeNotificationBody } from "./Components/Modals/StakeNotificationBody";
 
 type ModalProps = {
     children: ReactNode;
@@ -27,6 +28,24 @@ type ModalProps = {
 
 function BSCStakeLimitModal({ children }: ModalProps) {
     const modalRoot = document.querySelector("#limit-modal") as HTMLElement;
+
+    const elRef = useRef<HTMLDivElement | null>(null);
+    if (!elRef.current) elRef.current = document.createElement("div");
+
+    useEffect(() => {
+        const el = elRef.current!; // non-null assertion because it will never be null
+        modalRoot?.appendChild(el);
+        // return () => {
+        //     modalRoot.removeChild(el);
+        // };
+    }, []);
+    return createPortal(children, elRef.current);
+}
+
+function StakeNotification({ children }: ModalProps) {
+    const modalRoot = document.querySelector(
+        "#stake-notification-modal"
+    ) as HTMLElement;
 
     const elRef = useRef<HTMLDivElement | null>(null);
     if (!elRef.current) elRef.current = document.createElement("div");
@@ -77,9 +96,12 @@ function App() {
 
     // const [lastCommit, setLastCommit] = useState<string | void>("");
 
-    const { showConnectModal, showErrorModal, showLimitModal } = useSelector(
-        (state: ReduxState) => state.homePage
-    );
+    const {
+        showConnectModal,
+        showErrorModal,
+        showLimitModal,
+        stakingNotification,
+    } = useSelector((state: ReduxState) => state.homePage);
 
     // const getBalance = async () => {
     //     const balance = await getXpNetBalance(stakingClient);
@@ -133,7 +155,14 @@ function App() {
                         <LimitModalBody />
                     </BSCStakeLimitModal>
                 )}
-
+                <div id="stake-notification-modal"></div>
+                {stakingNotification && (
+                    <StakeNotification>
+                        <StakeNotificationBody
+                            notification={stakingNotification}
+                        />
+                    </StakeNotification>
+                )}
                 <Routes>
                     <Route path="/" element={<Main />}>
                         <Route index element={<Home />} />

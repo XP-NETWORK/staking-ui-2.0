@@ -44,6 +44,7 @@ export interface IHomePage {
     evmBalance: number | undefined;
     collections: INFTURI[];
     refreshTheAlgoRewards: boolean;
+    stakingNotification: string | undefined;
 }
 
 const initialState: IHomePage = {
@@ -74,12 +75,16 @@ const initialState: IHomePage = {
     collections: [],
     showNotifyModal: false,
     refreshTheAlgoRewards: false,
+    stakingNotification: undefined,
 };
 
 const homePageSlice = createSlice({
     name: "homePage",
     initialState,
     reducers: {
+        setStakingNotification(state, action) {
+            state.stakingNotification = action.payload;
+        },
         setRefreshTheAlgoRewards(state: any) {
             state.refreshTheAlgoRewards = !state.refreshTheAlgoRewards;
         },
@@ -225,6 +230,7 @@ export const {
     setConnectedWallet,
     setAlgoDetails,
     setLimitModal,
+    setStakingNotification,
 } = homePageSlice.actions;
 
 export default homePageSlice;
