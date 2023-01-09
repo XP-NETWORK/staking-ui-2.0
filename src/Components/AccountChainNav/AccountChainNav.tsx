@@ -86,7 +86,6 @@ export default function AccountChainNav() {
     let title = (
         <div className="ddItem">
             <img src={blockchain.img} alt={blockchain.img} />
-            {blockchain.chain}
         </div>
     );
     return (

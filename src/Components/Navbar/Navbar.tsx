@@ -1,8 +1,10 @@
 import React, { FC, useEffect, useState } from "react";
 import xpLogo from "../../assets/images/xpnet-stake-logo.svg";
 import xpLogoMob from "../../assets/images/mob/xpnet-stake-logo.svg";
-import hamburgerIcon from "../../assets/images/mob/menu.svg";
-import CloseMenuIcon from "../../assets/images/mob/close-menu.svg";
+// import hamburgerIcon from "../../assets/images/mob/menu.svg";
+import burger from "../../assets/images/burger.svg";
+import closemenu from "../../assets/images/closeMenu.svg";
+// import CloseMenuIcon from "../../assets/images/mob/close-menu.svg";
 
 import linkedin from "../../assets/images/menu icons/linkedin icon.svg";
 import telegram from "../../assets/images/menu icons/telegram icon.svg";
@@ -12,7 +14,7 @@ import classNames from "classnames";
 
 import "./navbar.scss";
 import { PopupNav } from "../PopupNav/PopupNav";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { NavBarMobile } from "../NavbarMob/NavBarMobile";
 import { ActiveAccountNavbar } from "../ConnectedAccountNavbar/ActiveAccountNavbar";
 import { ReduxState } from "../../store/store";
@@ -40,7 +42,8 @@ export const Navbar: FC<Props> = ({}) => {
     }, [account, evmAccount]);
 
     const navigate = useNavigate();
-
+    const location = useLocation();
+    const home = location.pathname === "/";
     const handleClickLogo = () => {
         navigate("/");
     };
@@ -76,7 +79,7 @@ export const Navbar: FC<Props> = ({}) => {
                             >
                                 Community
                             </a>
-                            <div className="navMediaWrapper">
+                            {/* <div className="navMediaWrapper">
                                 <a
                                     href="https://il.linkedin.com/company/xpnetwork"
                                     target="_blank"
@@ -105,7 +108,7 @@ export const Navbar: FC<Props> = ({}) => {
                                 >
                                     <img src={redit} alt="redit" />
                                 </a>
-                            </div>
+                            </div> */}
                         </div>
                     )}
                     {ACTIVE && (
@@ -113,13 +116,26 @@ export const Navbar: FC<Props> = ({}) => {
                             <ActiveAccountNavbar />
                         </div>
                     )}
-                    <button
+                    <div
                         className="menuIcon"
                         onClick={() => setOpenNavMenu(!openNavMenu)}
                     >
-                        {!openNavMenu && (
+                        {!openNavMenu ? (
                             <img
-                                className={classNames("mobOnly")}
+                                // className={classNames("desktopOnly")}
+                                src={burger}
+                                alt="menu"
+                            />
+                        ) : (
+                            <img
+                                // className={classNames("mobOnly")}
+                                src={closemenu}
+                                alt="close-menu"
+                            />
+                        )}
+                        {/* {!openNavMenu && (
+                            <img
+                                className={classNames("desktopOnly")}
                                 src={hamburgerIcon}
                                 alt="menu"
                             />
@@ -130,8 +146,8 @@ export const Navbar: FC<Props> = ({}) => {
                                 src={CloseMenuIcon}
                                 alt="close-menu"
                             />
-                        )}
-                    </button>
+                        )} */}
+                    </div>
                 </div>
             </div>
             {openResources && (
@@ -142,8 +158,8 @@ export const Navbar: FC<Props> = ({}) => {
                     <AccountChainNav />
                 </div>
             )}
-            {openNavMenu && !ACTIVE && <NavBarMobile />}
-            {openNavMenu && ACTIVE && <NavbarMobActive />}
+            {openNavMenu && !home && <NavBarMobile />}
+            {openNavMenu && home && <NavbarMobActive />}
         </>
     );
 };

@@ -21,7 +21,7 @@ export const NavbarMobActive: FC<Props> = ({}) => {
     return (
         <>
             <div className="navmobile">
-                <div className="activeWrapperMob">
+                {/* <div className="activeWrapperMob">
                     <Link to="/stake" className="activeNavLink">
                         Stake XPNET
                     </Link>
@@ -32,7 +32,7 @@ export const NavbarMobActive: FC<Props> = ({}) => {
                         NFT Collection
                     </Link>
                 </div>
-                <label className="line" />
+                <label className="line" /> */}
                 <div className="activeWrapperMob">
                     <a
                         href="https://xp.network/"
@@ -52,8 +52,8 @@ export const NavbarMobActive: FC<Props> = ({}) => {
                     </a>
                 </div>
 
-                <label className="line" />
-                <div className="navMediaWrapperMob">
+                {/* <label className="line" /> */}
+                {/* <div className="navMediaWrapperMob">
                     <a
                         href="https://il.linkedin.com/company/xpnetwork"
                         target="_blank"
@@ -82,7 +82,7 @@ export const NavbarMobActive: FC<Props> = ({}) => {
                     >
                         <img src={redit} alt="redit" />
                     </a>
-                </div>
+                </div> */}
             </div>
         </>
     );
