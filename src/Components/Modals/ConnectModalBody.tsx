@@ -15,6 +15,7 @@ import { useOnClickOutside } from "../../assets/ts/helpers";
 import { useDispatch } from "react-redux";
 import { setConnectModalShow } from "../../store/reducer/homePageSlice";
 import "./../../Components/Connect/connect.scss";
+import PDF from "../../assets/Terms.pdf";
 
 interface Props {}
 
@@ -71,10 +72,15 @@ export default function ConnectModalBody({}: Props) {
                     )}
                 </div>
                 <p>
-                    By connecting a wallet, you agree to XPNET’s{" "}
-                    <span>Terms of Service</span> and acknowledge that you have
-                    read and understand the{" "}
-                    <span>XPNET protocol disclaimer</span>.
+                    By connecting a wallet, you acknowledge that you read,
+                    understand, and agree to XPNET's
+                    <span>
+                        {" "}
+                        <a href={PDF} target="_blank" rel="noreferrer">
+                            Terms of Service
+                        </a>
+                    </span>
+                    .
                 </p>
             </div>
         </div>

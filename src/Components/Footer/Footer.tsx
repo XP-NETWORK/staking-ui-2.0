@@ -19,7 +19,7 @@ export const Footer: FC<Props> = () => {
                 <SocIcons />
             </div>
             <div className="all-rights">
-                <span>© 2022 XP.NETWORK Ltd.</span>
+                <span>© 2023 XP.NETWORK Ltd.</span>
                 <span>All Rights Reserved</span>
             </div>
         </div>

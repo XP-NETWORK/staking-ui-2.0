@@ -31,7 +31,12 @@
         letter-spacing: 0.03em;
         color: rgba(255, 255, 255, 0.56);
         border-radius: 6px;
-        span {
+        span,
+        a {
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 150%;
+            letter-spacing: 0.03em;
             color: #288bfe;
         }
     }
