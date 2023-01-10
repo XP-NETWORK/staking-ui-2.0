@@ -103,7 +103,7 @@ export default function AlgoNFTActions({ index, nfts }: Props) {
             >
                 Opt-In
             </div> */}
-            {nfts[0]?.isClaimed ? (
+            {nfts[index]?.isClaimed ? (
                 <div
                     style={claimStyle}
                     onClick={handleClaim}
