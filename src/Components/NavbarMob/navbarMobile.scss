@@ -102,3 +102,10 @@
         );
     }
 }
+
+@media screen and (max-width: 768px) {
+    .navmobile {
+        top: 64px;
+        right: 10px;
+    }
+}
