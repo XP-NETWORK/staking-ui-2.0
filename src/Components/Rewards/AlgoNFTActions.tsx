@@ -27,26 +27,46 @@ export default function AlgoNFTActions({ index, nfts }: Props) {
 
     const [claimBtnDisabled, setClaimDisabled] = useState(false);
 
-    const handleOptIn = async () => {
-        setOptInDisabled(true);
+    // const handleOptIn = async () => {
+    //     setOptInDisabled(true);
+    //     try {
+    //         const txId = await optInAsset(
+    //             account,
+    //             nfts[index]?.assetId,
+    //             signer,
+    //             stakingClient,
+    //             connectedWallet
+    //         );
+    //         if (txId) setIsOptIn(true);
+    //         setOptInDisabled(false);
+    //     } catch (error) {
+    //         console.log(error);
+    //         setOptInDisabled(false);
+    //     }
+    // };
+
+    const handleClaim = async () => {
+        // debugger;
+        let txId: string;
+        setClaimDisabled(true);
         try {
-            const txId = await optInAsset(
+            txId = await optInAsset(
                 account,
                 nfts[index]?.assetId,
                 signer,
                 stakingClient,
                 connectedWallet
             );
-            if (txId) setIsOptIn(true);
-            setOptInDisabled(false);
+            console.log("nft", nfts[index]?.assetId, "tx: ", txId);
+            if (txId) {
+                setIsOptIn(true);
+                // setOptInDisabled(false);
+            }
         } catch (error) {
             console.log(error);
-            setOptInDisabled(false);
+            // setOptInDisabled(false);
         }
-    };
 
-    const handleClaim = async () => {
-        setClaimDisabled(true);
         const res = await transferOptedInAsset(nfts[index]?.assetId, account);
         if (res) {
             dispatch(updateClaimedNft(nfts[index]?.txId));
@@ -61,10 +81,10 @@ export default function AlgoNFTActions({ index, nfts }: Props) {
     };
     isAssetOptIn();
 
-    const optInStyle: React.CSSProperties = {
-        pointerEvents: optInBtnDisabled ? "none" : "auto",
-        opacity: optInBtnDisabled ? "0.6" : "1",
-    };
+    // const optInStyle: React.CSSProperties = {
+    //     pointerEvents: optInBtnDisabled ? "none" : "auto",
+    //     opacity: optInBtnDisabled ? "0.6" : "1",
+    // };
     const claimStyle: React.CSSProperties = {
         pointerEvents: claimBtnDisabled ? "none" : "auto",
         opacity: claimBtnDisabled ? "0.6" : "1",
@@ -75,21 +95,19 @@ export default function AlgoNFTActions({ index, nfts }: Props) {
     return (
         <div className="nft-actions">
             <ClipboardCopy index={index} item={nfts[index]} />
-            <div
+            {/* <div
                 style={optInStyle}
-                onClick={handleOptIn}
+                // onClick={handleOptIn}
                 className={`nft-actions-button${isOptIn ? "--disabled" : ""}`}
             >
                 Opt-In
-            </div>
+            </div> */}
             <div
                 style={claimStyle}
                 onClick={handleClaim}
                 className={
-                    isOptIn
-                        ? `nft-actions-button${
-                              nfts[index]?.isClaimed ? "--disabled" : ""
-                          }`
+                    !isOptIn
+                        ? "nft-actions-button"
                         : "nft-actions-button--unoptined"
                 }
             >

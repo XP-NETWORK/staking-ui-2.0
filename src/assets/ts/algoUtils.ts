@@ -452,6 +452,7 @@ export const getMonths = (duration: number) => {
 };
 
 export const checkIfOpIn = async (assetId: number, owner: string) => {
+    // debugger;
     let isOptIn: any;
     try {
         isOptIn = await algod.accountAssetInformation(owner, assetId).do();
@@ -470,7 +471,7 @@ export const optInAsset = async (
     wallet: string
 ) => {
     try {
-        debugger;
+        // debugger;
         let signedTx: any;
         let params = await client.client.getTransactionParams().do();
         params.fee = 7_000;

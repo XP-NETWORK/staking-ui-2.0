@@ -350,6 +350,7 @@
     background: rgba(255, 255, 255, 0.04);
 }
 .clipboard__wrapper {
+    width: 60%;
     display: flex;
     gap: 10px;
 }
@@ -460,7 +461,8 @@
     gap: 12px;
 }
 .nft-actions-button {
-    width: 100px;
+    // width: 100px;
+    flex-basis: 40%;
     background: #2388ff;
     border-radius: 6px;
     display: flex;
@@ -475,7 +477,8 @@
     user-select: none;
 }
 .nft-actions-button--unoptined {
-    width: 100px;
+    // width: 100px;
+    flex-basis: 40%;
     background: rgba(255, 255, 255, 0.04);
     color: #959596;
     border-radius: 6px;
@@ -529,7 +532,7 @@
         padding: 16px;
     }
     .copyContainer {
-        width: 68%;
+        width: 60%;
     }
     .container {
         height: auto;
@@ -682,12 +685,19 @@
 @media screen and (max-width: 768px) {
     .containerLeft {
         width: unset;
+        width: 100%;
     }
     .containerRight {
         width: 100%;
     }
     .stakeWrapper {
         gap: 20px;
+    }
+    .copyContainer {
+        width: 80%;
+    }
+    .nft-actions-button,
+    .nft-actions-button--unoptined {
     }
 }
 
