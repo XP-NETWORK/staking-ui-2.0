@@ -47,7 +47,7 @@ export const Navbar: FC<Props> = ({}) => {
         <>
             <div className="navbar">
                 <div className="navWrapper">
-                    {window.innerWidth < 319 ? (
+                    {window.innerWidth > 319 ? (
                         <img
                             // className={classNames("logo", "deskOnly")}
                             src={xpLogo}
