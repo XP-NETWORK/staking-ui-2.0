@@ -1,15 +1,7 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 import xpLogo from "../../assets/images/xpnet-stake-logo.svg";
 import xpLogoMob from "../../assets/images/mob/xpnet-stake-logo.svg";
-// import hamburgerIcon from "../../assets/images/mob/menu.svg";
-import burger from "../../assets/images/burger.svg";
-import closemenu from "../../assets/images/closeMenu.svg";
-// import CloseMenuIcon from "../../assets/images/mob/close-menu.svg";
 
-import linkedin from "../../assets/images/menu icons/linkedin icon.svg";
-import telegram from "../../assets/images/menu icons/telegram icon.svg";
-import twitter from "../../assets/images/menu icons/twitter icon.svg";
-import redit from "../../assets/images/menu icons/redit icon.svg";
 import classNames from "classnames";
 
 import "./navbar.scss";
@@ -22,7 +14,7 @@ import { useSelector } from "react-redux";
 import { NavbarMobActive } from "../NavbarMobActive/NavBarMobActive";
 import AccountChainNav from "../AccountChainNav/AccountChainNav";
 import { Spin as Hamburger } from "hamburger-react";
-import { useOnClickOutside } from "../../assets/ts/helpers";
+import "../NavbarMob/navbarMobile.scss";
 
 interface Props {}
 
@@ -47,6 +39,7 @@ export const Navbar: FC<Props> = ({}) => {
     const navigate = useNavigate();
     const location = useLocation();
     const home = location.pathname === "/";
+    const gallery = location.pathname === "/gallery";
     const handleClickLogo = () => {
         navigate("/");
     };
@@ -174,8 +167,10 @@ export const Navbar: FC<Props> = ({}) => {
                     <AccountChainNav />
                 </div>
             )}
-            {openNavMenu && !home && <NavBarMobile setOpen={setOpenNavMenu} />}
-            {openNavMenu && home && (
+            {openNavMenu && account && (
+                <NavBarMobile setOpen={setOpenNavMenu} />
+            )}
+            {openNavMenu && (home || gallery) && !account && (
                 <NavbarMobActive setOpen={setOpenNavMenu} />
             )}
         </>

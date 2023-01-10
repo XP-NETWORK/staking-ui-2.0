@@ -1,4 +1,4 @@
-import React, { FC, useRef } from "react";
+import React, { FC, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import "./navbarMobActive.scss";
 import docs from "../../assets/images/mob/menu icons/Docs.svg";
@@ -24,9 +24,11 @@ interface Props {
 }
 
 export const NavbarMobActive: FC<Props> = ({ setOpen }) => {
-    const { account, blockchain, balance, evmStakes } = useSelector(
+    const { account, blockchain, balance, evmStakes, lastCommit } = useSelector(
         (state: ReduxState) => state.homePage
     );
+    const [isShown, setIsShown] = useState(false);
+
     const dispatch = useDispatch();
     const ref = useRef(null);
     useOnClickOutside(ref, () => setOpen(false));
@@ -79,63 +81,72 @@ export const NavbarMobActive: FC<Props> = ({ setOpen }) => {
                         Stake XPNET
                     </div>
                 )} */}
-                {account && (
-                    <>
-                        <Link
-                            onClick={() =>
-                                blockchain.chain !== "BSC"
-                                    ? dispatch(setLimitModal(true))
-                                    : null
-                            }
-                            style={claimLinkStyle}
-                            to={"/stake"}
-                            className={`activeNavLink ${
-                                route === "/stake" ? "active-link" : ""
-                            }`}
-                        >
-                            Stake XPNET
-                        </Link>
-                        <Link
-                            style={claimLinkStyle}
-                            to={
-                                blockchain.chain === "BSC" && !evmStakes
-                                    ? "error"
-                                    : "/rewards"
-                            }
-                            className={`activeNavLink ${
-                                route === "/rewards" ? "active-link" : ""
-                            }`}
-                        >
-                            Claim XPNET
-                        </Link>
-                        <Link
-                            to="/gallery"
-                            className={`activeNavLink ${
-                                route === "/gallery" ? "active-link" : ""
-                            }`}
-                        >
-                            NFT Collection
-                        </Link>
-                    </>
-                )}
                 <label className="line" />
                 <div className="activeWrapperMob">
+                    {account && (
+                        <>
+                            <Link
+                                onClick={() =>
+                                    blockchain.chain !== "BSC"
+                                        ? dispatch(setLimitModal(true))
+                                        : null
+                                }
+                                style={claimLinkStyle}
+                                to={"/stake"}
+                                className={`activeNavLink ${
+                                    route === "/stake" ? "active-link" : ""
+                                }`}
+                            >
+                                Stake XPNET
+                            </Link>
+                            <Link
+                                style={claimLinkStyle}
+                                to={
+                                    blockchain.chain === "BSC" && !evmStakes
+                                        ? "error"
+                                        : "/rewards"
+                                }
+                                className={`activeNavLink ${
+                                    route === "/rewards" ? "active-link" : ""
+                                }`}
+                            >
+                                Claim XPNET
+                            </Link>
+                            <Link
+                                to="/gallery"
+                                className={`activeNavLink ${
+                                    route === "/gallery" ? "active-link" : ""
+                                }`}
+                            >
+                                NFT Collection
+                            </Link>
+                        </>
+                    )}
+                    <Link to="/">Home</Link>
                     <a
                         href="https://xp.network/"
                         target="_blank"
                         rel="noreferrer"
-                        className="activeNavLink"
+                        className="nav-link"
                     >
                         XP.NETWORK
                     </a>
                     <a
-                        href="https://xp.network/community/"
-                        className="activeNavLink"
+                        href="https://token.bridge.xp.network"
+                        className="nav-link"
                         target="_blank"
                         rel="noreferrer"
                     >
-                        Community
+                        XPNET Bridge
                     </a>
+                    <Link
+                        to="/gallery"
+                        className={`nav-link ${
+                            route === "/gallery" ? "active-link" : ""
+                        }`}
+                    >
+                        NFT Collection
+                    </Link>
                 </div>
 
                 {/* <label className="line" /> */}
