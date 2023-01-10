@@ -21,6 +21,8 @@ import classNames from "classnames";
 import { fetchXPUpdate } from "./assets/ts/helpers";
 import FetchingComponent from "./Components/DataFetching/FetchingComponent";
 import { StakeNotificationBody } from "./Components/Modals/StakeNotificationBody";
+import { useWeb3Modal } from "@web3modal/react";
+import { useAccount } from "wagmi";
 
 type ModalProps = {
     children: ReactNode;
@@ -93,8 +95,9 @@ function ConnectModal({ children }: ModalProps) {
 function App() {
     const dispatch = useDispatch();
     const balanceInt = useRef<number | null>(null);
-
+    const { isOpen, open, close } = useWeb3Modal();
     // const [lastCommit, setLastCommit] = useState<string | void>("");
+    const { address, isConnecting, isDisconnected } = useAccount();
 
     const {
         showConnectModal,
@@ -129,6 +132,9 @@ function App() {
             dispatch(setLastCommit(commit));
         };
         getGitUpdate();
+        return () => {
+            if (address) window.localStorage.clear();
+        };
     }, []);
 
     return (

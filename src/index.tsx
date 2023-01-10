@@ -7,13 +7,49 @@ import { Provider } from "react-redux";
 
 import reportWebVitals from "./reportWebVitals";
 import { Web3Modal } from "@web3modal/react";
-import { ethereumClient, wcId } from "./Components/Wallets/walletConnectors";
+import {
+    chains,
+    // ethereumClient,
+    wcId,
+} from "./Components/Wallets/walletConnectors";
+import {
+    EthereumClient,
+    modalConnectors,
+    walletConnectProvider,
+} from "@web3modal/ethereum";
 import Modal from "react-bootstrap/Modal";
-// import ConnectModal from "./Components/Modals/ConnectModal";
+import { configureChains, createClient, WagmiConfig } from "wagmi";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
 );
+const { provider } = configureChains(chains, [
+    walletConnectProvider({ projectId: wcId }),
+]);
+
+const wagmiClient = createClient({
+    autoConnect: false,
+    connectors: modalConnectors({
+        appName: "XP.NETWORK Staking Platform",
+        chains,
+    }),
+    provider,
+});
+
+const ethereumClient = new EthereumClient(wagmiClient, chains);
+
+// const modalConfig = {
+//     theme: "dark",
+//     accentColor: "default",
+//     ethereum: {
+//         appName: "XP.NETWORK Staking Platform",
+//         chains: chains,
+//         providers: [chains],
+//         autoConnect: false,
+//     },
+//     projectId: wcId,
+// };
+
 root.render(
     <Provider store={store}>
         <App />

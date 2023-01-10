@@ -13,10 +13,10 @@ import { getAmountOfEVMTokensStaked } from "../../assets/ts/evmUtils";
 const WalletConnect = ({ connect }: { connect: Function }) => {
     const dispatch = useDispatch();
     const { address, isConnecting, isDisconnected } = useAccount();
-    console.log(
-        "🚀 ~ file: WalletConnect.tsx:16 ~ WalletConnect ~ address",
-        address
-    );
+    // console.log(
+    //     "🚀 ~ file: WalletConnect.tsx:16 ~ WalletConnect ~ address",
+    //     address
+    // );
     const provider = useProvider();
 
     const stakeContract = useContract({
@@ -32,16 +32,16 @@ const WalletConnect = ({ connect }: { connect: Function }) => {
     //     args: [address],
     // });
 
-    const xpNetContract = useContract({
-        address: process.env.REACT_APP_XPNET_TOKEN as string,
-        abi: xpNetToken,
-        signerOrProvider: provider,
-    });
+    // const xpNetContract = useContract({
+    //     address: process.env.REACT_APP_XPNET_TOKEN as string,
+    //     abi: xpNetToken,
+    //     signerOrProvider: provider,
+    // });
 
-    const { open } = useWeb3Modal();
+    const { isOpen, open, close } = useWeb3Modal();
 
     const handleClick = async () => {
-        if (!address) open();
+        if (!address) await open();
         else dispatch(setEvmAccount(address));
     };
 

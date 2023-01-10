@@ -201,8 +201,9 @@ button {
 
 @media screen and (max-width: 768px) {
     .bg {
+        position: absolute;
         top: -20px;
-        right: 0px;
+        right: -100px;
         width: 170%;
     }
 }

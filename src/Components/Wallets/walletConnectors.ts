@@ -40,7 +40,7 @@ const BSC = {
     testnet: false,
 };
 
-const chains = [BSC];
+export const chains = [BSC];
 
 export const wcId = process.env.REACT_APP_WC_PROJECT_ID as string;
 
