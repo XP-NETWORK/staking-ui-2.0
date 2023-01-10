@@ -13,6 +13,10 @@ import { getAmountOfEVMTokensStaked } from "../../assets/ts/evmUtils";
 const WalletConnect = ({ connect }: { connect: Function }) => {
     const dispatch = useDispatch();
     const { address, isConnecting, isDisconnected } = useAccount();
+    console.log(
+        "🚀 ~ file: WalletConnect.tsx:16 ~ WalletConnect ~ address",
+        address
+    );
     const provider = useProvider();
 
     const stakeContract = useContract({

@@ -50,7 +50,10 @@ const { provider } = configureChains(chains, [
 
 export const wagmiClient = createClient({
     autoConnect: true,
-    connectors: modalConnectors({ appName: "web3Modal", chains }),
+    connectors: modalConnectors({
+        appName: "XP.NETWORK  STAKE",
+        chains,
+    }),
     provider,
 });
 
