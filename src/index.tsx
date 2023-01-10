@@ -9,6 +9,7 @@ import reportWebVitals from "./reportWebVitals";
 import { Web3Modal } from "@web3modal/react";
 import {
     chains,
+    ethereumClient,
     // ethereumClient,
     wcId,
 } from "./Components/Wallets/walletConnectors";
@@ -23,20 +24,20 @@ import { configureChains, createClient, WagmiConfig } from "wagmi";
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
 );
-const { provider } = configureChains(chains, [
-    walletConnectProvider({ projectId: wcId }),
-]);
+// const { provider } = configureChains(chains, [
+//     walletConnectProvider({ projectId: wcId }),
+// ]);
 
-const wagmiClient = createClient({
-    autoConnect: false,
-    connectors: modalConnectors({
-        appName: "XP.NETWORK Staking Platform",
-        chains,
-    }),
-    provider,
-});
+// const wagmiClient = createClient({
+//     autoConnect: false,
+//     connectors: modalConnectors({
+//         appName: "XP.NETWORK Staking Platform",
+//         chains,
+//     }),
+//     provider,
+// });
 
-const ethereumClient = new EthereumClient(wagmiClient, chains);
+// const ethereumClient = new EthereumClient(wagmiClient, chains);
 
 // const modalConfig = {
 //     theme: "dark",
@@ -53,7 +54,10 @@ const ethereumClient = new EthereumClient(wagmiClient, chains);
 root.render(
     <Provider store={store}>
         <App />
-        <Web3Modal projectId={wcId} ethereumClient={ethereumClient} />
+        <Web3Modal
+            projectId="0b0db02a079df1074ba0634f3c97f92e"
+            ethereumClient={ethereumClient as any}
+        />
     </Provider>
 );
 

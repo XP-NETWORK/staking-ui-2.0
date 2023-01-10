@@ -17,10 +17,10 @@ import {
     modalConnectors,
     walletConnectProvider,
 } from "@web3modal/ethereum";
-
+import { avalanche, bsc, mainnet } from "wagmi/chains";
 import { Web3Modal } from "@web3modal/react";
 
-import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
+import { configureChains, createClient, WagmiConfig } from "wagmi";
 
 const BSC = {
     id: 56,
@@ -44,21 +44,22 @@ export const chains = [BSC];
 
 export const wcId = process.env.REACT_APP_WC_PROJECT_ID as string;
 
-const { provider } = configureChains(chains, [
-    walletConnectProvider({ projectId: wcId }),
-]);
+const { provider } = configureChains(
+    [avalanche, bsc, mainnet],
+    [walletConnectProvider({ projectId: "0b0db02a079df1074ba0634f3c97f92e" })]
+);
 
 export const wagmiClient = createClient({
-    autoConnect: true,
+    autoConnect: false,
     connectors: modalConnectors({
-        appName: "XP.NETWORK  STAKE",
-        chains,
+        appName: "XP.NETWORK_STAKE",
+        chains: [bsc],
     }),
     provider,
 });
 
 // Web3Modal Ethereum Client
-export const ethereumClient = new EthereumClient(wagmiClient, chains);
+export const ethereumClient = new EthereumClient(wagmiClient, [bsc]);
 
 const { InjectedConnector } = Connectors;
 
