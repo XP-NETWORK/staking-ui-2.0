@@ -174,7 +174,7 @@ export const Navbar: FC<Props> = ({}) => {
                     <AccountChainNav />
                 </div>
             )}
-            {openNavMenu && !home && <NavBarMobile />}
+            {openNavMenu && !home && <NavBarMobile setOpen={setOpenNavMenu} />}
             {openNavMenu && home && (
                 <NavbarMobActive setOpen={setOpenNavMenu} />
             )}

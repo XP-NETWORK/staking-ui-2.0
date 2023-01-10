@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useRef, useState } from "react";
 import "./navbarMobile.scss";
 import docs from "../../assets/images/mob/menu icons/Docs.svg";
 import roadmap from "../../assets/images/mob/menu icons/roadmap.svg";
@@ -14,82 +14,92 @@ import twitter from "../../assets/images/menu icons/twitter icon.svg";
 import redit from "../../assets/images/menu icons/redit icon.svg";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
+import { useOnClickOutside } from "../../assets/ts/helpers";
 
-interface Props {}
+interface Props {
+    setOpen: Function;
+}
 
-export const NavBarMobile: FC<Props> = ({}) => {
+export const NavBarMobile: FC<Props> = ({ setOpen }) => {
     const { lastCommit } = useSelector((state: ReduxState) => state.homePage);
+    const ref = useRef(null);
+    const [isShown, setIsShown] = useState(false);
+    useOnClickOutside(ref, () => setOpen(false));
 
     return (
         <>
-            <div className="navmobile">
-                <div className="titleNav">Resources</div>
+            <div ref={ref} className="navmobile">
+                <div onClick={() => setIsShown(!isShown)} className="titleNav">
+                    Resources
+                </div>
                 <div className="linksNavMob">
-                    <div className="res-nav">
-                        <a
-                            href="https://docs.xp.network/"
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            <label className="title">
-                                <img src={docs} /> Docs
-                            </label>
-                        </a>{" "}
-                        <span />
-                        <a
-                            href="https://docs.xp.network/docs/roadmap/"
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            <label className="title">
-                                <img src={roadmap} /> Roadmap
-                            </label>
-                        </a>{" "}
-                        <span />
-                        <a
-                            href="https://docs.xp.network/docs/Whitepaper2.0/introduction/"
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            <label className="title">
-                                <img src={whitepaper} /> White Paper
-                            </label>
-                        </a>{" "}
-                        <span />
-                        <a
-                            href="https://github.com/xp-network/"
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            <label className="title">
-                                <img src={github} /> GitHub
-                            </label>
-                            <div className="git-last--mobile">
-                                <div className="git-last-dot-bg"></div>
-                                <div>Latest {lastCommit}</div>
-                            </div>
-                        </a>
-                        <span />
-                        <a
-                            href="https://blog.xp.network/"
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            <label className="title">
-                                <img src={blog} /> Blog
-                            </label>
-                        </a>
-                        <span />
-                        <a
-                            href="https://xp.network/security/"
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            <label className="title">
-                                <img src={security} /> Security
-                            </label>
-                        </a>
-                    </div>
+                    {isShown && (
+                        <div className="res-nav">
+                            <a
+                                href="https://docs.xp.network/"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                <label className="title">
+                                    <img src={docs} /> Docs
+                                </label>
+                            </a>{" "}
+                            {/* <span /> */}
+                            <a
+                                href="https://docs.xp.network/docs/roadmap/"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                <label className="title">
+                                    <img src={roadmap} /> Roadmap
+                                </label>
+                            </a>{" "}
+                            {/* <span /> */}
+                            <a
+                                href="https://docs.xp.network/docs/Whitepaper2.0/introduction/"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                <label className="title">
+                                    <img src={whitepaper} /> White Paper
+                                </label>
+                            </a>{" "}
+                            {/* <span /> */}
+                            <a
+                                href="https://github.com/xp-network/"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                <label className="title">
+                                    <img src={github} /> GitHub
+                                </label>
+                                <div className="git-last--mobile">
+                                    <div className="git-last-dot-bg"></div>
+                                    <div>Latest {lastCommit}</div>
+                                </div>
+                            </a>
+                            {/* <span /> */}
+                            <a
+                                href="https://blog.xp.network/"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                <label className="title">
+                                    <img src={blog} /> Blog
+                                </label>
+                            </a>
+                            {/* <span /> */}
+                            <a
+                                href="https://xp.network/security/"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                <label className="title">
+                                    <img src={security} /> Security
+                                </label>
+                            </a>
+                        </div>
+                    )}
                 </div>
 
                 <a

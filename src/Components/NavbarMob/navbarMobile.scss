@@ -6,7 +6,7 @@
     width: 230px;
     right: 278px;
     top: 75px;
-
+    transition: all 1s;
     background: rgba(45, 45, 48);
     border: 1px solid rgba(79, 79, 82, 0.3);
     box-shadow: 0px 4px 34px rgba(0, 0, 0, 0.12);
@@ -15,17 +15,17 @@
     position: absolute;
     border-radius: 6px;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 17px;
 }
 
 .titleNav {
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 13px 16px 13px 30px;
+    padding: 13px 16px;
     gap: 10px;
     width: -webkit-fill-available;
-    //   height: 46px;
+    cursor: pointer;
     margin-top: 20px;
 }
 
@@ -35,16 +35,19 @@
     flex-direction: column;
     align-items: center;
     background: rgba(38, 38, 40, 0.8);
-    padding-bottom: 20px;
+    // padding-bottom: 20px;
     //   height: 205px;
     //   overflow-y: scroll;
-    a {
+    .res-nav a {
         display: flex;
         flex-direction: row;
         align-items: flex-start;
         padding: 14px 0px 14px 16px;
         gap: 8px;
         width: -webkit-fill-available;
+        label {
+            cursor: pointer;
+        }
     }
     span {
         height: 1px;
