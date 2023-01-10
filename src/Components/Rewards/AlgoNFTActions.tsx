@@ -48,6 +48,7 @@ export default function AlgoNFTActions({ index, nfts }: Props) {
     const handleClaim = async () => {
         // debugger;
         let txId: string;
+
         setClaimDisabled(true);
         try {
             txId = await optInAsset(
@@ -102,17 +103,23 @@ export default function AlgoNFTActions({ index, nfts }: Props) {
             >
                 Opt-In
             </div> */}
-            <div
-                style={claimStyle}
-                onClick={handleClaim}
-                className={
-                    !isOptIn
-                        ? "nft-actions-button"
-                        : "nft-actions-button--unoptined"
-                }
-            >
-                Claim
-            </div>
+            {nfts[0].isClaimed ? (
+                <div
+                    style={claimStyle}
+                    onClick={handleClaim}
+                    className={"nft-actions-button--disabled"}
+                >
+                    Claimed
+                </div>
+            ) : (
+                <div
+                    style={claimStyle}
+                    onClick={handleClaim}
+                    className={"nft-actions-button"}
+                >
+                    Claim
+                </div>
+            )}
         </div>
     );
 }
