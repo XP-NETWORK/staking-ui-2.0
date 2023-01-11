@@ -35,7 +35,11 @@ export const TableRow: FC<Props> = ({ stake, cell }) => {
     const responsive = window.innerWidth < 600;
 
     return (
-        <tr className={cell % 2 ? "" : "row--gray"}>
+        <tr
+            className={
+                cell % 2 ? "table-history-row" : "table-history-row row--gray"
+            }
+        >
             <td>
                 {responsive && <strong>Start Date: </strong>}
                 {startDate}

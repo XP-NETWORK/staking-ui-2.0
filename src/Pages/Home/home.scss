@@ -10,7 +10,8 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: flex-end;
+    gap: 100px;
 }
 
 h1 {
@@ -89,6 +90,11 @@ h1 {
     font-weight: 600;
     font-size: 15px;
     cursor: pointer;
+    opacity: 0.6;
+    transition: all 0.3s;
+}
+.whiteBtn:hover {
+    opacity: 1;
 }
 
 button {
@@ -109,6 +115,11 @@ button {
     font-weight: 600;
     font-size: 15px;
     cursor: pointer;
+    opacity: 0.6;
+    transition: all 0.3s;
+}
+.darkBtn:hover {
+    opacity: 1;
 }
 
 .stakingLimit {

@@ -28,8 +28,10 @@ export default function CLAIMButton({
         // TODO pop-up to show the rewards claimed
     };
     const responsive = window.innerWidth < 600;
+    const rewards = window.location.pathname === "/rewards";
+    console.log("🚀 ~ file: CLAIMButton.tsx:32 ~ rewards", !rewards);
 
-    return responsive ? (
+    return rewards && !responsive ? (
         <button
             className={classNames("blueBtn", "mt-0")}
             onClick={handleClaimXPNET}

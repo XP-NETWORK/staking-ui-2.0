@@ -219,8 +219,12 @@
     height: -webkit-fill-available;
     background: rgba(255, 255, 255, 0.04);
     border-radius: 6px;
+    transition: all 0.3s;
 }
-
+.maxBtn:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.24);
+}
 .tokenLabel {
     display: flex;
     flex-direction: row;
@@ -251,6 +255,9 @@
     span {
         font-weight: 600;
     }
+}
+.periodBtn:hover {
+    background-color: #288bfe;
 }
 
 .containerNft {
@@ -467,6 +474,7 @@
     background: #2388ff;
     border-radius: 6px;
     display: flex;
+    opacity: 0.6;
     align-items: center;
     justify-content: center;
     cursor: pointer;
@@ -476,6 +484,10 @@
     -ms-user-select: none;
     -o-user-select: none;
     user-select: none;
+    transition: all 0.5s;
+}
+.nft-actions-button:hover {
+    opacity: 1;
 }
 .nft-actions-button--unoptined {
     // width: 100px;

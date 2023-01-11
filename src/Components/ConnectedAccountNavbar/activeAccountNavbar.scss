@@ -74,7 +74,7 @@
         justify-content: center;
     }
     .dropdown {
-        padding: 6px 30px 6px 6px;
+        padding: 6px 36px 6px 9px;
         display: flex;
         cursor: pointer;
         flex-direction: row;
@@ -86,8 +86,7 @@
         border-radius: 8px;
         background-image: url("../../assets/images/checkbox/arrowDown.svg");
         background-repeat: no-repeat;
-        background-position: right 7% bottom 52%;
-        // min-width: 148px;
+        background-position: right 20% bottom 52%;
     }
 
     .ddItem {
