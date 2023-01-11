@@ -22,6 +22,8 @@ import { Web3Modal } from "@web3modal/react";
 
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 
+import AuthClient, { generateNonce } from "@walletconnect/auth-client";
+
 const BSC = {
     id: 56,
     name: "BSC",

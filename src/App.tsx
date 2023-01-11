@@ -127,6 +127,9 @@ function App() {
     // }, [stakingClient, account]);
 
     useEffect(() => {
+        const wc = window.localStorage.getItem("walletconnect");
+        if (wc) window.localStorage.removeItem("walletconnect");
+
         const getGitUpdate = async () => {
             const commit = await fetchXPUpdate();
             dispatch(setLastCommit(commit));

@@ -2580,7 +2580,7 @@
     "@stablelib/constant-time" "^1.0.1"
     "@stablelib/wipe" "^1.0.1"
 
-"@stablelib/random@^1.0.1", "@stablelib/random@^1.0.2":
+"@stablelib/random@1.0.2", "@stablelib/random@^1.0.1", "@stablelib/random@^1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@stablelib/random/-/random-1.0.2.tgz#2dece393636489bf7e19c51229dd7900eddf742c"
   integrity sha512-rIsE83Xpb7clHPVRlBj8qNe5L8ISQOzjghYQm/dZ7VaM2KHYwMW5adjQjrzTZCchFnNCNhkwtnOBa9HTMJCI8w==
@@ -3425,6 +3425,25 @@
     eventemitter3 "^4.0.7"
     zustand "^4.3.1"
 
+"@walletconnect/auth-client@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@walletconnect/auth-client/-/auth-client-2.0.2.tgz#c56e74612598d28d705dad111529a84d93b90fef"
+  integrity sha512-ipffcnXnhZjQffcYJbVJ/9n1/tQ1FWJgydY1h/S+VvR8XnZmJWyn/zNSoyLN6vHE/gv0wPGSrZmkGMtswhV1pQ==
+  dependencies:
+    "@ethersproject/hash" "^5.7.0"
+    "@ethersproject/transactions" "^5.7.0"
+    "@stablelib/random" "1.0.2"
+    "@walletconnect/core" "^2.1.4"
+    "@walletconnect/events" "1.0.0"
+    "@walletconnect/heartbeat" "1.0.0"
+    "@walletconnect/jsonrpc-provider" "^1.0.6"
+    "@walletconnect/jsonrpc-utils" "^1.0.4"
+    "@walletconnect/logger" "^2.0.1"
+    "@walletconnect/time" "1.0.1"
+    "@walletconnect/utils" "^2.1.4"
+    events "^3.3.0"
+    isomorphic-unfetch "^3.1.0"
+
 "@walletconnect/browser-utils@^1.8.0":
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/@walletconnect/browser-utils/-/browser-utils-1.8.0.tgz#33c10e777aa6be86c713095b5206d63d32df0951"
@@ -3446,7 +3465,7 @@
     "@walletconnect/types" "^1.8.0"
     "@walletconnect/utils" "^1.8.0"
 
-"@walletconnect/core@2.2.1":
+"@walletconnect/core@2.2.1", "@walletconnect/core@^2.1.4":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@walletconnect/core/-/core-2.2.1.tgz#2dc6b8b2c438919a800ae4b76832661b922a3511"
   integrity sha512-UoXohoIavMxj2iUOcnixY8uGl0sibJdGU6UX9zkke2Wgc2UKsvtkFZ/ZU3YG1XrIPWSpZ94lkhkNGstuRKz0wQ==
@@ -3519,13 +3538,28 @@
     eip1193-provider "1.0.1"
     eventemitter3 "4.0.7"
 
-"@walletconnect/events@^1.0.1":
+"@walletconnect/events@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@walletconnect/events/-/events-1.0.0.tgz#000033a52a618345713d5bd43e8780d120c5accc"
+  integrity sha512-LLf8krnHo+PsObwMZbGhVaG24SvGTJM0MEtPNhrlQmp27CRV+LwYpHLh7fhABcnUon4aeo7dojCJMmx5jBNWuQ==
+  dependencies:
+    keyvaluestorage-interface "^1.0.0"
+
+"@walletconnect/events@^1.0.0", "@walletconnect/events@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@walletconnect/events/-/events-1.0.1.tgz#2b5f9c7202019e229d7ccae1369a9e86bda7816c"
   integrity sha512-NPTqaoi0oPBVNuLv7qPaJazmGHs5JGyO8eEAk5VGKmJzDR7AHzD4k6ilox5kxk1iwiOnFopBOOMLs86Oa76HpQ==
   dependencies:
     keyvaluestorage-interface "^1.0.0"
     tslib "1.14.1"
+
+"@walletconnect/heartbeat@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@walletconnect/heartbeat/-/heartbeat-1.0.0.tgz#d77d10aab467aafc45a09e25547d2158da630198"
+  integrity sha512-WMWbUNHVkVd7FS38P0DMDlvR38P/kSZcda94t54h8XtC1CfI2M/Cn9TGS6mC6MNuDkZZm+cOdkekibQc+9sNdQ==
+  dependencies:
+    "@walletconnect/events" "^1.0.0"
+    "@walletconnect/time" "^1.0.1"
 
 "@walletconnect/heartbeat@^1.0.1":
   version "1.0.1"
@@ -3667,7 +3701,7 @@
   dependencies:
     tslib "1.14.1"
 
-"@walletconnect/sign-client@2.2.1":
+"@walletconnect/sign-client@2.2.1", "@walletconnect/sign-client@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@walletconnect/sign-client/-/sign-client-2.2.1.tgz#eb29419d7bb8872a2e1ed6b48e7e56af39f6a073"
   integrity sha512-oABkkYPU8tlN42U8ht3Um7bzwrRiUb2S74Y0rWjc3xfs76g6MLO5Ja4ER1jAhCcECs9tFf84wdNwLLhT77JoSg==
@@ -3705,7 +3739,12 @@
     "@walletconnect/utils" "^1.8.0"
     ws "7.5.3"
 
-"@walletconnect/time@^1.0.2":
+"@walletconnect/time@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@walletconnect/time/-/time-1.0.1.tgz#645f596887e67c56522edbc2b170d46a97c87ce0"
+  integrity sha512-LtNtHupTNranehLMh8Z/JN6xVySysSoJNjNCQ0ML+hOUkim5QX/VdvfovSpaX9qA2b95u7bIuTcq0O3UBk7Iyw==
+
+"@walletconnect/time@^1.0.1", "@walletconnect/time@^1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@walletconnect/time/-/time-1.0.2.tgz#6c5888b835750ecb4299d28eecc5e72c6d336523"
   integrity sha512-uzdd9woDcJ1AaBZRhqy5rNC9laqWGErfc4dxA9a87mPdKOgWMD85mcFo9dIYIts/Jwocfwn07EC6EzclKubk/g==
@@ -3746,7 +3785,7 @@
     events "^3.3.0"
     pino "7.11.0"
 
-"@walletconnect/utils@2.2.1":
+"@walletconnect/utils@2.2.1", "@walletconnect/utils@^2.1.4":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@walletconnect/utils/-/utils-2.2.1.tgz#c8e991c5a58902fac900d0628b2aa59e28aef6a3"
   integrity sha512-DkjYcWMMBGznlyuenJkt1Z+IcPchhVbnYwMeQIZCu7gSbL9nUBsyzixfcWat5lapsBeGJDquhV63dU8pbkdhfg==
@@ -3824,6 +3863,14 @@
   version "2.0.0-rc.2"
   resolved "https://registry.yarnpkg.com/@web3modal/react/-/react-2.0.0-rc.2.tgz#0be0281d924e6b861f69b294dd0e28fe40e5b5e9"
   integrity sha512-3A+H5rVShUOeA3hI+l0J2NP0/ErV6HFSRdgSoS2r3HeHc9MjRcKbB8d2gjU/5yVu2GYfCaKpC9CfLIS+rmCwaQ==
+  dependencies:
+    "@web3modal/core" "2.0.0-rc.2"
+    "@web3modal/ui" "2.0.0-rc.2"
+
+"@web3modal/standalone@^2.0.0-rc.2":
+  version "2.0.0-rc.2"
+  resolved "https://registry.yarnpkg.com/@web3modal/standalone/-/standalone-2.0.0-rc.2.tgz#ca6637ad109b3a444cbc3e12189b99cb6255f4cf"
+  integrity sha512-wiUugFqyLu2DIZMKT+A7164pVCQKSEYv/4p2PhegrN5fXV6aRjd6uogdF4VRw89u3i/7CJ295vzaOBCpJA4nIw==
   dependencies:
     "@web3modal/core" "2.0.0-rc.2"
     "@web3modal/ui" "2.0.0-rc.2"
@@ -10072,6 +10119,14 @@ isomorphic-fetch@2.2.1:
     node-fetch "^1.0.1"
     whatwg-fetch ">=0.10.0"
 
+isomorphic-unfetch@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/isomorphic-unfetch/-/isomorphic-unfetch-3.1.0.tgz#87341d5f4f7b63843d468438128cb087b7c3e98f"
+  integrity sha512-geDJjpoZ8N0kWexiwkX8F9NkTsXhetLPVbZFQ+JTW239QNOwvB0gniuR1Wc6f0AMTn7/mFGyXvHTifrCp/GH8Q==
+  dependencies:
+    node-fetch "^2.6.1"
+    unfetch "^4.2.0"
+
 isomorphic-ws@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/isomorphic-ws/-/isomorphic-ws-4.0.1.tgz#55fd4cd6c5e6491e76dc125938dd863f5cd4f2dc"
@@ -15763,6 +15818,11 @@ underscore@1.9.1:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.9.1.tgz#06dce34a0e68a7babc29b365b8e74b8925203961"
   integrity sha512-5/4etnCkd9c8gwgowi5/om/mYO5ajCaOgdzj/oW+0eQV9WxKBDZw5+ycmKmeaTXjInS/W0BzpGLo2xR2aBwZdg==
+
+unfetch@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/unfetch/-/unfetch-4.2.0.tgz#7e21b0ef7d363d8d9af0fb929a5555f6ef97a3be"
+  integrity sha512-F9p7yYCn6cIW9El1zi0HI6vqpeIvBsr3dSuRO6Xuppb1u5rXpCPmMvLSyECLhybr9isec8Ohl0hPekMVrEinDA==
 
 unicode-canonical-property-names-ecmascript@^2.0.0:
   version "2.0.0"
