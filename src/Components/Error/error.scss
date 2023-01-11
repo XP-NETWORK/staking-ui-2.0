@@ -55,13 +55,14 @@
             gap: 10px;
             font-weight: 600;
             font-size: 16px;
-            width: 135px;
+            width: 140px;
             height: 40px;
             cursor: pointer;
             border-radius: 6px;
             background: rgba(255, 255, 255, 0.08);
             color: #ffffff;
             transition: all 0.25s;
+            border: 1px solid rgba(255, 255, 255, 0.18);
         }
 
         :hover {

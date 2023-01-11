@@ -7,10 +7,12 @@ import { ReduxState } from "../../store/store";
 import {
     setActiveSessionStakes,
     setAlgoDetails,
+    setAlgoRewards,
     setBalance,
     setClient,
     setErrorModal,
     setFetchedAlgoStakes,
+    setNFTSByOwner,
     setStakeDetails,
     setStakingNotification,
     setXPNetPrice,
@@ -19,8 +21,10 @@ import {
     checkOptInApps,
     createClient,
     formatTheNumber,
+    getAlgoReward,
     getAlgoStakeEndDate,
     getAllAlgoStakes,
+    getAllNFTsByOwner,
     getAPY,
     getXpNetBalance,
     optInt,
@@ -145,6 +149,7 @@ export const Stake: FC<Props> = ({}) => {
 
     const handleStake = async () => {
         // debugger;
+
         setLoader(true);
         let _stake: IActiveSessionSTake;
         try {
@@ -165,12 +170,20 @@ export const Stake: FC<Props> = ({}) => {
 
             if (_stake) {
                 let _fetchedStakes = await algoRewardsAndStakes();
+                let nfts = await getAllNFTsByOwner(account, fetchedAlgoStakes);
                 if (
                     fetchedAlgoStakes &&
                     fetchedAlgoStakes.length < _fetchedStakes?.length
                 ) {
+                    let rewards = await getAlgoReward(account);
+                    // rewardsInt = setInterval(
+                    //     async () => (rewards = await getAlgoReward(account)),
+                    //     200
+                    // );
+                    dispatch(setNFTSByOwner(nfts));
+                    dispatch(setAlgoRewards(rewards));
                     dispatch(setFetchedAlgoStakes(_fetchedStakes));
-                    navigate(`/rewards`);
+                    // navigate(`/rewards`);
                 } else if (_fetchedStakes?.length > 0) {
                     dispatch(setFetchedAlgoStakes(_fetchedStakes));
                     // navigate(`/rewards`);

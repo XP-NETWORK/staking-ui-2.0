@@ -24,6 +24,11 @@ export const StakeNotificationBody: FC<Props> = ({ notification }) => {
         (state: ReduxState) => state.homePage
     );
 
+    const handleClick = () => {
+        navigate("/rewards");
+        dispatch(setStakingNotification(undefined));
+    };
+
     const stake: IActiveSessionSTake =
         activeSessionStakes[activeSessionStakes?.length - 1];
 
@@ -77,10 +82,7 @@ export const StakeNotificationBody: FC<Props> = ({ notification }) => {
                                 </span>
                             </div>
                         </div>
-                        <div
-                            onClick={() => navigate("/rewards")}
-                            className="stake-notif-btn"
-                        >
+                        <div onClick={handleClick} className="stake-notif-btn">
                             Claim
                         </div>
                     </>

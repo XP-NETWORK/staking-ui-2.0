@@ -27,30 +27,38 @@ export const AlgoNFTRewards = ({
     selectedStakeIndex,
     setIndex,
 }: Props) => {
+    console.log(
+        "🚀 ~ file: AlgoNFTRewards.tsx:30 ~ selectedStakeIndex",
+        selectedStakeIndex
+    );
     const dispatch = useDispatch();
     const [x, setX] = useState(0);
     const [mainImageLoaded, setMainImageLoaded] = useState(false);
-    const { account, activeSessionStakes, nfts, selectedNFTtxId } = useSelector(
-        (state: ReduxState) => state.homePage
-    );
+    const {
+        account,
+        activeSessionStakes,
+        nfts,
+        selectedNFTtxId,
+        fetchedAlgoStakes,
+    } = useSelector((state: ReduxState) => state.homePage);
 
     useEffect(() => {
         let getAllNFTsByOwnerInterval: any;
         const nfts = async () => {
             let nfts: any;
             nfts = await getAllNFTsByOwner(account, stakes);
-            getAllNFTsByOwnerInterval = setInterval(async () => {
-                nfts = await getAllNFTsByOwner(account, stakes);
-                // console.log("getAllNFTsByOwnerInterval", nfts);
-            }, 2000);
+            // getAllNFTsByOwnerInterval = setInterval(async () => {
+            //     nfts = await getAllNFTsByOwner(account, stakes);
+            //     // console.log("getAllNFTsByOwnerInterval", nfts);
+            // }, 2000);
             dispatch(setNFTSByOwner(nfts));
-            if (nfts) dispatch(setSelectedNFT(nfts[0].txId));
+            if (nfts) dispatch(setSelectedNFT(nfts[0]?.txId));
         };
         if (account) {
             nfts();
         }
         return () => clearInterval(getAllNFTsByOwnerInterval);
-    }, []);
+    }, [fetchedAlgoStakes]);
 
     useEffect(() => {
         const updateAlgoSTakes = async () => {

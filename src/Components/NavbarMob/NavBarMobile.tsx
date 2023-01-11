@@ -48,7 +48,7 @@ export const NavBarMobile: FC<Props> = ({ setOpen }) => {
                         </Link>
                         <Link
                             onClick={() =>
-                                blockchain.chain !== "BSC"
+                                blockchain.chain === "BSC"
                                     ? dispatch(setLimitModal(true))
                                     : null
                             }
