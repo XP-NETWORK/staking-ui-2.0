@@ -19,12 +19,13 @@ interface Props {
 }
 
 const AlgoSigner = ({ connect }: Props) => {
-    const { navigateRoute } = useSelector(
+    const { navigateRoute, mobile } = useSelector(
         (state: ReduxState) => state.homePage
     );
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    console.log(window.navigator.userAgent);
 
     const handleClick = async () => {
         // debugger;
@@ -42,7 +43,11 @@ const AlgoSigner = ({ connect }: Props) => {
     };
 
     return (
-        <button onClick={handleClick} className="connectBtn">
+        <button
+            onClick={handleClick}
+            className="connectBtn"
+            style={{ display: mobile ? "none" : "auto" }}
+        >
             <img style={{ width: "28px" }} src={icon} alt="" />
             AlgoSigner
         </button>

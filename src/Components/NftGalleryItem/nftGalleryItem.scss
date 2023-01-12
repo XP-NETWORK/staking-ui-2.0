@@ -26,9 +26,9 @@
         width: -webkit-fill-available;
     }
     img {
-        padding-top: 10px;
+        // padding-top: 10px;
         width: -webkit-fill-available;
-        min-height: 170px;
+        // min-height: 170px;
     }
 }
 
@@ -66,5 +66,12 @@
             object-fit: contain;
             // height: 170px;
         }
+    }
+}
+
+@media screen and (max-width: 321px) {
+    .nftItemContainer {
+        max-height: unset;
+        width: 240px;
     }
 }

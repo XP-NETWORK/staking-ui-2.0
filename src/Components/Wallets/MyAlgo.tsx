@@ -101,7 +101,7 @@ function algoSignerWrapper(
 }
 
 const MyAlgo = ({ connect }: Props) => {
-    const { navigateRoute } = useSelector(
+    const { navigateRoute, mobile } = useSelector(
         (state: ReduxState) => state.homePage
     );
     const dispatch = useDispatch();
@@ -126,7 +126,11 @@ const MyAlgo = ({ connect }: Props) => {
         dispatch(setConnectModalShow(false));
     };
     return (
-        <button onClick={handleClick} className="connectBtn">
+        <button
+            style={{ display: mobile ? "none" : "auto" }}
+            onClick={handleClick}
+            className="connectBtn"
+        >
             <img src={icon} alt="" />
             MyAlgo
         </button>

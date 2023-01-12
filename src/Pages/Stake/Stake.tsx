@@ -110,17 +110,19 @@ export const Stake: FC<Props> = ({}) => {
     } = useSelector((state: ReduxState) => state.homePage);
 
     const handleMaxAmount = () => {
-        setAmount(balance);
+        setAmount(balance / 1e6);
     };
 
     const handleChangeAmount = (e: any) => {
-        if (e.target.value < 1500) {
-            setAmount(e.target.value);
-            setInputErr(true);
-        } else {
-            setAmount(e.target.value);
-            setInputErr(false);
-        }
+        if (e.target.value > 0) {
+            if (e.target.value < 1500) {
+                setAmount(e.target.value);
+                setInputErr(true);
+            } else {
+                setAmount(e.target.value);
+                setInputErr(false);
+            }
+        } else setAmount(0);
     };
 
     const handleInputOnBlur = (e: any) => {
@@ -313,8 +315,8 @@ export const Stake: FC<Props> = ({}) => {
                                         onFocus={handleFocusAmount}
                                         onChange={(e) => handleChangeAmount(e)}
                                         onBlur={handleInputOnBlur}
-                                        value={amount}
-                                        placeholder={"0"}
+                                        value={amount ? amount : ""}
+                                        // placeholder={"0"}
                                     />
                                     <label
                                         className="placeholder deskOnly"

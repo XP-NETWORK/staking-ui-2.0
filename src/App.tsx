@@ -13,7 +13,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { ReduxState } from "./store/store";
 import ConnectModalBody from "./Components/Modals/ConnectModalBody";
 import ErrorModalBody from "./Components/Modals/ErrorModalBody";
-import { setLastCommit } from "./store/reducer/homePageSlice";
+import {
+    setIfMobileDevice,
+    setLastCommit,
+} from "./store/reducer/homePageSlice";
 import LimitModalBody from "./Components/Modals/LimitModalBody";
 import bg from "./assets/images/desk/bg.png";
 import bgMob from "./assets/images/mob/bg.png";
@@ -129,7 +132,13 @@ function App() {
     useEffect(() => {
         const wc = window.localStorage.getItem("walletconnect");
         if (wc) window.localStorage.removeItem("walletconnect");
-
+        if (
+            /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Windows Phone/i.test(
+                navigator.userAgent
+            )
+        ) {
+            dispatch(setIfMobileDevice());
+        }
         const getGitUpdate = async () => {
             const commit = await fetchXPUpdate();
             dispatch(setLastCommit(commit));

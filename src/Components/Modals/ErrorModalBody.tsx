@@ -8,6 +8,8 @@ import {
 import close from "../../assets/images/close-icon.svg";
 import { useOnClickOutside } from "../../assets/ts/helpers";
 import "../../Components/Error/error.scss";
+import { useSelector } from "react-redux";
+import { ReduxState } from "../../store/store";
 
 interface Props {}
 
@@ -15,6 +17,10 @@ export default function ErrorModalBody({}: Props) {
     const mobile = window.innerWidth < 600;
     const dispatch = useDispatch();
     const ref = React.useRef<HTMLInputElement>(null);
+    const { connectedWallet, evmAccount } = useSelector(
+        (state: ReduxState) => state.homePage
+    );
+    const evmErrorText = connectedWallet && evmAccount;
     useOnClickOutside(ref, () => dispatch(setErrorModal(false)));
 
     const handleButtonClick = (btn: string) => {
@@ -56,7 +62,7 @@ export default function ErrorModalBody({}: Props) {
                     <img src={close} alt="" />
                 </span>
                 <h4>Oh nooooo</h4>
-                <p>Seems you don’t have any XPNET to stake.</p>
+                <p>Seems you don’t have any staked XPNET.</p>
                 <div className="btns">
                     <button
                         className="changeWalletBtn"

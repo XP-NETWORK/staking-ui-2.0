@@ -672,10 +672,13 @@ export const unstakeTokens = async (
 
 export const getNFTCollection = async (i: number) => {
     const arr = [];
+    let element;
     for (let index = 1; index < 101; index++) {
-        const element = axios.get(
-            `https://nft-service-testing.s3.eu-west-1.amazonaws.com/${index}.json`
-        );
+        try {
+            element = axios.get(
+                `https://nft-service-testing.s3.eu-west-1.amazonaws.com/${index}.json`
+            );
+        } catch (error) {}
         arr.push(element);
     }
     const settled = await Promise.allSettled(arr);

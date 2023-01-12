@@ -27,6 +27,14 @@ export const Navbar: FC<Props> = ({}) => {
         (state: ReduxState) => state.homePage
     );
 
+    const navigate = useNavigate();
+    const location = useLocation();
+    const home = location.pathname === "/";
+    const gallery = location.pathname === "/gallery";
+    const handleClickLogo = () => {
+        navigate("/");
+    };
+
     // useOnClickOutside(ref, () => setOpenNavMenu(false));
     useEffect(() => {
         if (account || evmAccount) {
@@ -36,18 +44,15 @@ export const Navbar: FC<Props> = ({}) => {
         }
     }, [account, evmAccount]);
 
-    const navigate = useNavigate();
-    const location = useLocation();
-    const home = location.pathname === "/";
-    const gallery = location.pathname === "/gallery";
-    const handleClickLogo = () => {
-        navigate("/");
-    };
+    useEffect(() => {
+        setOpenNavMenu(false);
+    }, [location.pathname]);
+
     return (
         <>
             <div className="navbar">
                 <div className="navWrapper">
-                    {window.innerWidth > 319 ? (
+                    {window.innerWidth > 320 ? (
                         <img
                             // className={classNames("logo", "deskOnly")}
                             src={xpLogo}
@@ -115,7 +120,14 @@ export const Navbar: FC<Props> = ({}) => {
                     <div
                         style={{ pointerEvents: openNavMenu ? "none" : "auto" }}
                         className="menuIcon"
-                        onClick={() => setOpenNavMenu(!openNavMenu)}
+                        onClick={
+                            openNavMenu
+                                ? () => {}
+                                : (e) => {
+                                      e.stopPropagation();
+                                      setOpenNavMenu(!openNavMenu);
+                                  }
+                        }
                     >
                         <Hamburger
                             toggled={openNavMenu}

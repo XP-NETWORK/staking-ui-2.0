@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 
 import {
     setBlockchain,
+    setConnectedWallet,
     setErrorModal,
     setEvmAccount,
     setEvmStakes,
@@ -21,6 +22,7 @@ const MetaMask = ({ connect }: { connect: Function }) => {
         // debugger;
         dispatch(setEvmAccount(response.accounts[0]));
         dispatch(setEvmStakes(Number(response.stakes)));
+        dispatch(setConnectedWallet("MetaMask"));
         if (Number(response.stakes) > 0) {
             dispatch(setBlockchain(BLOCKCHAINS[1]));
             navigate("/rewards");

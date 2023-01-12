@@ -45,6 +45,7 @@ export interface IHomePage {
     collections: INFTURI[];
     refreshTheAlgoRewards: boolean;
     stakingNotification: string | undefined;
+    mobile: boolean;
 }
 
 const initialState: IHomePage = {
@@ -76,12 +77,16 @@ const initialState: IHomePage = {
     showNotifyModal: false,
     refreshTheAlgoRewards: false,
     stakingNotification: undefined,
+    mobile: false,
 };
 
 const homePageSlice = createSlice({
     name: "homePage",
     initialState,
     reducers: {
+        setIfMobileDevice(state) {
+            state.mobile = true;
+        },
         setStakingNotification(state, action) {
             state.stakingNotification = action.payload;
         },
@@ -231,6 +236,7 @@ export const {
     setAlgoDetails,
     setLimitModal,
     setStakingNotification,
+    setIfMobileDevice,
 } = homePageSlice.actions;
 
 export default homePageSlice;

@@ -103,8 +103,14 @@
 
 @media screen and (max-width: 390px) {
     .nfts {
-        gap: 12px;
+        gap: 20px;
         justify-content: flex-start;
         padding-left: 20px;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .galleryPage h1 {
+        font-size: 1.7rem;
     }
 }
