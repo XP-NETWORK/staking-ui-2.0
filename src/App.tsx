@@ -26,6 +26,7 @@ import FetchingComponent from "./Components/DataFetching/FetchingComponent";
 import { StakeNotificationBody } from "./Components/Modals/StakeNotificationBody";
 import { useWeb3Modal } from "@web3modal/react";
 import { useAccount } from "wagmi";
+import { useGetAllNFTsByOwnerQuery } from "./store/services/algoService";
 
 type ModalProps = {
     children: ReactNode;
@@ -97,9 +98,7 @@ function ConnectModal({ children }: ModalProps) {
 
 function App() {
     const dispatch = useDispatch();
-    const balanceInt = useRef<number | null>(null);
-    const { isOpen, open, close } = useWeb3Modal();
-    // const [lastCommit, setLastCommit] = useState<string | void>("");
+
     const { address, isConnecting, isDisconnected } = useAccount();
 
     const {
@@ -107,27 +106,8 @@ function App() {
         showErrorModal,
         showLimitModal,
         stakingNotification,
+        account,
     } = useSelector((state: ReduxState) => state.homePage);
-
-    // const getBalance = async () => {
-    //     const balance = await getXpNetBalance(stakingClient);
-    //     balance ? dispatch(setBalance(balance)) : dispatch(setErrorModal(true));
-    //     dispatch(setBalance(balance));
-    // };
-
-    // const startInterval = () => {
-    //     if (balanceInt.current !== null) return;
-    //     balanceInt.current = window.setInterval(() => {
-    //         // if (balanceInt.current !== null) return;
-    //         getBalance();
-    //     }, 2000);
-    // };
-
-    // useEffect(() => {
-    //     if (account) {
-    //         startInterval();
-    //     }
-    // }, [stakingClient, account]);
 
     useEffect(() => {
         const wc = window.localStorage.getItem("walletconnect");

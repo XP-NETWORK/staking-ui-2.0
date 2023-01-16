@@ -21,6 +21,7 @@ import { ProgressStaking } from "../ProgressStaking/ProgressStaking";
 import { useEffect, useState } from "react";
 import CLAIMButton from "../Buttons/CLAIMButton";
 import UNSTAKEButton from "../Buttons/UNSTAKEButton";
+import { useGetAllNFTsByOwnerQuery } from "../../store/services/algoService";
 
 interface Props {
     rewards: IAlgoRewards[];
@@ -39,10 +40,10 @@ export default function AlgoRewardsDetails({
     const selectedStakeRewards: IAlgoRewards | undefined = rewards.find(
         (rewards: IAlgoRewards) => rewards.appid === selectedStake?.appId
     );
-
     const { XPNetPrice, signer, account, selectedNFTtxId } = useSelector(
         (state: ReduxState) => state.homePage
     );
+    // const { data, error, isLoading } = useGetAllNFTsByOwnerQuery(account);
 
     useEffect(() => {
         const stake = stakes.find((stake: IFetchedStake, index: number) => {

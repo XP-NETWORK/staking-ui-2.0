@@ -259,11 +259,6 @@ export const getAlgoReward = async (owner: string) => {
     return rewards;
 };
 
-// export const getAllAccountData = async (owner: string) => {
-//     const stakes = await getAllAlgoStakes(owner);
-//     getAllNFTsByOwner(owner, stakes);
-// };
-
 export const getAllAlgoStakes = async (owner: string) => {
     let appIds = [
         appAdress3Months,

@@ -27,18 +27,18 @@ import { NFTRewards } from "../../Components/Rewards/NFTRewards";
 import RewardsDetails from "../../Components/Rewards/RewardsDetails";
 import AlgoRewardsDetails from "../../Components/Rewards/AlgoRewardsDetails";
 import { AlgoNFTRewards } from "../../Components/Rewards/AlgoNFTRewards";
+import { useGetAllNFTsByOwnerQuery } from "../../store/services/algoService";
 
 interface Props {
     chain: string;
 }
 
 const ClaimRewards = ({ chain }: Props) => {
-    console.log("🚀 ~ file: ClaimRewards.tsx:34 ~ ClaimRewards ~ chain", chain);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [indexOfStake, setIndexOfStake] = useState(0);
     const [indexOfAlgoStake, setIndexOfAlgoStake] = useState(0);
-    let timeOut = useRef();
+
     const {
         account,
         evmAccount,
@@ -51,6 +51,8 @@ const ClaimRewards = ({ chain }: Props) => {
         stakingClient,
         refreshTheAlgoRewards,
     } = useSelector((state: ReduxState) => state.homePage);
+
+    // const { data, error, isLoading } = useGetAllNFTsByOwnerQuery(account);
 
     const showLoader = () => {
         switch (blockchain.chain) {

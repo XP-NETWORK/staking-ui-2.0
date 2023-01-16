@@ -27,10 +27,6 @@ export const AlgoNFTRewards = ({
     selectedStakeIndex,
     setIndex,
 }: Props) => {
-    console.log(
-        "🚀 ~ file: AlgoNFTRewards.tsx:30 ~ selectedStakeIndex",
-        selectedStakeIndex
-    );
     const dispatch = useDispatch();
     const [x, setX] = useState(0);
     const [mainImageLoaded, setMainImageLoaded] = useState(false);
@@ -47,10 +43,7 @@ export const AlgoNFTRewards = ({
         const nfts = async () => {
             let nfts: any;
             nfts = await getAllNFTsByOwner(account, stakes);
-            // getAllNFTsByOwnerInterval = setInterval(async () => {
-            //     nfts = await getAllNFTsByOwner(account, stakes);
-            //     // console.log("getAllNFTsByOwnerInterval", nfts);
-            // }, 2000);
+
             dispatch(setNFTSByOwner(nfts));
             if (nfts) dispatch(setSelectedNFT(nfts[0]?.txId));
         };
