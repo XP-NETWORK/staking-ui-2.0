@@ -83,18 +83,19 @@ h1 {
     padding: 10px 12px;
     gap: 10px;
     height: 40px;
-    background: #ffffff;
-    border: 1px solid #ffffff;
+    background: rgb(255, 255, 255);
+    border: 1px solid rgba(255, 255, 255);
     border-radius: 6px;
     color: #282829;
     font-weight: 600;
     font-size: 15px;
     cursor: pointer;
-    opacity: 0.6;
+    // opacity: 0.6;
     transition: all 0.3s;
 }
 .whiteBtn:hover {
-    opacity: 1;
+    background: rgb(255, 255, 255, 0.6);
+    border: 1px solid #ffffff;
 }
 
 button {

@@ -367,7 +367,7 @@ export const Stake: FC<Props> = ({}) => {
                                 Select staking period
                             </label>
                             <StakingPeriods
-                                periods={periods}
+                                // periods={periods}
                                 setDuration={setDuration}
                                 duration={duration}
                             />

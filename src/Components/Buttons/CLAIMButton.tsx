@@ -22,14 +22,12 @@ export default function CLAIMButton({
 }: Props) {
     const dispatch = useDispatch();
     const handleClaimXPNET = async () => {
-        const response = await claimRewards(signer, account, stakes, index);
-        console.log({ response });
+        // const response = await claimRewards(signer, account, stakes, index);
         dispatch(setRefreshTheAlgoRewards());
         // TODO pop-up to show the rewards claimed
     };
     const responsive = window.innerWidth < 600;
     const rewards = window.location.pathname === "/rewards";
-    console.log("🚀 ~ file: CLAIMButton.tsx:32 ~ rewards", !rewards);
 
     return rewards && !responsive ? (
         <button

@@ -223,7 +223,7 @@
 }
 .maxBtn:hover {
     color: #fff;
-    background: rgba(255, 255, 255, 0.24);
+    background: rgba(255, 255, 255, 0.1);
 }
 .tokenLabel {
     display: flex;
@@ -252,12 +252,27 @@
     border-radius: 6px;
     font-weight: 400;
     font-size: 15px;
+    transition: all 0.3s;
+    position: relative;
     span {
         font-weight: 600;
     }
+    .periodBtn-limited {
+        left: 0;
+        top: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: #ae1414;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 6px;
+    }
 }
-.periodBtn:hover {
-    background-color: #288bfe;
+.wrapPeriods button:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
 }
 
 .containerNft {
