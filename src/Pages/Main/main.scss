@@ -4,6 +4,10 @@
 }
 
 .appWrapper {
+    // background-image: url("./../../assets/images/desk/bg.png");
+    // background-size: 1120px;
+    // background-size: contain;
+    background-repeat: no-repeat;
     width: 1120px;
     height: 100vh;
     margin: 0 auto;
@@ -33,6 +37,8 @@
 
 @media screen and (max-width: 600px) {
     .appWrapper {
+        background-image: url("./../../assets/images/mob/mobg.png");
+
         width: unset;
         // padding: 10px 0;
         margin: 0 auto;

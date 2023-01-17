@@ -2,13 +2,16 @@
 
 .App {
     text-align: center;
+    /* background-image: url("./assets/images/desk/bg.png") !important; */
 }
 
 body {
     background: #1b1b1d;
-    /* background-image: url("/src/assets/images/desk/bg.png");
-  background-repeat: no-repeat;
-  background-size: contain; */
+    background-image: url("/src/assets/images/desk/bg.png");
+    background-size: 95vw;
+    /* background-size: 1450px; */
+    background-position-x: 215px;
+    background-repeat: no-repeat;
     color: #ffffff;
     font-family: "Inter";
     font-style: normal;

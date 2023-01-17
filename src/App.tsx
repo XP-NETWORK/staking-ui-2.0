@@ -19,7 +19,7 @@ import {
 } from "./store/reducer/homePageSlice";
 import LimitModalBody from "./Components/Modals/LimitModalBody";
 import bg from "./assets/images/desk/bg.png";
-import bgMob from "./assets/images/mob/bg.png";
+import bgMob from "./assets/images/mob/mobg.png";
 import classNames from "classnames";
 import { fetchXPUpdate } from "./assets/ts/helpers";
 import FetchingComponent from "./Components/DataFetching/FetchingComponent";
@@ -151,8 +151,8 @@ function App() {
 
     return (
         <>
-            <img src={bg} className={classNames("bg", "deskOnly")} alt="bg" />
-            <img src={bgMob} className={classNames("bg", "mobOnly")} alt="bg" />
+            {/* <img src={bg} className={classNames("bg", "deskOnly")} alt="bg" /> */}
+            {/* <img src={bgMob} className={classNames("bg", "mobOnly")} alt="bg" /> */}
             <FetchingComponent />
             <BrowserRouter>
                 <div id="modal-root"></div>
