@@ -7,6 +7,6 @@ jobs:
             - name: Get repository vode
               uses: actions/checkout@v3
             - name: Instal dependencies
-              run: npm ci
+              run: yarn
             - name: Test app
-              run: nmp run test
+              run: yarn test
