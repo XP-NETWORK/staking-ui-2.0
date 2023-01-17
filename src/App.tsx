@@ -151,8 +151,8 @@ function App() {
 
     return (
         <>
-            {/* <img src={bg} className={classNames("bg", "deskOnly")} alt="bg" /> */}
-            {/* <img src={bgMob} className={classNames("bg", "mobOnly")} alt="bg" /> */}
+            {/* <img src={bg} className={classNames("bg", "deskOnly")} alt="bg" />
+            <img src={bgMob} className={classNames("bg", "mobOnly")} alt="bg" /> */}
             <FetchingComponent />
             <BrowserRouter>
                 <div id="modal-root"></div>
