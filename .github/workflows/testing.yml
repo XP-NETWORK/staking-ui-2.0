@@ -5,7 +5,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Get repository vode
-              uses: actions/checkout#v3
+              uses: actions/checkout@v3
             - name: Instal dependencies
               run: npm ci
             - name: Test app
