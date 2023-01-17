@@ -1,0 +1,21 @@
+name: Deploy React App
+on: push
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Get repository vode
+              uses: actions/checkout@v3
+            - name: Instal dependencies
+              run: yarn
+            - name: Test app
+              run: yarn test
+    lint:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Get repository vode
+              uses: actions/checkout@v3
+            - name: Instal dependencies
+              run: yarn
+            - name: Test app
+              run: yarn lint
