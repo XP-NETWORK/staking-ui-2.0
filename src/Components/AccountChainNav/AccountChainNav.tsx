@@ -134,7 +134,6 @@ export default function AccountChainNav() {
                     </div>
                 )}
             </div>
-
             <label className={classNames("account", "deskOnly")}>
                 {formatAccount()}
                 <Jazzicon diameter={16} seed={jsNumberForAddress(account)} />

@@ -17,42 +17,42 @@ export const StakingHistory: FC<Props> = ({}) => {
     useEffect(() => {}, [fetchedAlgoStakes]);
 
     return (
-        fetchedAlgoStakes && (
-            <div
-                // style={{ display: fetchedAlgoStakes.length ? "auto" : "none" }}
-                className="staking-history__container"
-            >
-                <div className="history-header">Staking History</div>
-                <div className="staking-history-line"></div>
-                <div className="history-table__container">
-                    <table className="history-table">
-                        <thead>
-                            <tr>
-                                <th>Start Date</th>
-                                <th>End Date</th>
-                                <th>Duration</th>
-                                <th>Staking amount (XPNET)</th>
-                                <th>APY</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {fetchedAlgoStakes.map(
-                                (stake: IFetchedStake, index: number) => {
-                                    // console.log({ index });
-                                    return (
-                                        <TableRow
-                                            stake={stake}
-                                            cell={index}
-                                            key={`${index} txId: ${stake.txId}`}
-                                        />
-                                    );
-                                }
-                            )}
-                        </tbody>
-                    </table>
-                </div>
+        // fetchedAlgoStakes && (
+        <div
+            style={{ display: fetchedAlgoStakes ? "auto" : "none" }}
+            className="staking-history__container"
+        >
+            <div className="history-header">Staking History</div>
+            <div className="staking-history-line"></div>
+            <div className="history-table__container">
+                <table className="history-table">
+                    <thead>
+                        <tr>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Duration</th>
+                            <th>Staking amount (XPNET)</th>
+                            <th>APY</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {fetchedAlgoStakes.map(
+                            (stake: IFetchedStake, index: number) => {
+                                // console.log({ index });
+                                return (
+                                    <TableRow
+                                        stake={stake}
+                                        cell={index}
+                                        key={`${index} txId: ${stake.txId}`}
+                                    />
+                                );
+                            }
+                        )}
+                    </tbody>
+                </table>
             </div>
-        )
+        </div>
+        // )
     );
 };
