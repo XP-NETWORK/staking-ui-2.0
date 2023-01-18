@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import algorand from "../../assets/images/Algorand.svg";
 import bsc from "../../assets/images/BSC.svg";
 import bg from "../../assets/images/desk/bg.png";
-import bgMob from "../../assets/images/mob/bg.png";
+import bgMob from "../../assets/images/mob/mobg.png";
 import classNames from "classnames";
 import {
     BLOCKCHAINS,
@@ -170,12 +170,13 @@ export const Home: FC<HomeProps> = () => {
             setTotalStakeInAlgo(staked);
         };
         getTotal();
+        // return () => {
+        //     document.body.style.backgroundImage = "none";
+        // };
     }, []);
 
     return (
         <>
-            {/* <img src={bg} className={classNames("bg", "deskOnly")} alt="bg" />
-            <img src={bgMob} className={classNames("bg", "mobOnly")} alt="bg" /> */}
             <div className="homeWrapper">
                 <div>
                     <h1>Do more with XPNET</h1>

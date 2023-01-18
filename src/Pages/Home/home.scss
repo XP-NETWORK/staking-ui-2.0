@@ -1,8 +1,28 @@
+.desk-bg__wrapper {
+    // position: absolute;
+    // top: -10px;
+    // right: -100px;
+    // width: 100%;
+    // // z-index: -1;
+    // @media screen and (max-width: 600px) {
+    //     display: none;
+    // }
+}
 .bg {
+    // position: absolute;
+    // top: -10px;
+    // right: -100px;
+    // width: 100%;
+    // z-index: 0;
+    // @media screen and (max-width: 600px) {
+    //     display: none;
+    // }
+}
+.mobile-bg {
     position: absolute;
-    top: -20px;
-    right: 220px;
-    width: 60%;
+    top: -10px;
+    right: -100px;
+    width: 100%;
     z-index: -1;
 }
 

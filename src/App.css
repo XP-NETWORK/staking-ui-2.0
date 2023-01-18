@@ -8,9 +8,10 @@
 body {
     background: #1b1b1d;
     background-image: url("/src/assets/images/desk/bg.png");
-    background-size: 95vw;
+    /* background-size: 95vw; */
     background-size: 1450px;
-    background-position-x: 215px;
+    background-position-x: 45%;
+    background-position-y: -40%;
     background-repeat: no-repeat;
     color: #ffffff;
     font-family: "Inter";
@@ -46,5 +47,18 @@ h1 {
 
     .deskOnly {
         display: none !important;
+    }
+
+    body {
+        background-image: url("./assets/images/mob/mobg.png");
+    }
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        background-image: url("./assets/images/mob/mobg.png");
+        background-position-y: -10%;
+        background-position-x: 105%;
+        background-size: 800px;
     }
 }
