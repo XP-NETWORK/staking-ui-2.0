@@ -37,7 +37,7 @@ export interface IHomePage {
     selectedNFTtxId: string;
     showConnectModal: boolean;
     navigateRoute: string;
-    showErrorModal: boolean;
+    showErrorModal: boolean | string;
     showLimitModal: boolean;
     showNotifyModal: boolean;
     lastCommit: string;

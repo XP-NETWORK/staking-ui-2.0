@@ -15,10 +15,13 @@ import { NavbarMobActive } from "../NavbarMobActive/NavBarMobActive";
 import AccountChainNav from "../AccountChainNav/AccountChainNav";
 import { Spin as Hamburger } from "hamburger-react";
 import "../NavbarMob/navbarMobile.scss";
+import { useDispatch } from "react-redux";
+import { setErrorModal } from "../../store/reducer/homePageSlice";
 
 interface Props {}
 
 export const Navbar: FC<Props> = ({}) => {
+    const dispatch = useDispatch();
     const [openResources, setOpenResources] = useState(false);
     const [openNavMenu, setOpenNavMenu] = useState(false);
 
@@ -80,6 +83,14 @@ export const Navbar: FC<Props> = ({}) => {
                             >
                                 Community
                             </a>
+                            <div
+                                onClick={() => {
+                                    dispatch(setErrorModal("navbar"));
+                                }}
+                                className="byXPNET"
+                            >
+                                Buy $XPNET
+                            </div>
                             {/* <div className="navMediaWrapper">
                                 <a
                                     href="https://il.linkedin.com/company/xpnetwork"
