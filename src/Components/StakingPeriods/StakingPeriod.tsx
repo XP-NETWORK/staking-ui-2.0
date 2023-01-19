@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import {
     appAdress12Months,
@@ -7,6 +8,7 @@ import {
     appAdress9Months,
     IFetchedStake,
 } from "../../assets/ts/Consts";
+import { setShowAppLimitModal } from "../../store/reducer/homePageSlice";
 import { ReduxState } from "../../store/store";
 // import "./progressStaking.scss";
 
@@ -21,6 +23,7 @@ export const StakingPeriod: FC<Props> = ({
     durationSelected,
     setDuration,
 }) => {
+    const dispatch = useDispatch();
     const dev = window.location.hostname === "localhost";
     const [stakeLimit, setStakeLimit] = useState<boolean>(false);
 
@@ -88,7 +91,9 @@ export const StakingPeriod: FC<Props> = ({
                 }`,
             }}
             onClick={() =>
-                !(stakeLimit && dev) ? setDuration(duration) : () => {}
+                !(stakeLimit && dev)
+                    ? setDuration(duration)
+                    : dispatch(setShowAppLimitModal(true))
             }
         >
             {duration === 12 ? "1 year" : `${duration} months`}

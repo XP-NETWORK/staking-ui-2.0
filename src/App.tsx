@@ -26,6 +26,7 @@ import FetchingComponent from "./Components/DataFetching/FetchingComponent";
 import { StakeNotificationBody } from "./Components/Modals/StakeNotificationBody";
 import { useWeb3Modal } from "@web3modal/react";
 import { useAccount } from "wagmi";
+import { AppLimitModalBody } from "./Components/Modals/AppLimitModalBody";
 
 type ModalProps = {
     children: ReactNode;
@@ -95,39 +96,31 @@ function ConnectModal({ children }: ModalProps) {
     return createPortal(children, x);
 }
 
+function AppLimitModal({ children }: ModalProps) {
+    const x = document.createElement("div");
+    const modalRoot = document.getElementById("app-limit-modal") as HTMLElement;
+    useEffect(() => {
+        //const el = elRef.current!; // non-null assertion because it will never be null
+        modalRoot?.appendChild(x);
+        // return () => {
+        //     dispatch(setConnectModalShow(false));
+        //     modalRoot?.removeChild(x);
+        // };
+    }, []);
+    return createPortal(children, x);
+}
+
 function App() {
     const dispatch = useDispatch();
-    const balanceInt = useRef<number | null>(null);
-    const { isOpen, open, close } = useWeb3Modal();
-    // const [lastCommit, setLastCommit] = useState<string | void>("");
-    const { address, isConnecting, isDisconnected } = useAccount();
+    const { address } = useAccount();
 
     const {
         showConnectModal,
         showErrorModal,
         showLimitModal,
         stakingNotification,
+        showAppLimitModal,
     } = useSelector((state: ReduxState) => state.homePage);
-
-    // const getBalance = async () => {
-    //     const balance = await getXpNetBalance(stakingClient);
-    //     balance ? dispatch(setBalance(balance)) : dispatch(setErrorModal(true));
-    //     dispatch(setBalance(balance));
-    // };
-
-    // const startInterval = () => {
-    //     if (balanceInt.current !== null) return;
-    //     balanceInt.current = window.setInterval(() => {
-    //         // if (balanceInt.current !== null) return;
-    //         getBalance();
-    //     }, 2000);
-    // };
-
-    // useEffect(() => {
-    //     if (account) {
-    //         startInterval();
-    //     }
-    // }, [stakingClient, account]);
 
     useEffect(() => {
         const wc = window.localStorage.getItem("walletconnect");
@@ -180,6 +173,12 @@ function App() {
                             notification={stakingNotification}
                         />
                     </StakeNotification>
+                )}
+                <div id="app-limit-modal"></div>
+                {showAppLimitModal && (
+                    <AppLimitModal>
+                        <AppLimitModalBody />
+                    </AppLimitModal>
                 )}
                 <Routes>
                     <Route path="/" element={<Main />}>
