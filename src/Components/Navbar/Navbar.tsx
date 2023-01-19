@@ -15,15 +15,19 @@ import { NavbarMobActive } from "../NavbarMobActive/NavBarMobActive";
 import AccountChainNav from "../AccountChainNav/AccountChainNav";
 import { Spin as Hamburger } from "hamburger-react";
 import "../NavbarMob/navbarMobile.scss";
+import { useDispatch } from "react-redux";
+import { setErrorModal } from "../../store/reducer/homePageSlice";
+import { AccountMenu } from "../AccountMenu/AccountMenu";
 
 interface Props {}
 
 export const Navbar: FC<Props> = ({}) => {
+    const dispatch = useDispatch();
     const [openResources, setOpenResources] = useState(false);
     const [openNavMenu, setOpenNavMenu] = useState(false);
 
     const [ACTIVE, setACTIVE] = useState(false);
-    const { account, evmAccount } = useSelector(
+    const { account, evmAccount, showAccountMenu } = useSelector(
         (state: ReduxState) => state.homePage
     );
 
@@ -48,9 +52,19 @@ export const Navbar: FC<Props> = ({}) => {
         setOpenNavMenu(false);
     }, [location.pathname]);
 
+    console.log(location.pathname);
+
     return (
         <>
-            <div className="navbar">
+            <div
+                style={{
+                    marginBottom:
+                        location.pathname !== "/" && window.innerWidth < 768
+                            ? "0"
+                            : "",
+                }}
+                className="navbar"
+            >
                 <div className="navWrapper">
                     {window.innerWidth > 320 ? (
                         <img
@@ -80,6 +94,14 @@ export const Navbar: FC<Props> = ({}) => {
                             >
                                 Community
                             </a>
+                            <div
+                                onClick={() => {
+                                    dispatch(setErrorModal("navbar"));
+                                }}
+                                className="byXPNET"
+                            >
+                                Buy $XPNET
+                            </div>
                             {/* <div className="navMediaWrapper">
                                 <a
                                     href="https://il.linkedin.com/company/xpnetwork"
@@ -170,6 +192,7 @@ export const Navbar: FC<Props> = ({}) => {
                         )} */}
                     </div>
                 </div>
+                {showAccountMenu && <AccountMenu func={() => {}} />}
             </div>
             {openResources && (
                 <PopupNav close={() => setOpenResources(false)} />

@@ -13,6 +13,8 @@ import {
 } from "../../assets/ts/Consts";
 
 export interface IHomePage {
+    showAppLimitModal: boolean;
+    showAccountMenu: boolean;
     blockchain: { chain: string; img: string };
     account: string; //the user
     signer: any;
@@ -37,7 +39,7 @@ export interface IHomePage {
     selectedNFTtxId: string;
     showConnectModal: boolean;
     navigateRoute: string;
-    showErrorModal: boolean;
+    showErrorModal: boolean | string;
     showLimitModal: boolean;
     showNotifyModal: boolean;
     lastCommit: string;
@@ -49,6 +51,8 @@ export interface IHomePage {
 }
 
 const initialState: IHomePage = {
+    showAppLimitModal: false,
+    showAccountMenu: false,
     blockchain: BLOCKCHAINS[0],
     account: "",
     evmAccount: "",
@@ -84,6 +88,12 @@ const homePageSlice = createSlice({
     name: "homePage",
     initialState,
     reducers: {
+        setShowAppLimitModal(state, action) {
+            state.showAppLimitModal = action.payload;
+        },
+        setShowAccountMenu(state, action) {
+            state.showAccountMenu = action.payload;
+        },
         setIfMobileDevice(state) {
             state.mobile = true;
         },
@@ -237,6 +247,8 @@ export const {
     setLimitModal,
     setStakingNotification,
     setIfMobileDevice,
+    setShowAccountMenu,
+    setShowAppLimitModal,
 } = homePageSlice.actions;
 
 export default homePageSlice;

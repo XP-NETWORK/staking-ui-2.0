@@ -8,7 +8,6 @@
 body {
     background: #1b1b1d;
     background-image: url("/src/assets/images/desk/bg.png");
-    /* background-size: 95vw; */
     background-size: 1450px;
     background-position-x: 45%;
     background-position-y: -40%;
