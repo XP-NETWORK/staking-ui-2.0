@@ -165,14 +165,17 @@ export const Home: FC<HomeProps> = () => {
     }, [stakingClient]);
 
     useEffect(() => {
+        document.body.style.backgroundImage = `url(${
+            window.innerWidth > 600 ? bg : bgMob
+        })`;
         const getTotal = async () => {
             const staked = await getTokenStaked();
             setTotalStakeInAlgo(staked);
         };
         getTotal();
-        // return () => {
-        //     document.body.style.backgroundImage = "none";
-        // };
+        return () => {
+            document.body.style.backgroundImage = "none";
+        };
     }, []);
 
     return (

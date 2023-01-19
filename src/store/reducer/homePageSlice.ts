@@ -13,6 +13,7 @@ import {
 } from "../../assets/ts/Consts";
 
 export interface IHomePage {
+    showAccountMenu: boolean;
     blockchain: { chain: string; img: string };
     account: string; //the user
     signer: any;
@@ -49,6 +50,7 @@ export interface IHomePage {
 }
 
 const initialState: IHomePage = {
+    showAccountMenu: false,
     blockchain: BLOCKCHAINS[0],
     account: "",
     evmAccount: "",
@@ -84,6 +86,9 @@ const homePageSlice = createSlice({
     name: "homePage",
     initialState,
     reducers: {
+        setShowAccountMenu(state, action) {
+            state.showAccountMenu = action.payload;
+        },
         setIfMobileDevice(state) {
             state.mobile = true;
         },
@@ -237,6 +242,7 @@ export const {
     setLimitModal,
     setStakingNotification,
     setIfMobileDevice,
+    setShowAccountMenu,
 } = homePageSlice.actions;
 
 export default homePageSlice;

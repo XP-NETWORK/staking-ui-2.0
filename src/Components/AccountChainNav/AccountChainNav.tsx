@@ -9,20 +9,24 @@ import {
     setConnectedWallet,
     setConnectModalShow,
     setLimitModal,
+    setShowAccountMenu,
 } from "../../store/reducer/homePageSlice";
 import { ReduxState } from "../../store/store";
 import "../ConnectedAccountNavbar/activeAccountNavbar.scss";
 import Jazzicon, { jsNumberForAddress } from "react-jazzicon";
 import { useOnClickOutside } from "../../assets/ts/helpers";
+import copy from "./../../assets/images/copy.svg";
+import copyHover from "./../../assets/images/copy-hover.svg";
+import { Close } from "../Buttons/Close";
+import { Copy } from "../Buttons/Copy";
 
 export default function AccountChainNav() {
     const ref = useRef(null);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const homePath = window.location.pathname;
-    const { account, blockchain, evmAccount, evmStakes } = useSelector(
-        (state: ReduxState) => state.homePage
-    );
+    const { account, blockchain, evmAccount, evmStakes, showAccountMenu } =
+        useSelector((state: ReduxState) => state.homePage);
 
     const [showDrop, setShowDrop] = useState(false);
 
@@ -102,6 +106,10 @@ export default function AccountChainNav() {
         } else return "auto";
     };
 
+    const handleCLickOnAccount = (e: any) => {
+        dispatch(setShowAccountMenu(!showAccountMenu));
+    };
+
     return (
         <div className="chainAndAccountContainer">
             <div className="dropWraper">
@@ -134,15 +142,42 @@ export default function AccountChainNav() {
                     </div>
                 )}
             </div>
-            <label className={classNames("account", "deskOnly")}>
+            <div
+                style={{ pointerEvents: showAccountMenu ? "none" : "auto" }}
+                className="account"
+                onClick={handleCLickOnAccount}
+            >
                 {formatAccount()}
-                <Jazzicon diameter={16} seed={jsNumberForAddress(account)} />
-            </label>
+                <Jazzicon diameter={20} seed={jsNumberForAddress(account)} />
+                {/* {showAccountMenu && (
+                    <div className="account-menu__container">
+                        <div className="account-header">
+                            <span>Account</span>
+                            <Close func={setShowAccountMenu} />
+                        </div>
+                        <div className="line"></div>
+                        <div className="account-connected-wallet">
+                            Connected with MetaMask
+                        </div>
+                        <div className="account-actions">
+                            <Jazzicon
+                                diameter={20}
+                                seed={jsNumberForAddress(account)}
+                            />
+                            <div className="account-format">
+                                {formatAccount()}
+                            </div>
+                            <Copy address={account} />
+                        </div>
+                        <div className="disconnect-btn">Disconnect</div>
+                    </div>
+                )} */}
+            </div>
 
-            <label className={classNames("account", "mobOnly")}>
+            {/* <label className={classNames("account", "mobOnly")}>
                 {formatAccount()}
                 <Jazzicon diameter={16} seed={jsNumberForAddress(account)} />
-            </label>
+            </label> */}
         </div>
     );
 }
