@@ -68,6 +68,7 @@ export const Navbar: FC<Props> = ({}) => {
                 <div className="navWrapper">
                     {window.innerWidth > 320 ? (
                         <img
+                            style={{ cursor: "pointer" }}
                             // className={classNames("logo", "deskOnly")}
                             src={xpLogo}
                             alt="logo"
@@ -75,7 +76,7 @@ export const Navbar: FC<Props> = ({}) => {
                         />
                     ) : (
                         <img
-                            // className={classNames("logo", "mobOnly")}
+                            style={{ cursor: "pointer" }}
                             src={xpLogoMob}
                             alt="logoMOb"
                             onClick={handleClickLogo}
