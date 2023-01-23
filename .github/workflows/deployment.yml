@@ -1,68 +1,32 @@
-# name: Deploy React App
-# on: push
-# jobs:
-#     # test:
-#     #     runs-on: ubuntu-latest
-#     #     steps:
-#     #         - name: Get repository vode
-#     #           uses: actions/checkout@v3
-#     #         - name: Instal dependencies
-#     #           run: yarn
-#     #         - name: Test app
-#     #           run: yarn test
-#     # lint:
-#     #     runs-on: ubuntu-latest
-#     #     steps:
-#     #         - name: Get repository vode
-#     #           uses: actions/checkout@v3
-#     #         - name: Instal dependencies
-#     #           run: yarn
-#     #         - name: Test eslint app
-#     #           run: yarn lint
-#     build:
-#         runs-on: ubuntu-latest
-#         steps:
-#             - name: Get repository code
-#               uses: actions/checkout@v3
-#             - name: Instal dependencies
-#               run: yarn
-#             - name: Build app
-#               run: yarn build
-#             - name: Deploy
-#               run: echo Deploying...
-
-name: CI
-on: [push]
-
+name: Deploy React App
+on: push
 jobs:
+    # test:
+    #     runs-on: ubuntu-latest
+    #     steps:
+    #         - name: Get repository vode
+    #           uses: actions/checkout@v3
+    #         - name: Instal dependencies
+    #           run: yarn
+    #         - name: Test app
+    #           run: yarn test
+    # lint:
+    #     runs-on: ubuntu-latest
+    #     steps:
+    #         - name: Get repository vode
+    #           uses: actions/checkout@v3
+    #         - name: Instal dependencies
+    #           run: yarn
+    #         - name: Test eslint app
+    #           run: yarn lint
     build:
-        name: Test
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v3
-
-            - name: Set Node.js 16.x
-              uses: actions/setup-node@v3
-              with:
-                  node-version: 16.x
-
-            - name: Run install
-              uses: borales/actions-yarn@v4
-              with:
-                  cmd: install
-              # env:
-              # NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-            - name: Build production bundle
-              uses: borales/actions-yarn@v4
-              with:
-                  cmd: build:prod # will run `yarn build:prod` command
-            - name: Test the app
-              uses: borales/actions-yarn@v4
-              with:
-                  cmd: test # will run `yarn test` command
-
-            - name: Run test in sub-folder
-              uses: borales/actions-yarn@v4
-              with:
-                  cmd: test
-                  dir: "frontend" # will run `yarn test` in `frontend` sub folder
+            - name: Get repository code
+              uses: actions/checkout@v3
+            - name: Instal dependencies
+              run: yarn
+            - name: Build app
+              run: yarn build
+            - name: Deploy
+              run: echo Deploying...
