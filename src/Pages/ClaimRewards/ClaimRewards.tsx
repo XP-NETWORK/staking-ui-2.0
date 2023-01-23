@@ -100,7 +100,7 @@ const ClaimRewards = ({ chain }: Props) => {
                 case "BSC":
                     if (evmStakesArray.length === 0) {
                         navigate("/");
-                        dispatch(setErrorModal(true));
+                        dispatch(setErrorModal("evmError"));
                     }
                     break;
                 case "Algorand":
@@ -112,7 +112,7 @@ const ClaimRewards = ({ chain }: Props) => {
                 default:
                     break;
             }
-        }, 20000);
+        }, 10000);
         return () => clearTimeout(t);
     }, [blockchain, evmStakesArray, fetchedAlgoStakes, navigate]);
 

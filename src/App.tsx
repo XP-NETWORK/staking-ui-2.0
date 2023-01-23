@@ -27,6 +27,7 @@ import { StakeNotificationBody } from "./Components/Modals/StakeNotificationBody
 import { useWeb3Modal } from "@web3modal/react";
 import { useAccount } from "wagmi";
 import { AppLimitModalBody } from "./Components/Modals/AppLimitModalBody";
+import EVMErrorModalBody from "./Components/Modals/EVMErrorModalBody";
 
 type ModalProps = {
     children: ReactNode;
@@ -157,7 +158,11 @@ function App() {
                 <div id="no-xp-modal"></div>
                 {showErrorModal && (
                     <NoXpNetModal>
-                        <ErrorModalBody />
+                        {showErrorModal !== "evmError" ? (
+                            <ErrorModalBody />
+                        ) : (
+                            <EVMErrorModalBody error={showErrorModal} />
+                        )}
                     </NoXpNetModal>
                 )}
                 <div id="limit-modal"></div>

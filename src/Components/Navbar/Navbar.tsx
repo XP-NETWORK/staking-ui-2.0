@@ -24,7 +24,7 @@ interface Props {}
 export const Navbar: FC<Props> = ({}) => {
     const dispatch = useDispatch();
     const [openResources, setOpenResources] = useState(false);
-    const [openNavMenu, setOpenNavMenu] = useState(false);
+    const [openNavMenu, setOpenNavMenu] = useState<boolean>();
 
     const [ACTIVE, setACTIVE] = useState(false);
     const { account, evmAccount, showAccountMenu } = useSelector(
@@ -147,21 +147,23 @@ export const Navbar: FC<Props> = ({}) => {
                                 ? () => {}
                                 : (e) => {
                                       e.stopPropagation();
+                                      console.log({ openNavMenu });
+
                                       setOpenNavMenu(!openNavMenu);
                                   }
                         }
                     >
                         <Hamburger
                             toggled={openNavMenu}
-                            toggle={setOpenNavMenu}
+                            // toggle={setOpenNavMenu}
                             size={20}
-                            onToggle={(toggled) => {
-                                if (toggled) {
-                                    setOpenNavMenu(true); // open a menu
-                                } else {
-                                    setOpenNavMenu(false);
-                                }
-                            }}
+                            // onToggle={(toggled) => {
+                            //     if (toggled) {
+                            //         setOpenNavMenu(true); // open a menu
+                            //     } else {
+                            //         setOpenNavMenu(false);
+                            //     }
+                            // }}
                         />
                         {/* {!openNavMenu ? (
                             <img

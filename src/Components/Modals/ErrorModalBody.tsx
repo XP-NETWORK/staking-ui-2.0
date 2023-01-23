@@ -17,12 +17,15 @@ import "../../Components/Error/error.scss";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
 
-interface Props {}
+interface Props {
+    error?: string | boolean;
+}
 
-export default function ErrorModalBody({}: Props) {
+export default function ErrorModalBody({ error }: Props) {
     const { showErrorModal } = useSelector(
         (state: ReduxState) => state.homePage
     );
+    console.log({ error });
 
     const mobile = window.innerWidth < 600;
     const dispatch = useDispatch();
@@ -91,13 +94,13 @@ export default function ErrorModalBody({}: Props) {
                     </span>
                 )}
                 {showErrorModal !== "navbar" && (
-                    <>
-                        <h4>Oh nooooo</h4>
-                        <p>
+                    <div className="error-header">
+                        <div className="header-tittle">Oh nooooo</div>
+                        <div className="header-text">
                             Seems you don’t have Algorand based $XPNETs in your
                             wallet.
-                        </p>
-                    </>
+                        </div>
+                    </div>
                 )}
                 <div className="error-menu">
                     {showErrorModal !== "navbar" && (
@@ -159,29 +162,7 @@ export default function ErrorModalBody({}: Props) {
                             </div>
                         </div>
                     )}
-                    {/* <div className="btns">
-                        <button
-                            className="changeWalletBtn"
-                            onClick={() => handleButtonClick("Bridge")}
-                        >
-                            Bridge $XPNET form BSC to Algorand
-                        </button>
-                    </div> */}
                 </div>
-                {/* <div className="btns">
-                    <button
-                        className="changeWalletBtn"
-                        onClick={() => handleButtonClick("Bridge")}
-                    >
-                        XPNET Bridge
-                    </button>
-                    <button
-                        className="changeWalletBtn"
-                        onClick={() => handleButtonClick("Change")}
-                    >
-                        Change wallet
-                    </button>
-                </div> */}
             </div>
         </div>
     );
