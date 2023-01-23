@@ -37,6 +37,8 @@
     overflow-y: scroll;
     z-index: 0;
     padding-top: 10px;
+    padding-left: 12px;
+    padding-right: 0;
 }
 .nfts::-webkit-scrollbar {
     width: 12px; /* width of the entire scrollbar */

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import copy from "../../assets/images/copy.svg";
 import { IFetchedStake, INFT } from "../../assets/ts/Consts";
+import { Copy } from "../Buttons/Copy";
 
 interface Props {
     item: any;
@@ -36,16 +37,10 @@ export default function ClipboardCopy({ item, index }: Props) {
     return (
         <div className="clipboard__wrapper">
             <div className="clipboard-label">Asset Id: </div>
+
             <div className="copyContainer">
                 <label>{item?.image || item?.assetId}</label>
-                <img
-                    src={copy}
-                    alt="copy"
-                    onClick={() =>
-                        handleCopyClick(item?.image || item?.assetId)
-                    }
-                    className="copyBtn"
-                />
+                <Copy address={item?.image || item?.assetId} />
             </div>
         </div>
     );

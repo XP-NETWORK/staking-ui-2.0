@@ -10,7 +10,7 @@
         display: flex;
         gap: 14px;
         flex-direction: column;
-        bottom: -390px;
+        bottom: -240px;
         right: 24px;
         padding: 16px;
         background: linear-gradient(92.54deg, #2d2d30 24.68%, #2388ff 303.68%);
@@ -19,6 +19,7 @@
         border-radius: 8px;
         @media screen and (max-width: 600px) {
             right: 0;
+            bottom: -390px;
         }
         .account-header {
             display: flex;
