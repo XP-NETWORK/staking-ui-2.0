@@ -32,10 +32,10 @@ export default function AlgoNFTActions({ index, nfts }: Props) {
     //     try {
     //         const txId = await optInAsset(
     //             account,
-    //             nfts[index]?.assetId,
+    //             nfts[index]?.assetId,§
     //             signer,
     //             stakingClient,
-    //             connectedWallet
+    //             connectedWalle
     //         );
     //         if (txId) setIsOptIn(true);
     //         setOptInDisabled(false);
@@ -58,21 +58,21 @@ export default function AlgoNFTActions({ index, nfts }: Props) {
                 stakingClient,
                 connectedWallet
             );
-            console.log("nft", nfts[index]?.assetId, "tx: ", txId);
             if (txId) {
                 setIsOptIn(true);
-                // setOptInDisabled(false);
-            }
+                const res = await transferOptedInAsset(
+                    nfts[index]?.assetId,
+                    account
+                );
+                if (res) {
+                    dispatch(updateClaimedNft(nfts[index]?.txId));
+                    setClaimDisabled(false);
+                } else setClaimDisabled(false);
+            } else setClaimDisabled(false);
         } catch (error) {
             console.log(error);
             // setOptInDisabled(false);
         }
-
-        const res = await transferOptedInAsset(nfts[index]?.assetId, account);
-        if (res) {
-            dispatch(updateClaimedNft(nfts[index]?.txId));
-            setClaimDisabled(false);
-        } else setClaimDisabled(false);
     };
 
     const isAssetOptIn = async () => {
