@@ -53,6 +53,7 @@ import moment from "moment";
 import StakingPeriods from "../../Components/StakingPeriods/StakingPeriods";
 import { createPortal } from "react-dom";
 import { StakingHistory } from "../../Components/StakingHistory/StakingHistory";
+import { WavesLoader } from "../../Components/Loaders/WavesLoader";
 
 type NoXpNetModalProps = {
     children: ReactNode;
@@ -268,7 +269,7 @@ export const Stake: FC<Props> = ({}) => {
     else
         return loader ? (
             <div className="claim-rewards-loader">
-                <ThreeCircles
+                {/* <ThreeCircles
                     height="100"
                     width="100"
                     color="#E22440"
@@ -279,7 +280,8 @@ export const Stake: FC<Props> = ({}) => {
                     outerCircleColor=""
                     innerCircleColor=""
                     middleCircleColor=""
-                />
+                /> */}
+                <WavesLoader />
             </div>
         ) : (
             <>

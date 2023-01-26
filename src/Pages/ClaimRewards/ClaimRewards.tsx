@@ -27,6 +27,7 @@ import { NFTRewards } from "../../Components/Rewards/NFTRewards";
 import RewardsDetails from "../../Components/Rewards/RewardsDetails";
 import AlgoRewardsDetails from "../../Components/Rewards/AlgoRewardsDetails";
 import { AlgoNFTRewards } from "../../Components/Rewards/AlgoNFTRewards";
+import { WavesLoader } from "../../Components/Loaders/WavesLoader";
 
 interface Props {
     chain: string;
@@ -184,8 +185,7 @@ const ClaimRewards = ({ chain }: Props) => {
         </div>
     ) : (
         <div className="claim-rewards-loader">
-            {/* <div onClick={handleUnstake}>unstake</div> */}
-            <ThreeCircles
+            {/* <ThreeCircles
                 height="100"
                 width="100"
                 color="#E22440"
@@ -196,7 +196,8 @@ const ClaimRewards = ({ chain }: Props) => {
                 outerCircleColor=""
                 innerCircleColor=""
                 middleCircleColor=""
-            />
+            /> */}
+            <WavesLoader />
         </div>
     );
 };
