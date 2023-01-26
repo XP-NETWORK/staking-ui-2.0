@@ -28,6 +28,8 @@ import RewardsDetails from "../../Components/Rewards/RewardsDetails";
 import AlgoRewardsDetails from "../../Components/Rewards/AlgoRewardsDetails";
 import { AlgoNFTRewards } from "../../Components/Rewards/AlgoNFTRewards";
 import { WavesLoader } from "../../Components/Loaders/WavesLoader";
+import { ClaimAlgorand } from "./ClaimAlgorand";
+import { ClaimEVM } from "./ClaimEVM";
 
 interface Props {
     chain: string;
@@ -158,29 +160,37 @@ const ClaimRewards = ({ chain }: Props) => {
     return !showLoader() ? (
         <div className="stakeWrapper">
             {chain === "Algorand" ? (
-                <>
-                    <AlgoRewardsDetails
-                        rewards={algoRewards}
-                        sessionStakes={activeSessionStakes}
-                        stakes={fetchedAlgoStakes}
-                        stakeIndex={indexOfAlgoStake}
-                    />
-                    <AlgoNFTRewards
-                        stakes={fetchedAlgoStakes}
-                        selectedStakeIndex={indexOfAlgoStake}
-                        setIndex={setIndexOfAlgoStake}
-                    />
-                </>
+                <ClaimAlgorand
+                    indexOfAlgoStake={indexOfAlgoStake}
+                    setIndexOfAlgoStake={setIndexOfAlgoStake}
+                />
             ) : (
-                <>
-                    <RewardsDetails stake={evmStakesArray[indexOfStake]} />
-                    <NFTRewards
-                        stakes={evmStakesArray}
-                        setIndex={setIndexOfStake}
-                        algoStakes={fetchedAlgoStakes}
-                        selectedStakeIndex={indexOfStake}
-                    />
-                </>
+                <ClaimEVM
+                    setIndexOfStake={setIndexOfStake}
+                    indexOfStake={indexOfStake}
+                />
+                // <>
+                //     <AlgoRewardsDetails
+                //         rewards={algoRewards}
+                //         sessionStakes={activeSessionStakes}
+                //         stakes={fetchedAlgoStakes}
+                //         stakeIndex={indexOfAlgoStake}
+                //     />
+                //     <AlgoNFTRewards
+                //         stakes={fetchedAlgoStakes}
+                //         selectedStakeIndex={indexOfAlgoStake}
+                //         setIndex={setIndexOfAlgoStake}
+                //     />
+                // </>
+                // <>
+                //     <RewardsDetails stake={evmStakesArray[indexOfStake]} />
+                //     <NFTRewards
+                //         stakes={evmStakesArray}
+                //         setIndex={setIndexOfStake}
+                //         algoStakes={fetchedAlgoStakes}
+                //         selectedStakeIndex={indexOfStake}
+                //     />
+                // </>
             )}
         </div>
     ) : (
