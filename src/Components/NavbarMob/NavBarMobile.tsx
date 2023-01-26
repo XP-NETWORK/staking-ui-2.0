@@ -83,7 +83,11 @@ export const NavBarMobile: FC<Props> = ({ setOpen }) => {
                         </Link>
                     </>
                 )}
-                <div onClick={() => setIsShown(!isShown)} className="titleNav">
+                <div
+                    style={{ cursor: "pointer" }}
+                    onClick={() => setIsShown(!isShown)}
+                    className={`activeNavLink`}
+                >
                     Resources
                 </div>
                 <div className="linksNavMob">
@@ -157,11 +161,12 @@ export const NavBarMobile: FC<Props> = ({ setOpen }) => {
                 </div>
 
                 <a
+                    className={`activeNavLink`}
                     href="https://xp.network/community/"
                     target="_blank"
                     rel="noreferrer"
-                    className="titleNav"
-                    style={{ marginTop: "0px", padding: "13px 16px" }}
+                    // className="titleNav"
+                    // style={{ marginTop: "0px", padding: "13px 16px" }}
                 >
                     Community
                 </a>

@@ -9,7 +9,8 @@
     // background-size: contain;
     background-repeat: no-repeat;
     width: 1120px;
-    height: 100vh;
+    height: 900px;
+
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -17,6 +18,12 @@
     position: relative;
     padding: 0 10px;
 }
+
+// @media screen and (max-width: 2100px) {
+//     .appWrapper {
+//         height: 1000px;
+//     }
+// }
 
 @media screen and (max-width: 768px) {
     .appWrapper {

@@ -19,10 +19,6 @@ export default function Carousel({
     handleMainStakeChange,
 }: // nfts,
 Props) {
-    console.log(
-        "🚀 ~ file: Carousel.tsx:22 ~ selectedStakeIndex",
-        selectedStakeIndex
-    );
     const nfts = useSelector((state: ReduxState) => state.homePage.nfts);
 
     return (
@@ -44,4 +40,3 @@ Props) {
         </div>
     );
 }
-//style={{ transform: `translateX(${x}px)` }}

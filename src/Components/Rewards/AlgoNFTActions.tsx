@@ -109,7 +109,7 @@ export default function AlgoNFTActions({ index, nfts }: Props) {
                     onClick={handleClaim}
                     className={"nft-actions-button--disabled"}
                 >
-                    Claimed
+                    NFT Claimed
                 </div>
             ) : (
                 <div
@@ -117,7 +117,7 @@ export default function AlgoNFTActions({ index, nfts }: Props) {
                     onClick={handleClaim}
                     className={"nft-actions-button"}
                 >
-                    Claim
+                    Claim NFT
                 </div>
             )}
         </div>

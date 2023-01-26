@@ -1,19 +1,6 @@
 import React, { FC, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import "./navbarMobActive.scss";
-import docs from "../../assets/images/mob/menu icons/Docs.svg";
-import roadmap from "../../assets/images/mob/menu icons/roadmap.svg";
-import security from "../../assets/images/mob/menu icons/security.svg";
-import whitepaper from "../../assets/images/mob/menu icons/Whitepaper.svg";
-import github from "../../assets/images/mob/menu icons/github.svg";
-import blog from "../../assets/images/mob/menu icons/blog.svg";
-import active from "../../assets/images/mob/menu icons/active.svg";
-
-import linkedin from "../../assets/images/menu icons/linkedin icon.svg";
-import telegram from "../../assets/images/menu icons/telegram icon.svg";
-import twitter from "../../assets/images/menu icons/twitter icon.svg";
-import redit from "../../assets/images/menu icons/redit icon.svg";
-import classNames from "classnames";
 import { ReduxState } from "../../store/store";
 import { useSelector, useDispatch } from "react-redux";
 import { setLimitModal } from "../../store/reducer/homePageSlice";
@@ -24,10 +11,9 @@ interface Props {
 }
 
 export const NavbarMobActive: FC<Props> = ({ setOpen }) => {
-    const { account, blockchain, balance, evmStakes, lastCommit } = useSelector(
+    const { account, blockchain, balance, evmStakes } = useSelector(
         (state: ReduxState) => state.homePage
     );
-    const [isShown, setIsShown] = useState(false);
 
     const dispatch = useDispatch();
     const ref = useRef(null);
@@ -122,7 +108,9 @@ export const NavbarMobActive: FC<Props> = ({ setOpen }) => {
                             </Link>
                         </>
                     )}
-                    <Link to="/">Home</Link>
+                    <Link className="nav-link" to="/">
+                        Home
+                    </Link>
                     <a
                         href="https://xp.network/"
                         target="_blank"

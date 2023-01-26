@@ -4,22 +4,9 @@ import "./index.css";
 import App from "./App";
 import store from "./store/store";
 import { Provider } from "react-redux";
-
 import reportWebVitals from "./reportWebVitals";
 import { Web3Modal } from "@web3modal/react";
-import {
-    chains,
-    ethereumClient,
-    // ethereumClient,
-    wcId,
-} from "./Components/Wallets/walletConnectors";
-import {
-    EthereumClient,
-    modalConnectors,
-    walletConnectProvider,
-} from "@web3modal/ethereum";
-import Modal from "react-bootstrap/Modal";
-import { configureChains, createClient, WagmiConfig } from "wagmi";
+import { ethereumClient } from "./Components/Wallets/walletConnectors";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement

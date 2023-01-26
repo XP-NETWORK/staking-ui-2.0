@@ -18,13 +18,9 @@ import {
     setLastCommit,
 } from "./store/reducer/homePageSlice";
 import LimitModalBody from "./Components/Modals/LimitModalBody";
-import bg from "./assets/images/desk/bg.png";
-import bgMob from "./assets/images/mob/mobg.png";
-import classNames from "classnames";
 import { fetchXPUpdate } from "./assets/ts/helpers";
 import FetchingComponent from "./Components/DataFetching/FetchingComponent";
 import { StakeNotificationBody } from "./Components/Modals/StakeNotificationBody";
-import { useWeb3Modal } from "@web3modal/react";
 import { useAccount } from "wagmi";
 import { AppLimitModalBody } from "./Components/Modals/AppLimitModalBody";
 import EVMErrorModalBody from "./Components/Modals/EVMErrorModalBody";
