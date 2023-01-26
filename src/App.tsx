@@ -24,6 +24,7 @@ import { StakeNotificationBody } from "./Components/Modals/StakeNotificationBody
 import { useAccount } from "wagmi";
 import { AppLimitModalBody } from "./Components/Modals/AppLimitModalBody";
 import EVMErrorModalBody from "./Components/Modals/EVMErrorModalBody";
+import { StakeEVM } from "./Pages/Stake/StakeEVM";
 
 type ModalProps = {
     children: ReactNode;
@@ -184,21 +185,11 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Main />}>
                         <Route index element={<Home />} />
-                        {/* <Route path="/connect/:to" element={<Connect />} />
-                        <Route path="/connect" element={<Connect />} /> */}
+                        {/* <Route path="/evm-stake" element={<StakeEVM />} /> */}
                         <Route path="/stake" element={<Stake />} />
                         <Route path="/rewards" element={<ClaimRewards />} />
                         <Route path="/gallery" element={<Gallery />} />
-                        {/* <Route path="/error" element={<Error />} /> */}
-                        {/* <Route path="/limit" element={<StakingLimitPopup />} /> */}
                         <Route path="*" element={<WrongRoute />} />
-                        {/*  
-                        <Route path="/associationDonation" element={<DonationMain />}>
-                                <Route index element={<Donation />} />
-                                <Route path="/associationDonation/Receipt" element={<DonationDetails />} />
-                        </Route>
-                         <Route path="/payment-completed" element={<PaymentCompleted/>}/>
-                         */}
                     </Route>
                 </Routes>
             </BrowserRouter>

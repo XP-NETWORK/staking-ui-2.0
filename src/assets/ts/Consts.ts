@@ -3,6 +3,8 @@ import algorand from "../../assets/images/coin/algo.svg";
 import bsc from "../../assets/images/coin/BSC.svg";
 import XPNETTOKEN from "./../../ABI/xpNetToken.json";
 import STAKETOKEN from "./../../ABI/xpNetStaker.json";
+import testnetXPNETContract from "./../../ABI/testnetXPNETContract.json";
+import testnetStakeContract from "./../../ABI/testnetStakeContract.json";
 import { AbiItem } from "web3-utils";
 
 export interface IEVMStake {
@@ -105,6 +107,7 @@ const web3 = new Web3(
     Web3.givenProvider || "https://bsc-dataseed.binance.org/"
 );
 
+// ! MAINNET CONTRACTS
 export const EVMContract = new web3.eth.Contract(
     XPNETTOKEN as AbiItem[],
     process.env.REACT_APP_XPNET_TOKEN
@@ -112,6 +115,16 @@ export const EVMContract = new web3.eth.Contract(
 export const EVMStakeContract = new web3.eth.Contract(
     STAKETOKEN as AbiItem[],
     process.env.REACT_APP_XPNET_STAKE_TOKEN
+);
+// ! //////////
+// ? TESTNET CONTRACTS
+export const TestnetToken = new web3.eth.Contract(
+    testnetXPNETContract as AbiItem[],
+    process.env.REACT_APP_TESTNET_TOKEN
+);
+export const TestnetStake = new web3.eth.Contract(
+    testnetStakeContract as AbiItem[],
+    process.env.REACT_APP_TESTNET_STAKING
 );
 
 // 3 different contracts - every staking periog has her own contract

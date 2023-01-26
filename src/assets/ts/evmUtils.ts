@@ -34,44 +34,45 @@ export const getAmountOfEVMTokensStaked = async (
     address: string,
     contract?: any
 ) => {
-    debugger;
-    // const c = contract || EVMStakeContract;
-    try {
-        const stakes = await EVMStakeContract.methods.balanceOf(address).call();
-        return Number(stakes) || undefined;
-    } catch (error) {
-        console.log(error);
+    // debugger;
+    if (!contract) {
+        try {
+            const stakes = await EVMStakeContract.methods
+                .balanceOf(address)
+                .call();
+            return Number(stakes) || undefined;
+        } catch (error) {
+            console.log(error);
+        }
+    } else {
+        try {
+            const stakes = await contract.methods.balanceOf(address).call();
+            return Number(stakes) || undefined;
+        } catch (error) {
+            console.log(error);
+        }
     }
 };
 
-export const getStakeById = async (id: number, contract?: any) => {
+export const getStakeById = async (id: number, c?: any) => {
+    // debugger;
+    const contract = c || EVMStakeContract;
     try {
-        const info =
-            // contract
-            //     ? await contract.methods.stakes(id).call()
-            //     :
-            await EVMStakeContract.methods.stakes(id).call();
-        const isUnlocked = await EVMStakeContract.methods
-            .checkIsUnlocked(id)
-            .call();
+        const info = await contract.methods.stakes(id).call();
+        const isUnlocked = await contract.methods.checkIsUnlocked(id).call();
         return { info, isUnlocked };
     } catch (error) {
         console.log(error);
     }
 };
 
-export const showAvailableRewards = async (
-    nftTokenIdId: string,
-    contract?: any
-) => {
+export const showAvailableRewards = async (nftTokenIdId: string, c?: any) => {
+    // debugger;
+    const contract = c || EVMStakeContract;
     try {
-        const available =
-            // contract
-            //     ? await contract.methods.showAvailableRewards(nftTokenIdId).call()
-            //     :
-            await EVMStakeContract.methods
-                .showAvailableRewards(nftTokenIdId)
-                .call();
+        const available = await contract.methods
+            .showAvailableRewards(nftTokenIdId)
+            .call();
         return available;
     } catch (error) {
         console.log(error);
@@ -161,6 +162,7 @@ export const claimXpNetRewards = async (
     rewards: string,
     owner: string
 ) => {
+    debugger;
     try {
         await EVMStakeContract.methods
             .withdrawRewards(nftId, rewards)
@@ -176,10 +178,15 @@ export const claimXpNetRewards = async (
     }
 };
 
-export const unstakeEVMStake = async (nftId: string, address: string) => {
-    // debugger
+export const unstakeEVMStake = async (
+    nftId: string,
+    address: string,
+    c?: any
+) => {
+    debugger;
+    const contract = c || EVMStakeContract;
     try {
-        await EVMStakeContract.methods
+        await contract.methods
             .withdraw(nftId)
             .send({ from: address })
             .once("receipt", (e: any) => {
