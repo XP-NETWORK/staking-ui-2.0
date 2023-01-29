@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import React from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
 import { claimRewards } from "../../assets/ts/algoUtils";
 import { setRefreshTheAlgoRewards } from "../../store/reducer/homePageSlice";
 import { IFetchedStake } from "./../../assets/ts/Consts";
@@ -21,9 +22,14 @@ export default function CLAIMButton({
     cell,
 }: Props) {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const handleClaimXPNET = async () => {
-        // const response = await claimRewards(signer, account, stakes, index);
-        dispatch(setRefreshTheAlgoRewards());
+        if (cell) {
+            navigate("/rewards");
+        } else {
+            const response = await claimRewards(signer, account, stakes, index);
+            if (response) dispatch(setRefreshTheAlgoRewards());
+        }
         // TODO pop-up to show the rewards claimed
     };
     const responsive = window.innerWidth < 600;
