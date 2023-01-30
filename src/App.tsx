@@ -169,7 +169,7 @@ function App() {
                     </BSCStakeLimitModal>
                 )}
                 <div id="stake-notification-modal"></div>
-                {!stakingNotification && (
+                {stakingNotification && (
                     <StakeNotification>
                         <StakeNotificationBody
                             notification={stakingNotification}
