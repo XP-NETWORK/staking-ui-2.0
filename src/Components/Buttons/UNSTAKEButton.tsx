@@ -38,7 +38,7 @@ export default function UNSTAKEButton({
                 legalToUnstake ? "blueBtn" : classNames("blueBtn", "blackBtn")
             }
             onClick={handleUnstake}
-            style={{ pointerEvents: "none" }}
+            style={{ pointerEvents: legalToUnstake ? "auto" : "none" }}
         >
             {!legalToUnstake && <img src={lock} alt="lock_img" />}
             Unstake

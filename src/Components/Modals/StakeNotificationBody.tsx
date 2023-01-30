@@ -12,7 +12,7 @@ import { setStakingNotification } from "../../store/reducer/homePageSlice";
 import { useOnClickOutside } from "../../assets/ts/helpers";
 
 interface Props {
-    notification: string;
+    notification: string | undefined;
 }
 
 export const StakeNotificationBody: FC<Props> = ({ notification }) => {
@@ -32,7 +32,7 @@ export const StakeNotificationBody: FC<Props> = ({ notification }) => {
     const stake: IActiveSessionSTake =
         activeSessionStakes[activeSessionStakes?.length - 1];
 
-    const show = (str: string) => {
+    const show = (str: string | undefined) => {
         switch (str) {
             case "fail":
                 return (
@@ -44,7 +44,7 @@ export const StakeNotificationBody: FC<Props> = ({ notification }) => {
                             onClick={() => navigate("/rewards")}
                             className="stake-notif-btn"
                         >
-                            Back to Staging
+                            Back to Staking
                         </div>
                         <a
                             href="https://t.me/XP_NETWORK_Bridge_Support_Bot?start=startwithxpbot"
@@ -83,7 +83,7 @@ export const StakeNotificationBody: FC<Props> = ({ notification }) => {
                             </div>
                         </div>
                         <div onClick={handleClick} className="stake-notif-btn">
-                            Claim
+                            Go to claiming portal
                         </div>
                     </>
                 );

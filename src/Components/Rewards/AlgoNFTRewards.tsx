@@ -113,7 +113,7 @@ export const AlgoNFTRewards = ({
     return (
         <div className="algo-nft-rewards__wrapper">
             <div className={classNames("containerRight", "container")}>
-                <h1>NFT Rewards</h1>
+                <h1>Your NFT rewards</h1>
                 <label className="line" />
                 <div className={classNames("sectionWrapper")}>
                     <div className="rewardsContainerMain">
@@ -145,22 +145,6 @@ export const AlgoNFTRewards = ({
                     />
                 </div>
             </div>
-            {/* {!mainImageLoaded && (
-                <div className={classNames("right-placeholder container")}>
-                    <h1>NFT Rewards</h1>
-                    <label className="line" />
-                    <div className="nft-rewards-placeholder">
-                        <div className="image-placeholder"></div>
-                        <div className="actions-placeholder"></div>
-                        <div className="nfts-btns-placeholder">
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                        </div>
-                    </div>
-                </div>
-            )} */}
         </div>
     );
 };

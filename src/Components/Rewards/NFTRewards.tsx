@@ -52,7 +52,7 @@ export const NFTRewards = ({
 
     return (
         <div className={classNames("containerRight", "container")}>
-            <h1>NFT Rewards</h1>
+            <h1>Your NFT rewards</h1>
             <label className="line" />
             <div className={classNames("sectionWrapper")}>
                 <div className="rewardsContainerMain">
