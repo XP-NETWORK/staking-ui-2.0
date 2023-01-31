@@ -16,6 +16,7 @@ import {
 } from "../../store/reducer/homePageSlice";
 
 import AlgoNFTActions from "./AlgoNFTActions";
+import { Link } from "react-router-dom";
 interface Props {
     stakes: IFetchedStake[];
     setIndex: any;
@@ -113,7 +114,17 @@ export const AlgoNFTRewards = ({
     return (
         <div className="algo-nft-rewards__wrapper">
             <div className={classNames("containerRight", "container")}>
-                <h1>Your NFT rewards</h1>
+                <div className="containerRight__header">
+                    <h1>Your NFT rewards</h1>
+                    <h1>
+                        <Link
+                            className="containerRight__header-button"
+                            to="/gallery"
+                        >
+                            NFT Collection
+                        </Link>
+                    </h1>
+                </div>
                 <label className="line" />
                 <div className={classNames("sectionWrapper")}>
                     <div className="rewardsContainerMain">

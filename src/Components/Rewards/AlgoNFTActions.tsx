@@ -10,6 +10,7 @@ import { INFT } from "../../assets/ts/Consts";
 import { updateClaimedNft } from "../../store/reducer/homePageSlice";
 import { ReduxState } from "../../store/store";
 import ClipboardCopy from "../ClipboardCopy/ClipboardCopy";
+import icon from "../../assets/images/checked.svg";
 
 interface Props {
     index: number;
@@ -109,7 +110,10 @@ export default function AlgoNFTActions({ index, nfts }: Props) {
                     onClick={handleClaim}
                     className={"nft-actions-button--disabled"}
                 >
-                    NFT Claimed
+                    <span>
+                        <img src={icon} alt="" />
+                    </span>
+                    <span>Claimed</span>
                 </div>
             ) : (
                 <div

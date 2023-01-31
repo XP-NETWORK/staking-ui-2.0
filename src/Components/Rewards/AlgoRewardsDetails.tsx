@@ -19,7 +19,7 @@ import {
 } from "../../assets/ts/algoUtils";
 import { ProgressStaking } from "../ProgressStaking/ProgressStaking";
 import { useEffect, useState } from "react";
-import CLAIMButton from "../Buttons/CLAIMButton";
+import { CLAIMButton } from "../Buttons/CLAIMButton";
 import UNSTAKEButton from "../Buttons/UNSTAKEButton";
 
 interface Props {
@@ -33,6 +33,8 @@ export default function AlgoRewardsDetails({
     stakes,
     stakeIndex,
 }: Props) {
+    console.log({ rewards });
+
     const [selectedStake, setSelectedStake] = useState<IFetchedStake>(
         stakes[0]
     );
@@ -131,7 +133,7 @@ export default function AlgoRewardsDetails({
                             </span>
                             <label className="value">
                                 {`${selectedStakeRewards?.earned.toFixed(
-                                    8
+                                    3
                                 )} XPNET`}
                             </label>
                         </div>
@@ -171,6 +173,7 @@ export default function AlgoRewardsDetails({
                         stakes={stakes}
                         index={stakeIndex}
                         cell={false}
+                        earned={rewards}
                     />
                     <UNSTAKEButton
                         signer={signer}

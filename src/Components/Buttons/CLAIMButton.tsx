@@ -1,10 +1,10 @@
 import classNames from "classnames";
-import React from "react";
+import React, { FC } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { claimRewards } from "../../assets/ts/algoUtils";
 import { setRefreshTheAlgoRewards } from "../../store/reducer/homePageSlice";
-import { IFetchedStake } from "./../../assets/ts/Consts";
+import { IAlgoRewards, IFetchedStake } from "./../../assets/ts/Consts";
 
 interface Props {
     signer: {};
@@ -12,15 +12,22 @@ interface Props {
     stakes: IFetchedStake[];
     index: number;
     cell: boolean;
+    earned: IAlgoRewards[] | undefined;
 }
 
-export default function CLAIMButton({
+export const CLAIMButton: FC<Props> = ({
     signer,
     account,
     stakes,
     index,
     cell,
-}: Props) {
+    earned,
+}) => {
+    const thisStakeEarned = earned?.find(
+        (e: IAlgoRewards) => e.appid === stakes[index].appId
+    );
+    console.log({ thisStakeEarned });
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const handleClaimXPNET = async () => {
@@ -40,11 +47,11 @@ export default function CLAIMButton({
             className={classNames("blueBtn", "mt-0")}
             onClick={handleClaimXPNET}
         >
-            Claim XPNET
+            {`Claim ${thisStakeEarned?.earned.toFixed(3)} XPNET`}
         </button>
     ) : (
         <div className="claim-btn-cell" onClick={handleClaimXPNET}>
             Claim
         </div>
     );
-}
+};

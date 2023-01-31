@@ -36,7 +36,8 @@ export default function CarouselMainItem({
             {!loaded && <div className="carousel-main-image-placeholder"></div>}
             {nft.isClaimed && selectedStakeIndex === index && (
                 <div className="carousel-main-image-isClaimed-mark">
-                    CLAIMED
+                    <span></span>
+                    <span>NFT is in your wallet</span>
                 </div>
             )}
         </div>

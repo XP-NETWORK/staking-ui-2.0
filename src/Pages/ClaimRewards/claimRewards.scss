@@ -42,8 +42,8 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    background: rgba(45, 45, 48, 0.9);
-    border: 1px solid rgba(79, 79, 82, 0);
+    background: rgba(45, 45, 48, 0.4);
+    border: 1px solid rgba(79, 79, 82, 0.3);
     border-radius: 6px;
     height: 630px;
     color: #ffffff;
@@ -145,6 +145,23 @@
         color: rgba(255, 255, 255, 0.7);
         span {
             color: #2388ff;
+        }
+    }
+    .containerRight__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        a {
+            padding: 7px 9px;
+            background: #29292b;
+            border-radius: 6px;
+            // transition: all 0.3s;
+            &:hover {
+                background: rgba(35, 136, 255, 0.07);
+                border-radius: 6px;
+                color: #2388ff;
+            }
         }
     }
 }
@@ -417,16 +434,25 @@
 }
 .carousel-main-image-isClaimed-mark {
     position: absolute;
-    top: 10px;
-    left: 10px;
+    bottom: 13px;
+    left: 52px;
     color: rgb(255, 255, 255);
     border-radius: 6px;
-    background: #02c68b;
-    width: 100px;
+    background: rgba(26, 27, 29, 0.33);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 5px;
+    gap: 10px;
+    padding: 11.5px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 126%;
+    & span:first-child {
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        background: #0cc990;
+    }
 }
 .carousel-main-image-placeholder::after {
     content: "";
@@ -544,6 +570,7 @@
     color: #02c68b;
     width: 100px;
     display: flex;
+    gap: 12px;
     align-items: center;
     justify-content: center;
     -webkit-user-select: none;

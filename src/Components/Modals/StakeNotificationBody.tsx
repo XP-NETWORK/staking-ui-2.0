@@ -38,8 +38,11 @@ export const StakeNotificationBody: FC<Props> = ({ notification }) => {
                 return (
                     <div className="fail-txn-body">
                         <img src={fail} alt="" />
-                        <h4>Oooops</h4>
-                        <div>There is an error occurred</div>
+                        <h4>Staking Incomplete</h4>
+                        <div>
+                            An error has occurred.
+                            <br /> Please try again.
+                        </div>
                         <div
                             onClick={() => navigate("/rewards")}
                             className="stake-notif-btn"

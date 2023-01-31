@@ -9,7 +9,7 @@ import {
 import { IAlgoRewards, IFetchedStake } from "../../assets/ts/Consts";
 import { getStartDate } from "../../assets/ts/evmUtils";
 import { ReduxState } from "../../store/store";
-import CLAIMButton from "../Buttons/CLAIMButton";
+import { CLAIMButton } from "../Buttons/CLAIMButton";
 
 interface Props {
     stake: IFetchedStake;
@@ -67,6 +67,7 @@ export const TableRow: FC<Props> = ({ stake, cell }) => {
                     stakes={fetchedAlgoStakes}
                     index={cell}
                     cell={true}
+                    earned={undefined}
                 />
             </td>
         </tr>

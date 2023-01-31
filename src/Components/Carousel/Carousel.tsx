@@ -28,6 +28,7 @@ Props) {
                 {nfts?.map((e: INFT, i: any) => {
                     return (
                         <CarouselItem
+                            isClaimed={e.isClaimed}
                             key={i}
                             item={e}
                             changeId={handleMainStakeChange}
