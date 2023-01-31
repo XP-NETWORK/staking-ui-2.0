@@ -354,8 +354,11 @@ const parseArray = (array: []) => {
     return newArr;
 };
 
-export const getAPY = (rewards: any | undefined) => {
-    const appId = rewards?.appId || rewards?.appid;
+export const getAPY = (rewards: any): any => {
+    const appId =
+        typeof rewards === "number"
+            ? rewards
+            : rewards?.appId || rewards?.appid;
     switch (true) {
         case appAdress3Months === appId:
             return "25";
@@ -576,6 +579,8 @@ export const transferOptedInAsset = async (
             assetId,
             address,
         });
+        console.log({ res });
+
         if (res.data) return true;
     } catch (error) {
         console.log(error);

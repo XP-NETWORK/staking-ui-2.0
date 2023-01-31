@@ -26,7 +26,6 @@ export const CLAIMButton: FC<Props> = ({
     const thisStakeEarned = earned?.find(
         (e: IAlgoRewards) => e.appid === stakes[index].appId
     );
-    console.log({ thisStakeEarned });
 
     const dispatch = useDispatch();
     const navigate = useNavigate();

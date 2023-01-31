@@ -2,14 +2,22 @@ import React, { FC, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import close from "../../assets/images/close-icon.svg";
-import { formatTheNumber } from "../../assets/ts/algoUtils";
+import { formatTheNumber, getAPY } from "../../assets/ts/algoUtils";
 import { IActiveSessionSTake } from "../../assets/ts/Consts";
 import { ReduxState } from "../../store/store";
 import "./modals.scss";
 import fail from "./../../assets/images/404.png";
 import { useDispatch } from "react-redux";
 import { setStakingNotification } from "../../store/reducer/homePageSlice";
-import { useOnClickOutside } from "../../assets/ts/helpers";
+import {
+    addCommas,
+    calculateDurationTime,
+    calculateEndDate,
+    calculateEstimatedRewards,
+    convertSecondsToMonths,
+    useOnClickOutside,
+} from "../../assets/ts/helpers";
+import icon from "./../../assets/images/treasure.svg";
 
 interface Props {
     notification: string | undefined;
@@ -20,7 +28,7 @@ export const StakeNotificationBody: FC<Props> = ({ notification }) => {
     const dispatch = useDispatch();
     const ref = React.useRef<HTMLInputElement>(null);
     useOnClickOutside(ref, () => dispatch(setStakingNotification(undefined)));
-    const { activeSessionStakes } = useSelector(
+    const { activeSessionStakes, fetchedAlgoStakes, nfts } = useSelector(
         (state: ReduxState) => state.homePage
     );
 
@@ -29,8 +37,16 @@ export const StakeNotificationBody: FC<Props> = ({ notification }) => {
         dispatch(setStakingNotification(undefined));
     };
 
+    const lastNFT = nfts[nfts.length - 1];
+    const fetchedStake = fetchedAlgoStakes[fetchedAlgoStakes.length - 1];
     const stake: IActiveSessionSTake =
         activeSessionStakes[activeSessionStakes?.length - 1];
+
+    const toShowNft = (nft: any, fetchedStake: any, activeSTake: any) => {
+        return (
+            nft.appId === fetchedStake.appId, activeSTake.details.appId && true
+        );
+    };
 
     const show = (str: string | undefined) => {
         switch (str) {
@@ -60,8 +76,62 @@ export const StakeNotificationBody: FC<Props> = ({ notification }) => {
                 );
             default:
                 return (
-                    <>
-                        <h4>🎉 Staking success</h4>
+                    <div className="success-txn-body">
+                        <div className="success-txn-header">
+                            <img src={icon} alt="" />
+                            <span>Your $XPNETs are locked </span>
+                        </div>
+                        <div className="success-txn__info">
+                            <div className="success-txn-item">
+                                <span className="success-item-label">
+                                    You staked
+                                </span>
+                                <span className="success-item-value">
+                                    {stake &&
+                                        `${addCommas(stake.amount)} XPNET`}
+                                </span>
+                            </div>
+                            <div className="success-txn-item">
+                                <span className="success-item-label">
+                                    End date
+                                </span>
+                                <span className="success-item-value">
+                                    {calculateEndDate(
+                                        convertSecondsToMonths(
+                                            stake.details.duration
+                                        )
+                                    )}
+                                </span>
+                            </div>
+                            <div className="success-txn-item">
+                                <span className="success-item-label">
+                                    You will earn
+                                </span>
+                                <span className="success-item-value">
+                                    {stake &&
+                                        `${addCommas(
+                                            calculateEstimatedRewards(
+                                                Number(stake.amount),
+                                                stake.details.duration
+                                            )
+                                        )} XPNET`}
+                                </span>
+                            </div>
+                            {toShowNft(lastNFT, fetchedStake, stake) && (
+                                <div className="success-txn-item">
+                                    <span className="success-item-label">
+                                        Your reward
+                                    </span>
+                                    <span className="success-item-value">
+                                        <img src={lastNFT.Uri.image} alt="" />
+                                    </span>
+                                </div>
+                            )}
+                        </div>
+                        {/* <div>
+                            <img src={icon} alt="" />
+                            <h4>Staking success</h4>
+                        </div>
                         <div className="txn-body">
                             <div className="txn-amount">
                                 <span>Staking amount</span>
@@ -70,28 +140,33 @@ export const StakeNotificationBody: FC<Props> = ({ notification }) => {
                                 )} XPNET`}</span>
                             </div>
                             <div className="txn-id">
-                                <span>Transaction Id</span>
-                                <span>
-                                    <a
-                                        href={`https://algoexplorer.io/tx/${stake?.txID}`}
-                                        target="_blank"
-                                        rel="noreferrer"
-                                    >{`${stake?.txID.slice(
-                                        0,
-                                        4
-                                    )}...${stake?.txID.slice(
-                                        stake?.txID.length - 4
-                                    )}`}</a>
-                                </span>
-                            </div>
+                        <span>Transaction Id</span>
+                        <span>
+                            <a
+                                href={`https://algoexplorer.io/tx/${stake?.txID}`}
+                                target="_blank"
+                                rel="noreferrer"
+                            >{`${stake?.txID.slice(
+                                0,
+                                4
+                            )}...${stake?.txID.slice(
+                                stake?.txID.length - 4
+                            )}`}</a>
+                        </span>
+                    </div>
                         </div>
                         <div onClick={handleClick} className="stake-notif-btn">
                             Go to claiming portal
+                        </div> */}
+                        <div onClick={handleClick} className="stake-notif-btn">
+                            Go to claiming portal
                         </div>
-                    </>
+                    </div>
                 );
         }
     };
+
+    useEffect(() => {}, [fetchedAlgoStakes]);
 
     return (
         <div
@@ -107,12 +182,16 @@ export const StakeNotificationBody: FC<Props> = ({ notification }) => {
             }}
         >
             <div ref={ref} className="errorWraper stake-notif">
-                <span
-                    onClick={() => dispatch(setStakingNotification(undefined))}
-                    className="errorWraper-close"
-                >
-                    <img src={close} alt="" />
-                </span>
+                {notification !== "success" && (
+                    <span
+                        onClick={() =>
+                            dispatch(setStakingNotification(undefined))
+                        }
+                        className="errorWraper-close"
+                    >
+                        <img src={close} alt="" />
+                    </span>
+                )}
                 {show(notification)}
             </div>
         </div>

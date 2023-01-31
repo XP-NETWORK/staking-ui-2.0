@@ -26,7 +26,13 @@ export interface IActiveSessionSTake {
     txID: string;
     txInfo: any;
     amount: number;
-    details: {};
+    details: StakeDetails;
+}
+
+interface StakeDetails {
+    appId: number;
+    duration: number;
+    multiplier: number;
 }
 
 export interface IFetchedStake {

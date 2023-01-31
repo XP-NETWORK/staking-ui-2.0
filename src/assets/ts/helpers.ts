@@ -1,3 +1,4 @@
+import { duration9Months, appAdress6Months, duration12Months } from "./Consts";
 import axios from "axios";
 import { useEffect } from "react";
 
@@ -6,8 +7,13 @@ export const addCommas = (x: Number) => {
 };
 
 export const calculateEstimatedRewards = (amount: number, duration: number) => {
+    let months;
+    if (duration > 12) {
+        months = convertSecondsToMonths(duration);
+    }
+
     let rewards;
-    switch (duration) {
+    switch (months || duration) {
         case 3:
             rewards = 1.25 * amount - amount;
             break;
@@ -27,6 +33,19 @@ export const calculateEstimatedRewards = (amount: number, duration: number) => {
     return rewards;
 };
 
+export const convertSecondsToMonths = (seconds: number): number => {
+    switch (true) {
+        case seconds === appAdress6Months:
+            return 6;
+        case seconds === duration9Months:
+            return 9;
+        case seconds === duration12Months:
+            return 12;
+        default:
+            return 3;
+    }
+};
+
 export const calculateDurationTime = (duration: number) => {
     let locktime2weeks = 1209600;
     let durInSec;
@@ -39,6 +58,10 @@ export const calculateDurationTime = (duration: number) => {
 };
 
 export const calculateEndDate = (duration: number) => {
+    // let _duration
+    // if(duration > 12){
+    //     _duration = convertSecondsToMonths(duration)
+    // }
     let endDate;
     var d = new Date();
     d.setMonth(d.getMonth() + duration);
