@@ -1,4 +1,5 @@
 .stake-notif {
+    // min-height: 660px;
     padding: 30px 32px;
     .stake-notif-btn {
         width: 100%;
@@ -23,6 +24,7 @@
         color: #282829;
     }
     .fail-txn-body {
+        max-height: 620px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -85,6 +87,9 @@
                     width: 178px;
                     border-radius: 3.5px;
                 }
+            }
+            .image-item {
+                min-height: 220px;
             }
             & .success-txn-item:last-child {
                 flex-direction: column;

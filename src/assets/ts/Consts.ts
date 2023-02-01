@@ -107,7 +107,7 @@ export const algodApiKey = process.env.REACT_APP_API_TOKEN;
 // export const algodTestnetUri = "https://node.testnet.algoexplorerapi.io";
 export const algodUri = "https://mainnet-algorand.api.purestake.io/ps2";
 export const algodPort = 443;
-export const assetIdx = 970374733;
+export const assetIdx = 1026971729;
 
 const web3 = new Web3(
     Web3.givenProvider || "https://bsc-dataseed.binance.org/"
@@ -134,19 +134,19 @@ export const TestnetStake = new web3.eth.Contract(
 );
 
 // 3 different contracts - every staking periog has her own contract
-export const appAdress3Months = 970373105;
+export const appAdress3Months = 1026971027;
 export const duration3Months = 7890000;
 export const multiplier3Months = 130000000000;
 
-export const appAdress6Months = 970373392;
+export const appAdress6Months = 1026971182;
 export const duration6Months = 15780000;
 export const multiplier6Months = 150000000000;
 
-export const appAdress9Months = 970374012;
+export const appAdress9Months = 1026971342;
 export const duration9Months = 23650000;
 export const multiplier9Months = 170000000000;
 
-export const appAdress12Months = 970374296;
+export const appAdress12Months = 1026971500;
 export const duration12Months = 31540000;
 export const multiplier12Months = 190000000000;
 
@@ -158,6 +158,22 @@ export const multiplier12Months = 190000000000;
 // Created main app: 1026971500, address:TWENU7HGDGFDJKY2LDVEIDE63DIZKONLJUFBAMGFC7AHZLBNM5TVUMNW7Q
 // Created sub app: 1026971626, address:KEXADKDANSQU36HJUAD722XTCYK4RHO7GHMSIAKCD727LJFXAYGVLSB2LU
 // Created Asset with id: 1026971729 and in tx: U4V2FU22VU62SYZGPSH6DEWKJYVE4G2P2S6KMARMQP3CW33NZTEQ
+
+// export const appAdress3Months = 970373105;
+// export const duration3Months = 7890000;
+// export const multiplier3Months = 130000000000;
+
+// export const appAdress6Months = 970373392;
+// export const duration6Months = 15780000;
+// export const multiplier6Months = 150000000000;
+
+// export const appAdress9Months = 970374012;
+// export const duration9Months = 23650000;
+// export const multiplier9Months = 170000000000;
+
+// export const appAdress12Months = 970374296;
+// export const duration12Months = 31540000;
+// export const multiplier12Months = 190000000000;
 
 interface IAlgoDetails {
     appId: number | undefined;
@@ -207,4 +223,4 @@ export const communityAddress =
     "CVQFPJPBG4F5XKRHC4LNOTW325NUCFO4SC4K5KYHHVN7YHL3HJWPHODKV4"; //my add-lost tokens
 export const maxLoss = 75000000000;
 
-export const subAppId = BigInt(970374539);
+export const subAppId = BigInt(1026971626);
