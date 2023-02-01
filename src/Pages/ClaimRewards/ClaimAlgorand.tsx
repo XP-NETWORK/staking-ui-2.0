@@ -7,11 +7,15 @@ import { ReduxState } from "../../store/store";
 interface Props {
     indexOfAlgoStake: number;
     setIndexOfAlgoStake: Function;
+    carouselMoveNext: undefined | boolean;
+    setCarouselMoveNext: Function;
 }
 
 export const ClaimAlgorand: FC<Props> = ({
     indexOfAlgoStake,
     setIndexOfAlgoStake,
+    carouselMoveNext,
+    setCarouselMoveNext,
 }) => {
     const { fetchedAlgoStakes, algoRewards, activeSessionStakes } = useSelector(
         (state: ReduxState) => state.homePage
@@ -29,6 +33,8 @@ export const ClaimAlgorand: FC<Props> = ({
                 stakes={fetchedAlgoStakes}
                 selectedStakeIndex={indexOfAlgoStake}
                 setIndex={setIndexOfAlgoStake}
+                carouselMoveNext={carouselMoveNext}
+                setCarouselMoveNext={setCarouselMoveNext}
             />
         </>
     );

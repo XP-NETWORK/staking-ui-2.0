@@ -13,6 +13,7 @@ import {
     setFetchedAlgoStakes,
     setNFTSByOwner,
     setSelectedNFT,
+    setTableAlgoSTakeIndex,
 } from "../../store/reducer/homePageSlice";
 
 import AlgoNFTActions from "./AlgoNFTActions";
@@ -21,17 +22,17 @@ interface Props {
     stakes: IFetchedStake[];
     setIndex: any;
     selectedStakeIndex: number;
+    carouselMoveNext: boolean | undefined;
+    setCarouselMoveNext: Function;
 }
 
 export const AlgoNFTRewards = ({
     stakes,
     selectedStakeIndex,
     setIndex,
+    carouselMoveNext,
+    setCarouselMoveNext,
 }: Props) => {
-    console.log(
-        "🚀 ~ file: AlgoNFTRewards.tsx:30 ~ selectedStakeIndex",
-        selectedStakeIndex
-    );
     const dispatch = useDispatch();
     const [x, setX] = useState(0);
     const [mainImageLoaded, setMainImageLoaded] = useState(false);
@@ -41,6 +42,7 @@ export const AlgoNFTRewards = ({
         nfts,
         selectedNFTtxId,
         fetchedAlgoStakes,
+        tableAlgoSTakeIndex,
     } = useSelector((state: ReduxState) => state.homePage);
 
     useEffect(() => {
@@ -69,7 +71,7 @@ export const AlgoNFTRewards = ({
         updateAlgoSTakes();
     }, [activeSessionStakes, account, dispatch]);
 
-    const handleSwap = (next: boolean) => {
+    const handleSwap = (next: boolean | undefined) => {
         // debugger;
         switch (next) {
             case false:
@@ -110,6 +112,28 @@ export const AlgoNFTRewards = ({
     const handleMainStakeChange = (i: number) => {
         setIndex(i);
     };
+
+    // useEffect(() => {
+    //     // debugger;
+    //     let carouselInt: any;
+    //     if (nfts.length) {
+    //         handleSwap(carouselMoveNext);
+    //         setIndex(tableAlgoSTakeIndex);
+    //         setCarouselMoveNext(undefined);
+    //     } else {
+    //         carouselInt = setInterval(() => {
+    //             if (nfts.length && carouselMoveNext !== undefined) {
+    //                 handleSwap(carouselMoveNext);
+    //                 setIndex(tableAlgoSTakeIndex);
+    //                 setCarouselMoveNext(undefined);
+    //             }
+    //         }, 500);
+    //     }
+
+    //     return () => {
+    //         clearInterval(carouselInt);
+    //     };
+    // }, [carouselMoveNext, nfts]);
 
     return (
         <div className="algo-nft-rewards__wrapper">

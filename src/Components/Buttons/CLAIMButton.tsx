@@ -3,7 +3,10 @@ import React, { FC } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { claimRewards } from "../../assets/ts/algoUtils";
-import { setRefreshTheAlgoRewards } from "../../store/reducer/homePageSlice";
+import {
+    setRefreshTheAlgoRewards,
+    setTableAlgoSTakeIndex,
+} from "../../store/reducer/homePageSlice";
 import { IAlgoRewards, IFetchedStake } from "./../../assets/ts/Consts";
 
 interface Props {
@@ -32,6 +35,7 @@ export const CLAIMButton: FC<Props> = ({
     const handleClaimXPNET = async () => {
         if (cell) {
             navigate("/rewards");
+            // dispatch(setTableAlgoSTakeIndex(index));
         } else {
             const response = await claimRewards(signer, account, stakes, index);
             if (response) dispatch(setRefreshTheAlgoRewards());

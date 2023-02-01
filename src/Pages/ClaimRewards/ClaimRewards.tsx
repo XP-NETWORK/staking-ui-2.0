@@ -14,6 +14,7 @@ import {
     setErrorModal,
     setEVMStakesArray,
     setFetchedAlgoStakes,
+    setTableAlgoSTakeIndex,
     setXPNetPrice,
 } from "../../store/reducer/homePageSlice";
 import { ThreeCircles } from "react-loader-spinner";
@@ -41,6 +42,9 @@ const ClaimRewards = ({ chain }: Props) => {
     const navigate = useNavigate();
     const [indexOfStake, setIndexOfStake] = useState(0);
     const [indexOfAlgoStake, setIndexOfAlgoStake] = useState(0);
+    const [carouselMoveNext, setCarouselMoveNext] = useState<
+        undefined | boolean
+    >(undefined);
     let timeOut = useRef();
     const {
         account,
@@ -53,6 +57,7 @@ const ClaimRewards = ({ chain }: Props) => {
         evmStakes,
         stakingClient,
         refreshTheAlgoRewards,
+        tableAlgoSTakeIndex,
     } = useSelector((state: ReduxState) => state.homePage);
 
     const showLoader = () => {
@@ -156,6 +161,20 @@ const ClaimRewards = ({ chain }: Props) => {
         }
     }, [refreshTheAlgoRewards]);
 
+    useEffect(() => {
+        const tableIndex = tableAlgoSTakeIndex;
+        // debugger;
+        if (tableIndex !== indexOfAlgoStake) {
+            if (tableIndex > 3) {
+                setIndexOfAlgoStake(tableAlgoSTakeIndex);
+                setCarouselMoveNext(true);
+            } else {
+                setIndexOfAlgoStake(tableAlgoSTakeIndex);
+                setCarouselMoveNext(false);
+            }
+        }
+    }, [tableAlgoSTakeIndex]);
+
     if (!account && !evmAccount) return <Navigate to="/" replace />;
     return !showLoader() ? (
         <div className="stakeWrapper">
@@ -163,50 +182,18 @@ const ClaimRewards = ({ chain }: Props) => {
                 <ClaimAlgorand
                     indexOfAlgoStake={indexOfAlgoStake}
                     setIndexOfAlgoStake={setIndexOfAlgoStake}
+                    carouselMoveNext={carouselMoveNext}
+                    setCarouselMoveNext={setCarouselMoveNext}
                 />
             ) : (
                 <ClaimEVM
                     setIndexOfStake={setIndexOfStake}
                     indexOfStake={indexOfStake}
                 />
-                // <>
-                //     <AlgoRewardsDetails
-                //         rewards={algoRewards}
-                //         sessionStakes={activeSessionStakes}
-                //         stakes={fetchedAlgoStakes}
-                //         stakeIndex={indexOfAlgoStake}
-                //     />
-                //     <AlgoNFTRewards
-                //         stakes={fetchedAlgoStakes}
-                //         selectedStakeIndex={indexOfAlgoStake}
-                //         setIndex={setIndexOfAlgoStake}
-                //     />
-                // </>
-                // <>
-                //     <RewardsDetails stake={evmStakesArray[indexOfStake]} />
-                //     <NFTRewards
-                //         stakes={evmStakesArray}
-                //         setIndex={setIndexOfStake}
-                //         algoStakes={fetchedAlgoStakes}
-                //         selectedStakeIndex={indexOfStake}
-                //     />
-                // </>
             )}
         </div>
     ) : (
         <div className="claim-rewards-loader">
-            {/* <ThreeCircles
-                height="100"
-                width="100"
-                color="#E22440"
-                wrapperStyle={{}}
-                wrapperClass=""
-                visible={true}
-                ariaLabel="three-circles-rotating"
-                outerCircleColor=""
-                innerCircleColor=""
-                middleCircleColor=""
-            /> */}
             <WavesLoader />
         </div>
     );
