@@ -573,7 +573,7 @@ export const transferOptedInAsset = async (
     assetId: number,
     address: string
 ) => {
-    debugger;
+    // debugger;
     try {
         const res = await algoService.post("/transfer-asset", {
             assetId,
