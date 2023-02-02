@@ -102,7 +102,7 @@ export const Home: FC<HomeProps> = () => {
             if (evmStakesArray.length < 0) {
                 dispatch(setLimitModal(true));
             } else {
-                // handleBlockchainSelect(typeOfClaim);
+                handleBlockchainSelect(typeOfClaim);
                 dispatch(setConnectModalShow(true));
                 dispatch(setNavigateRoute("/rewards"));
             }
