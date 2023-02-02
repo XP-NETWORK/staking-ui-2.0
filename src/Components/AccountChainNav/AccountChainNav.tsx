@@ -24,7 +24,7 @@ export default function AccountChainNav() {
     const ref = useRef(null);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const homePath = window.location.pathname;
+    const pathname = window.location.pathname;
     const { account, blockchain, evmAccount, evmStakes, showAccountMenu } =
         useSelector((state: ReduxState) => state.homePage);
 
@@ -36,7 +36,7 @@ export default function AccountChainNav() {
         // debugger;
 
         setShowDrop(false);
-        switch (homePath) {
+        switch (pathname) {
             case "/stake":
                 switch (chain) {
                     case "BSC":
@@ -82,16 +82,6 @@ export default function AccountChainNav() {
         }
     };
 
-    // useEffect(() => {
-    //     if (account && !evmAccount) {
-    //         handleChangeChain("Algorand");
-    //     } else if (!account && evmAccount) {
-    //         handleChangeChain("BSC");
-    //     } else {
-    //         handleChangeChain("Algorand");
-    //     }
-    // }, [account, evmAccount]);
-
     let title = (
         <div className="ddItem">
             <img src={blockchain.img} alt={blockchain.img} />
@@ -101,7 +91,7 @@ export default function AccountChainNav() {
     const buttonEvents = () => {
         if (showDrop) {
             return "none";
-        } else if (homePath === "/" && !evmAccount) {
+        } else if (pathname === "/" && !evmAccount) {
             return "none";
         } else return "auto";
     };
@@ -149,35 +139,7 @@ export default function AccountChainNav() {
             >
                 {formatAccount()}
                 <Jazzicon diameter={20} seed={jsNumberForAddress(account)} />
-                {/* {showAccountMenu && (
-                    <div className="account-menu__container">
-                        <div className="account-header">
-                            <span>Account</span>
-                            <Close func={setShowAccountMenu} />
-                        </div>
-                        <div className="line"></div>
-                        <div className="account-connected-wallet">
-                            Connected with MetaMask
-                        </div>
-                        <div className="account-actions">
-                            <Jazzicon
-                                diameter={20}
-                                seed={jsNumberForAddress(account)}
-                            />
-                            <div className="account-format">
-                                {formatAccount()}
-                            </div>
-                            <Copy address={account} />
-                        </div>
-                        <div className="disconnect-btn">Disconnect</div>
-                    </div>
-                )} */}
             </div>
-
-            {/* <label className={classNames("account", "mobOnly")}>
-                {formatAccount()}
-                <Jazzicon diameter={16} seed={jsNumberForAddress(account)} />
-            </label> */}
         </div>
     );
 }
