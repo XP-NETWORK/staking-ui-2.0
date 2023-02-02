@@ -17,14 +17,18 @@ import { setConnectModalShow } from "../../store/reducer/homePageSlice";
 import "./../../Components/Connect/connect.scss";
 import PDF from "../../assets/Terms.pdf";
 
-interface Props {}
+interface Props {
+    showConnectModal: { visible: boolean; network?: string | undefined };
+}
 
-export default function ConnectModalBody({}: Props) {
+export default function ConnectModalBody({ showConnectModal }: Props) {
     const dispatch = useDispatch();
     const { blockchain } = useSelector((state: ReduxState) => state.homePage);
 
     const ref = React.useRef<HTMLInputElement>(null);
-    useOnClickOutside(ref, () => dispatch(setConnectModalShow(false)));
+    useOnClickOutside(ref, () =>
+        dispatch(setConnectModalShow({ visible: false, network: undefined }))
+    );
 
     const mobile = window.innerWidth < 600;
 
@@ -51,12 +55,19 @@ export default function ConnectModalBody({}: Props) {
                     </label>
                     <img
                         src={close}
-                        onClick={() => dispatch(setConnectModalShow(false))}
+                        onClick={() =>
+                            dispatch(
+                                setConnectModalShow({
+                                    visible: false,
+                                    network: undefined,
+                                })
+                            )
+                        }
                         alt=""
                     />
                 </div>
                 <div className="connectBtns">
-                    {blockchain?.chain === "BSC" ? (
+                    {showConnectModal.network === "BSC" ? (
                         <>
                             <WagmiConfig client={wagmiClient}>
                                 <MetaMask />

@@ -51,13 +51,24 @@ export default function AccountChainNav() {
                     case "Algorand":
                         dispatch(setBlockchain(BLOCKCHAINS[0]));
 
-                        if (!account) dispatch(setConnectModalShow(true));
+                        if (!account)
+                            dispatch(
+                                setConnectModalShow({
+                                    visible: true,
+                                    network: "Algorand",
+                                })
+                            );
                         else if (account) navigate("/rewards");
                         break;
                     case "BSC":
                         dispatch(setBlockchain(BLOCKCHAINS[1]));
                         if (!evmAccount) {
-                            dispatch(setConnectModalShow(true));
+                            dispatch(
+                                setConnectModalShow({
+                                    visible: true,
+                                    network: "BSC",
+                                })
+                            );
                         } else navigate("/rewards");
                         break;
                     default:

@@ -81,7 +81,9 @@ export const Home: FC<HomeProps> = () => {
             if (!account) {
                 dispatch(setNavigateRoute("/stake"));
                 dispatch(setBlockchain(BLOCKCHAINS[0]));
-                dispatch(setConnectModalShow(true));
+                dispatch(
+                    setConnectModalShow({ visible: true, network: "Algorand" })
+                );
             } else if (account && !balance) dispatch(setErrorModal(true));
             else {
                 handleBlockchainSelect(typeOfStake);
@@ -95,6 +97,14 @@ export const Home: FC<HomeProps> = () => {
     };
 
     const handleClickOnClaim = (typeOfClaim: string) => {
+        switch (typeOfClaim) {
+            case "ALGO":
+                break;
+
+            case "BSC":
+                break;
+        }
+
         if (typeOfClaim === "ALGO" ? account : evmAccount) {
             if (!balance) dispatch(setErrorModal(true));
             else navigate("/rewards");
@@ -103,7 +113,9 @@ export const Home: FC<HomeProps> = () => {
                 dispatch(setLimitModal(true));
             } else {
                 // handleBlockchainSelect(typeOfClaim);
-                dispatch(setConnectModalShow(true));
+                dispatch(
+                    setConnectModalShow({ visible: true, network: "BSC" })
+                );
                 dispatch(setNavigateRoute("/rewards"));
             }
         }

@@ -39,7 +39,7 @@ const AlgoSigner = ({ connect }: Props) => {
         );
         dispatch(setClient(client));
         navigate(navigateRoute);
-        dispatch(setConnectModalShow(false));
+        dispatch(setConnectModalShow({ visible: false, network: "Algorand" }));
     };
 
     return (

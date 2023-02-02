@@ -17,7 +17,7 @@ export const AppLimitModalBody: FC<Props> = () => {
     };
     const handleClickOnChange = () => {
         dispatch(setShowAppLimitModal(false));
-        dispatch(setConnectModalShow(true));
+        dispatch(setConnectModalShow({ visible: true, network: "Algorand" }));
     };
 
     useOnClickOutside(ref, handleMOdalClose);

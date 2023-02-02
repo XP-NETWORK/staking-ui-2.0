@@ -37,7 +37,7 @@ export interface IHomePage {
     algoRewards: IAlgoRewards[];
     nfts: INFT[];
     selectedNFTtxId: string;
-    showConnectModal: boolean;
+    showConnectModal: { visible: boolean; network?: string | undefined };
     navigateRoute: string;
     showErrorModal: boolean | string;
     showLimitModal: boolean;
@@ -72,7 +72,7 @@ const initialState: IHomePage = {
     algoRewards: [],
     nfts: [],
     selectedNFTtxId: "",
-    showConnectModal: false,
+    showConnectModal: { visible: false, network: "Algorand" },
     navigateRoute: "",
     showErrorModal: false,
     showLimitModal: false,

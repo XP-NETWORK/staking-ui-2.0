@@ -84,12 +84,7 @@ function ConnectModal({ children }: ModalProps) {
     const x = document.createElement("div");
     const modalRoot = document.getElementById("modal-root") as HTMLElement;
     useEffect(() => {
-        //const el = elRef.current!; // non-null assertion because it will never be null
         modalRoot?.appendChild(x);
-        // return () => {
-        //     dispatch(setConnectModalShow(false));
-        //     modalRoot?.removeChild(x);
-        // };
     }, []);
     return createPortal(children, x);
 }
@@ -98,12 +93,7 @@ function AppLimitModal({ children }: ModalProps) {
     const x = document.createElement("div");
     const modalRoot = document.getElementById("app-limit-modal") as HTMLElement;
     useEffect(() => {
-        //const el = elRef.current!; // non-null assertion because it will never be null
         modalRoot?.appendChild(x);
-        // return () => {
-        //     dispatch(setConnectModalShow(false));
-        //     modalRoot?.removeChild(x);
-        // };
     }, []);
     return createPortal(children, x);
 }
@@ -147,9 +137,9 @@ function App() {
             <FetchingComponent />
             <BrowserRouter>
                 <div id="modal-root"></div>
-                {showConnectModal && (
+                {showConnectModal.visible && (
                     <ConnectModal>
-                        <ConnectModalBody />
+                        <ConnectModalBody showConnectModal={showConnectModal} />
                     </ConnectModal>
                 )}
                 <div id="no-xp-modal"></div>

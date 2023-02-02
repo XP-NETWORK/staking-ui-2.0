@@ -46,7 +46,9 @@ export default function EVMErrorModalBody({ error }: Props) {
                 break;
             case "Change":
                 dispatch(setErrorModal(false));
-                dispatch(setConnectModalShow(true));
+                dispatch(
+                    setConnectModalShow({ visibility: true, network: "BCS" })
+                );
                 break;
             default:
                 break;

@@ -46,7 +46,12 @@ export default function ErrorModalBody({ error }: Props) {
                 break;
             case "Change":
                 dispatch(setErrorModal(false));
-                dispatch(setConnectModalShow(true));
+                dispatch(
+                    setConnectModalShow({
+                        visibility: true,
+                        network: "Algorand",
+                    })
+                );
                 break;
             default:
                 break;

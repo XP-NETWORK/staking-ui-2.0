@@ -123,7 +123,7 @@ const MyAlgo = ({ connect }: Props) => {
         dispatch(setClient(client));
         navigate(navigateRoute);
         dispatch(setConnectedWallet("MyAlgo"));
-        dispatch(setConnectModalShow(false));
+        dispatch(setConnectModalShow({ visible: false, network: "ALgorand" }));
     };
     return (
         <button
