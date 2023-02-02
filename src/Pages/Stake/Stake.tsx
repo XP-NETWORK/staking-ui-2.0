@@ -13,6 +13,7 @@ import {
     setErrorModal,
     setFetchedAlgoStakes,
     setNFTSByOwner,
+    setRefreshTheAlgoRewards,
     setStakeDetails,
     setStakingNotification,
     setXPNetPrice,
@@ -170,28 +171,28 @@ export const Stake: FC<Props> = ({}) => {
                 details: algoDetails,
             };
             dispatch(setActiveSessionStakes(_stake));
-
-            if (_stake) {
-                let _fetchedStakes = await algoRewardsAndStakes();
-                let nfts = await getAllNFTsByOwner(account, fetchedAlgoStakes);
-                if (
-                    fetchedAlgoStakes &&
-                    fetchedAlgoStakes.length < _fetchedStakes?.length
-                ) {
-                    let rewards = await getAlgoReward(account);
-                    // rewardsInt = setInterval(
-                    //     async () => (rewards = await getAlgoReward(account)),
-                    //     200
-                    // );
-                    dispatch(setNFTSByOwner(nfts));
-                    dispatch(setAlgoRewards(rewards));
-                    dispatch(setFetchedAlgoStakes(_fetchedStakes));
-                    // navigate(`/rewards`);
-                } else if (_fetchedStakes?.length > 0) {
-                    dispatch(setFetchedAlgoStakes(_fetchedStakes));
-                    // navigate(`/rewards`);
-                }
-            }
+            dispatch(setRefreshTheAlgoRewards());
+            // if (_stake) {
+            //     let _fetchedStakes = await algoRewardsAndStakes();
+            //     let nfts = await getAllNFTsByOwner(account, fetchedAlgoStakes);
+            //     if (
+            //         fetchedAlgoStakes &&
+            //         fetchedAlgoStakes.length < _fetchedStakes?.length
+            //     ) {
+            //         // let rewards = await getAlgoReward(account);
+            //         // rewardsInt = setInterval(
+            //         //     async () => (rewards = await getAlgoReward(account)),
+            //         //     200
+            //         // );
+            //         dispatch(setNFTSByOwner(nfts));
+            //         // dispatch(setAlgoRewards(rewards));
+            //         dispatch(setFetchedAlgoStakes(_fetchedStakes));
+            //         // navigate(`/rewards`);
+            //     } else if (_fetchedStakes?.length > 0) {
+            //         dispatch(setFetchedAlgoStakes(_fetchedStakes));
+            //         // navigate(`/rewards`);
+            //     }
+            // }
             dispatch(setStakingNotification("success"));
         } catch (error) {
             dispatch(setStakingNotification("fail"));

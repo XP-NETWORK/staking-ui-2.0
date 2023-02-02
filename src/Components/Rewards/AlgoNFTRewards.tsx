@@ -63,13 +63,13 @@ export const AlgoNFTRewards = ({
         return () => clearInterval(getAllNFTsByOwnerInterval);
     }, [fetchedAlgoStakes]);
 
-    useEffect(() => {
-        const updateAlgoSTakes = async () => {
-            const stakes = await getAllAlgoStakes(account);
-            dispatch(setFetchedAlgoStakes(stakes));
-        };
-        updateAlgoSTakes();
-    }, [activeSessionStakes, account, dispatch]);
+    // useEffect(() => {
+    //     const updateAlgoSTakes = async () => {
+    //         const stakes = await getAllAlgoStakes(account);
+    //         dispatch(setFetchedAlgoStakes(stakes));
+    //     };
+    //     updateAlgoSTakes();
+    // }, [activeSessionStakes, account, dispatch]);
 
     const handleSwap = (next: boolean | undefined) => {
         // debugger;

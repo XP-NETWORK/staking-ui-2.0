@@ -14,7 +14,7 @@ export const StakingHistory: FC<Props> = ({}) => {
         (state: ReduxState) => state.homePage
     );
 
-    useEffect(() => {}, [fetchedAlgoStakes]);
+    // useEffect(() => {}, [fetchedAlgoStakes]);
 
     return (
         // fetchedAlgoStakes && (

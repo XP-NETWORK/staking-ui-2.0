@@ -49,9 +49,9 @@ export const StakeNotificationBody: FC<Props> = ({ notification }) => {
         navigate("/rewards");
         dispatch(setStakingNotification(undefined));
     };
-    const [lastNFT, setLastNFT] = useState<INFT>();
+    // const [lastNFT, setLastNFT] = useState<INFT>();
 
-    // const lastNFT = nfts[nfts.length - 1];
+    const lastNFT = nfts[nfts.length - 1];
     const fetchedStake = fetchedAlgoStakes[fetchedAlgoStakes.length - 1];
     const stake: IActiveSessionSTake =
         activeSessionStakes[activeSessionStakes?.length - 1];
@@ -65,12 +65,12 @@ export const StakeNotificationBody: FC<Props> = ({ notification }) => {
         const nftTxnId = nft.txId;
         const fetchedStakeTxId = fetchedStake.txId;
         const activeStake = activeSTake.txID;
-        // return (
-        //     nftTxnId === fetchedStakeTxId &&
-        //     fetchedStakeTxId === activeStake &&
-        //     activeStake === nftTxnId
-        // );
-        return true;
+        return (
+            nftTxnId === fetchedStakeTxId &&
+            fetchedStakeTxId === activeStake &&
+            activeStake === nftTxnId
+        );
+        // return true;
     };
 
     const show = (str: string | undefined) => {
@@ -196,40 +196,40 @@ export const StakeNotificationBody: FC<Props> = ({ notification }) => {
         }
     };
 
-    useEffect(() => {
-        let rewardsInt: any;
-        let stakesInt: any;
-        const algoRewardsAndStakes = async () => {
-            // debugger;
-            let rewards = await getAlgoReward(account);
-            rewardsInt = setInterval(
-                async () => (rewards = await getAlgoReward(account)),
-                200
-            );
+    // useEffect(() => {
+    //     let rewardsInt: any;
+    //     let stakesInt: any;
+    //     const algoRewardsAndStakes = async () => {
+    //         // debugger;
+    //         let rewards = await getAlgoReward(account);
+    //         rewardsInt = setInterval(
+    //             async () => (rewards = await getAlgoReward(account)),
+    //             200
+    //         );
 
-            dispatch(setAlgoRewards(rewards));
-            clearInterval(rewardsInt);
-            let stakes = await getAllAlgoStakes(account);
-            let nfts;
-            nfts = await getAllNFTsByOwner(account, stakes);
-            if (nfts) setLastNFT(nfts[nfts.length - 1]);
-            dispatch(setNFTSByOwner(nfts));
-            if (fetchedAlgoStakes?.length !== stakes?.length)
-                dispatch(setFetchedAlgoStakes(stakes));
-            if (!stakes) {
-                stakesInt = setInterval(
-                    async () => (stakes = await getAlgoReward(account)),
-                    200
-                );
-            } else if (stakes) {
-                dispatch(setAlgoRewards(rewards));
-                clearInterval(stakesInt);
-            }
-        };
-        if (account) {
-            algoRewardsAndStakes();
-        }
-    }, []);
+    //         dispatch(setAlgoRewards(rewards));
+    //         clearInterval(rewardsInt);
+    //         let stakes = await getAllAlgoStakes(account);
+    //         let nfts;
+    //         nfts = await getAllNFTsByOwner(account, stakes);
+    //         if (nfts) setLastNFT(nfts[nfts.length - 1]);
+    //         dispatch(setNFTSByOwner(nfts));
+    //         if (fetchedAlgoStakes?.length !== stakes?.length)
+    //             dispatch(setFetchedAlgoStakes(stakes));
+    //         if (!stakes) {
+    //             stakesInt = setInterval(
+    //                 async () => (stakes = await getAlgoReward(account)),
+    //                 200
+    //             );
+    //         } else if (stakes) {
+    //             dispatch(setAlgoRewards(rewards));
+    //             clearInterval(stakesInt);
+    //         }
+    //     };
+    //     if (account) {
+    //         algoRewardsAndStakes();
+    //     }
+    // }, []);
 
     return (
         <div

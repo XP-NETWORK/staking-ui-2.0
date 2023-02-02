@@ -88,7 +88,7 @@ export const Home: FC<HomeProps> = () => {
                 navigate("/stake");
             }
         } else {
-            handleBlockchainSelect(typeOfStake);
+            // handleBlockchainSelect(typeOfStake);
             dispatch(setLimitModal(true));
             // dispatch(setNavigateRoute("/stake"));
         }
@@ -102,67 +102,67 @@ export const Home: FC<HomeProps> = () => {
             if (evmStakesArray.length < 0) {
                 dispatch(setLimitModal(true));
             } else {
-                handleBlockchainSelect(typeOfClaim);
+                // handleBlockchainSelect(typeOfClaim);
                 dispatch(setConnectModalShow(true));
                 dispatch(setNavigateRoute("/rewards"));
             }
         }
     };
 
-    useEffect(() => {
-        // if (account) {
-        //     startInterval();
-        // }
-        const getCurrency = async () => {
-            let currency = await getCurrentPrice();
-            dispatch(setXPNetPrice(currency));
-        };
-        getCurrency().catch(console.error);
+    // useEffect(() => {
+    //     // if (account) {
+    //     //     startInterval();
+    //     // }
+    //     const getCurrency = async () => {
+    //         let currency = await getCurrentPrice();
+    //         dispatch(setXPNetPrice(currency));
+    //     };
+    //     getCurrency().catch(console.error);
 
-        let rewardsInt: any;
-        let stakesInt: any;
-        const algoRewardsAndStakes = async () => {
-            console.log("algoRewardsAndStakes");
+    //     let rewardsInt: any;
+    //     let stakesInt: any;
+    //     const algoRewardsAndStakes = async () => {
+    //         console.log("algoRewardsAndStakes");
 
-            let rewards = await getAlgoReward(account);
-            // if (!rewards) {
-            rewardsInt = setInterval(
-                async () => (rewards = await getAlgoReward(account)),
-                200
-            );
-            // } else if (rewards) {
-            dispatch(setAlgoRewards(rewards));
-            clearInterval(rewardsInt);
-            // }
-            let stakes = await getAllAlgoStakes(account);
-            if (fetchedAlgoStakes?.length !== stakes?.length)
-                dispatch(setFetchedAlgoStakes(stakes));
-            if (!stakes) {
-                stakesInt = setInterval(
-                    async () => (stakes = await getAlgoReward(account)),
-                    200
-                );
-            } else if (stakes) {
-                dispatch(setAlgoRewards(rewards));
-                clearInterval(stakesInt);
-            }
-        };
-        if (account) {
-            algoRewardsAndStakes();
-        }
-        const getEVMStakes = async (evmStakes: any) => {
-            const tokens = await getTokenOfOwnerByIndex(evmStakes, evmAccount);
-            dispatch(setEVMStakesArray(tokens));
-        };
-        if (blockchain.chain === "BSC" && evmStakes) {
-            getEVMStakes(evmStakes);
-        }
+    //         let rewards = await getAlgoReward(account);
+    //         // if (!rewards) {
+    //         rewardsInt = setInterval(
+    //             async () => (rewards = await getAlgoReward(account)),
+    //             200
+    //         );
+    //         // } else if (rewards) {
+    //         dispatch(setAlgoRewards(rewards));
+    //         clearInterval(rewardsInt);
+    //         // }
+    //         let stakes = await getAllAlgoStakes(account);
+    //         if (fetchedAlgoStakes?.length !== stakes?.length)
+    //             dispatch(setFetchedAlgoStakes(stakes));
+    //         if (!stakes) {
+    //             stakesInt = setInterval(
+    //                 async () => (stakes = await getAlgoReward(account)),
+    //                 200
+    //             );
+    //         } else if (stakes) {
+    //             dispatch(setAlgoRewards(rewards));
+    //             clearInterval(stakesInt);
+    //         }
+    //     };
+    //     if (account) {
+    //         algoRewardsAndStakes();
+    //     }
+    //     const getEVMStakes = async (evmStakes: any) => {
+    //         const tokens = await getTokenOfOwnerByIndex(evmStakes, evmAccount);
+    //         dispatch(setEVMStakesArray(tokens));
+    //     };
+    //     if (blockchain.chain === "BSC" && evmStakes) {
+    //         getEVMStakes(evmStakes);
+    //     }
 
-        return () => {
-            clearInterval(rewardsInt);
-            clearInterval(stakesInt);
-        };
-    }, [stakingClient]);
+    //     return () => {
+    //         clearInterval(rewardsInt);
+    //         clearInterval(stakesInt);
+    //     };
+    // }, [stakingClient]);
 
     useEffect(() => {
         document.body.style.backgroundImage = `url(${
