@@ -16,17 +16,47 @@ import { useDispatch } from "react-redux";
 import { setConnectModalShow } from "../../store/reducer/homePageSlice";
 import "./../../Components/Connect/connect.scss";
 import PDF from "../../assets/Terms.pdf";
+import { AlgorandWallets } from "../Wallets/AlgorandWallets";
+import { EVMWallets } from "../Wallets/EVMWallets";
 
 interface Props {}
 
 export default function ConnectModalBody({}: Props) {
     const dispatch = useDispatch();
-    const { blockchain } = useSelector((state: ReduxState) => state.homePage);
+    const { blockchain, networkConnection } = useSelector(
+        (state: ReduxState) => state.homePage
+    );
 
     const ref = React.useRef<HTMLInputElement>(null);
     useOnClickOutside(ref, () => dispatch(setConnectModalShow(false)));
 
     const mobile = window.innerWidth < 600;
+
+    const checkNetwork = () => {
+        console.log({});
+
+        if (networkConnection) {
+            switch (networkConnection) {
+                case "Algorand":
+                    return <AlgorandWallets />;
+                case "BSC":
+                    return <EVMWallets />;
+
+                default:
+                    break;
+            }
+        } else {
+            return (
+                <div className="connectBtns">
+                    {blockchain?.chain === "BSC" ? (
+                        <EVMWallets />
+                    ) : (
+                        <AlgorandWallets />
+                    )}
+                </div>
+            );
+        }
+    };
 
     return (
         <div
@@ -55,22 +85,7 @@ export default function ConnectModalBody({}: Props) {
                         alt=""
                     />
                 </div>
-                <div className="connectBtns">
-                    {blockchain?.chain === "BSC" ? (
-                        <>
-                            <WagmiConfig client={wagmiClient}>
-                                <MetaMask />
-                                <WalletConnect />
-                            </WagmiConfig>
-                        </>
-                    ) : (
-                        <>
-                            <Pera />
-                            <MyAlgo />
-                            <AlgoSigner />
-                        </>
-                    )}
-                </div>
+                <div className="connectBtns">{checkNetwork()}</div>
                 <p>
                     By connecting a wallet, you acknowledge that you read,
                     understand, and agree to XPNET's

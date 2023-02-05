@@ -50,6 +50,7 @@ export interface IHomePage {
     mobile: boolean;
     tableAlgoSTakeIndex: number;
     optInedApps: string[];
+    networkConnection: string | undefined;
 }
 
 const initialState: IHomePage = {
@@ -86,12 +87,16 @@ const initialState: IHomePage = {
     mobile: false,
     tableAlgoSTakeIndex: 0,
     optInedApps: [],
+    networkConnection: undefined,
 };
 
 const homePageSlice = createSlice({
     name: "homePage",
     initialState,
     reducers: {
+        updateNetworkConnection(state: any, action: any) {
+            state.networkConnection = action.payload;
+        },
         setOptInedApps(state: any, action: any) {
             state.optInedApps = action.payload;
         },
@@ -226,6 +231,7 @@ const homePageSlice = createSlice({
 });
 
 export const {
+    updateNetworkConnection,
     setOptInedApps,
     setTableAlgoSTakeIndex,
     setRefreshTheAlgoRewards,

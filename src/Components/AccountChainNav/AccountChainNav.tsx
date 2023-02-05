@@ -10,6 +10,7 @@ import {
     setConnectModalShow,
     setLimitModal,
     setShowAccountMenu,
+    updateNetworkConnection,
 } from "../../store/reducer/homePageSlice";
 import { ReduxState } from "../../store/store";
 import "../ConnectedAccountNavbar/activeAccountNavbar.scss";
@@ -55,7 +56,7 @@ export default function AccountChainNav() {
                         else if (account) navigate("/rewards");
                         break;
                     case "BSC":
-                        dispatch(setBlockchain(BLOCKCHAINS[1]));
+                        dispatch(updateNetworkConnection("BSC"));
                         if (!evmAccount) {
                             dispatch(setConnectModalShow(true));
                         } else navigate("/rewards");
