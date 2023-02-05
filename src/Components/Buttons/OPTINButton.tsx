@@ -15,16 +15,20 @@ export const OPTINButton: FC<Props> = ({
     optInApps,
     durationSelected,
 }) => {
-    const algoDetails = useSelector(
-        (state: ReduxState) => state.homePage.algoDetails
+    const { algoDetails, optInedApps } = useSelector(
+        (state: ReduxState) => state.homePage
     );
     const isOptIn = (): Boolean => {
         // debugger;
-        // console.log(optInApps);
-
-        return (
-            optInApps && optInApps.some((e: any) => e.id === algoDetails.appId)
-        );
+        if (
+            optInedApps &&
+            optInedApps.some((e: any) => e === algoDetails.appId)
+        ) {
+            return true;
+        } else
+            return (
+                optInApps && optInApps.some((e: any) => e === algoDetails.appId)
+            );
     };
 
     return (

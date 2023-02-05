@@ -13,6 +13,7 @@ import {
     setErrorModal,
     setFetchedAlgoStakes,
     setNFTSByOwner,
+    setOptInedApps,
     setRefreshTheAlgoRewards,
     setStakeDetails,
     setStakingNotification,
@@ -90,7 +91,6 @@ export const Stake: FC<Props> = ({}) => {
         );
     });
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const [currentXpnetPrice, setCurrentXpnetPrice] = useState(0);
     const [optInResponse, setOptInResponse] = useState("");
     const [amount, setAmount] = useState(0);
@@ -108,7 +108,7 @@ export const Stake: FC<Props> = ({}) => {
         algoDetails,
         balance,
         activeSessionStakes,
-        fetchedAlgoStakes,
+        optInedApps,
     } = useSelector((state: ReduxState) => state.homePage);
 
     const handleMaxAmount = () => {
@@ -216,14 +216,13 @@ export const Stake: FC<Props> = ({}) => {
         // ! NEED
         const optInApps = async () => {
             const apps = await checkOptInApps(stakingClient);
-            const arrOfOptIned = apps["apps-local-state"].map(
-                (element: any) => {
-                    return element.id;
-                }
-            );
-            // console.log({ arrOfOptIned });
-
-            if (apps) setOptInApps(apps["apps-local-state"]);
+            const optInApps = apps["apps-local-state"].map((element: any) => {
+                return element.id;
+            });
+            if (apps) {
+                dispatch(setOptInedApps(optInApps));
+                setOptInApps(optInApps);
+            }
         };
         optInApps();
     }, [optInResponse, stakingClient]);

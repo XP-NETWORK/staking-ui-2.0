@@ -49,6 +49,7 @@ export interface IHomePage {
     stakingNotification: string | undefined;
     mobile: boolean;
     tableAlgoSTakeIndex: number;
+    optInedApps: string[];
 }
 
 const initialState: IHomePage = {
@@ -84,12 +85,16 @@ const initialState: IHomePage = {
     stakingNotification: undefined,
     mobile: false,
     tableAlgoSTakeIndex: 0,
+    optInedApps: [],
 };
 
 const homePageSlice = createSlice({
     name: "homePage",
     initialState,
     reducers: {
+        setOptInedApps(state: any, action: any) {
+            state.optInedApps = action.payload;
+        },
         setTableAlgoSTakeIndex(state, action) {
             state.tableAlgoSTakeIndex = action.payload;
         },
@@ -221,6 +226,7 @@ const homePageSlice = createSlice({
 });
 
 export const {
+    setOptInedApps,
     setTableAlgoSTakeIndex,
     setRefreshTheAlgoRewards,
     setShowNotifyModal,
