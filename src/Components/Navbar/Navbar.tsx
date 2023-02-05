@@ -39,7 +39,6 @@ export const Navbar: FC<Props> = ({}) => {
         navigate("/");
     };
 
-    // useOnClickOutside(ref, () => setOpenNavMenu(false));
     useEffect(() => {
         if (account || evmAccount) {
             setACTIVE(true);
@@ -51,8 +50,6 @@ export const Navbar: FC<Props> = ({}) => {
     useEffect(() => {
         setOpenNavMenu(false);
     }, [location.pathname]);
-
-    console.log(location.pathname);
 
     return (
         <>

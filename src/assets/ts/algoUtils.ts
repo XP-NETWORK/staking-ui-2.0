@@ -297,6 +297,18 @@ export const getAllAlgoStakes = async (owner: string) => {
     return arr;
 };
 
+export const getAllNftsToNotification = async (address: string) => {
+    try {
+        const response = await algoService.get(
+            `/get-nfts-status-by-address/${address}`
+        );
+        const parsed = await parse(response.data);
+        return parsed;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 export const getAllNFTsByOwner = async (
     address: string,
     stakes: IFetchedStake[]

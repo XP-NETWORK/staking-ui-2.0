@@ -20,6 +20,8 @@ export const OPTINButton: FC<Props> = ({
     );
     const isOptIn = (): Boolean => {
         // debugger;
+        // console.log(optInApps);
+
         return (
             optInApps && optInApps.some((e: any) => e.id === algoDetails.appId)
         );

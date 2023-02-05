@@ -117,7 +117,7 @@ const MyAlgo = ({ connect }: Props) => {
             account.address,
             appAdress3Months
         );
-        console.log({ algosdk });
+        // console.log({ algosdk });
 
         // const s = algoSignerWrapper(algod, algosdk)
         dispatch(setClient(client));

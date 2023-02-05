@@ -3,11 +3,8 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import close from "../../assets/images/close-icon.svg";
 import {
-    formatTheNumber,
-    getAlgoReward,
-    getAllAlgoStakes,
     getAllNFTsByOwner,
-    getAPY,
+    getAllNftsToNotification,
 } from "../../assets/ts/algoUtils";
 import {
     IActiveSessionSTake,
@@ -19,8 +16,6 @@ import "./modals.scss";
 import fail from "./../../assets/images/404.png";
 import { useDispatch } from "react-redux";
 import {
-    setAlgoRewards,
-    setFetchedAlgoStakes,
     setNFTSByOwner,
     setStakingNotification,
 } from "../../store/reducer/homePageSlice";
@@ -40,6 +35,7 @@ interface Props {
 export const StakeNotificationBody: FC<Props> = ({ notification }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [interval, setInterval] = useState<any>();
     const ref = React.useRef<HTMLInputElement>(null);
     useOnClickOutside(ref, () => dispatch(setStakingNotification(undefined)));
     const { activeSessionStakes, fetchedAlgoStakes, nfts, account } =
@@ -49,9 +45,7 @@ export const StakeNotificationBody: FC<Props> = ({ notification }) => {
         navigate("/rewards");
         dispatch(setStakingNotification(undefined));
     };
-    // const [lastNFT, setLastNFT] = useState<INFT>();
-
-    const lastNFT = nfts[nfts.length - 1];
+    const [activeSTakeNFT, setActiveSTakeNFT] = useState<any>();
     const fetchedStake = fetchedAlgoStakes[fetchedAlgoStakes.length - 1];
     const stake: IActiveSessionSTake =
         activeSessionStakes[activeSessionStakes?.length - 1];
@@ -62,14 +56,12 @@ export const StakeNotificationBody: FC<Props> = ({ notification }) => {
         activeSTake: IActiveSessionSTake
     ) => {
         // debugger;
+
         const nftTxnId = nft.txId;
-        const fetchedStakeTxId = fetchedStake.txId;
-        const activeStake = activeSTake.txID;
-        return (
-            nftTxnId === fetchedStakeTxId &&
-            fetchedStakeTxId === activeStake &&
-            activeStake === nftTxnId
-        );
+        // const fetchedStakeTxId = fetchedStake.txId;
+        const activeStakeId = activeSTake.txID;
+
+        return activeStakeId === nftTxnId;
         // return true;
     };
 
@@ -143,51 +135,25 @@ export const StakeNotificationBody: FC<Props> = ({ notification }) => {
                                 </span>
                             </div>
                             {fetchedAlgoStakes.length &&
-                                lastNFT &&
-                                toShowNft(lastNFT, fetchedStake, stake) && (
+                                activeSTakeNFT &&
+                                toShowNft(
+                                    activeSTakeNFT,
+                                    fetchedStake,
+                                    stake
+                                ) && (
                                     <div className="success-txn-item image-item">
                                         <span className="success-item-label">
                                             Your reward
                                         </span>
                                         <span className="success-item-value">
                                             <img
-                                                src={lastNFT.Uri.image}
+                                                src={activeSTakeNFT?.Uri.image}
                                                 alt=""
                                             />
                                         </span>
                                     </div>
                                 )}
                         </div>
-                        {/* <div>
-                            <img src={icon} alt="" />
-                            <h4>Staking success</h4>
-                        </div>
-                        <div className="txn-body">
-                            <div className="txn-amount">
-                                <span>Staking amount</span>
-                                <span>{`${formatTheNumber(
-                                    stake?.amount
-                                )} XPNET`}</span>
-                            </div>
-                            <div className="txn-id">
-                        <span>Transaction Id</span>
-                        <span>
-                            <a
-                                href={`https://algoexplorer.io/tx/${stake?.txID}`}
-                                target="_blank"
-                                rel="noreferrer"
-                            >{`${stake?.txID.slice(
-                                0,
-                                4
-                            )}...${stake?.txID.slice(
-                                stake?.txID.length - 4
-                            )}`}</a>
-                        </span>
-                    </div>
-                        </div>
-                        <div onClick={handleClick} className="stake-notif-btn">
-                            Go to claiming portal
-                        </div> */}
                         <div onClick={handleClick} className="stake-notif-btn">
                             Go to claiming portal
                         </div>
@@ -196,40 +162,59 @@ export const StakeNotificationBody: FC<Props> = ({ notification }) => {
         }
     };
 
-    // useEffect(() => {
-    //     let rewardsInt: any;
-    //     let stakesInt: any;
-    //     const algoRewardsAndStakes = async () => {
-    //         // debugger;
-    //         let rewards = await getAlgoReward(account);
-    //         rewardsInt = setInterval(
-    //             async () => (rewards = await getAlgoReward(account)),
-    //             200
-    //         );
+    const getLastActiveStakeNFT = async () => {
+        debugger;
+        let fetchedNFTs = await getAllNftsToNotification(account);
+        const exist = fetchedNFTs?.find((nft: INFT) => nft.txId === stake.txID);
+        if (exist) {
+            setActiveSTakeNFT(exist);
+            clearInterval(interval);
+        }
+    };
 
-    //         dispatch(setAlgoRewards(rewards));
-    //         clearInterval(rewardsInt);
-    //         let stakes = await getAllAlgoStakes(account);
-    //         let nfts;
-    //         nfts = await getAllNFTsByOwner(account, stakes);
-    //         if (nfts) setLastNFT(nfts[nfts.length - 1]);
-    //         dispatch(setNFTSByOwner(nfts));
-    //         if (fetchedAlgoStakes?.length !== stakes?.length)
-    //             dispatch(setFetchedAlgoStakes(stakes));
-    //         if (!stakes) {
-    //             stakesInt = setInterval(
-    //                 async () => (stakes = await getAlgoReward(account)),
-    //                 200
-    //             );
-    //         } else if (stakes) {
-    //             dispatch(setAlgoRewards(rewards));
-    //             clearInterval(stakesInt);
+    useEffect(() => {
+        if (account && notification !== "fail") {
+            debugger;
+            const intervalId = window.setInterval(async () => {
+                debugger;
+                let fetchedNFTs = await getAllNftsToNotification(account);
+                const exist = fetchedNFTs?.find(
+                    (nft: INFT) => nft.txId === stake.txID
+                );
+                console.log({ exist });
+
+                if (exist) {
+                    clearInterval(intervalId);
+                    setActiveSTakeNFT(exist);
+                }
+            }, 30000);
+
+            return () => clearInterval(intervalId);
+        }
+    }, []);
+
+    // useEffect(() => {
+    //     const exist = nfts?.find((nft: INFT) => nft.txId === stake.txID);
+    //     const intervalId = window.setInterval(async () => {
+    //         if (exist) {
+    //             clearInterval(intervalId);
+    //             setActiveSTakeNFT(exist);
+    //         }else{
+
     //         }
-    //     };
-    //     if (account) {
-    //         algoRewardsAndStakes();
-    //     }
-    // }, []);
+    //     }, 3000);
+
+    // if (!exist || exist === undefined) {
+    //     const i = window.setInterval(() => {
+    //         getLastActiveStakeNFT();
+    //     }, 2000);
+    //     setInterval(i);
+    // } else {
+    //     setActiveSTakeNFT(exist);
+    //     clearInterval(interval);
+    // }
+    //     return () => clearInterval(intervalId);
+    // }, [fetchedAlgoStakes]);
 
     return (
         <div

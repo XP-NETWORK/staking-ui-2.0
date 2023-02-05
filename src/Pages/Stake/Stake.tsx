@@ -163,7 +163,6 @@ export const Stake: FC<Props> = ({}) => {
                 stakingClient,
                 algoDetails
             );
-
             _stake = {
                 txID: resp.txID,
                 txInfo: resp.txInfo,
@@ -217,6 +216,13 @@ export const Stake: FC<Props> = ({}) => {
         // ! NEED
         const optInApps = async () => {
             const apps = await checkOptInApps(stakingClient);
+            const arrOfOptIned = apps["apps-local-state"].map(
+                (element: any) => {
+                    return element.id;
+                }
+            );
+            // console.log({ arrOfOptIned });
+
             if (apps) setOptInApps(apps["apps-local-state"]);
         };
         optInApps();

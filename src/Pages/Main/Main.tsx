@@ -39,26 +39,20 @@ export const Main: FC<Props> = ({}) => {
         const fetchAlgoStakes = async () => {
             return await getAllAlgoStakes(account);
         };
+
         const fetchNFTS = async (stakes: any[]) => {
-            // debugger;
-            const nfts = await getAllNFTsByOwner(account, stakes);
-            if (nfts?.length === stakes.length) {
-                dispatch(setNFTSByOwner(nfts));
-                clearInterval(interval);
-            } else {
-                const i = window.setInterval(() => {
-                    fetchNFTS(stakes);
-                }, 500);
-                setInterval(i);
-            }
+            return await getAllNFTsByOwner(account, stakes);
         };
+
         if (account) {
             fetchAlgoReward().then((rewards: any) => {
                 dispatch(setAlgoRewards(rewards));
             });
             fetchAlgoStakes().then((stakes: any) => {
                 dispatch(setFetchedAlgoStakes(stakes));
-                fetchNFTS(stakes);
+                fetchNFTS(stakes).then((nfts: any) => {
+                    dispatch(setNFTSByOwner(nfts));
+                });
             });
         }
         return () => {};
