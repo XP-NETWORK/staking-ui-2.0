@@ -24,7 +24,7 @@ import { StakeNotificationBody } from "./Components/Modals/StakeNotificationBody
 import { useAccount } from "wagmi";
 import { AppLimitModalBody } from "./Components/Modals/AppLimitModalBody";
 import EVMErrorModalBody from "./Components/Modals/EVMErrorModalBody";
-import { StakeEVM } from "./Pages/Stake/StakeEVM";
+// import "bootstrap/dist/css/bootstrap.min.css";
 
 type ModalProps = {
     children: ReactNode;

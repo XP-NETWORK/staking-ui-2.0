@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import pop from "../../assets/images/coin/pop.svg";
 import mailbox from "../../assets/images/coin/mailbox.svg";
 
@@ -17,6 +17,7 @@ import { BLOCKCHAINS } from "../../assets/ts/Consts";
 import "../../Components/StakingLimitPopup/stakingLimitPopup.scss";
 import axios from "axios";
 import { notifyService } from "../../assets/ts/algoUtils";
+import { useOnClickOutside } from "../../assets/ts/helpers";
 
 interface Props {}
 
@@ -31,6 +32,9 @@ export default function LimitModalBody({}: Props) {
     );
     const [input, setInput] = useState("");
     const [sent, setSent] = useState(false);
+
+    const ref = React.useRef<HTMLInputElement>(null);
+    useOnClickOutside(ref, () => dispatch(setLimitModal(false)));
 
     const handleClickOnStake = () => {
         if (!account) {
@@ -191,7 +195,7 @@ export default function LimitModalBody({}: Props) {
                 zIndex: 99,
             }}
         >
-            <div className="limitWraper">
+            <div ref={ref} className="limitWraper">
                 <span
                     onClick={() => dispatch(setLimitModal(false))}
                     className="limitWraper-close"
