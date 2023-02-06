@@ -89,7 +89,9 @@
                 }
             }
             .image-item {
-                min-height: 220px;
+                .loader {
+                    margin: 40px 0;
+                }
             }
             & .success-txn-item:last-child {
                 flex-direction: column;
