@@ -33,7 +33,7 @@ export default function AlgoRewardsDetails({
     stakes,
     stakeIndex,
 }: Props) {
-    console.log({ rewards });
+    // console.log({ rewards });
 
     const [selectedStake, setSelectedStake] = useState<IFetchedStake>(
         stakes[0]

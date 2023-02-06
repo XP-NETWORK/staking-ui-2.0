@@ -24,6 +24,7 @@ interface Props {}
 export const Navbar: FC<Props> = ({}) => {
     const dispatch = useDispatch();
     const [openResources, setOpenResources] = useState(false);
+    console.log("🚀 ~ file: Navbar.tsx:27 ~ openResources", openResources);
     const [openNavMenu, setOpenNavMenu] = useState<boolean>();
 
     const [ACTIVE, setACTIVE] = useState(false);
@@ -66,7 +67,6 @@ export const Navbar: FC<Props> = ({}) => {
                     {window.innerWidth > 320 ? (
                         <img
                             style={{ cursor: "pointer" }}
-                            // className={classNames("logo", "deskOnly")}
                             src={xpLogo}
                             alt="logo"
                             onClick={handleClickLogo}
@@ -100,36 +100,6 @@ export const Navbar: FC<Props> = ({}) => {
                             >
                                 Buy $XPNET
                             </div>
-                            {/* <div className="navMediaWrapper">
-                                <a
-                                    href="https://il.linkedin.com/company/xpnetwork"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                >
-                                    <img src={linkedin} alt="linkedin" />
-                                </a>
-                                <a
-                                    href="https://t.me/xp_network"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                >
-                                    <img src={telegram} alt="telegram" />
-                                </a>
-                                <a
-                                    href="https://twitter.com/xpnetwork_"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                >
-                                    <img src={twitter} alt="twitter" />
-                                </a>
-                                <a
-                                    href="https://www.reddit.com/r/XP_network/"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                >
-                                    <img src={redit} alt="redit" />
-                                </a>
-                            </div> */}
                         </div>
                     )}
                     {ACTIVE && (
@@ -144,52 +114,21 @@ export const Navbar: FC<Props> = ({}) => {
                             openNavMenu
                                 ? () => {}
                                 : (e) => {
-                                      e.stopPropagation();
-                                      console.log({ openNavMenu });
-
                                       setOpenNavMenu(!openNavMenu);
                                   }
                         }
                     >
                         <Hamburger
                             toggled={openNavMenu}
-                            // toggle={setOpenNavMenu}
                             size={20}
-                            // onToggle={(toggled) => {
-                            //     if (toggled) {
-                            //         setOpenNavMenu(true); // open a menu
-                            //     } else {
-                            //         setOpenNavMenu(false);
-                            //     }
-                            // }}
+                            onToggle={(toggled) => {
+                                if (toggled) {
+                                    setOpenNavMenu(true); // open a menu
+                                } else {
+                                    setOpenNavMenu(false);
+                                }
+                            }}
                         />
-                        {/* {!openNavMenu ? (
-                            <img
-                                // className={classNames("desktopOnly")}
-                                src={burger}
-                                alt="menu"
-                            />
-                        ) : (
-                            <img
-                                // className={classNames("mobOnly")}
-                                src={closemenu}
-                                alt="close-menu"
-                            />
-                        )} */}
-                        {/* {!openNavMenu && (
-                            <img
-                                className={classNames("desktopOnly")}
-                                src={hamburgerIcon}
-                                alt="menu"
-                            />
-                        )}
-                        {openNavMenu && (
-                            <img
-                                className={classNames("mobOnly")}
-                                src={CloseMenuIcon}
-                                alt="close-menu"
-                            />
-                        )} */}
                     </div>
                 </div>
                 {showAccountMenu && <AccountMenu func={() => {}} />}

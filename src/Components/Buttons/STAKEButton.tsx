@@ -25,13 +25,20 @@ export const STAKEButton: FC<Props> = ({
     isAgree,
     inputErr,
 }) => {
-    const algoDetails = useSelector(
-        (state: ReduxState) => state.homePage.algoDetails
+    const { algoDetails, optInedApps } = useSelector(
+        (state: ReduxState) => state.homePage
     );
     const isOptIn = (): Boolean => {
-        return (
-            optInApps && optInApps.some((e: any) => e.id === algoDetails.appId)
-        );
+        // debugger;
+        if (
+            optInedApps &&
+            optInedApps.some((e: any) => e === algoDetails.appId)
+        ) {
+            return true;
+        } else
+            return (
+                optInApps && optInApps.some((e: any) => e === algoDetails.appId)
+            );
     };
 
     const isDisabled = (isAgree: boolean, durationSelected: number) => {

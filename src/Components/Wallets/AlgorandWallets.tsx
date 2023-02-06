@@ -7,10 +7,10 @@ interface Props {}
 
 export const AlgorandWallets: FC<Props> = () => {
     return (
-        <div>
+        <>
             <Pera />
             <MyAlgo />
             <AlgoSigner />
-        </div>
+        </>
     );
 };

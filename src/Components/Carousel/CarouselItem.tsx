@@ -53,6 +53,10 @@ export default function CarouselItem({
                 src={item.Uri.image}
                 alt="nft"
                 onClick={handleSelect}
+                style={{
+                    borderColor:
+                        isClaimed && selected ? "rgba(35, 136, 255, 0.4)" : "",
+                }}
             />
             {!loaded && <div className="item-loader"></div>}
             {isClaimed && <div className="claimed-label"></div>}

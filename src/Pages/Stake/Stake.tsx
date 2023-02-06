@@ -152,7 +152,7 @@ export const Stake: FC<Props> = ({}) => {
     };
 
     const handleStake = async () => {
-        // debugger;
+        debugger;
 
         setLoader(true);
         let _stake: IActiveSessionSTake;

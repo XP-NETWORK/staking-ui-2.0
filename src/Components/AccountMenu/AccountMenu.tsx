@@ -18,7 +18,7 @@ interface Props {
 export const AccountMenu: FC<Props> = () => {
     const dispatch = useDispatch();
     const ref = useRef(null);
-    const { account, evmAccount, blockchain } = useSelector(
+    const { account, evmAccount, blockchain, connectedWallet } = useSelector(
         (state: ReduxState) => state.homePage
     );
     const show = true;
@@ -53,7 +53,7 @@ export const AccountMenu: FC<Props> = () => {
                 </div>
                 <div className="line"></div>
                 <div className="account-connected-wallet">
-                    Connected with MetaMask
+                    {`Connected with ${connectedWallet}`}
                 </div>
                 <div className="account-actions">
                     <Jazzicon

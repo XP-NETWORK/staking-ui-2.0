@@ -486,7 +486,7 @@ export const optInAsset = async (
     wallet: string
 ) => {
     try {
-        // debugger;
+        let txBytes: any;
         let signedTx: any;
         let params = await client.client.getTransactionParams().do();
         params.fee = 7_000;
@@ -521,12 +521,13 @@ export const optInAsset = async (
                         txn: Buffer.from(txn.toByte()).toString("base64"),
                     },
                 ]);
-                const txBytes = Buffer.from(signedTxn, "base64");
+                txBytes = Buffer.from(signedTxn, "base64");
                 res = await algod.sendRawTransaction(txBytes).do();
                 break;
             case "AlgoSigner":
-                signedTx = await signer.signTxn([{ txn: encodedTx }]);
-                res = await algod.sendRawTransaction(signedTx).do();
+                [signedTx] = await signer.signTxn([{ txn: encodedTx }]);
+                txBytes = Buffer.from(signedTx.blob, "base64");
+                res = await algod.sendRawTransaction(txBytes).do();
                 break;
             case "Pera":
                 const suggestedParams = await algod.getTransactionParams().do();
@@ -543,20 +544,11 @@ export const optInAsset = async (
                     multipleTxnGroups,
                 ]);
                 res = await algod.sendRawTransaction(signedTxnGroup).do();
-                // console.log("🚀 ~ file: algoUtils.ts:535 ~ txId", txId);
                 break;
             default:
                 break;
         }
-        // const signedTx = signer.signTransaction([{ txn: encodedTx }]);
-        // res = await signer?.send({
-        //     ledger: "MainNet",
-        //     tx: signedTx[0].blob,
-        // })
-        // res = await window.AlgoSigner.send({
-        //     ledger: "MainNet",
-        //     tx: signedTx[0].blob,
-        // });
+
         await waitTxnConfirm(res.txId);
         return res.txId;
     } catch (error) {

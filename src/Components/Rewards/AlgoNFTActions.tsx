@@ -23,28 +23,8 @@ export default function AlgoNFTActions({ index, nfts }: Props) {
     );
 
     const dispatch = useDispatch();
-    const [isOptIn, setIsOptIn] = useState(false);
-    const [optInBtnDisabled, setOptInDisabled] = useState(false);
 
     const [claimBtnDisabled, setClaimDisabled] = useState(false);
-
-    // const handleOptIn = async () => {
-    //     setOptInDisabled(true);
-    //     try {
-    //         const txId = await optInAsset(
-    //             account,
-    //             nfts[index]?.assetId,§
-    //             signer,
-    //             stakingClient,
-    //             connectedWalle
-    //         );
-    //         if (txId) setIsOptIn(true);
-    //         setOptInDisabled(false);
-    //     } catch (error) {
-    //         console.log(error);
-    //         setOptInDisabled(false);
-    //     }
-    // };
 
     const handleClaim = async () => {
         // debugger;
@@ -60,7 +40,6 @@ export default function AlgoNFTActions({ index, nfts }: Props) {
                 connectedWallet
             );
             if (txId) {
-                setIsOptIn(true);
                 const res = await transferOptedInAsset(
                     nfts[index]?.assetId,
                     account
@@ -76,17 +55,6 @@ export default function AlgoNFTActions({ index, nfts }: Props) {
         }
     };
 
-    const isAssetOptIn = async () => {
-        const res = await checkIfOpIn(nfts[index]?.assetId, account);
-        if (res) setIsOptIn(true);
-        else setIsOptIn(false);
-    };
-    isAssetOptIn();
-
-    // const optInStyle: React.CSSProperties = {
-    //     pointerEvents: optInBtnDisabled ? "none" : "auto",
-    //     opacity: optInBtnDisabled ? "0.6" : "1",
-    // };
     const claimStyle: React.CSSProperties = {
         pointerEvents: claimBtnDisabled ? "none" : "auto",
         opacity: claimBtnDisabled ? "0.6" : "1",
