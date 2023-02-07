@@ -1,30 +1,18 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import close from "../../assets/images/close-icon.svg";
 import { getAllNftsToNotification } from "../../assets/ts/algoUtils";
-import { ThreeCircles } from "react-loader-spinner";
-import {
-    IActiveSessionSTake,
-    IFetchedStake,
-    INFT,
-} from "../../assets/ts/Consts";
+import { IActiveSessionSTake, INFT } from "../../assets/ts/Consts";
 import { ReduxState } from "../../store/store";
 import "./modals.scss";
-import fail from "./../../assets/images/404.png";
 import { useDispatch } from "react-redux";
 import {
     setRefreshTheAlgoRewards,
     setStakingNotification,
 } from "../../store/reducer/homePageSlice";
-import {
-    addCommas,
-    calculateEndDate,
-    calculateEstimatedRewards,
-    convertSecondsToMonths,
-    useOnClickOutside,
-} from "../../assets/ts/helpers";
-import icon from "./../../assets/images/treasure.svg";
+import { useOnClickOutside } from "../../assets/ts/helpers";
+
 import { FailTransactionBody } from "./FailTransactionBody";
 import { SuccessTransactionBody } from "./SuccessTransactionBody";
 
@@ -38,8 +26,9 @@ export const StakeNotificationBody: FC<Props> = ({ notification }) => {
 
     const ref = React.useRef<HTMLInputElement>(null);
     useOnClickOutside(ref, () => dispatch(setStakingNotification(undefined)));
-    const { activeSessionStakes, fetchedAlgoStakes, nfts, account } =
-        useSelector((state: ReduxState) => state.homePage);
+    const { activeSessionStakes, account } = useSelector(
+        (state: ReduxState) => state.homePage
+    );
 
     const handleClick = () => {
         navigate("/rewards");
