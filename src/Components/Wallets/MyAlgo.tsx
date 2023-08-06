@@ -1,13 +1,12 @@
-import React, { FC } from "react";
+import React from "react";
 import { HigherALGO } from "./HigherALGO";
 import icon from "../../assets/wallets/MyAlgo.svg";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { ReduxState } from "../../store/store";
 import { useSelector } from "react-redux";
-import { algod, createClient } from "../../assets/ts/algoUtils";
-import algosdk, { SuggestedParams } from "algosdk";
-import { Base64 } from "js-base64";
+import { createClient } from "../../assets/ts/algoUtils";
+
 import { appAdress3Months } from "../../assets/ts/Consts";
 import {
     setAccount,
@@ -60,7 +59,7 @@ export function typedAlgoSigner(): BrowserSigner {
     return AlgoSigner;
 }
 
-function algoSignerWrapper(
+/*function algoSignerWrapper(
     algod: algosdk.Algodv2,
     acc: algosdk.Account
 ): AlgoSignerH {
@@ -98,7 +97,7 @@ function algoSignerWrapper(
         address: acc.addr,
         ledger: "any",
     };
-}
+}*/
 
 const MyAlgo = ({ connect }: Props) => {
     const { navigateRoute, mobile } = useSelector(
@@ -109,10 +108,10 @@ const MyAlgo = ({ connect }: Props) => {
 
     const handleClick = async () => {
         // debugger;
-        let account = await connect("MyAlgo");
+        const account = await connect("MyAlgo");
         dispatch(setAccount(account.address));
         dispatch(setSigner(account.signer));
-        let client = await createClient(
+        const client = await createClient(
             account.signer,
             account.address,
             appAdress3Months

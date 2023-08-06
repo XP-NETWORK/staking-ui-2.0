@@ -6,7 +6,7 @@ import store from "./store/store";
 import { Provider } from "react-redux";
 import reportWebVitals from "./reportWebVitals";
 import { Web3Modal } from "@web3modal/react";
-import { ethereumClient } from "./Components/Wallets/walletConnectors";
+import { ethereumClient, wcId } from "./Components/Wallets/walletConnectors";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
@@ -41,10 +41,7 @@ const root = ReactDOM.createRoot(
 root.render(
     <Provider store={store}>
         <App />
-        <Web3Modal
-            projectId="0b0db02a079df1074ba0634f3c97f92e"
-            ethereumClient={ethereumClient as any}
-        />
+        <Web3Modal projectId={wcId} ethereumClient={ethereumClient} />
     </Provider>
 );
 

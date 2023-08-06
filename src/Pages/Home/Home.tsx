@@ -170,6 +170,7 @@ export const Home: FC<HomeProps> = () => {
         })`;
         const getTotal = async () => {
             const staked = await getTokenStaked();
+            console.log(staked, "staked");
             setTotalStakeInAlgo(staked);
         };
         getTotal();

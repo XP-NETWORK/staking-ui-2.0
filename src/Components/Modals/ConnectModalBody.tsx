@@ -1,16 +1,10 @@
-import React, { useRef } from "react";
+import React from "react";
 import wallet from "../../assets/images/wallet.svg";
 import close from "../../assets/images/close-icon.svg";
-import { useNavigate } from "react-router";
+
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
-import { wagmiClient } from "../Wallets/walletConnectors";
-import { WagmiConfig } from "wagmi";
-import MetaMask from "../Wallets/MetaMask";
-import WalletConnect from "../Wallets/WalletConnect";
-import Pera from "../Wallets/Pera";
-import MyAlgo from "../Wallets/MyAlgo";
-import AlgoSigner from "../Wallets/AlgoSigner";
+
 import { useOnClickOutside } from "../../assets/ts/helpers";
 import { useDispatch } from "react-redux";
 import { setConnectModalShow } from "../../store/reducer/homePageSlice";
@@ -19,9 +13,7 @@ import PDF from "../../assets/Terms.pdf";
 import { AlgorandWallets } from "../Wallets/AlgorandWallets";
 import { EVMWallets } from "../Wallets/EVMWallets";
 
-interface Props {}
-
-export default function ConnectModalBody({}: Props) {
+export default function ConnectModalBody() {
     const dispatch = useDispatch();
     const { blockchain, networkConnection } = useSelector(
         (state: ReduxState) => state.homePage
@@ -70,7 +62,7 @@ export default function ConnectModalBody({}: Props) {
                 height: "110%",
                 width: "100%",
                 backdropFilter: "blur(15px)",
-                zIndex: "99",
+                zIndex: "59",
             }}
         >
             <div ref={ref} className="connectWraper">

@@ -5,16 +5,12 @@ import moment from "moment";
 
 // REACT_APP_ALGO_SERVICE
 
-const web3 = new Web3(
-    Web3.givenProvider || "https://bsc-dataseed.binance.org/"
-);
-
 export const convertFromWei = (wei: string) => {
     const n = wei ? parseInt(Web3.utils.fromWei(wei, "ether")) : 0;
     return n;
 };
 
-export const getEvmXpNetBalance = async (address: string, contract?: any) => {
+export const getEvmXpNetBalance = async (address: string) => {
     let weiBalance: string;
 
     try {
@@ -40,6 +36,7 @@ export const getAmountOfEVMTokensStaked = async (
             const stakes = await EVMStakeContract.methods
                 .balanceOf(address)
                 .call();
+            console.log(stakes, "stakes");
             return Number(stakes) || undefined;
         } catch (error) {
             console.log(error);
@@ -84,7 +81,7 @@ export const getTokenOfOwnerByIndex = async (
     owner: string,
     contract?: any
 ) => {
-    let tokensArr = [];
+    const tokensArr = [];
     let allKeysInfo: any;
     // "0xa796A5a95a1dDEF1d557d38DF9Fe86dc2b204D63"
     if (tokenAmount) {
@@ -162,7 +159,6 @@ export const claimXpNetRewards = async (
     rewards: string,
     owner: string
 ) => {
-    debugger;
     try {
         await EVMStakeContract.methods
             .withdrawRewards(nftId, rewards)
@@ -183,7 +179,6 @@ export const unstakeEVMStake = async (
     address: string,
     c?: any
 ) => {
-    debugger;
     const contract = c || EVMStakeContract;
     try {
         await contract.methods
@@ -221,9 +216,7 @@ export const claimXpNet = async (
     }
 };
 
-export const totalSupply = async (index: number, length: number) => {
-    // debugger
-
+export const totalSupply = async () => {
     try {
         const allStakes = await EVMStakeContract.methods.totalSupply().call();
         console.log({ allStakes });

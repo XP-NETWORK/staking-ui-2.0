@@ -1,14 +1,13 @@
 import React, { FC } from "react";
 import pop from "../../assets/images/coin/pop.svg";
 import algo from "../../assets/images/coin/algo1.svg";
-import walletConnect from "../../assets/images/wallets/walletconnect.png";
 
 import "./stakingLimitPopup.scss";
 import { useNavigate } from "react-router";
 
 interface Props {}
 
-export const StakingLimitPopup: FC<Props> = ({}) => {
+export const StakingLimitPopup: FC<Props> = () => {
     const navigate = useNavigate();
 
     const handleChangeWallet = () => {

@@ -1,8 +1,6 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import xpLogo from "../../assets/images/xpnet-stake-logo.svg";
 import xpLogoMob from "../../assets/images/mob/xpnet-stake-logo.svg";
-
-import classNames from "classnames";
 
 import "./navbar.scss";
 import { PopupNav } from "../PopupNav/PopupNav";
@@ -21,10 +19,10 @@ import { AccountMenu } from "../AccountMenu/AccountMenu";
 
 interface Props {}
 
-export const Navbar: FC<Props> = ({}) => {
+export const Navbar: FC<Props> = () => {
     const dispatch = useDispatch();
     const [openResources, setOpenResources] = useState(false);
-    console.log("🚀 ~ file: Navbar.tsx:27 ~ openResources", openResources);
+
     const [openNavMenu, setOpenNavMenu] = useState<boolean>();
 
     const [ACTIVE, setACTIVE] = useState(false);
@@ -112,8 +110,8 @@ export const Navbar: FC<Props> = ({}) => {
                         className="menuIcon"
                         onClick={
                             openNavMenu
-                                ? () => {}
-                                : (e) => {
+                                ? () => false
+                                : () => {
                                       setOpenNavMenu(!openNavMenu);
                                   }
                         }
@@ -131,7 +129,7 @@ export const Navbar: FC<Props> = ({}) => {
                         />
                     </div>
                 </div>
-                {showAccountMenu && <AccountMenu func={() => {}} />}
+                {showAccountMenu && <AccountMenu func={() => false} />}
             </div>
             {openResources && (
                 <PopupNav close={() => setOpenResources(false)} />

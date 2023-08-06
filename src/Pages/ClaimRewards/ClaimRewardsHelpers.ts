@@ -13,7 +13,7 @@ export const claimXPNet = async (
 
         const { dynamic_account_valuetsba } = stakingAmount;
         try {
-            let sp = await client.getSuggestedParams();
+            const sp = await client.getSuggestedParams();
             sp.flatFee = true;
             sp.fee = 7_000;
 
@@ -38,7 +38,7 @@ export const Unstake = async (client: any, amountStake: number) => {
     let rewards;
     if (client !== undefined) {
         try {
-            let sp = await client.getSuggestedParams();
+            const sp = await client.getSuggestedParams();
             sp.flatFee = true;
             sp.fee = 7_000;
 
@@ -59,22 +59,10 @@ export const Unstake = async (client: any, amountStake: number) => {
     }
 };
 
-export const getAlgoStakesAmount = async (
-    client: any,
-    account: string,
-    algoDetails: any
-) => {
+export const getAlgoStakesAmount = async (client: any, account: string) => {
     if (client !== undefined) {
         try {
-            // let earnedAmt: any = await client
-            //     .getEarned({
-            //         address: account,
-            //         lockTime: BigInt(algoDetails.appId),
-            //     })
-            //     .then((n:any) => Number(n.value) / 1e6)
-            //     .catch(() => 0);
-
-            let stakeAmt: any = client
+            const stakeAmt: any = client
                 ? await client
                       .getAccountState(account)
                       .then(
@@ -95,7 +83,7 @@ export const detAlgoRewards = async (
     algoDetails: any
 ) => {
     try {
-        let rewards: any = await client
+        const rewards: any = await client
             .getEarned({
                 address: account,
                 lockTime: BigInt(algoDetails.appId),
@@ -103,5 +91,7 @@ export const detAlgoRewards = async (
             .then((n: any) => Number(n.value) / 1e6)
             .catch(() => 0);
         return rewards;
-    } catch (error) {}
+    } catch (error) {
+        console.log(error, "error in detAlgoRewards");
+    }
 };

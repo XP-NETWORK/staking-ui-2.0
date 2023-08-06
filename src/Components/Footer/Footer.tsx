@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC } from "react";
 import xpnet from "../../assets/images/coin/XPNET.svg";
 import "./footer.scss";
 import SocIcons from "./SocIcons";

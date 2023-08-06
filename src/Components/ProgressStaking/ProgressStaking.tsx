@@ -1,6 +1,5 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import "./progressStaking.scss";
-import emojy from "../../assets/images/desk/emojy.svg";
 
 interface Props {
     progress: number;

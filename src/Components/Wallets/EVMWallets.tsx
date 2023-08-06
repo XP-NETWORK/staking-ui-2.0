@@ -2,13 +2,19 @@ import { FC } from "react";
 import { WagmiConfig } from "wagmi";
 import MetaMask from "./MetaMask";
 import WalletConnect from "./WalletConnect";
-import { wagmiClient } from "./walletConnectors";
+import { wagmiConfig } from "./walletConnectors";
 
 interface Props {}
 
-export const EVMWallets: FC<Props> = ({}) => {
+/**
+ *
+ * @returns
+ */
+
+export const EVMWallets: FC<Props> = () => {
     return (
-        <WagmiConfig client={wagmiClient}>
+        //@ts-ignore
+        <WagmiConfig config={wagmiConfig}>
             <MetaMask />
             <WalletConnect />
         </WagmiConfig>

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import pop from "../../assets/images/coin/pop.svg";
 import mailbox from "../../assets/images/coin/mailbox.svg";
 
@@ -16,18 +16,16 @@ import { useNavigate } from "react-router";
 import { BLOCKCHAINS } from "../../assets/ts/Consts";
 import "../../Components/StakingLimitPopup/stakingLimitPopup.scss";
 import axios from "axios";
-import { notifyService } from "../../assets/ts/algoUtils";
+
 import { useOnClickOutside } from "../../assets/ts/helpers";
 
-interface Props {}
-
-export default function LimitModalBody({}: Props) {
+export default function LimitModalBody() {
     const mobile = window.innerWidth < 600;
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [notify, setNotify] = useState(false);
     const [validMail, setValidMail] = useState(false);
-    const { evmStakesArray, evmAccount, account } = useSelector(
+    const { evmAccount, account } = useSelector(
         (state: ReduxState) => state.homePage
     );
     const [input, setInput] = useState("");
@@ -66,7 +64,7 @@ export default function LimitModalBody({}: Props) {
 
     const handleInput = (str: string) => {
         const regex =
-            /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+            /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
         if (!str || regex.test(str) === false) {
             setInput(str);
             setValidMail(false);
@@ -161,7 +159,6 @@ export default function LimitModalBody({}: Props) {
     };
 
     const onNotifyClick = async () => {
-        debugger;
         const msg = {
             email: input,
             telegram: undefined,
@@ -192,7 +189,7 @@ export default function LimitModalBody({}: Props) {
                 height: "110%",
                 width: "100%",
                 backdropFilter: "blur(15px)",
-                zIndex: 99,
+                zIndex: "59",
             }}
         >
             <div ref={ref} className="limitWraper">

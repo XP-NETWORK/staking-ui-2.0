@@ -3,10 +3,7 @@ import React, { FC } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { claimRewards } from "../../assets/ts/algoUtils";
-import {
-    setRefreshTheAlgoRewards,
-    setTableAlgoSTakeIndex,
-} from "../../store/reducer/homePageSlice";
+import { setRefreshTheAlgoRewards } from "../../store/reducer/homePageSlice";
 import { IAlgoRewards, IFetchedStake } from "./../../assets/ts/Consts";
 
 interface Props {

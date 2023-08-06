@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 import "./gallery.scss";
-import search from "../../assets/images/search.svg";
+
 import { NftGalleryItem } from "../../Components/NftGalleryItem/NftGalleryItem";
 import { getNFTCollection } from "../../assets/ts/algoUtils";
 import { INFTURI } from "../../assets/ts/Consts";
@@ -8,16 +8,13 @@ import { useDispatch } from "react-redux";
 import { setNFTCollection } from "../../store/reducer/homePageSlice";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
-// const nfts = new Array(15).fill(
-//     "https://nft-service-testing.s3.eu-west-1.amazonaws.com"
-// );
 
 interface Props {}
 
-export const Gallery: FC<Props> = ({}) => {
+export const Gallery: FC<Props> = () => {
     const dispatch = useDispatch();
     const { collections } = useSelector((state: ReduxState) => state.homePage);
-    const [gallery, setGallery] = useState<INFTURI[]>([]);
+
     const [input, setInput] = useState<string | undefined>("");
 
     const ref = useRef(0);
@@ -26,7 +23,7 @@ export const Gallery: FC<Props> = ({}) => {
 
     const onScroll = (e: any) => {
         const currentScrollY = e.currentTarget.scrollTop;
-        var element = e.currentTarget;
+        const element = e.currentTarget;
 
         if (ref.current < currentScrollY && isFetching) {
             setIsFetching(false);
@@ -41,20 +38,9 @@ export const Gallery: FC<Props> = ({}) => {
         ref.current = currentScrollY;
     };
 
-    // useEffect(() => {
-    //     if (input) {
-    //         const newCollection = collections.filter(
-    //             (nft: INFTURI) => nft.name === input
-    //         );
-    //         setGallery(newCollection);
-    //     } else {
-    //         setGallery(collections);
-    //     }
-    // }, []);
-
     useEffect(() => {
         const getNfts = async () => {
-            const newArr = await getNFTCollection(index);
+            const newArr = await getNFTCollection();
             // let newNfts = [...(nfts ? nfts : []), ...newArr];
             // setNfts(newNfts);
             dispatch(setNFTCollection(newArr));
@@ -85,13 +71,6 @@ export const Gallery: FC<Props> = ({}) => {
                           <NftGalleryItem key={i} url={e.image} nft={e} />
                       ))}
             </div>
-            {/* {galleryToShow.length < 1 && (
-                <div className="noNfts">
-                    0 results
-                    <label>No items found for this search</label>
-                    <button>Back to all items</button>
-                </div>
-            )} */}
         </div>
     );
 };

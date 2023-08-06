@@ -21,7 +21,7 @@ import LimitModalBody from "./Components/Modals/LimitModalBody";
 import { fetchXPUpdate } from "./assets/ts/helpers";
 import FetchingComponent from "./Components/DataFetching/FetchingComponent";
 import { StakeNotificationBody } from "./Components/Modals/StakeNotificationBody";
-import { useAccount } from "wagmi";
+//import { useAccount } from "wagmi";
 import { AppLimitModalBody } from "./Components/Modals/AppLimitModalBody";
 import EVMErrorModalBody from "./Components/Modals/EVMErrorModalBody";
 // import "bootstrap/dist/css/bootstrap.min.css";
@@ -110,7 +110,7 @@ function AppLimitModal({ children }: ModalProps) {
 
 function App() {
     const dispatch = useDispatch();
-    const { address } = useAccount();
+    //const { address } = useAccount();
 
     const {
         showConnectModal,
@@ -136,7 +136,7 @@ function App() {
         };
         getGitUpdate();
         return () => {
-            if (address) window.localStorage.clear();
+            //if (address) window.localStorage.clear();
         };
     }, []);
 

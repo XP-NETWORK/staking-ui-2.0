@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import {
     setBlockchain,
     setConnectedWallet,
-    setErrorModal,
     setEvmAccount,
     setEvmStakes,
     setLimitModal,

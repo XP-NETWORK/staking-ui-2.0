@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router";
+
 import {
     setConnectModalShow,
     setErrorModal,
@@ -10,9 +10,7 @@ import angular from "../../assets/images/angular.svg";
 import gate from "../../assets/images/gate.svg";
 import pancake from "../../assets/images/pancake.svg";
 import mexc from "../../assets/images/mecslogo.svg";
-import mexcsign from "../../assets/images/mecssign.svg";
 
-import { useOnClickOutside } from "../../assets/ts/helpers";
 import "../../Components/Error/error.scss";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
@@ -81,7 +79,7 @@ export default function ErrorModalBody({ error }: Props) {
                 height: "110%",
                 width: "100%",
                 backdropFilter: "blur(15px)",
-                zIndex: 99,
+                zIndex: "59",
             }}
         >
             <div ref={ref} className="errorWraper">

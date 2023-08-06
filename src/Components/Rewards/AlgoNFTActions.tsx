@@ -1,11 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import {
-    checkIfOpIn,
-    optInAsset,
-    transferOptedInAsset,
-} from "../../assets/ts/algoUtils";
+import { optInAsset, transferOptedInAsset } from "../../assets/ts/algoUtils";
 import { INFT } from "../../assets/ts/Consts";
 import { updateClaimedNft } from "../../store/reducer/homePageSlice";
 import { ReduxState } from "../../store/store";
@@ -59,8 +55,6 @@ export default function AlgoNFTActions({ index, nfts }: Props) {
         pointerEvents: claimBtnDisabled ? "none" : "auto",
         opacity: claimBtnDisabled ? "0.6" : "1",
     };
-
-    useEffect(() => {}, [index, nfts]);
 
     return (
         <div className="nft-actions">

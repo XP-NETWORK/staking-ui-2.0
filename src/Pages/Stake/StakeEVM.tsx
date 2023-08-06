@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import Web3 from "web3";
+
 import { TestnetStake, TestnetToken } from "../../assets/ts/Consts";
 import {
     claimXpNetRewards,
@@ -12,7 +12,7 @@ import { connectMetaMask } from "../../Components/Wallets/walletConnectors";
 
 interface Props {}
 
-export const StakeEVM: FC<Props> = ({}) => {
+export const StakeEVM: FC<Props> = () => {
     const [account, setAccount] = useState();
     const [amount, setAmount] = useState<number | undefined>();
     const [_stake, setStake] = useState<any[]>();
@@ -32,14 +32,13 @@ export const StakeEVM: FC<Props> = ({}) => {
             .once("receipt", async function (receipt: any) {
                 console.log(receipt);
             })
-            .on("error", () => {})
+            .on("error", (e: any) => console.log(e, "e"))
             .catch((error: any) => {
                 console.log(error);
             });
     };
 
     const approve = async () => {
-        debugger;
         await TestnetToken.methods
             .approve(
                 process.env.REACT_APP_TESTNET_STAKING,
@@ -49,7 +48,7 @@ export const StakeEVM: FC<Props> = ({}) => {
             .once("receipt", async function (receipt: any) {
                 console.log(receipt);
             })
-            .on("error", () => {})
+            .on("error", (e: any) => console.log(e, "e"))
             .catch((error: any) => {
                 console.log(error);
             });

@@ -13,7 +13,6 @@ interface Props {
 }
 
 export default function Carousel({
-    stakes,
     x,
     selectedStakeIndex,
     handleMainStakeChange,

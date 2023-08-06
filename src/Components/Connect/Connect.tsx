@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import wallet from "../../assets/images/wallet.svg";
 import close from "../../assets/images/close-icon.svg";
 import "./connect.scss";
-import { useLocation, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import Pera from "../Wallets/Pera";
 import MyAlgo from "../Wallets/MyAlgo";
 import AlgoSigner from "../Wallets/AlgoSigner";
@@ -10,13 +10,13 @@ import MetaMask from "../Wallets/MetaMask";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
 import WalletConnect from "../Wallets/WalletConnect";
-import { Web3Modal } from "@web3modal/react";
+
 import { WagmiConfig } from "wagmi";
-import { ethereumClient, wagmiClient, wcId } from "../Wallets/walletConnectors";
+import { wagmiConfig } from "../Wallets/walletConnectors";
 
 interface Props {}
 
-export const Connect: FC<Props> = ({}) => {
+export const Connect: FC<Props> = () => {
     const navigate = useNavigate();
     const blockchain = useSelector(
         (state: ReduxState) => state.homePage.blockchain
@@ -34,12 +34,11 @@ export const Connect: FC<Props> = ({}) => {
                 </div>
                 <div className="connectBtns">
                     {blockchain === "BSC" ? (
-                        <>
-                            <WagmiConfig client={wagmiClient}>
-                                <MetaMask />
-                                <WalletConnect />
-                            </WagmiConfig>
-                        </>
+                        //@ts-ignore
+                        <WagmiConfig config={wagmiConfig}>
+                            <MetaMask />
+                            <WalletConnect />
+                        </WagmiConfig>
                     ) : (
                         <>
                             <Pera />

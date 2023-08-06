@@ -2,7 +2,7 @@ import { duration9Months, appAdress6Months, duration12Months } from "./Consts";
 import axios from "axios";
 import { useEffect } from "react";
 
-export const addCommas = (x: Number) => {
+export const addCommas = (x: number) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
@@ -47,25 +47,15 @@ export const convertSecondsToMonths = (seconds: number): number => {
 };
 
 export const calculateDurationTime = (duration: number) => {
-    let locktime2weeks = 1209600;
-    let durInSec;
-    //   if (duration !== 12) {
-    //     durInSec = 60 * 60 * 24 * (duration * 30);
-    //   } else {
-    durInSec = locktime2weeks * 2 * duration;
-    //   }
-    return durInSec;
+    const locktime2weeks = 1209600;
+
+    return locktime2weeks * 2 * duration;
 };
 
 export const calculateEndDate = (duration: number) => {
-    // let _duration
-    // if(duration > 12){
-    //     _duration = convertSecondsToMonths(duration)
-    // }
-    let endDate;
-    var d = new Date();
+    const d = new Date();
     d.setMonth(d.getMonth() + duration);
-    endDate =
+    const endDate =
         d.getFullYear() +
         "-" +
         (d.getDate() < 10 ? "0" : "") +
@@ -93,8 +83,7 @@ export const calculatAPY = (duration: number) => {
 
 export const getCurrentPrice = async () => {
     const response = await fetch("https://api.xp.network/current-price");
-    let currentPrice = await response.json();
-    return currentPrice;
+    return await response.json();
 };
 
 getCurrentPrice();

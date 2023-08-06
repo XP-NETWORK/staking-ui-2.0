@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { FC } from "react";
 import { useSelector } from "react-redux";
 import {
     formatTheNumber,
@@ -21,7 +21,7 @@ export const TableRow: FC<Props> = ({ stake, cell }) => {
         (state: ReduxState) => state.homePage
     );
     const selectedStakeRewards: IAlgoRewards | undefined = algoRewards.find(
-        (rewards: IAlgoRewards) => rewards.appid === stake?.appId
+        (rewards: IAlgoRewards) => rewards?.appid === stake?.appId
     );
 
     const startDate = getStartDate(stake.stakingTime.toString()).slice(0, 10);

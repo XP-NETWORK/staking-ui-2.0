@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { FC, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useOnClickOutside } from "../../assets/ts/helpers";
 import {

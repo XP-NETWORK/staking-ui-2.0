@@ -1,8 +1,7 @@
 import { IFetchedStake } from "./../../assets/ts/Consts";
-import type { PayloadAction } from "@reduxjs/toolkit";
+
 import { createSlice } from "@reduxjs/toolkit";
-import { stat } from "fs";
-import { isUndefined } from "util";
+
 import {
     BLOCKCHAINS,
     IActiveSessionSTake,

@@ -1,15 +1,15 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { FC } from "react";
 import { useSelector } from "react-redux";
-import { getAlgoStakeEndDate } from "../../assets/ts/algoUtils";
+
 import { IFetchedStake } from "../../assets/ts/Consts";
-import { getStartDate } from "../../assets/ts/evmUtils";
+
 import { ReduxState } from "../../store/store";
 import "./stakinghistory.scss";
 import { TableRow } from "./TableRow";
 
 interface Props {}
 
-export const StakingHistory: FC<Props> = ({}) => {
+export const StakingHistory: FC<Props> = () => {
     const { fetchedAlgoStakes } = useSelector(
         (state: ReduxState) => state.homePage
     );

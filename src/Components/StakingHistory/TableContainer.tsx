@@ -1,16 +1,10 @@
-import React, { FC, useEffect, useRef, useState } from "react";
-import { IFetchedStake } from "../../assets/ts/Consts";
+import React, { FC } from "react";
+
 import Table from "react-bootstrap/Table";
-import { TableRow } from "./TableRow";
-import { useSelector } from "react-redux";
-import { ReduxState } from "../../store/store";
 
 interface Props {}
 
-export const TableContainer: FC<Props> = ({}) => {
-    const { fetchedAlgoStakes } = useSelector(
-        (state: ReduxState) => state.homePage
-    );
+export const TableContainer: FC<Props> = () => {
     return (
         <Table striped bordered hover variant="dark">
             <thead>

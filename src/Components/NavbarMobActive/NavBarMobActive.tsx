@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from "react";
+import React, { FC, useRef } from "react";
 import { Link } from "react-router-dom";
 import "./navbarMobActive.scss";
 import { ReduxState } from "../../store/store";

@@ -1,12 +1,10 @@
-import classNames from "classnames";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { useHref, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { BLOCKCHAINS } from "../../assets/ts/Consts";
 import {
     setBlockchain,
-    setConnectedWallet,
     setConnectModalShow,
     setLimitModal,
     setShowAccountMenu,
@@ -16,18 +14,15 @@ import { ReduxState } from "../../store/store";
 import "../ConnectedAccountNavbar/activeAccountNavbar.scss";
 import Jazzicon, { jsNumberForAddress } from "react-jazzicon";
 import { useOnClickOutside } from "../../assets/ts/helpers";
-import copy from "./../../assets/images/copy.svg";
-import copyHover from "./../../assets/images/copy-hover.svg";
-import { Close } from "../Buttons/Close";
-import { Copy } from "../Buttons/Copy";
 
 export default function AccountChainNav() {
     const ref = useRef(null);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const pathname = window.location.pathname;
-    const { account, blockchain, evmAccount, evmStakes, showAccountMenu } =
-        useSelector((state: ReduxState) => state.homePage);
+    const { account, blockchain, evmAccount, showAccountMenu } = useSelector(
+        (state: ReduxState) => state.homePage
+    );
 
     const [showDrop, setShowDrop] = useState(false);
 
@@ -83,7 +78,7 @@ export default function AccountChainNav() {
         }
     };
 
-    let title = (
+    const title = (
         <div className="ddItem">
             <img src={blockchain.img} alt={blockchain.img} />
         </div>
@@ -97,7 +92,7 @@ export default function AccountChainNav() {
         } else return "auto";
     };
 
-    const handleCLickOnAccount = (e: any) => {
+    const handleCLickOnAccount = () => {
         dispatch(setShowAccountMenu(!showAccountMenu));
     };
 

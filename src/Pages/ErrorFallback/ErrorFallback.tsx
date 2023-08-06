@@ -1,12 +1,7 @@
 import React from "react";
 import image from "./../../assets/images/404.png";
 
-interface errProps {
-    error: any;
-    resetErrorBoundary: any;
-}
-
-export default function ErrorFallback({ error, resetErrorBoundary }: errProps) {
+export default function ErrorFallback() {
     return (
         <div className="page-not-found__container">
             <div className="page-not-found-image">

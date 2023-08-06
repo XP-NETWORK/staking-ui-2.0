@@ -1,20 +1,16 @@
 import classNames from "classnames";
 import {
-    assetIdx,
     IActiveSessionSTake,
     IAlgoRewards,
     IFetchedStake,
-    subAppId,
 } from "../../assets/ts/Consts";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
 import {
-    createClient,
     formatTheNumber,
     getAlgoStakeEndDate,
     getAlgoStakeProgress,
     getAPY,
-    getMonths,
     getRemainedDays,
 } from "../../assets/ts/algoUtils";
 import { ProgressStaking } from "../ProgressStaking/ProgressStaking";
@@ -47,7 +43,7 @@ export default function AlgoRewardsDetails({
     );
 
     useEffect(() => {
-        const stake = stakes.find((stake: IFetchedStake, index: number) => {
+        const stake = stakes.find((stake: IFetchedStake) => {
             return stake.txId === selectedNFTtxId;
         });
         if (stake) setSelectedStake(stake);

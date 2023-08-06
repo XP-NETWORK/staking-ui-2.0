@@ -1,10 +1,10 @@
 import { HigherALGO } from "./HigherALGO";
 import icon from "../../assets/wallets/Pera.svg";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
 import { PeraWalletConnect } from "@perawallet/connect";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 import {
     setAccount,
     setClient,
@@ -28,7 +28,7 @@ interface Props {
 //     chainId?: AlgorandChainIDs;
 // }
 
-const Pera = ({ styles, connect }: Props) => {
+const Pera = ({ styles }: Props) => {
     const { navigateRoute } = useSelector(
         (state: ReduxState) => state.homePage
     );
@@ -37,8 +37,8 @@ const Pera = ({ styles, connect }: Props) => {
 
     const peraWallet = useMemo(() => {
         const wallet = new PeraWalletConnect({
-            bridge: "https://bridge.walletconnect.org",
-            network: "mainnet",
+            chainId: 416001,
+            shouldShowSignTxnToast: false,
         });
         return wallet;
     }, []);
@@ -66,12 +66,8 @@ const Pera = ({ styles, connect }: Props) => {
     const account = useSelector((state: ReduxState) => state.homePage.account);
     const signer = useSelector((state: ReduxState) => state.homePage.account);
 
-    const peraConnection = useSelector(
-        (state: ReduxState) => state.homePage.peraConnection
-    );
-
     const getClient = useCallback(async () => {
-        let client = await createClient(signer, account, appAdress3Months);
+        const client = await createClient(signer, account, appAdress3Months);
         dispatch(setClient(client));
     }, [account, dispatch, signer]);
 

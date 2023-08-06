@@ -1,5 +1,5 @@
-import { FC, useEffect, useState, ReactNode, useRef } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { FC, useEffect, useState } from "react";
+import { Link, Navigate } from "react-router-dom";
 import classNames from "classnames";
 import { useSelector, useDispatch } from "react-redux";
 import PDF from "../../assets/Terms.pdf";
@@ -7,12 +7,9 @@ import { ReduxState } from "../../store/store";
 import {
     setActiveSessionStakes,
     setAlgoDetails,
-    setAlgoRewards,
     setBalance,
     setClient,
     setErrorModal,
-    setFetchedAlgoStakes,
-    setNFTSByOwner,
     setOptInedApps,
     setRefreshTheAlgoRewards,
     setStakeDetails,
@@ -23,10 +20,7 @@ import {
     checkOptInApps,
     createClient,
     formatTheNumber,
-    getAlgoReward,
     getAlgoStakeEndDate,
-    getAllAlgoStakes,
-    getAllNFTsByOwner,
     getAPY,
     getXpNetBalance,
     optInt,
@@ -50,14 +44,14 @@ import "./stake.scss";
 import { StakingPeriod } from "../../Components/StakingPeriods/StakingPeriod";
 import { OPTINButton } from "../../Components/Buttons/OPTINButton";
 import { STAKEButton } from "../../Components/Buttons/STAKEButton";
-import { ThreeCircles } from "react-loader-spinner";
+
 import moment from "moment";
 import StakingPeriods from "../../Components/StakingPeriods/StakingPeriods";
-import { createPortal } from "react-dom";
+
 import { StakingHistory } from "../../Components/StakingHistory/StakingHistory";
 import { WavesLoader } from "../../Components/Loaders/WavesLoader";
 
-type NoXpNetModalProps = {
+/*type NoXpNetModalProps = {
     children: ReactNode;
 };
 
@@ -75,11 +69,11 @@ function NoXpNetModal({ children }: NoXpNetModalProps) {
         };
     }, []);
     return createPortal(children, elRef.current);
-}
+}*/
 
 interface Props {}
 
-export const Stake: FC<Props> = ({}) => {
+export const Stake: FC<Props> = () => {
     const periods = new Array(4);
     periods.fill((e: any, index: number) => {
         return (
@@ -108,7 +102,6 @@ export const Stake: FC<Props> = ({}) => {
         algoDetails,
         balance,
         activeSessionStakes,
-        optInedApps,
     } = useSelector((state: ReduxState) => state.homePage);
 
     const handleMaxAmount = () => {
@@ -127,19 +120,19 @@ export const Stake: FC<Props> = ({}) => {
         } else setAmount(0);
     };
 
-    const handleInputOnBlur = (e: any) => {
+    const handleInputOnBlur = () => {
         if (inputErr) {
             setAmount(0);
             setInputErr(false);
         }
     };
 
-    const handleFocusAmount = (e: any) => {
-        var Url = document.getElementById("amount-box") as HTMLInputElement;
+    const handleFocusAmount = () => {
+        const Url = document.getElementById("amount-box") as HTMLInputElement;
         Url.select();
     };
 
-    const algoRewardsAndStakes = async () => {
+    /* const algoRewardsAndStakes = async () => {
         // debugger;
         let stakes = await getAllAlgoStakes(account);
         let int;
@@ -149,11 +142,9 @@ export const Stake: FC<Props> = ({}) => {
             }, 5000);
         } else clearInterval(int);
         return stakes;
-    };
+    };*/
 
     const handleStake = async () => {
-        debugger;
-
         setLoader(true);
         let _stake: IActiveSessionSTake;
         try {
@@ -243,7 +234,7 @@ export const Stake: FC<Props> = ({}) => {
             getBalance().catch(console.error);
         }
         const getCurrency = async () => {
-            let currency = await getCurrentPrice();
+            const currency = await getCurrentPrice();
             dispatch(setXPNetPrice(currency));
             setCurrentXpnetPrice(currency);
         };
@@ -251,19 +242,20 @@ export const Stake: FC<Props> = ({}) => {
     }, [stakingClient, activeSessionStakes, account]);
 
     useEffect(() => {
-        let stake = {
-            amount: amount,
-            stakingPeriod: duration,
-            isAgree: isAgree,
-        };
-        dispatch(setStakeDetails({ ...stake }));
+        dispatch(
+            setStakeDetails({
+                amount: amount,
+                stakingPeriod: duration,
+                isAgree: isAgree,
+            })
+        );
     }, [amount, duration, isAgree]);
 
     useEffect(() => {
         const algoDetails = new AlgoDetails(duration);
         dispatch(setAlgoDetails(algoDetails));
         const updateClient = async () => {
-            let client = await createClient(signer, account, duration);
+            const client = await createClient(signer, account, duration);
             dispatch(setClient(client));
         };
         if (account) {
@@ -275,18 +267,6 @@ export const Stake: FC<Props> = ({}) => {
     else
         return loader ? (
             <div className="claim-rewards-loader">
-                {/* <ThreeCircles
-                    height="100"
-                    width="100"
-                    color="#E22440"
-                    wrapperStyle={{}}
-                    wrapperClass=""
-                    visible={true}
-                    ariaLabel="three-circles-rotating"
-                    outerCircleColor=""
-                    innerCircleColor=""
-                    middleCircleColor=""
-                /> */}
                 <WavesLoader />
             </div>
         ) : (

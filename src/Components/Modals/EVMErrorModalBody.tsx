@@ -1,30 +1,20 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router";
+
 import {
     setConnectModalShow,
     setErrorModal,
 } from "../../store/reducer/homePageSlice";
 import close from "../../assets/images/close-icon.svg";
 import angular from "../../assets/images/angular.svg";
-import gate from "../../assets/images/gate.svg";
-import pancake from "../../assets/images/pancake.svg";
-import mexc from "../../assets/images/mecslogo.svg";
-import mexcsign from "../../assets/images/mecssign.svg";
 
-import { useOnClickOutside } from "../../assets/ts/helpers";
 import "../../Components/Error/error.scss";
-import { useSelector } from "react-redux";
-import { ReduxState } from "../../store/store";
 
 interface Props {
     error: string | boolean;
 }
 
 export default function EVMErrorModalBody({ error }: Props) {
-    const { showErrorModal } = useSelector(
-        (state: ReduxState) => state.homePage
-    );
     console.log({ error });
 
     const mobile = window.innerWidth < 600;
@@ -53,7 +43,7 @@ export default function EVMErrorModalBody({ error }: Props) {
         }
     };
 
-    const handleExchangeClick = (btn: string) => {
+    /*const handleExchangeClick = (btn: string) => {
         switch (btn) {
             case "pancakeswap":
                 window.open("https://pancakeswap.finance/", "_blank");
@@ -67,7 +57,7 @@ export default function EVMErrorModalBody({ error }: Props) {
             default:
                 break;
         }
-    };
+    };*/
 
     return (
         <div
@@ -81,7 +71,7 @@ export default function EVMErrorModalBody({ error }: Props) {
                 height: "110%",
                 width: "100%",
                 backdropFilter: "blur(15px)",
-                zIndex: 99,
+                zIndex: "59",
             }}
         >
             <div ref={ref} className="errorWraper">

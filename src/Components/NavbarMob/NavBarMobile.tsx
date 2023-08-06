@@ -6,13 +6,9 @@ import security from "../../assets/images/mob/menu icons/security.svg";
 import whitepaper from "../../assets/images/mob/menu icons/Whitepaper.svg";
 import github from "../../assets/images/mob/menu icons/github.svg";
 import blog from "../../assets/images/mob/menu icons/blog.svg";
-import active from "../../assets/images/mob/menu icons/active.svg";
+
 import { Link } from "react-router-dom";
 
-import linkedin from "../../assets/images/menu icons/linkedin icon.svg";
-import telegram from "../../assets/images/menu icons/telegram icon.svg";
-import twitter from "../../assets/images/menu icons/twitter icon.svg";
-import redit from "../../assets/images/menu icons/redit icon.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
 import { useOnClickOutside } from "../../assets/ts/helpers";

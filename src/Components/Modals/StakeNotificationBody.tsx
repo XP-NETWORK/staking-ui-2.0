@@ -58,8 +58,7 @@ export const StakeNotificationBody: FC<Props> = ({ notification }) => {
         if (account && notification !== "fail" && !activeSTakeNFT) {
             // debugger;
             const intervalId = window.setInterval(async () => {
-                debugger;
-                let fetchedNFTs = await getAllNftsToNotification(account);
+                const fetchedNFTs = await getAllNftsToNotification(account);
                 const exist = fetchedNFTs?.find(
                     (nft: INFT) => nft.txId === stake.txID
                 );

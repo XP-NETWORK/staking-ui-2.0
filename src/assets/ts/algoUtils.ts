@@ -19,16 +19,15 @@ import store from "../../store/store";
 import moment from "moment";
 import { Base64 } from "js-base64";
 import { SignerTransaction } from "@perawallet/connect/dist/util/model/peraWalletModels";
-import MyAlgoConnect from "@randlabs/myalgo-connect";
 
-const apiKey = process.env.REACT_APP_API_TOKEN as string;
 const algodToken = {
-    "x-api-key": apiKey,
+    "x-api-key": algodApiKey,
 };
 export const algod = new algosdk.Algodv2(algodToken, algodUri, algodPort);
 
 const algoService = axios.create({
-    baseURL: process.env.REACT_APP_ALGO_SERVICE,
+    baseURL:
+        process.env.REACT_APP_ALGO_SERVICE || "https://stake-nft.xp.network/",
 });
 
 export const notifyService = axios.create({
@@ -36,28 +35,25 @@ export const notifyService = axios.create({
 });
 
 export const getTokenStaked = async () => {
-    let appIds = [
+    const appIds = [
         appAdress3Months,
         appAdress6Months,
         appAdress9Months,
         appAdress12Months,
     ];
     // debugger;
-    let arr = await Promise.allSettled(
+    const arr = await Promise.allSettled(
         appIds.map((e: any) => {
-            var config = {
+            return axios({
                 method: "get",
                 url: `https://mainnet-algorand.api.purestake.io/idx2/v2/applications/${e}`,
                 headers: {
-                    "x-api-key": "kZWDAxYR7Y6S6RoyfGIi28SATZ5DfTIs5pF0UMW4",
-                    Authorization:
-                        "Bearer kZWDAxYR7Y6S6RoyfGIi28SATZ5DfTIs5pF0UMW4",
+                    "x-api-key": algodApiKey,
                 },
-            };
-            return axios(config);
+            });
         })
     );
-    let s: any = [];
+    const s: any = [];
     let staked = 0;
     arr.forEach((e: any) => {
         e.value.data.application.params["global-state"].forEach(
@@ -130,12 +126,13 @@ export const createClient = async (
                 case "MyAlgo":
                     signed = await signer.signTxns(s);
                     return signed?.map((e: any) => Buffer.from(e, "base64"));
-                case "Pera":
+                case "Pera": {
                     const multipleTxnGroups = txns.map((n) => {
                         return { txn: n, signers: [account] };
                     });
                     signed = await signer.signTransaction([multipleTxnGroups]);
                     return signed?.map((e: any) => Buffer.from(e, "base64"));
+                }
                 default:
                     break;
             }
@@ -152,7 +149,6 @@ export const stake = async (
     stakingClient: any,
     algoDetails: any
 ) => {
-    debugger;
     const axfer: any = algosdk.makeAssetTransferTxnWithSuggestedParams(
         address,
         algosdk.getApplicationAddress(stakingClient.appId),
@@ -175,7 +171,6 @@ export const stake = async (
 };
 
 export const optInt = async (stakingClient: any) => {
-    debugger;
     try {
         const resp = await stakingClient.optIn();
         return resp;
@@ -189,12 +184,11 @@ export const unstake = async (
     account: string,
     duration: number
 ) => {
-    debugger;
     let rewards;
     const client = await createClient(signer, account, getMonths(duration));
 
     try {
-        let sp = await client.getSuggestedParams();
+        const sp = await client.getSuggestedParams();
         sp.flatFee = true;
         sp.fee = 7_000;
 
@@ -214,7 +208,7 @@ export const unstake = async (
 
 export const createClients = async (signer: any, account: string) => {
     // console.log("signer,account create clintsssss", signer, account);
-    let clients = [
+    const clients = [
         await createClient(signer, account, 3),
         await createClient(signer, account, 6),
         await createClient(signer, account, 9),
@@ -224,14 +218,13 @@ export const createClients = async (signer: any, account: string) => {
 };
 
 export const getAlgoReward = async (owner: string) => {
-    let appIds = [
+    const appIds = [
         appAdress3Months,
         appAdress6Months,
         appAdress9Months,
         appAdress12Months,
     ];
 
-    let promises: any = [];
     let rewards: any = [];
     // for (let appId of appIds) {
     //     const promise = algoService.get(`/earned/${appId}/${owner}`);
@@ -242,7 +235,7 @@ export const getAlgoReward = async (owner: string) => {
             appIds.map((item) => algoService.get(`/earned/${item}/${owner}`))
         );
         if (res) {
-            rewards = res.map((e: any, i) => {
+            rewards = res.map((e) => {
                 let obj: any;
                 if (e.status !== "rejected") {
                     obj = {
@@ -265,7 +258,7 @@ export const getAlgoReward = async (owner: string) => {
 // };
 
 export const getAllAlgoStakes = async (owner: string) => {
-    let appIds = [
+    const appIds = [
         appAdress3Months,
         appAdress6Months,
         appAdress9Months,
@@ -280,7 +273,7 @@ export const getAllAlgoStakes = async (owner: string) => {
             )
         );
         if (res) {
-            allStakes = res.map((e: any, i) => {
+            allStakes = res.map((e: any) => {
                 let obj: any;
                 if (e.status !== "rejected") {
                     obj = {
@@ -351,10 +344,9 @@ const parse = async (nfts: any[]) => {
 
 const parseArray = (array: []) => {
     // debugger;
-    let newArr: any = [];
+    const newArr: any = [];
     for (let index = 0; index < array.length; index++) {
-        let element: [];
-        element = array[index];
+        const element = array[index];
         if (element && Object.keys(element).length > 0) {
             const withNestedKeys = Object.values(element);
             for (let index = 0; index < withNestedKeys.length; index++) {
@@ -488,7 +480,7 @@ export const optInAsset = async (
     try {
         let txBytes: any;
         let signedTx: any;
-        let params = await client.client.getTransactionParams().do();
+        const params = await client.client.getTransactionParams().do();
         params.fee = 7_000;
         params.flatFee = true;
         const optInTxn =
@@ -502,7 +494,7 @@ export const optInAsset = async (
         const encodedTx = Base64.fromUint8Array(optInTxn.toByte());
         let res: any;
         switch (wallet) {
-            case "MyAlgo":
+            case "MyAlgo": {
                 const params = await algod.getTransactionParams().do();
                 const txn =
                     algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
@@ -524,12 +516,13 @@ export const optInAsset = async (
                 txBytes = Buffer.from(signedTxn, "base64");
                 res = await algod.sendRawTransaction(txBytes).do();
                 break;
+            }
             case "AlgoSigner":
                 [signedTx] = await signer.signTxn([{ txn: encodedTx }]);
                 txBytes = Buffer.from(signedTx.blob, "base64");
                 res = await algod.sendRawTransaction(txBytes).do();
                 break;
-            case "Pera":
+            case "Pera": {
                 const suggestedParams = await algod.getTransactionParams().do();
                 const optInTxn =
                     algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
@@ -545,6 +538,7 @@ export const optInAsset = async (
                 ]);
                 res = await algod.sendRawTransaction(signedTxnGroup).do();
                 break;
+            }
             default:
                 break;
         }
@@ -606,12 +600,12 @@ export const claimRewards = async (
     let rewards;
     // debugger;
     try {
-        let sp = await client.getSuggestedParams();
+        const sp = await client.getSuggestedParams();
         sp.flatFee = true;
         sp.fee = 7_000;
-        let token = BigInt(assetIdx);
-        let lockTime = BigInt(stakes[index]?.lockTime);
-        let app = subAppId;
+        const token = BigInt(assetIdx);
+        const lockTime = BigInt(stakes[index]?.lockTime);
+        const app = subAppId;
         rewards = await client.getReward(
             {
                 token,
@@ -639,7 +633,7 @@ export const unstakeTokens = async (
         getMonths(stakes[index]?.lockTime)
     );
     try {
-        let sp = await client.getSuggestedParams();
+        const sp = await client.getSuggestedParams();
         sp.flatFee = true;
         sp.fee = 7_000;
 
@@ -679,7 +673,7 @@ export const unstakeTokens = async (
 //     return nfts;
 // };
 
-export const getNFTCollection = async (i: number) => {
+export const getNFTCollection = async () => {
     const arr = [];
     let element;
     for (let index = 1; index < 101; index++) {
@@ -687,7 +681,9 @@ export const getNFTCollection = async (i: number) => {
             element = axios.get(
                 `https://nft-service-testing.s3.eu-west-1.amazonaws.com/${index}.json`
             );
-        } catch (error) {}
+        } catch (error) {
+            console.log(error, "in getNFTCollection");
+        }
         arr.push(element);
     }
     const settled = await Promise.allSettled(arr);
@@ -696,26 +692,26 @@ export const getNFTCollection = async (i: number) => {
 };
 
 export const getTotalStaked = async () => {
-    let appIds = [
+    const appIds = [
         appAdress3Months,
         appAdress6Months,
         appAdress9Months,
         appAdress12Months,
     ];
-    const promises = appIds.map((id: any) => {
-        var config = {
+    const promises = appIds.map(() => {
+        return axios({
             method: "get",
             url: "https://mainnet-algorand.api.purestake.io/idx2/v2/applications/970373105",
             headers: {
-                "x-api-key": apiKey,
+                "x-api-key": algodApiKey,
             },
-        };
-        return axios(config);
+        });
     });
 
     const settled = await Promise.allSettled(promises);
     let totalStaked = 0;
-    settled.forEach((element: any) => {
+    settled.forEach((element) => {
+        if (element.status === "rejected") return;
         element.value.data.application.params["global-state"].forEach(
             (key: any) => {
                 if (key.key === "ZHluYW1pY19hcHBfdmFsdWVfdW5pdGd0c3JvdQ==") {

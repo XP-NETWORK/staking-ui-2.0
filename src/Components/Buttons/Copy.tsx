@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { FC, useState } from "react";
 import icon from "../../assets/images/copy-hover.svg";
 
 interface Props {
@@ -11,7 +11,9 @@ export const Copy: FC<Props> = ({ address }) => {
     const copy = async () => {
         try {
             await navigator.clipboard.writeText(address);
-        } catch (error) {}
+        } catch (error) {
+            console.log(error, "error navigator");
+        }
     };
 
     return (

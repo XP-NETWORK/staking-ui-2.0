@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { assetIdx, subAppId } from "../../assets/ts/Consts";
+
 import { getCurrentPrice } from "../../assets/ts/helpers";
 import { Navigate, useNavigate } from "react-router-dom";
 import { ReduxState } from "../../store/store";
@@ -9,25 +9,13 @@ import "./claimRewards.scss";
 // import { getTokenOfOwnerByIndex } from "../../assets/ts/evmUtils";
 import { useDispatch } from "react-redux";
 import {
-    setAlgoRewards,
     setBalance,
     setErrorModal,
-    setEVMStakesArray,
-    setFetchedAlgoStakes,
-    setTableAlgoSTakeIndex,
     setXPNetPrice,
 } from "../../store/reducer/homePageSlice";
-import { ThreeCircles } from "react-loader-spinner";
-import {
-    createClient,
-    getAlgoReward,
-    getAllAlgoStakes,
-    getXpNetBalance,
-} from "../../assets/ts/algoUtils";
-import { NFTRewards } from "../../Components/Rewards/NFTRewards";
-import RewardsDetails from "../../Components/Rewards/RewardsDetails";
-import AlgoRewardsDetails from "../../Components/Rewards/AlgoRewardsDetails";
-import { AlgoNFTRewards } from "../../Components/Rewards/AlgoNFTRewards";
+
+import { getXpNetBalance } from "../../assets/ts/algoUtils";
+
 import { WavesLoader } from "../../Components/Loaders/WavesLoader";
 import { ClaimAlgorand } from "./ClaimAlgorand";
 import { ClaimEVM } from "./ClaimEVM";
@@ -45,7 +33,7 @@ const ClaimRewards = ({ chain }: Props) => {
     const [carouselMoveNext, setCarouselMoveNext] = useState<
         undefined | boolean
     >(undefined);
-    let timeOut = useRef();
+
     const {
         account,
         evmAccount,
@@ -56,7 +44,7 @@ const ClaimRewards = ({ chain }: Props) => {
         blockchain,
         evmStakes,
         stakingClient,
-        refreshTheAlgoRewards,
+
         tableAlgoSTakeIndex,
     } = useSelector((state: ReduxState) => state.homePage);
 
@@ -91,10 +79,6 @@ const ClaimRewards = ({ chain }: Props) => {
         const getBalance = async () => {
             const balance = await getXpNetBalance(stakingClient);
             if (balance) dispatch(setBalance(balance));
-            else if (balance) {
-                // dispatch(setErrorModal(true));
-                console.log("Oh nooooooo");
-            }
         };
         if (account) {
             getBalance().catch(console.error);
@@ -126,7 +110,7 @@ const ClaimRewards = ({ chain }: Props) => {
 
     useEffect(() => {
         const getCurrency = async () => {
-            let currency = await getCurrentPrice();
+            const currency = await getCurrentPrice();
             dispatch(setXPNetPrice(currency));
         };
         getCurrency().catch(console.error);

@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { HigherALGO } from "./HigherALGO";
 import { createClient } from "../../assets/ts/algoUtils";
@@ -25,14 +25,13 @@ const AlgoSigner = ({ connect }: Props) => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    console.log(window.navigator.userAgent);
 
     const handleClick = async () => {
         // debugger;
-        let account = await connect("AlgoSigner");
+        const account = await connect("AlgoSigner");
         dispatch(setAccount(account.address));
         dispatch(setSigner(account.signer));
-        let client = await createClient(
+        const client = await createClient(
             account.signer,
             account.address,
             appAdress3Months

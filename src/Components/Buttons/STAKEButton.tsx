@@ -21,14 +21,14 @@ interface Props {
 export const STAKEButton: FC<Props> = ({
     handleStake,
     optInApps,
-    durationSelected,
+
     isAgree,
     inputErr,
 }) => {
     const { algoDetails, optInedApps } = useSelector(
         (state: ReduxState) => state.homePage
     );
-    const isOptIn = (): Boolean => {
+    const isOptIn = (): boolean => {
         // debugger;
         if (
             optInedApps &&
@@ -41,14 +41,14 @@ export const STAKEButton: FC<Props> = ({
             );
     };
 
-    const isDisabled = (isAgree: boolean, durationSelected: number) => {
+    const isDisabled = (isAgree: boolean) => {
         return isAgree && isOptIn();
     };
 
     return (
         <button
             className="blueBtn"
-            disabled={inputErr || !isDisabled(isAgree, durationSelected)}
+            disabled={inputErr || !isDisabled(isAgree)}
             onClick={() => handleStake()}
         >
             Stake

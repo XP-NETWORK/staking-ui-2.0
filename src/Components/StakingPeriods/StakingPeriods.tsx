@@ -1,8 +1,6 @@
 import classNames from "classnames";
 import React from "react";
-import { useSelector } from "react-redux";
-import { IFetchedStake } from "../../assets/ts/Consts";
-import { ReduxState } from "../../store/store";
+
 import { StakingPeriod } from "./StakingPeriod";
 
 interface Props {

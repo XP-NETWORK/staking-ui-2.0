@@ -1,37 +1,35 @@
+/* eslint-disable  */
+
 import icon from "../../assets/wallets/WalletConnect.svg";
 import { HigherEVM } from "./HigherEVM";
 import { useAccount } from "wagmi";
 import { useWeb3Modal } from "@web3modal/react";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setEvmAccount, setEvmStakes } from "../../store/reducer/homePageSlice";
-import { useContract, useContractRead, useProvider } from "wagmi";
+import { getContract, getAccount } from "wagmi/actions";
+import { usePublicClient, useNetwork } from "wagmi";
 import xpNetStaker from "./../../ABI/xpNetStaker.json";
-import xpNetToken from "./../../ABI/xpNetToken.json";
-import { getAmountOfEVMTokensStaked } from "../../assets/ts/evmUtils";
-// import { authClient, wcId } from "./walletConnectors";
-import AuthClient, { generateNonce } from "@walletconnect/auth-client";
-import { wcId } from "./walletConnectors";
 
-const WalletConnect = ({ connect }: { connect: Function }) => {
-    const [client, setClient] = useState<AuthClient | null>();
-    const [hasInitialized, setHasInitialized] = useState(false);
-    const [uri, setUri] = useState<string>("");
-    console.log("🚀 ~ file: WalletConnect.tsx:20 ~ WalletConnect ~ uri", uri);
+import { getAmountOfEVMTokensStaked } from "../../assets/ts/evmUtils";
+
+const WalletConnect = () => {
+    //const [uri, setUri] = useState<string>("");
+
     // const [address, setAddress] = useState<string>("");
     const dispatch = useDispatch();
-    const { address, isConnecting, isDisconnected } = useAccount();
+    //@ts-ignore
+
+    const { address, connector } = useAccount();
+
+    const { chain } = useNetwork();
+    console.log(address, chain, connector, "address");
     // console.log(
     //     "🚀 ~ file: WalletConnect.tsx:16 ~ WalletConnect ~ address",
     //     address
     // );
-    const provider = useProvider();
+    const provider = usePublicClient();
 
-    const stakeContract = useContract({
-        address: process.env.REACT_APP_XPNET_STAKE_TOKEN as string,
-        abi: xpNetStaker,
-        signerOrProvider: provider,
-    });
     //! TODO
     // const { data, isError, isLoading } = useContractRead({
     //     address: process.env.REACT_APP_XPNET_STAKE_TOKEN as string,
@@ -46,15 +44,17 @@ const WalletConnect = ({ connect }: { connect: Function }) => {
     //     signerOrProvider: provider,
     // });
 
-    const { isOpen, open, close } = useWeb3Modal();
+    const { open } = useWeb3Modal();
 
     const handleClick = async () => {
-        debugger;
         if (!address) await open();
         else dispatch(setEvmAccount(address));
     };
 
-    const amountOfTokenByIndex = async (address: string) => {
+    const amountOfTokenByIndex = async (
+        address: string,
+        stakeContract: any
+    ) => {
         let stakes: number | undefined;
         try {
             stakes = await getAmountOfEVMTokensStaked(address, stakeContract);
@@ -64,7 +64,7 @@ const WalletConnect = ({ connect }: { connect: Function }) => {
         }
     };
 
-    const onSignIn = useCallback(() => {
+    /*const onSignIn = useCallback(() => {
         if (!client) return;
         client
             .request({
@@ -76,11 +76,22 @@ const WalletConnect = ({ connect }: { connect: Function }) => {
                 statement: "Sign in with wallet.",
             })
             .then(({ uri }) => setUri(uri));
-    }, [client, setUri]);
+    }, [client, setUri]);*/
 
     useEffect(() => {
-        AuthClient.init({
-            relayUrl: uri,
+        if (address) {
+            const contract = getContract({
+                address: process.env
+                    .REACT_APP_XPNET_STAKE_TOKEN as `0x${string}`,
+                abi: xpNetStaker,
+                walletClient: provider,
+            });
+            console.log(contract, "contract");
+            dispatch(setEvmAccount(address));
+            amountOfTokenByIndex(address as string, undefined);
+        }
+        /*AuthClient.init({
+            relayUrl: "",
             projectId: wcId,
             metadata: {
                 name: "react-dapp-auth",
@@ -89,23 +100,15 @@ const WalletConnect = ({ connect }: { connect: Function }) => {
                 icons: [],
             },
         })
-            .then((authClient) => {
-                setClient(authClient);
-                setHasInitialized(true);
+            .then(() => {
+                //setClient(authClient);
+                //setHasInitialized(true);
             })
             .catch(console.error);
         if (address) {
             dispatch(setEvmAccount(address));
             amountOfTokenByIndex(address);
-        }
-        // authClient?.on("auth_response", ({ params }) => {
-        //     if (Boolean(params.result?.s)) {
-        //       // Response contained a valid signature -> user is authenticated.
-        //     } else {
-        //       // Handle error or invalid signature case
-        //       console.error(params.message);
-        //     }
-        //   });
+        }*/
     }, [address]);
 
     return (

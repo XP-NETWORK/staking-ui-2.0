@@ -1,7 +1,7 @@
-import React, { FC, useEffect, useMemo, useRef, useState } from "react";
+import React, { FC, useRef, useState } from "react";
 import "./nftGalleryItem.scss";
-import nft from "../../assets/images/gal.png";
-import { INFT, INFTURI } from "../../assets/ts/Consts";
+
+import { INFTURI } from "../../assets/ts/Consts";
 import placeholder from "./../../assets/images/placeholder.png";
 
 interface Props {
@@ -14,14 +14,6 @@ export const NftGalleryItem: FC<Props> = ({ nft }) => {
     const [loaded, setLoaded] = useState<boolean>(false);
     console.log("🚀 ~ file: NftGalleryItem.tsx:14 ~ loading", loaded);
     // const [isVisible, setIsVisible] = useState(false);
-
-    const options = useMemo(() => {
-        return {
-            root: null,
-            tootMargin: "0px",
-            threshold: 0.3,
-        };
-    }, []);
 
     // const callBackWhenObserver = (entries: any) => {
     //     const [entry] = entries;

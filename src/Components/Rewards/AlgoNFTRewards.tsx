@@ -1,19 +1,17 @@
 import classNames from "classnames";
-import { IFetchedStake, INFT, INFTURI } from "../../assets/ts/Consts";
+import { IFetchedStake, INFT } from "../../assets/ts/Consts";
 import left from "../../assets/images/left.svg";
 import right from "../../assets/images/right.svg";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
-import { getAllAlgoStakes, getAllNFTsByOwner } from "../../assets/ts/algoUtils";
+import { getAllNFTsByOwner } from "../../assets/ts/algoUtils";
 import Carousel from "../Carousel/Carousel";
 import CarouselMainItemList from "../Carousel/CarouselMainItemList";
 import { useDispatch } from "react-redux";
 import {
-    setFetchedAlgoStakes,
     setNFTSByOwner,
     setSelectedNFT,
-    setTableAlgoSTakeIndex,
 } from "../../store/reducer/homePageSlice";
 
 import AlgoNFTActions from "./AlgoNFTActions";
@@ -30,26 +28,23 @@ export const AlgoNFTRewards = ({
     stakes,
     selectedStakeIndex,
     setIndex,
-    carouselMoveNext,
-    setCarouselMoveNext,
 }: Props) => {
     const dispatch = useDispatch();
     const [x, setX] = useState(0);
     const [mainImageLoaded, setMainImageLoaded] = useState(false);
+    mainImageLoaded;
     const {
         account,
-        activeSessionStakes,
+
         nfts,
         selectedNFTtxId,
         fetchedAlgoStakes,
-        tableAlgoSTakeIndex,
     } = useSelector((state: ReduxState) => state.homePage);
 
     useEffect(() => {
         let getAllNFTsByOwnerInterval: any;
         const nfts = async () => {
-            let nfts: any;
-            nfts = await getAllNFTsByOwner(account, stakes);
+            const nfts = await getAllNFTsByOwner(account, stakes);
             // getAllNFTsByOwnerInterval = setInterval(async () => {
             //     nfts = await getAllNFTsByOwner(account, stakes);
             //     // console.log("getAllNFTsByOwnerInterval", nfts);

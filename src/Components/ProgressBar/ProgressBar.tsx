@@ -1,7 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import "./progressbar.scss";
 import emojy from "../../assets/images/desk/emojy.svg";
-import { getTotalStaked } from "../../assets/ts/algoUtils";
 
 interface Props {
     totalStaking: number;
@@ -9,19 +8,11 @@ interface Props {
     chain: string;
 }
 
-export const ProgressBar: FC<Props> = ({
-    totalStaking,
-    stakingLimit,
-    chain,
-}) => {
+export const ProgressBar: FC<Props> = ({ totalStaking, stakingLimit }) => {
     const [percent, setPercent] = useState(0);
 
     useEffect(() => {
-        const getStaked = async () => {
-            let per = (totalStaking / stakingLimit) * 100;
-            setPercent(per);
-        };
-        getStaked();
+        setPercent((totalStaking / stakingLimit) * 100);
     }, [totalStaking]);
 
     return (
@@ -30,7 +21,9 @@ export const ProgressBar: FC<Props> = ({
                 <div className="progressContainerHome">
                     <div
                         className="progressLoader"
-                        style={{ width: `${percent}%` }}
+                        style={{
+                            width: `${+percent < 0.1 ? "1" : percent}%`,
+                        }}
                     ></div>
                 </div>
                 <div className="progressDetails">

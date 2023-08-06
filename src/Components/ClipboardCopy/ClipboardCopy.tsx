@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import copy from "../../assets/images/copy.svg";
-import { IFetchedStake, INFT } from "../../assets/ts/Consts";
+import React from "react";
+//import copy from "../../assets/images/copy.svg";
+//import { IFetchedStake, INFT } from "../../assets/ts/Consts";
 import { Copy } from "../Buttons/Copy";
 
 interface Props {
@@ -8,8 +8,8 @@ interface Props {
     index: number;
 }
 
-export default function ClipboardCopy({ item, index }: Props) {
-    const [isCopied, setIsCopied] = useState(false);
+export default function ClipboardCopy({ item }: Props) {
+    /* const [isCopied, setIsCopied] = useState(false);
 
     const copyTextToClipboard = async (copyText: string) => {
         if ("clipboard" in navigator) {
@@ -32,7 +32,7 @@ export default function ClipboardCopy({ item, index }: Props) {
             .catch((err) => {
                 console.log(err);
             });
-    };
+    };*/
 
     return (
         <div className="clipboard__wrapper">

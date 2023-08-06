@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import left from "../../assets/images/left.svg";
 import right from "../../assets/images/right.svg";
 import classNames from "classnames";
@@ -15,7 +15,7 @@ interface Props {
 export const NFTRewards = ({
     stakes,
     setIndex,
-    algoStakes,
+
     selectedStakeIndex,
 }: Props) => {
     // const [mainStake, setMainStake] = useState(0);

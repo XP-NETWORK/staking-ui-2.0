@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC } from "react";
 import classNames from "classnames";
 import { ReduxState } from "../../store/store";
 import { useSelector } from "react-redux";
@@ -10,15 +10,11 @@ interface Props {
     durationSelected: number;
 }
 
-export const OPTINButton: FC<Props> = ({
-    optIntAsset,
-    optInApps,
-    durationSelected,
-}) => {
+export const OPTINButton: FC<Props> = ({ optIntAsset, optInApps }) => {
     const { algoDetails, optInedApps } = useSelector(
         (state: ReduxState) => state.homePage
     );
-    const isOptIn = (): Boolean => {
+    const isOptIn = (): boolean => {
         // debugger;
         if (
             optInedApps &&

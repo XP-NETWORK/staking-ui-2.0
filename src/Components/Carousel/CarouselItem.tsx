@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { INFT } from "../../assets/ts/Consts";
+
 import { setSelectedNFT } from "../../store/reducer/homePageSlice";
 interface Props {
     item: any;
@@ -49,7 +49,7 @@ export default function CarouselItem({
                         ? "hovered-image"
                         : "regular-image"
                 }
-                onLoad={(e) => setLoaded(true)}
+                onLoad={() => setLoaded(true)}
                 src={item.Uri.image}
                 alt="nft"
                 onClick={handleSelect}
