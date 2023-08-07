@@ -23,7 +23,10 @@ export const HigherALGO = (OriginalComponent: React.FC<any>) => {
                     return accountMyAlgo;
                 }
                 case "AlgoSigner": {
-                    const algosignerAccount = await connectAlgoSigner(false); //!! testnet:true
+                    const algosignerAccount = await connectAlgoSigner(
+                        false,
+                        dispatch
+                    ); //!! testnet:true
                     dispatch(setConnectedWallet("AlgoSigner"));
                     return algosignerAccount;
                 }

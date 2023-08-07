@@ -24,7 +24,7 @@ export const CLAIMButton: FC<Props> = ({
     earned,
 }) => {
     const thisStakeEarned = earned?.find(
-        (e: IAlgoRewards) => e.appid === stakes[index].appId
+        (e: IAlgoRewards) => e?.appid === stakes[index]?.appId
     );
 
     const dispatch = useDispatch();
@@ -50,7 +50,7 @@ export const CLAIMButton: FC<Props> = ({
             {`Claim ${thisStakeEarned?.earned.toFixed(3)} XPNET`}
         </button>
     ) : (
-        <div className="claim-btn-cell" onClick={handleClaimXPNET}>
+        <div className="claim-btn-cell blueBtn" onClick={handleClaimXPNET}>
             Claim
         </div>
     );

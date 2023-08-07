@@ -35,7 +35,7 @@ export default function AlgoRewardsDetails({
         stakes[0]
     );
     const selectedStakeRewards: IAlgoRewards | undefined = rewards.find(
-        (rewards: IAlgoRewards) => rewards.appid === selectedStake?.appId
+        (rewards: IAlgoRewards) => rewards?.appid === selectedStake?.appId
     );
 
     const { XPNetPrice, signer, account, selectedNFTtxId } = useSelector(

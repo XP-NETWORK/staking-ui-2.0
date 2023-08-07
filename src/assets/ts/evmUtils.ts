@@ -30,7 +30,6 @@ export const getAmountOfEVMTokensStaked = async (
     address: string,
     contract?: any
 ) => {
-    // debugger;
     if (!contract) {
         try {
             const stakes = await EVMStakeContract.methods
@@ -78,8 +77,7 @@ export const showAvailableRewards = async (nftTokenIdId: string, c?: any) => {
 
 export const getTokenOfOwnerByIndex = async (
     tokenAmount: number,
-    owner: string,
-    contract?: any
+    owner: string
 ) => {
     const tokensArr = [];
     let allKeysInfo: any;
@@ -88,7 +86,7 @@ export const getTokenOfOwnerByIndex = async (
         const num = tokenAmount;
         for (let i = 0; i < num; i++) {
             try {
-                const tokenId = contract;
+                const tokenId = i.toString();
                 // ? await contract.methods
                 //       .tokenOfOwnerByIndex(owner, i)
                 //       .call()
@@ -97,8 +95,9 @@ export const getTokenOfOwnerByIndex = async (
                     .tokenOfOwnerByIndex(owner, i)
                     .call();
                 const availableRewards = await showAvailableRewards(tokenId);
-                const isUnlocked = await checkIsUnLocked(tokenId);
-                const tokenDetails = await getStakeById(Number(tokenId));
+                const isUnlocked = await checkIsUnLocked(+tokenId);
+                const tokenDetails = await getStakeById(+tokenId);
+
                 allKeysInfo = tokenDetails?.info;
                 const nft = await axios.get(
                     `https://staking-api.xp.network/staking-nfts/${tokenId}/image`

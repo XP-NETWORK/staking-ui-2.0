@@ -482,6 +482,16 @@ input[type="number"]::-webkit-outer-spin-button {
     }
 }
 
+.evmStakeWrapper {
+    button {
+        background: white;
+        color: black;
+        border-radius: 7px;
+        padding: 10px;
+        cursor: pointer;
+    }
+}
+
 @media screen and (max-width: 500px) {
     .periods .row {
         // flex-basis: 39% !important;

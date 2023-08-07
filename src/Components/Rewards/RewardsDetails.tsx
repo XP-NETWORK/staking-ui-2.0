@@ -22,6 +22,10 @@ export default function RewardsDetails({ stake }: Props) {
         (state: ReduxState) => state.homePage
     );
 
+    const disableClaimBtn =
+        stake?.availableRewards && +stake.availableRewards === 0;
+    const disabledUnstakeBtn = stake?.stakeWithdrawn || !stake?.isUnlocked;
+
     return (
         <div className={classNames("containerLeft", "container")}>
             <h1>Claim Rewards</h1>
@@ -124,7 +128,11 @@ export default function RewardsDetails({ stake }: Props) {
                 <div className="column">
                     <button
                         // disabled={true}
-                        className={classNames("blueBtn", "mt-0")}
+                        className={classNames(
+                            "blueBtn",
+                            "mt-0",
+                            disableClaimBtn ? "blackBtn" : ""
+                        )}
                         onClick={() =>
                             claimXpNet(
                                 stake?.nftTokenId,
@@ -133,18 +141,19 @@ export default function RewardsDetails({ stake }: Props) {
                             )
                         }
                     >
-                        Claim XPNET
+                        {disableClaimBtn && <img src={lock} alt="lock_img" />}
+                        <span> Claim XPNET</span>
                     </button>
                     <button
-                        className={stake?.isUnlocked ? "blueBtn" : "blackBtn"}
+                        className={!disabledUnstakeBtn ? "blueBtn" : "blackBtn"}
                         onClick={() =>
                             unstakeEVMStake(stake?.nftTokenId, evmAccount)
                         }
                     >
-                        {!stake?.isUnlocked && (
+                        {disabledUnstakeBtn && (
                             <img src={lock} alt="lock_img" />
                         )}
-                        Unstake
+                        <span>Unstake</span>
                     </button>
                 </div>
             </div>

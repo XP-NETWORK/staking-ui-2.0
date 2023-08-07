@@ -37,7 +37,7 @@ export const SuccessTransactionBody: FC<Props> = ({
                     <span className="success-item-label">End date</span>
                     <span className="success-item-value">
                         {calculateEndDate(
-                            convertSecondsToMonths(stake.details.duration)
+                            convertSecondsToMonths(stake?.details.duration)
                         )}
                     </span>
                 </div>
@@ -48,7 +48,7 @@ export const SuccessTransactionBody: FC<Props> = ({
                             `${addCommas(
                                 calculateEstimatedRewards(
                                     Number(stake.amount),
-                                    stake.details.duration
+                                    stake?.details.duration
                                 )
                             )} XPNET`}
                     </span>

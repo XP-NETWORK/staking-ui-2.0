@@ -25,6 +25,8 @@ import { StakeNotificationBody } from "./Components/Modals/StakeNotificationBody
 import { AppLimitModalBody } from "./Components/Modals/AppLimitModalBody";
 import EVMErrorModalBody from "./Components/Modals/EVMErrorModalBody";
 // import "bootstrap/dist/css/bootstrap.min.css";
+import { AlgoSelectWallet } from "./Components/Modals/AlgoSelectWallet";
+import { StakeEVM } from "./Pages/Stake/StakeEVM";
 
 type ModalProps = {
     children: ReactNode;
@@ -118,6 +120,7 @@ function App() {
         showLimitModal,
         stakingNotification,
         showAppLimitModal,
+        algoSelectWallet,
     } = useSelector((state: ReduxState) => state.homePage);
 
     useEffect(() => {
@@ -147,6 +150,11 @@ function App() {
             <FetchingComponent />
             <BrowserRouter>
                 <div id="modal-root"></div>
+                {Array.isArray(algoSelectWallet) && (
+                    <BSCStakeLimitModal>
+                        <AlgoSelectWallet algoSelectWallet={algoSelectWallet} />
+                    </BSCStakeLimitModal>
+                )}
                 {showConnectModal && (
                     <ConnectModal>
                         <ConnectModalBody />
@@ -185,7 +193,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Main />}>
                         <Route index element={<Home />} />
-                        {/* <Route path="/evm-stake" element={<StakeEVM />} /> */}
+                        {<Route path="/evm-stake" element={<StakeEVM />} />}
                         <Route path="/stake" element={<Stake />} />
                         <Route path="/rewards" element={<ClaimRewards />} />
                         <Route path="/gallery" element={<Gallery />} />

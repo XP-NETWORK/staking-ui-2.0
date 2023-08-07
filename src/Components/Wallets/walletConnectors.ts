@@ -10,6 +10,8 @@ import {
     setAccount,
     setConnectedWallet,
     setSigner,
+    setAlgoSelectWallet,
+    setAlgoSelectWalletPromise,
 } from "../../store/reducer/homePageSlice";
 
 import {
@@ -20,6 +22,11 @@ import {
 
 import { configureChains, createConfig } from "wagmi";
 import * as wagamiChains from "wagmi/chains";
+
+import { getAmountOfEVMTokensStaked } from "../../assets/ts/evmUtils";
+
+import { EVMStakeContract } from "../../assets/ts/Consts";
+import { Dispatch } from "react";
 
 export const chains = [wagamiChains.bsc];
 
@@ -75,7 +82,10 @@ declare global {
         AlgoSigner: any;
     }
 }
-export const connectAlgoSigner = async (testnet: boolean) => {
+export const connectAlgoSigner = async (
+    testnet: boolean,
+    dispatch: Dispatch
+) => {
     // debugger;
     if (typeof window.AlgoSigner === "object") {
         try {
@@ -83,8 +93,17 @@ export const connectAlgoSigner = async (testnet: boolean) => {
             const algo = await window.AlgoSigner.accounts({
                 ledger: testnet ? "TestNet" : "MainNet",
             });
+            if (!algo.length) return;
+            let address: string = algo[0];
+            if (algo.length > 1) {
+                dispatch(setAlgoSelectWallet(algo));
+                address = await new Promise((resolve) => {
+                    dispatch(setAlgoSelectWalletPromise(resolve));
+                });
 
-            const address = algo[0].address;
+                dispatch(setAlgoSelectWalletPromise(undefined));
+            }
+
             const signer = window.AlgoSigner;
             return { address, signer };
         } catch (e) {
@@ -121,25 +140,18 @@ export const getMyAlgoConnect = async () => {
 
 export const connectMetaMask = async () => {
     let accounts: string[];
-    let stakes: number | undefined;
-    // 0xa796A5a95a1dDEF1d557d38DF9Fe86dc2b204D63
-    // 0xd3ba84215c01a499b6304e82d4fd4026f8614e97
+
     if (typeof window.ethereum !== "undefined") {
         try {
             accounts = await window.ethereum.request({
                 method: "eth_requestAccounts",
             });
 
-            // stakes = await getAmountOfEVMTokensStaked(accounts[0]);
-            // stakes = await getAmountOfEVMTokensStaked(
-            //     "0x6449b68cc5675f6011e8DB681B142773A3157cb9"
-            // );
-            // if (accounts && chainId !== 56) {
-            //     window.ethereum.request({
-            //         method: "wallet_switchEthereumChain",
-            //         params: [{ chainId: "0x38" }],
-            //     });
-            // }
+            const stakes = await getAmountOfEVMTokensStaked(
+                accounts[0],
+                EVMStakeContract
+            );
+
             return { accounts, stakes };
         } catch (error) {
             console.log(error);

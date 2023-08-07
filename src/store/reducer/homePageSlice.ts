@@ -50,6 +50,8 @@ export interface IHomePage {
     tableAlgoSTakeIndex: number;
     optInedApps: string[];
     networkConnection: string | undefined;
+    algoSelectWallet: [] | undefined;
+    algoSelecWalletPromise: Function | undefined;
 }
 
 const initialState: IHomePage = {
@@ -87,6 +89,8 @@ const initialState: IHomePage = {
     tableAlgoSTakeIndex: 0,
     optInedApps: [],
     networkConnection: undefined,
+    algoSelectWallet: undefined,
+    algoSelecWalletPromise: undefined,
 };
 
 const homePageSlice = createSlice({
@@ -182,6 +186,12 @@ const homePageSlice = createSlice({
         setAlgoRewards(state: any, action: any) {
             state.algoRewards = action.payload;
         },
+        setAlgoSelectWallet(state: any, action: any) {
+            state.algoSelectWallet = action.payload;
+        },
+        setAlgoSelectWalletPromise(state: any, action: any) {
+            state.algoSelecWalletPromise = action.payload;
+        },
         setXPNetPrice(state: any, action: any) {
             state.XPNetPrice = action.payload;
         },
@@ -266,6 +276,8 @@ export const {
     setIfMobileDevice,
     setShowAccountMenu,
     setShowAppLimitModal,
+    setAlgoSelectWallet,
+    setAlgoSelectWalletPromise,
 } = homePageSlice.actions;
 
 export default homePageSlice;

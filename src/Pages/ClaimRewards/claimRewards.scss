@@ -388,7 +388,19 @@
 .blackBtn {
     margin-top: 12px !important;
     background: rgba(255, 255, 255, 0.04);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+    justify-content: center;
 }
+
+.blackBtn img {
+    position: relative;
+    bottom: 3px;
+}
+
 .clipboard__wrapper {
     width: 60%;
     display: flex;
@@ -582,6 +594,14 @@
 }
 
 @media screen and (max-width: 600px) {
+    .appWrapper {
+        min-height: 100vh;
+    }
+
+    .blackBtn {
+        width: 100%;
+    }
+
     .nft-actions-button,
     .nft-actions-button--disabled,
     .nft-actions-button--unoptined {

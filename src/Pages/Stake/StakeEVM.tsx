@@ -27,7 +27,7 @@ export const StakeEVM: FC<Props> = () => {
 
     const stake = async () => {
         TestnetStake.methods
-            .stake("1500000000000000000000", 7776000)
+            .stake("1500000000000000000000", 60)
             .send({ from: account })
             .once("receipt", async function (receipt: any) {
                 console.log(receipt);
@@ -42,7 +42,7 @@ export const StakeEVM: FC<Props> = () => {
         await TestnetToken.methods
             .approve(
                 process.env.REACT_APP_TESTNET_STAKING,
-                "10000000000000000000000000000000000000000000000000"
+                "15000000000000000000000"
             )
             .send({ from: account })
             .once("receipt", async function (receipt: any) {
@@ -55,10 +55,9 @@ export const StakeEVM: FC<Props> = () => {
     };
 
     const stakesAmount = async () => {
-        const amount = await getAmountOfEVMTokensStaked(
-            account || "0xb6C8748115d23Eb1c6d59Cb83eAe051b56ef75c7",
-            TestnetStake
-        );
+        const amount =
+            account &&
+            (await getAmountOfEVMTokensStaked(account, TestnetStake));
         setAmount(amount);
     };
 
@@ -90,20 +89,20 @@ export const StakeEVM: FC<Props> = () => {
     };
 
     return (
-        <div>
-            <div onClick={() => connectMM()}>Connect Metamask</div>
+        <div className="evmStakeWrapper">
+            <button onClick={() => connectMM()}>Connect Metamask</button>
             <div>{account}</div>
             <hr />
-            <div onClick={approve}>Approve</div>
+            <button onClick={approve}>Approve</button>
             <hr />
-            <div onClick={stake}>STAKE</div>
+            <button onClick={stake}>STAKE</button>
             {/* <div>{receipt}</div> */}
             <hr />
-            <div onClick={stakesAmount}>Get Amount Of Tokens Staked</div>
+            <button onClick={stakesAmount}>Get Amount Of Tokens Staked</button>
             <div>{amount}</div>
             <br />
             <hr />
-            <div onClick={getStake}>Get Stake</div>
+            <button onClick={getStake}>Get Stake</button>
             <div>
                 {_stake?.map((e) => (
                     <div>{e}</div>
@@ -112,13 +111,13 @@ export const StakeEVM: FC<Props> = () => {
             <br />
             <hr />
             <input type="text" onChange={(e) => setId(e.target.value)} />
-            <div onClick={getRewards}>Get Rewards</div>
+            <button onClick={getRewards}>Get Rewards</button>
             <div>{rewards}</div>
             <hr />
-            <div onClick={claimRewards}>Claim Rewards</div>
+            <button onClick={claimRewards}>Claim Rewards</button>
             <br />
             <hr />
-            <div onClick={unstake}>Unstake</div>
+            <button onClick={unstake}>Unstake</button>
         </div>
     );
 };

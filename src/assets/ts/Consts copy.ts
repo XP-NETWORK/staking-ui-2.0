@@ -1,3 +1,4 @@
+//@ts-nocheck
 import Web3 from "web3";
 import algorand from "../../assets/images/coin/algo.svg";
 import bsc from "../../assets/images/coin/BSC.svg";
@@ -110,7 +111,7 @@ export const algodApiKey = "y7NlS5BDAY2TEzVKg58Un8BqN0QMuUMU1SgBxEeD";
 // export const algodTestnetUri = "https://node.testnet.algoexplorerapi.io";
 export const algodUri = "https://mainnet-algorand.api.purestake.io/ps2";
 export const algodPort = 443;
-export const assetIdx = 1163386533;
+export const assetIdx = 1157059560;
 
 const web3 = new Web3(
     Web3.givenProvider || "https://bsc-dataseed.binance.org/"
@@ -138,19 +139,19 @@ export const TestnetStake = new web3.eth.Contract(
 );
 
 // 3 different contracts - every staking periog has her own contract
-export const appAdress3Months = 1163384291;
+export const appAdress3Months = 1157058529;
 export const duration3Months = 7890000;
 export const multiplier3Months = 130000000000;
 
-export const appAdress6Months = 1163384682;
+export const appAdress6Months = 1157058731;
 export const duration6Months = 15780000;
 export const multiplier6Months = 150000000000;
 
-export const appAdress9Months = 1163384946;
+export const appAdress9Months = 1157059011;
 export const duration9Months = 23650000;
 export const multiplier9Months = 170000000000;
 
-export const appAdress12Months = 1163385313;
+export const appAdress12Months = 1157059241;
 export const duration12Months = 31540000;
 export const multiplier12Months = 190000000000;
 
@@ -224,7 +225,7 @@ export class AlgoDetails implements IAlgoDetails {
 export const minClaimPeriod = 604800;
 export const rewardRate = 1929004;
 export const communityAddress =
-    "JA5BOPYOZB4YDI4X4MCI76XFZO5DCPWLKJKN72YPJPNPPFQPJAMUAPP7MY"; //my add-lost tokens
+    "GEVVMVMLWFENYW5NB74YQC6T4UGNKK4YYUQK2QNL67QTIW7YEDKJ5S7APU"; //my add-lost tokens
 export const maxLoss = 75000000000;
 
-export const subAppId = BigInt(1163386053);
+export const subAppId = BigInt(1157059407);
