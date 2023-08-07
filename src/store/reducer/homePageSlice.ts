@@ -52,6 +52,7 @@ export interface IHomePage {
     networkConnection: string | undefined;
     algoSelectWallet: [] | undefined;
     algoSelecWalletPromise: Function | undefined;
+    showLoader: boolean;
 }
 
 const initialState: IHomePage = {
@@ -91,6 +92,7 @@ const initialState: IHomePage = {
     networkConnection: undefined,
     algoSelectWallet: undefined,
     algoSelecWalletPromise: undefined,
+    showLoader: false,
 };
 
 const homePageSlice = createSlice({
@@ -161,6 +163,9 @@ const homePageSlice = createSlice({
         },
         setNFTSByOwner(state: any, action: any) {
             state.nfts = action.payload;
+        },
+        setShowLoader(state: IHomePage, action: any) {
+            state.showLoader = action.payload;
         },
         updateNFTUriToFetchedStakes(state: any, action: any) {
             // debugger;
@@ -278,6 +283,7 @@ export const {
     setShowAppLimitModal,
     setAlgoSelectWallet,
     setAlgoSelectWalletPromise,
+    setShowLoader,
 } = homePageSlice.actions;
 
 export default homePageSlice;

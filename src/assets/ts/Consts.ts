@@ -92,9 +92,10 @@ interface Traits {
     Hair: string;
     Acc: string;
 }
-
-export const bsc_staking = "0x77696A4B6Fc88eD0b3E386cC24197C07f0Cd0B4a";
-export const bsc_token = "0xF313e70ed3D0920e159869216b447e29d9666E84";
+//0x6272AF9Bac58eFbBbCddc1218d794920f74DEE82
+//0x8cf8238abf7b933Bf8BB5Ea2C7E4Be101c11de2A
+export const bsc_staking = "0x6272AF9Bac58eFbBbCddc1218d794920f74DEE82";
+export const bsc_token = "0x8cf8238abf7b933Bf8BB5Ea2C7E4Be101c11de2A";
 
 export const STAKING_LIMIT_ALGO = 50000000;
 export const TOTAL_STAKED_BSC = 50000000;

@@ -179,33 +179,6 @@ export const optInt = async (stakingClient: any) => {
     }
 };
 
-export const unstake = async (
-    signer: any,
-    account: string,
-    duration: number
-) => {
-    let rewards;
-    const client = await createClient(signer, account, getMonths(duration));
-
-    try {
-        const sp = await client.getSuggestedParams();
-        sp.flatFee = true;
-        sp.fee = 7_000;
-
-        rewards = await client.unstake(
-            {
-                stakeId: BigInt(0),
-                token: BigInt(assetIdx),
-                app: subAppId,
-            },
-            { suggestedParams: sp }
-        );
-        console.log(rewards);
-    } catch (e) {
-        console.log(e);
-    }
-};
-
 export const createClients = async (signer: any, account: string) => {
     // console.log("signer,account create clintsssss", signer, account);
     const clients = [
@@ -447,7 +420,7 @@ export const getXpNetBalance = async (client: any) => {
 
 export const getMonths = (duration: number) => {
     switch (duration) {
-        case 31536000:
+        case 31540000:
             return 12;
         case 23650000:
             return 9;
@@ -592,21 +565,20 @@ export const claimRewards = async (
     stakes: IFetchedStake[],
     index: number
 ) => {
-    const client = await createClient(
-        signer,
-        account,
-        getMonths(stakes[index]?.lockTime)
-    );
-    let rewards;
-    // debugger;
     try {
+        const client = await createClient(
+            signer,
+            account,
+            getMonths(stakes[index]?.lockTime)
+        );
+
         const sp = await client.getSuggestedParams();
         sp.flatFee = true;
         sp.fee = 7_000;
         const token = BigInt(assetIdx);
         const lockTime = BigInt(stakes[index]?.lockTime);
         const app = subAppId;
-        rewards = await client.getReward(
+        const rewards = await client.getReward(
             {
                 token,
                 lockTime,
@@ -617,6 +589,7 @@ export const claimRewards = async (
         return rewards;
     } catch (e) {
         console.log(e);
+        throw e;
     }
 };
 
@@ -627,19 +600,21 @@ export const unstakeTokens = async (
     index: number
 ) => {
     let ustaked;
-    const client = await createClient(
-        signer,
-        account,
-        getMonths(stakes[index]?.lockTime)
-    );
+
+    const stake = stakes[index];
     try {
+        const client = await createClient(
+            signer,
+            account,
+            getMonths(stake?.lockTime)
+        );
+
         const sp = await client.getSuggestedParams();
         sp.flatFee = true;
         sp.fee = 7_000;
-
         ustaked = await client.unstake(
             {
-                stakeId: BigInt(0),
+                stakeId: BigInt(stake.id),
                 token: BigInt(assetIdx),
                 app: subAppId,
             },
@@ -648,6 +623,7 @@ export const unstakeTokens = async (
         return ustaked;
     } catch (e) {
         console.log(e);
+        throw e;
     }
 };
 

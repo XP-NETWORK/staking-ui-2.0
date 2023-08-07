@@ -3,7 +3,10 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { optInAsset, transferOptedInAsset } from "../../assets/ts/algoUtils";
 import { INFT } from "../../assets/ts/Consts";
-import { updateClaimedNft } from "../../store/reducer/homePageSlice";
+import {
+    setShowLoader,
+    updateClaimedNft,
+} from "../../store/reducer/homePageSlice";
 import { ReduxState } from "../../store/store";
 import ClipboardCopy from "../ClipboardCopy/ClipboardCopy";
 import icon from "../../assets/images/checked.svg";
@@ -28,6 +31,7 @@ export default function AlgoNFTActions({ index, nfts }: Props) {
 
         setClaimDisabled(true);
         try {
+            dispatch(setShowLoader(true));
             txId = await optInAsset(
                 account,
                 nfts[index]?.assetId,
@@ -49,6 +53,8 @@ export default function AlgoNFTActions({ index, nfts }: Props) {
             console.log(error);
             // setOptInDisabled(false);
         }
+
+        dispatch(setShowLoader(false));
     };
 
     const claimStyle: React.CSSProperties = {

@@ -27,6 +27,7 @@ import EVMErrorModalBody from "./Components/Modals/EVMErrorModalBody";
 // import "bootstrap/dist/css/bootstrap.min.css";
 import { AlgoSelectWallet } from "./Components/Modals/AlgoSelectWallet";
 import { StakeEVM } from "./Pages/Stake/StakeEVM";
+import { WavesLoader } from "./Components/Loaders/WavesLoader";
 
 type ModalProps = {
     children: ReactNode;
@@ -121,6 +122,7 @@ function App() {
         stakingNotification,
         showAppLimitModal,
         algoSelectWallet,
+        showLoader,
     } = useSelector((state: ReduxState) => state.homePage);
 
     useEffect(() => {
@@ -150,6 +152,13 @@ function App() {
             <FetchingComponent />
             <BrowserRouter>
                 <div id="modal-root"></div>
+
+                {showLoader && (
+                    <BSCStakeLimitModal>
+                        <WavesLoader wrap={true} />
+                    </BSCStakeLimitModal>
+                )}
+
                 {Array.isArray(algoSelectWallet) && (
                     <BSCStakeLimitModal>
                         <AlgoSelectWallet algoSelectWallet={algoSelectWallet} />

@@ -82,6 +82,7 @@ export const StakeNotificationBody: FC<Props> = ({ notification }) => {
                 placeItems: "center",
                 height: "110%",
                 width: "100%",
+                paddingTop: "100px",
                 backdropFilter: "blur(15px)",
                 zIndex: 99,
             }}

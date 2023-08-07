@@ -3,7 +3,10 @@ import React, { FC } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { claimRewards } from "../../assets/ts/algoUtils";
-import { setRefreshTheAlgoRewards } from "../../store/reducer/homePageSlice";
+import {
+    setRefreshTheAlgoRewards,
+    setShowLoader,
+} from "../../store/reducer/homePageSlice";
 import { IAlgoRewards, IFetchedStake } from "./../../assets/ts/Consts";
 
 interface Props {
@@ -34,7 +37,14 @@ export const CLAIMButton: FC<Props> = ({
             navigate("/rewards");
             // dispatch(setTableAlgoSTakeIndex(index));
         } else {
-            const response = await claimRewards(signer, account, stakes, index);
+            dispatch(setShowLoader(true));
+            const response = await claimRewards(
+                signer,
+                account,
+                stakes,
+                index
+            ).catch(() => {});
+            dispatch(setShowLoader(false));
             if (response) dispatch(setRefreshTheAlgoRewards());
         }
         // TODO pop-up to show the rewards claimed

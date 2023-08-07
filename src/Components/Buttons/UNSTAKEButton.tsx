@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import lock from "../../assets/images/lock.svg";
 import { getRemainedDays, unstakeTokens } from "../../assets/ts/algoUtils";
 import { IFetchedStake } from "../../assets/ts/Consts";
+import { useDispatch } from "react-redux";
+import { setShowLoader } from "../../store/reducer/homePageSlice";
 
 interface Props {
     signer: {};
@@ -17,11 +19,21 @@ export default function UNSTAKEButton({
     stakes,
     index,
 }: Props) {
-    const [legalToUnstake, setLegalToUnstake] = useState(false);
+    const [legalToUnstake, setLegalToUnstake] = useState(true);
+    const dispatch = useDispatch();
 
     const handleUnstake = async () => {
-        const unstaked = await unstakeTokens(signer, account, stakes, index);
-        console.log({ unstaked });
+        dispatch(setShowLoader(true));
+        const unstaked = await unstakeTokens(
+            signer,
+            account,
+            stakes,
+            index
+        ).catch(() => undefined);
+        if (unstaked) {
+            setLegalToUnstake(false);
+        }
+        dispatch(setShowLoader(false));
     };
 
     useEffect(() => {
