@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-
+import { useAccount, usePublicClient } from "wagmi";
 import {
     getEvmXpNetBalance,
     getTokenOfOwnerByIndex,
@@ -18,28 +18,39 @@ export default function FetchingComponent() {
     const { evmAccount, evmStakes } = useSelector(
         (state: ReduxState) => state.homePage
     );
+    //@ts-ignore
+    const { address } = useAccount();
+    const walletConnect = usePublicClient();
 
     useEffect(() => {
-        if (evmAccount) {
+        const account = evmAccount || address;
+        const wcProvider = address ? walletConnect : undefined;
+        if (account) {
             const evmBalance = async () => {
-                const balance = await getEvmXpNetBalance(evmAccount);
+                const balance = await getEvmXpNetBalance(
+                    account as any,
+                    wcProvider
+                );
                 dispatch(setEvmBalance(balance));
             };
+
             const stakesOfOwnerByIndex = async (stakes: number) => {
                 const stakesTokens = await getTokenOfOwnerByIndex(
                     stakes,
-                    evmAccount
+                    account,
+                    wcProvider
                 );
 
                 dispatch(setEVMStakesArray(stakesTokens));
             };
 
             evmBalance();
+
             if (evmStakes) {
                 stakesOfOwnerByIndex(evmStakes);
             }
         }
-    }, [evmAccount]);
+    }, [evmAccount, address, evmStakes]);
 
     return <div></div>;
 }

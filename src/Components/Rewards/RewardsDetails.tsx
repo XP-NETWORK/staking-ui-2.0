@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ProgressStaking } from "../ProgressStaking/ProgressStaking";
 import classNames from "classnames";
 import lock from "../../assets/images/lock.svg";
@@ -11,20 +11,76 @@ import {
     getEVMStakeProgress,
     unstakeEVMStake,
 } from "../../assets/ts/evmUtils";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { ReduxState } from "../../store/store";
+import { setShowLoader } from "../../store/reducer/homePageSlice";
+import { useAccount, WalletClient } from "wagmi";
 
 interface Props {
     stake: IEVMStake;
 }
 export default function RewardsDetails({ stake }: Props) {
+    const [wc_sigenr, setWCSigner] = useState<WalletClient | null>(null);
+    const [compteledUnstake, setCompteledUnstake] = useState(false);
+    const [compteledClaim, setCompteledClaim] = useState(false);
     const { XPNetPrice, evmAccount } = useSelector(
         (state: ReduxState) => state.homePage
     );
+    const dispatch = useDispatch();
 
     const disableClaimBtn =
-        stake?.availableRewards && +stake.availableRewards === 0;
-    const disabledUnstakeBtn = stake?.stakeWithdrawn || !stake?.isUnlocked;
+        compteledClaim ||
+        (Boolean(stake?.availableRewards) &&
+            Number(stake.availableRewards) === 0);
+
+    const disabledUnstakeBtn =
+        compteledUnstake || stake?.stakeWithdrawn || !stake?.isUnlocked;
+
+    //@ts-ignore
+    const { address, connector } = useAccount();
+
+    useEffect(() => {
+        if (address && connector) {
+            //@ts-ignore
+            connector.getWalletClient().then((signer) => {
+                setWCSigner(signer);
+            });
+        }
+    }, [address]);
+
+    useEffect(() => {
+        if (stake) {
+            setCompteledUnstake(false);
+            setCompteledClaim(false);
+        }
+    }, [stake]);
+
+    const handleClaim = async () => {
+        dispatch(setShowLoader(true));
+        const tx = await claimXpNet(
+            stake?.nftTokenId,
+            stake?.availableRewards,
+            evmAccount,
+            wc_sigenr as any
+        ).catch(() => undefined);
+        dispatch(setShowLoader(false));
+        if (tx) {
+            setCompteledClaim(true);
+        }
+    };
+
+    const handleUnstake = async () => {
+        dispatch(setShowLoader(true));
+        const tx = await unstakeEVMStake(
+            stake?.nftTokenId,
+            evmAccount,
+            wc_sigenr as any
+        ).catch(() => undefined);
+        dispatch(setShowLoader(false));
+        if (tx) {
+            setCompteledUnstake(true);
+        }
+    };
 
     return (
         <div className={classNames("containerLeft", "container")}>
@@ -133,22 +189,14 @@ export default function RewardsDetails({ stake }: Props) {
                             "mt-0",
                             disableClaimBtn ? "blackBtn" : ""
                         )}
-                        onClick={() =>
-                            claimXpNet(
-                                stake?.nftTokenId,
-                                stake?.availableRewards,
-                                evmAccount
-                            )
-                        }
+                        onClick={handleClaim}
                     >
                         {disableClaimBtn && <img src={lock} alt="lock_img" />}
                         <span> Claim XPNET</span>
                     </button>
                     <button
                         className={!disabledUnstakeBtn ? "blueBtn" : "blackBtn"}
-                        onClick={() =>
-                            unstakeEVMStake(stake?.nftTokenId, evmAccount)
-                        }
+                        onClick={handleUnstake}
                     >
                         {disabledUnstakeBtn && (
                             <img src={lock} alt="lock_img" />

@@ -37,10 +37,11 @@ export default function UNSTAKEButton({
     };
 
     useEffect(() => {
-        const days = getRemainedDays(
+        let days = getRemainedDays(
             stakes[index].lockTime,
             stakes[index].stakingTime
         );
+        if (days < 0) days = 0;
         setLegalToUnstake(!days);
     }, [index]);
 

@@ -29,6 +29,10 @@ import { AlgoSelectWallet } from "./Components/Modals/AlgoSelectWallet";
 import { StakeEVM } from "./Pages/Stake/StakeEVM";
 import { WavesLoader } from "./Components/Loaders/WavesLoader";
 
+import { WagmiConfig } from "wagmi";
+
+import { wagmiConfig } from "./Components/Wallets/walletConnectors";
+
 type ModalProps = {
     children: ReactNode;
 };
@@ -146,9 +150,8 @@ function App() {
     }, []);
 
     return (
-        <>
-            {/* <img src={bg} className={classNames("bg", "deskOnly")} alt="bg" />
-            <img src={bgMob} className={classNames("bg", "mobOnly")} alt="bg" /> */}
+        //@ts-ignore
+        <WagmiConfig config={wagmiConfig}>
             <FetchingComponent />
             <BrowserRouter>
                 <div id="modal-root"></div>
@@ -210,7 +213,7 @@ function App() {
                     </Route>
                 </Routes>
             </BrowserRouter>
-        </>
+        </WagmiConfig>
     );
 }
 

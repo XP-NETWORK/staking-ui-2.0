@@ -76,6 +76,7 @@ const ClaimRewards = ({ chain }: Props) => {
     };
 
     useEffect(() => {
+        if (!Object.keys(stakingClient).length) return;
         const getBalance = async () => {
             const balance = await getXpNetBalance(stakingClient);
             if (balance) dispatch(setBalance(balance));

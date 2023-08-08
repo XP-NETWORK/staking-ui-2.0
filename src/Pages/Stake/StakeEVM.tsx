@@ -62,7 +62,7 @@ export const StakeEVM: FC<Props> = () => {
     };
 
     const getStake = async () => {
-        const s = await getStakeById(Number(id), TestnetStake);
+        const s = (await getStakeById(Number(id))) as any;
         const info = s?.info;
         const values = Object.values(info);
         setStake(values);
@@ -70,7 +70,7 @@ export const StakeEVM: FC<Props> = () => {
 
     const getRewards = async () => {
         if (id) {
-            const r = await showAvailableRewards(id, TestnetStake);
+            const r = await showAvailableRewards(id);
             setRewards(r);
         }
     };
@@ -84,7 +84,7 @@ export const StakeEVM: FC<Props> = () => {
 
     const unstake = async () => {
         if (id && account) {
-            unstakeEVMStake(id, account, TestnetStake);
+            unstakeEVMStake(id, account);
         }
     };
 

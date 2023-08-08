@@ -1,7 +1,12 @@
 import Web3 from "web3";
-import { EVMContract, EVMStakeContract } from "./Consts";
+import { EVMContract, EVMStakeContract, bsc_staking } from "./Consts";
 import axios from "axios";
 import moment from "moment";
+import { PublicClient } from "wagmi";
+import stakerABI from "../../ABI/xpNetStaker.json";
+import { BigNumber } from "ethers";
+import { WalletClient } from "wagmi";
+import { bsc } from "wagmi/chains";
 
 // REACT_APP_ALGO_SERVICE
 
@@ -9,16 +14,18 @@ export const convertFromWei = (wei: string) => {
     const n = wei ? parseInt(Web3.utils.fromWei(wei, "ether")) : 0;
     return n;
 };
-
-export const getEvmXpNetBalance = async (address: string) => {
+export const getEvmXpNetBalance = async (
+    address: `0x${string}`,
+    //@ts-ignore
+    wallectConnect: PublicClient | undefined
+) => {
     let weiBalance: string;
 
     try {
-        weiBalance =
-            // contract
-            //     ? await contract.methods.balanceOf(address).call()
-            //     :
-            await EVMContract.methods.balanceOf(address).call();
+        weiBalance = wallectConnect
+            ? await wallectConnect.getBalance({ address })
+            : await EVMContract.methods.balanceOf(address).call();
+
         const balance = parseInt(Web3.utils.fromWei(weiBalance, "ether"));
         return balance;
     } catch (error) {
@@ -50,11 +57,47 @@ export const getAmountOfEVMTokensStaked = async (
     }
 };
 
-export const getStakeById = async (id: number, c?: any) => {
-    // debugger;
-    const contract = c || EVMStakeContract;
+export const getStakeById = async (
+    id: number,
+    wallectConnect?: PublicClient | undefined
+) => {
+    if (wallectConnect) {
+        const info = (await wallectConnect.readContract({
+            address: bsc_staking,
+            abi: stakerABI,
+            functionName: "stakes",
+            //@ts-ignore
+            args: [id.toString()],
+        })) as any;
+
+        const isUnlocked = await wallectConnect.readContract({
+            address: bsc_staking,
+            abi: stakerABI,
+            functionName: "checkIsUnlocked",
+            //@ts-ignore
+            args: [id.toString()],
+        });
+
+        return {
+            info: {
+                amount: BigNumber.from(info[0]).toString(),
+                nftTokenId: BigNumber.from(info[1]).toString(),
+                lockInPeriod: BigNumber.from(info[2]).toString(),
+                rewardWithdrawn: BigNumber.from(info[3]).toString(),
+                startTime: BigNumber.from(info[4]).toString(),
+                staker: BigNumber.from(info[5]).toString(),
+                correction: BigNumber.from(info[6]).toString(),
+                isActive: Boolean(info[7]),
+                stakeWithdrawn: Boolean(info[8]),
+            },
+            isUnlocked,
+        };
+    }
+
+    const contract = EVMStakeContract;
     try {
         const info = await contract.methods.stakes(id).call();
+
         const isUnlocked = await contract.methods.checkIsUnlocked(id).call();
         return { info, isUnlocked };
     } catch (error) {
@@ -62,9 +105,24 @@ export const getStakeById = async (id: number, c?: any) => {
     }
 };
 
-export const showAvailableRewards = async (nftTokenIdId: string, c?: any) => {
+export const showAvailableRewards = async (
+    nftTokenIdId: string,
+    wallectConnect?: PublicClient | undefined
+) => {
+    if (wallectConnect) {
+        const x = await wallectConnect.readContract({
+            address: bsc_staking,
+            abi: stakerABI,
+            functionName: "showAvailableRewards",
+            //@ts-ignore
+            args: [nftTokenIdId],
+        });
+
+        return BigNumber.from(x).toString();
+    }
+
     // debugger;
-    const contract = c || EVMStakeContract;
+    const contract = EVMStakeContract;
     try {
         const available = await contract.methods
             .showAvailableRewards(nftTokenIdId)
@@ -77,28 +135,34 @@ export const showAvailableRewards = async (nftTokenIdId: string, c?: any) => {
 
 export const getTokenOfOwnerByIndex = async (
     tokenAmount: number,
-    owner: string
+    _: string,
+    wallectConnect: PublicClient | undefined
 ) => {
     const tokensArr = [];
     let allKeysInfo: any;
-    // "0xa796A5a95a1dDEF1d557d38DF9Fe86dc2b204D63"
+
     if (tokenAmount) {
         const num = tokenAmount;
         for (let i = 0; i < num; i++) {
             try {
                 const tokenId = i.toString();
-                // ? await contract.methods
-                //       .tokenOfOwnerByIndex(owner, i)
-                //       .call()
-                // :
-                await EVMStakeContract.methods
-                    .tokenOfOwnerByIndex(owner, i)
-                    .call();
-                const availableRewards = await showAvailableRewards(tokenId);
-                const isUnlocked = await checkIsUnLocked(+tokenId);
-                const tokenDetails = await getStakeById(+tokenId);
+
+                const availableRewards = await showAvailableRewards(
+                    tokenId,
+                    wallectConnect
+                );
+
+                const isUnlocked = await checkIsUnLocked(
+                    +tokenId,
+                    wallectConnect
+                );
+                const tokenDetails = await getStakeById(
+                    +tokenId,
+                    wallectConnect
+                );
 
                 allKeysInfo = tokenDetails?.info;
+
                 const nft = await axios.get(
                     `https://staking-api.xp.network/staking-nfts/${tokenId}/image`
                 );
@@ -176,10 +240,23 @@ export const claimXpNetRewards = async (
 export const unstakeEVMStake = async (
     nftId: string,
     address: string,
-    c?: any
+    wallectConnect?: WalletClient | undefined
 ) => {
-    const contract = c || EVMStakeContract;
     try {
+        if (wallectConnect) {
+            //@ts-ignore
+            const x = await wallectConnect.writeContract({
+                address: bsc_staking,
+                abi: stakerABI,
+                chain: bsc,
+                functionName: "withdraw",
+                args: [nftId as any],
+            });
+
+            return x;
+        }
+
+        const contract = EVMStakeContract;
         await contract.methods
             .withdraw(nftId)
             .send({ from: address })
@@ -189,18 +266,33 @@ export const unstakeEVMStake = async (
             .on("error", (error: any) => {
                 console.log(error);
             });
+        return true;
     } catch (error) {
         console.log(error);
+        throw error;
     }
 };
 
 export const claimXpNet = async (
     nftId: string,
     rewards: string,
-    account: string
+    account: string,
+    wallectConnect?: WalletClient | undefined
 ) => {
-    // store.dispatch(updateWithdrawed(true))
     try {
+        if (wallectConnect) {
+            //@ts-ignore
+            const x = await wallectConnect.writeContract({
+                address: bsc_staking,
+                abi: stakerABI,
+                chain: bsc,
+                functionName: "withdrawRewards",
+                args: [nftId as any, rewards as any],
+            });
+
+            return x;
+        }
+
         await EVMStakeContract.methods
             .withdrawRewards(nftId, rewards)
             .send({ from: account })
@@ -210,8 +302,10 @@ export const claimXpNet = async (
             .on("error", (error: any) => {
                 console.log(error);
             });
+        return true;
     } catch (error) {
         console.log(error);
+        throw error;
     }
 };
 
@@ -247,8 +341,20 @@ export const totalSupply = async () => {
     }
 };
 
-export const checkIsUnLocked = async (id: number) => {
-    // debugger
+export const checkIsUnLocked = async (
+    id: number,
+    wallectConnect?: PublicClient | undefined
+) => {
+    if (wallectConnect) {
+        return await wallectConnect.readContract({
+            address: bsc_staking,
+            abi: stakerABI,
+            functionName: "checkIsUnlocked",
+            //@ts-ignore
+            args: [id.toString()],
+        });
+    }
+
     try {
         const isUnlocked = await EVMStakeContract.methods
             .checkIsUnlocked(id)
