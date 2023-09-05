@@ -93,9 +93,9 @@ interface Traits {
     Acc: string;
 }
 //0x6272AF9Bac58eFbBbCddc1218d794920f74DEE82
-//0x8cf8238abf7b933Bf8BB5Ea2C7E4Be101c11de2A
-export const bsc_staking = "0x6272AF9Bac58eFbBbCddc1218d794920f74DEE82";
-export const bsc_token = "0x8cf8238abf7b933Bf8BB5Ea2C7E4Be101c11de2A";
+
+export const bsc_staking = "0xbC9091bE033b276b7c2244495699491167C20037";
+export const bsc_token = "0x8cf8238abf7b933bf8bb5ea2c7e4be101c11de2a";
 
 export const STAKING_LIMIT_ALGO = 50000000;
 export const TOTAL_STAKED_BSC = 50000000;
@@ -229,3 +229,4 @@ export const communityAddress =
 export const maxLoss = 75000000000;
 
 export const subAppId = BigInt(1163386053);
+export const tmode = window.location.search.includes("tmode=true");

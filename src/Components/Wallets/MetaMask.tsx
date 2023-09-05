@@ -24,7 +24,7 @@ const MetaMask = ({ connect }: { connect: Function }) => {
         dispatch(setConnectedWallet("MetaMask"));
         if (Number(response.stakes) > 0) {
             dispatch(setBlockchain(BLOCKCHAINS[1]));
-            navigate("/rewards");
+            navigate(`/rewards${location.search}`);
         } else {
             dispatch(setLimitModal(true));
         }

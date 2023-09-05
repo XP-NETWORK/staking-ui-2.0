@@ -42,7 +42,7 @@ export default function LimitModalBody() {
         } else {
             dispatch(setBlockchain(BLOCKCHAINS[0]));
             dispatch(setLimitModal(false));
-            navigate("/rewards");
+            navigate(`/rewards${location.search}`);
         }
     };
 
@@ -51,7 +51,7 @@ export default function LimitModalBody() {
         if (evmAccount) {
             dispatch(setLimitModal(false));
 
-            navigate("/rewards");
+            navigate(`/rewards${location.search}`);
         } else {
             dispatch(setLimitModal(false));
             dispatch(setConnectModalShow(true));

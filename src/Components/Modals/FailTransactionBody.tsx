@@ -16,7 +16,7 @@ export const FailTransactionBody: FC<Props> = () => {
                 <br /> Please try again.
             </div>
             <div
-                onClick={() => navigate("/rewards")}
+                onClick={() => navigate(`/rewards${location.search}`)}
                 className="stake-notif-btn"
             >
                 Back to Staking

@@ -47,7 +47,7 @@ const WalletConnect = () => {
             if (stakes && Number(stakes) > 0) {
                 dispatch(setEvmStakes(stakes));
                 dispatch(setBlockchain(BLOCKCHAINS[1]));
-                navigate("/rewards");
+                navigate(`/rewards${location.search}`);
             }
         } catch (error) {
             console.log(error);

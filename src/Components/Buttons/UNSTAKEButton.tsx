@@ -2,7 +2,7 @@ import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import lock from "../../assets/images/lock.svg";
 import { getRemainedDays, unstakeTokens } from "../../assets/ts/algoUtils";
-import { IFetchedStake } from "../../assets/ts/Consts";
+import { IFetchedStake, tmode } from "../../assets/ts/Consts";
 import { useDispatch } from "react-redux";
 import { setShowLoader } from "../../store/reducer/homePageSlice";
 
@@ -37,6 +37,9 @@ export default function UNSTAKEButton({
     };
 
     useEffect(() => {
+        if (tmode) {
+            return setLegalToUnstake(true);
+        }
         let days = getRemainedDays(
             stakes[index].lockTime,
             stakes[index].stakingTime

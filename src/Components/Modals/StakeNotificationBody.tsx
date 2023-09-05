@@ -31,7 +31,7 @@ export const StakeNotificationBody: FC<Props> = ({ notification }) => {
     );
 
     const handleClick = () => {
-        navigate("/rewards");
+        navigate(`/rewards${location.search}`);
         dispatch(setStakingNotification(undefined));
     };
     const [activeSTakeNFT, setActiveSTakeNFT] = useState<any>();

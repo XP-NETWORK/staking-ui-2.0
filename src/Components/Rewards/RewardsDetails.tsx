@@ -16,6 +16,8 @@ import { ReduxState } from "../../store/store";
 import { setShowLoader } from "../../store/reducer/homePageSlice";
 import { useAccount, WalletClient } from "wagmi";
 
+import { tmode } from "../../assets/ts/Consts";
+
 interface Props {
     stake: IEVMStake;
 }
@@ -34,7 +36,10 @@ export default function RewardsDetails({ stake }: Props) {
             Number(stake.availableRewards) === 0);
 
     const disabledUnstakeBtn =
-        compteledUnstake || stake?.stakeWithdrawn || !stake?.isUnlocked;
+        !tmode ||
+        compteledUnstake ||
+        stake?.stakeWithdrawn ||
+        !stake?.isUnlocked;
 
     //@ts-ignore
     const { address, connector } = useAccount();

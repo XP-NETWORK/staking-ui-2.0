@@ -97,14 +97,14 @@ export const Home: FC<HomeProps> = () => {
     const handleClickOnClaim = (typeOfClaim: string) => {
         if (typeOfClaim === "ALGO" ? account : evmAccount) {
             if (!balance) dispatch(setErrorModal(true));
-            else navigate("/rewards");
+            else navigate(`/rewards${location.search}`);
         } else {
             if (evmStakesArray.length < 0) {
                 dispatch(setLimitModal(true));
             } else {
                 handleBlockchainSelect(typeOfClaim);
                 dispatch(setConnectModalShow(true));
-                dispatch(setNavigateRoute("/rewards"));
+                dispatch(setNavigateRoute(`/rewards${location.search}`));
             }
         }
     };

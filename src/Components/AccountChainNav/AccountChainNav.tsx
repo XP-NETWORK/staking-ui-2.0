@@ -48,13 +48,14 @@ export default function AccountChainNav() {
                         dispatch(setBlockchain(BLOCKCHAINS[0]));
 
                         if (!account) dispatch(setConnectModalShow(true));
-                        else if (account) navigate("/rewards");
+                        else if (account)
+                            navigate(`/rewards${location.search}`);
                         break;
                     case "BSC":
                         dispatch(updateNetworkConnection("BSC"));
                         if (!evmAccount) {
                             dispatch(setConnectModalShow(true));
-                        } else navigate("/rewards");
+                        } else navigate(`/rewards${location.search}`);
                         break;
                     default:
                         break;

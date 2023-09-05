@@ -34,7 +34,7 @@ export const CLAIMButton: FC<Props> = ({
     const navigate = useNavigate();
     const handleClaimXPNET = async () => {
         if (cell) {
-            navigate("/rewards");
+            navigate(`/rewards${location.search}`);
             // dispatch(setTableAlgoSTakeIndex(index));
         } else {
             dispatch(setShowLoader(true));
