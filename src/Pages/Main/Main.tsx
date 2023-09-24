@@ -31,7 +31,8 @@ export const Main: FC<Props> = () => {
     useEffect(() => {
         // debugger;
         const fetchAlgoReward = async () => {
-            return await getAlgoReward(account);
+            const stakes = await fetchAlgoStakes();
+            return await getAlgoReward(account, stakes);
         };
         const fetchAlgoStakes = async () => {
             return await getAllAlgoStakes(account);

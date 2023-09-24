@@ -1,11 +1,12 @@
 import algosdk from "algosdk";
 import * as bkr from "beaker-ts";
 export class Staking extends bkr.ApplicationClient {
-    desc: string = "";
+    desc: string =
+        "Main application that handles creation of the sub app and asset and calls it";
     override methods: algosdk.ABIMethod[] = [
         new algosdk.ABIMethod({
             name: "initialize",
-            desc: "",
+            desc: "Called when the application is created, smart contract is deployed.",
             args: [
                 { type: "uint64", name: "minClaimPeriod", desc: "" },
                 { type: "asset", name: "token", desc: "" },
@@ -16,16 +17,17 @@ export class Staking extends bkr.ApplicationClient {
         }),
         new algosdk.ABIMethod({
             name: "getEarned",
-            desc: "",
+            desc: "Computes the earned amount thus far by the address\n@param account_ account to get the earned ammount for",
             args: [
                 { type: "address", name: "address", desc: "" },
                 { type: "uint64", name: "lockTime", desc: "" },
+                { type: "uint64", name: "stakeId", desc: "" },
             ],
             returns: { type: "uint64", desc: "" },
         }),
         new algosdk.ABIMethod({
             name: "stake",
-            desc: "",
+            desc: "Staking function\n@param amount_ the amount to stake @param lockTime_ the lock time to lock the stake for",
             args: [
                 { type: "axfer", name: "axfer", desc: "" },
                 { type: "uint64", name: "lockTime_", desc: "" },
@@ -34,7 +36,7 @@ export class Staking extends bkr.ApplicationClient {
         }),
         new algosdk.ABIMethod({
             name: "unstake",
-            desc: "",
+            desc: "@param stakeId_ the stake id to unstake",
             args: [
                 { type: "uint64", name: "stakeId", desc: "" },
                 { type: "asset", name: "token", desc: "" },
@@ -44,23 +46,24 @@ export class Staking extends bkr.ApplicationClient {
         }),
         new algosdk.ABIMethod({
             name: "getReward",
-            desc: "",
+            desc: "The function called to get the reward for all the user stakes",
             args: [
                 { type: "asset", name: "token", desc: "" },
                 { type: "uint64", name: "lockTime", desc: "" },
                 { type: "application", name: "app", desc: "" },
+                { type: "uint64", name: "stakeId", desc: "" },
             ],
             returns: { type: "void", desc: "" },
         }),
         new algosdk.ABIMethod({
             name: "setStakingEnabled",
-            desc: "",
+            desc: "@dev Sets the staking enabled flag\n@param stakingEnabled_ weather or not staking should be enabled",
             args: [{ type: "string", name: "stakingEnabled_", desc: "" }],
             returns: { type: "void", desc: "" },
         }),
         new algosdk.ABIMethod({
             name: "get_balance_addr",
-            desc: "",
+            desc: "Gets the balance of the asset of the transaction sender",
             args: [{ type: "asset", name: "token", desc: "" }],
             returns: { type: "uint64", desc: "" },
         }),
@@ -91,12 +94,17 @@ export class Staking extends bkr.ApplicationClient {
         args: {
             address: string;
             lockTime: bigint;
+            stakeId: bigint;
         },
         txnParams?: bkr.TransactionOverrides
     ): Promise<bkr.ABIResult<bigint>> {
         const result = await this.execute(
             await this.compose.getEarned(
-                { address: args.address, lockTime: args.lockTime },
+                {
+                    address: args.address,
+                    lockTime: args.lockTime,
+                    stakeId: args.stakeId,
+                },
                 txnParams
             )
         );
@@ -138,12 +146,18 @@ export class Staking extends bkr.ApplicationClient {
             token: bigint;
             lockTime: bigint;
             app: bigint;
+            stakeId: bigint;
         },
         txnParams?: bkr.TransactionOverrides
     ): Promise<bkr.ABIResult<void>> {
         const result = await this.execute(
             await this.compose.getReward(
-                { token: args.token, lockTime: args.lockTime, app: args.app },
+                {
+                    token: args.token,
+                    lockTime: args.lockTime,
+                    app: args.app,
+                    stakeId: args.stakeId,
+                },
                 txnParams
             )
         );
@@ -204,13 +218,18 @@ export class Staking extends bkr.ApplicationClient {
             args: {
                 address: string;
                 lockTime: bigint;
+                stakeId: bigint;
             },
             txnParams?: bkr.TransactionOverrides,
             atc?: algosdk.AtomicTransactionComposer
         ): Promise<algosdk.AtomicTransactionComposer> => {
             return this.addMethodCall(
                 algosdk.getMethodByName(this.methods, "getEarned"),
-                { address: args.address, lockTime: args.lockTime },
+                {
+                    address: args.address,
+                    lockTime: args.lockTime,
+                    stakeId: args.stakeId,
+                },
                 txnParams,
                 atc
             );
@@ -251,13 +270,19 @@ export class Staking extends bkr.ApplicationClient {
                 token: bigint;
                 lockTime: bigint;
                 app: bigint;
+                stakeId: bigint;
             },
             txnParams?: bkr.TransactionOverrides,
             atc?: algosdk.AtomicTransactionComposer
         ): Promise<algosdk.AtomicTransactionComposer> => {
             return this.addMethodCall(
                 algosdk.getMethodByName(this.methods, "getReward"),
-                { token: args.token, lockTime: args.lockTime, app: args.app },
+                {
+                    token: args.token,
+                    lockTime: args.lockTime,
+                    app: args.app,
+                    stakeId: args.stakeId,
+                },
                 txnParams,
                 atc
             );

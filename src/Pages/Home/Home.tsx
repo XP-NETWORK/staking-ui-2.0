@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { FC, useEffect, useState, ReactNode, useRef } from "react";
+import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import algorand from "../../assets/images/Algorand.svg";
 import bsc from "../../assets/images/BSC.svg";
@@ -12,51 +12,47 @@ import {
     TOTAL_STAKED_BSC,
     XPNET,
 } from "../../assets/ts/Consts";
-import { addCommas, getCurrentPrice } from "../../assets/ts/helpers";
+import { addCommas } from "../../assets/ts/helpers";
 import { ProgressBar } from "../../Components/ProgressBar/ProgressBar";
 import "./home.scss";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
 import { useDispatch } from "react-redux";
 import {
-    setAlgoRewards,
-    setBalance,
+    //setAlgoRewards,
+    //setBalance,
     setBlockchain,
     setConnectModalShow,
     setErrorModal,
-    setEVMStakesArray,
-    setFetchedAlgoStakes,
+    //setEVMStakesArray,
+    //setFetchedAlgoStakes,
     setLimitModal,
     setNavigateRoute,
-    setXPNetPrice,
+    //setXPNetPrice,
 } from "../../store/reducer/homePageSlice";
 import {
-    getAlgoReward,
-    getAllAlgoStakes,
+    //getAlgoReward,
+    //getAllAlgoStakes,
     getTokenStaked,
-    getXpNetBalance,
+    //getXpNetBalance,
 } from "../../assets/ts/algoUtils";
-import { createPortal } from "react-dom";
+/*import { createPortal } from "react-dom";
 import ConnectModalBody from "../../Components/Modals/ConnectModalBody";
 import { getTokenOfOwnerByIndex } from "../../assets/ts/evmUtils";
-import { StakingHistory } from "../../Components/StakingHistory/StakingHistory";
+import { StakingHistory } from "../../Components/StakingHistory/StakingHistory";*/
 
 interface HomeProps {}
 
 export const Home: FC<HomeProps> = () => {
     const [totalStakeInAlgo, setTotalStakeInAlgo] = useState(0);
     // const [balanceInt, setBalanceInt] = useState<number>()
-    const balanceInt = useRef<number | null>(null);
+    //const balanceInt = useRef<number | null>(null);
     const {
-        evmStakes,
-        blockchain,
         account,
         evmAccount,
-        stakingClient,
-        fetchedAlgoStakes,
+
         balance,
         evmStakesArray,
-        refreshTheAlgoRewards,
     } = useSelector((state: ReduxState) => state.homePage);
 
     const dispatch = useDispatch();
@@ -108,61 +104,6 @@ export const Home: FC<HomeProps> = () => {
             }
         }
     };
-
-    // useEffect(() => {
-    //     // if (account) {
-    //     //     startInterval();
-    //     // }
-    //     const getCurrency = async () => {
-    //         let currency = await getCurrentPrice();
-    //         dispatch(setXPNetPrice(currency));
-    //     };
-    //     getCurrency().catch(console.error);
-
-    //     let rewardsInt: any;
-    //     let stakesInt: any;
-    //     const algoRewardsAndStakes = async () => {
-    //         console.log("algoRewardsAndStakes");
-
-    //         let rewards = await getAlgoReward(account);
-    //         // if (!rewards) {
-    //         rewardsInt = setInterval(
-    //             async () => (rewards = await getAlgoReward(account)),
-    //             200
-    //         );
-    //         // } else if (rewards) {
-    //         dispatch(setAlgoRewards(rewards));
-    //         clearInterval(rewardsInt);
-    //         // }
-    //         let stakes = await getAllAlgoStakes(account);
-    //         if (fetchedAlgoStakes?.length !== stakes?.length)
-    //             dispatch(setFetchedAlgoStakes(stakes));
-    //         if (!stakes) {
-    //             stakesInt = setInterval(
-    //                 async () => (stakes = await getAlgoReward(account)),
-    //                 200
-    //             );
-    //         } else if (stakes) {
-    //             dispatch(setAlgoRewards(rewards));
-    //             clearInterval(stakesInt);
-    //         }
-    //     };
-    //     if (account) {
-    //         algoRewardsAndStakes();
-    //     }
-    //     const getEVMStakes = async (evmStakes: any) => {
-    //         const tokens = await getTokenOfOwnerByIndex(evmStakes, evmAccount);
-    //         dispatch(setEVMStakesArray(tokens));
-    //     };
-    //     if (blockchain.chain === "BSC" && evmStakes) {
-    //         getEVMStakes(evmStakes);
-    //     }
-
-    //     return () => {
-    //         clearInterval(rewardsInt);
-    //         clearInterval(stakesInt);
-    //     };
-    // }, [stakingClient]);
 
     useEffect(() => {
         document.body.style.backgroundImage = `url(${

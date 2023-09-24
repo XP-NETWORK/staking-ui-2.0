@@ -77,7 +77,7 @@ export const getAlgoStakesAmount = async (client: any, account: string) => {
     }
 };
 
-export const detAlgoRewards = async (
+/*export const detAlgoRewards = async (
     client: any,
     account: string,
     algoDetails: any
@@ -87,6 +87,7 @@ export const detAlgoRewards = async (
             .getEarned({
                 address: account,
                 lockTime: BigInt(algoDetails.appId),
+                //stakeId: 
             })
             .then((n: any) => Number(n.value) / 1e6)
             .catch(() => 0);
@@ -94,4 +95,4 @@ export const detAlgoRewards = async (
     } catch (error) {
         console.log(error, "error in detAlgoRewards");
     }
-};
+};*/

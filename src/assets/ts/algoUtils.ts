@@ -106,6 +106,7 @@ export const createClient = async (
     // debugger;
     const { connectedWallet } = store.getState().homePage;
 
+    //here goes 3 or 6 or 9 or 12
     const algoDetails = new AlgoDetails(duration);
 
     const stakingContract = new Staking({
@@ -179,7 +180,7 @@ export const optInt = async (stakingClient: any) => {
     }
 };
 
-export const createClients = async (signer: any, account: string) => {
+/*export const createClients = async (signer: any, account: string) => {
     // console.log("signer,account create clintsssss", signer, account);
     const clients = [
         await createClient(signer, account, 3),
@@ -188,15 +189,15 @@ export const createClients = async (signer: any, account: string) => {
         await createClient(signer, account, 12),
     ];
     return clients;
-};
+};*/
 
-export const getAlgoReward = async (owner: string) => {
-    const appIds = [
+export const getAlgoReward = async (owner: string, stakes: IFetchedStake[]) => {
+    /*const appIds = [
         appAdress3Months,
         appAdress6Months,
         appAdress9Months,
         appAdress12Months,
-    ];
+    ];*/
 
     let rewards: any = [];
     // for (let appId of appIds) {
@@ -205,15 +206,20 @@ export const getAlgoReward = async (owner: string) => {
     // }
     try {
         const res = await Promise.allSettled(
-            appIds.map((item) => algoService.get(`/earned/${item}/${owner}`))
+            stakes.map((item) =>
+                algoService.get(`/earned/${item.appId}/${owner}/${item.id}`)
+            )
         );
+
         if (res) {
-            rewards = res.map((e) => {
+            rewards = res.map((e, idx) => {
+                idx;
                 let obj: any;
                 if (e.status !== "rejected") {
                     obj = {
                         earned: e.value.data.data.earned / 1e6,
                         appid: e.value.data.data.appId,
+                        id: stakes[idx].id,
                     };
                 }
                 return obj;
@@ -222,6 +228,7 @@ export const getAlgoReward = async (owner: string) => {
     } catch (error) {
         console.log(error);
     }
+
     return rewards;
 };
 
@@ -284,6 +291,7 @@ export const getAllNFTsByOwner = async (
             `/get-nfts-status-by-address/${address}`
         );
         const parsed = await parse(response.data);
+
         const arr = findNotExist(parsed, stakes);
         return arr;
     } catch (error) {
@@ -361,13 +369,14 @@ export const getAlgoStakeEndDate = (period: string, date: string) => {
     period = period?.toString();
     const startDate = getStartDate(date);
     let expDate: any;
-    if (period === "7890000") {
+
+    if (period === "180") {
         expDate = moment(startDate).add(3, "month").format("YYYY-MM-DD hh:mm");
-    } else if (period === "15780000") {
+    } else if (period === "360") {
         expDate = moment(startDate).add(6, "month").format("YYYY-MM-DD HH:MM");
-    } else if (period === "23650000") {
+    } else if (period === "540") {
         expDate = moment(startDate).add(9, "month").format("YYYY-MM-DD HH:MM");
-    } else if (period === "31540000") {
+    } else if (period === "702") {
         expDate = moment(startDate).add(1, "year").format("YYYY-MM-DD HH:MM");
     }
     return expDate;
@@ -578,11 +587,13 @@ export const claimRewards = async (
         const token = BigInt(assetIdx);
         const lockTime = BigInt(stakes[index]?.lockTime);
         const app = subAppId;
+
         const rewards = await client.getReward(
             {
                 token,
                 lockTime,
                 app,
+                stakeId: BigInt(stakes[index].id),
             },
             { suggestedParams: sp }
         );
