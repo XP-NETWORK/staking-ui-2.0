@@ -27,7 +27,9 @@ export const CLAIMButton: FC<Props> = ({
     earned,
 }) => {
     const thisStakeEarned = earned?.find(
-        (e: IAlgoRewards) => e?.appid === stakes[index]?.appId
+        (e: IAlgoRewards) =>
+            `${e?.appid}${e?.id}` ===
+            `${stakes[index]?.appId}${stakes[index]?.id}`
     );
 
     const dispatch = useDispatch();

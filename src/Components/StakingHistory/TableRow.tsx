@@ -21,7 +21,8 @@ export const TableRow: FC<Props> = ({ stake, cell }) => {
         (state: ReduxState) => state.homePage
     );
     const selectedStakeRewards: IAlgoRewards | undefined = algoRewards.find(
-        (rewards: IAlgoRewards) => rewards?.appid === stake?.appId
+        (reward: IAlgoRewards) =>
+            `${reward?.appid}${reward.id}` === `${stake?.appId}${stake.id}`
     );
 
     const startDate = getStartDate(stake.stakingTime.toString()).slice(0, 10);

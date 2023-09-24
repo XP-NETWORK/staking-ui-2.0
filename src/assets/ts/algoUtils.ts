@@ -9,6 +9,10 @@ import {
     appAdress6Months,
     appAdress9Months,
     assetIdx,
+    duration12Months,
+    duration3Months,
+    duration6Months,
+    duration9Months,
     IFetchedStake,
     INFT,
     subAppId,
@@ -370,24 +374,23 @@ export const getAlgoStakeEndDate = (period: string, date: string) => {
     const startDate = getStartDate(date);
     let expDate: any;
 
-    if (period === "180") {
+    if (period === String(duration3Months)) {
         expDate = moment(startDate).add(3, "month").format("YYYY-MM-DD hh:mm");
-    } else if (period === "360") {
+    } else if (period === String(duration6Months)) {
         expDate = moment(startDate).add(6, "month").format("YYYY-MM-DD HH:MM");
-    } else if (period === "540") {
+    } else if (period === String(duration9Months)) {
         expDate = moment(startDate).add(9, "month").format("YYYY-MM-DD HH:MM");
-    } else if (period === "702") {
+    } else if (period === String(duration12Months)) {
         expDate = moment(startDate).add(1, "year").format("YYYY-MM-DD HH:MM");
     }
     return expDate;
 };
 
-export const getRemainedDays = (duration: number, start: number) => {
+export const getRemainedDays = (lockTime: number, stakingTime: number) => {
     const today = moment().unix();
-    const days = Math.round(
-        duration / 60 / 60 / 24 - (today - start) / 60 / 60 / 24
-    );
-    return days;
+    const days = lockTime / 60 / 60 / 24 - (today - stakingTime) / 60 / 60 / 24; //Math.round(
+
+    return days < 0 ? 0 : days;
 };
 
 export const getAlgoStakeProgress = (duration: number, start: number) => {
@@ -429,11 +432,11 @@ export const getXpNetBalance = async (client: any) => {
 
 export const getMonths = (duration: number) => {
     switch (duration) {
-        case 31540000:
+        case duration12Months:
             return 12;
-        case 23650000:
+        case duration9Months:
             return 9;
-        case 15780000:
+        case duration6Months:
             return 6;
         default:
             return 3;

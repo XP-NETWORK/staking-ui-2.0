@@ -14,10 +14,7 @@ export const StakingHistory: FC<Props> = () => {
         (state: ReduxState) => state.homePage
     );
 
-    // useEffect(() => {}, [fetchedAlgoStakes]);
-
     return (
-        // fetchedAlgoStakes && (
         <div
             style={{ display: fetchedAlgoStakes ? "auto" : "none" }}
             className="staking-history__container"
@@ -39,7 +36,6 @@ export const StakingHistory: FC<Props> = () => {
                     <tbody>
                         {fetchedAlgoStakes.map(
                             (stake: IFetchedStake, index: number) => {
-                                // console.log({ index });
                                 return (
                                     <TableRow
                                         stake={stake}

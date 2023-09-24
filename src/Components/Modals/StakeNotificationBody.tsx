@@ -33,6 +33,9 @@ export const StakeNotificationBody: FC<Props> = ({ notification }) => {
     const handleClick = () => {
         navigate(`/rewards${location.search}`);
         dispatch(setStakingNotification(undefined));
+        setTimeout(() => {
+            dispatch(setRefreshTheAlgoRewards());
+        }, 1000);
     };
     const [activeSTakeNFT, setActiveSTakeNFT] = useState<any>();
 

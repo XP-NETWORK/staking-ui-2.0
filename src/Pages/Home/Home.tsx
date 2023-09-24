@@ -31,7 +31,6 @@ import {
     //setXPNetPrice,
 } from "../../store/reducer/homePageSlice";
 import {
-    //getAlgoReward,
     //getAllAlgoStakes,
     getTokenStaked,
     //getXpNetBalance,

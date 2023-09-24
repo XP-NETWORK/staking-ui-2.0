@@ -1,8 +1,8 @@
 import classNames from "classnames";
-import { IFetchedStake, INFT } from "../../assets/ts/Consts";
+import { IFetchedStake } from "../../assets/ts/Consts";
 import left from "../../assets/images/left.svg";
 import right from "../../assets/images/right.svg";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
 import { getAllNFTsByOwner } from "../../assets/ts/algoUtils";
@@ -30,75 +30,48 @@ export const AlgoNFTRewards = ({
     setIndex,
 }: Props) => {
     const dispatch = useDispatch();
-    const [x, setX] = useState(0);
-    const [mainImageLoaded, setMainImageLoaded] = useState(false);
-    mainImageLoaded;
-    const {
-        account,
 
-        nfts,
-        selectedNFTtxId,
-        fetchedAlgoStakes,
-    } = useSelector((state: ReduxState) => state.homePage);
+    // const [mainImageLoaded, setMainImageLoaded] = useState(false);
+
+    const { account, nfts, selectedNFTtxId, fetchedAlgoStakes } = useSelector(
+        (state: ReduxState) => state.homePage
+    );
 
     useEffect(() => {
         let getAllNFTsByOwnerInterval: any;
         const nfts = async () => {
             const nfts = await getAllNFTsByOwner(account, stakes);
-            // getAllNFTsByOwnerInterval = setInterval(async () => {
-            //     nfts = await getAllNFTsByOwner(account, stakes);
-            //     // console.log("getAllNFTsByOwnerInterval", nfts);
-            // }, 2000);
+
             dispatch(setNFTSByOwner(nfts));
-            if (nfts) dispatch(setSelectedNFT(nfts[0]?.txId));
+            if (nfts)
+                dispatch(setSelectedNFT(selectedNFTtxId || nfts[0]?.txId));
         };
         if (account) {
             nfts();
         }
         return () => clearInterval(getAllNFTsByOwnerInterval);
-    }, [fetchedAlgoStakes]);
-
-    // useEffect(() => {
-    //     const updateAlgoSTakes = async () => {
-    //         const stakes = await getAllAlgoStakes(account);
-    //         dispatch(setFetchedAlgoStakes(stakes));
-    //     };
-    //     updateAlgoSTakes();
-    // }, [activeSessionStakes, account, dispatch]);
+    }, [fetchedAlgoStakes, stakes]);
 
     const handleSwap = (next: boolean | undefined) => {
         // debugger;
         switch (next) {
-            case false:
-                if (selectedStakeIndex !== 0) {
-                    if (selectedStakeIndex <= 3) {
-                        const index = nfts.findIndex(
-                            (e: INFT) => e.txId === selectedNFTtxId
-                        );
-                        dispatch(setSelectedNFT(nfts[index - 1].txId));
-                        setIndex(selectedStakeIndex - 1);
-                    } else {
-                        const index = nfts.findIndex(
-                            (e: INFT) => e.txId === selectedNFTtxId
-                        );
-                        dispatch(setSelectedNFT(nfts[index - 1].txId));
-                        setIndex(selectedStakeIndex - 1);
-                        setX((prev) => prev + 110);
-                    }
+            case false: {
+                const newIdex = selectedStakeIndex - 1;
+                if (newIdex > -1) {
+                    dispatch(setSelectedNFT(stakes[newIdex].txId));
+                    setIndex(newIdex);
                 }
                 break;
-            case true:
-                if (selectedStakeIndex !== stakes?.length - 1) {
-                    setIndex(selectedStakeIndex + 1);
-                    const index = nfts.findIndex(
-                        (e: INFT) => e.txId === selectedNFTtxId
-                    );
-                    dispatch(setSelectedNFT(nfts[index + 1].txId));
-                    if (stakes.length > 4 && selectedStakeIndex >= 3) {
-                        setX((prev) => prev - 110);
-                    }
+            }
+            case true: {
+                const newIdex = selectedStakeIndex + 1;
+                if (newIdex <= stakes?.length - 1) {
+                    setIndex(newIdex);
+
+                    dispatch(setSelectedNFT(stakes[newIdex].txId));
                 }
                 break;
+            }
             default:
                 break;
         }
@@ -107,28 +80,6 @@ export const AlgoNFTRewards = ({
     const handleMainStakeChange = (i: number) => {
         setIndex(i);
     };
-
-    // useEffect(() => {
-    //     // debugger;
-    //     let carouselInt: any;
-    //     if (nfts.length) {
-    //         handleSwap(carouselMoveNext);
-    //         setIndex(tableAlgoSTakeIndex);
-    //         setCarouselMoveNext(undefined);
-    //     } else {
-    //         carouselInt = setInterval(() => {
-    //             if (nfts.length && carouselMoveNext !== undefined) {
-    //                 handleSwap(carouselMoveNext);
-    //                 setIndex(tableAlgoSTakeIndex);
-    //                 setCarouselMoveNext(undefined);
-    //             }
-    //         }, 500);
-    //     }
-
-    //     return () => {
-    //         clearInterval(carouselInt);
-    //     };
-    // }, [carouselMoveNext, nfts]);
 
     return (
         <div className="algo-nft-rewards__wrapper">
@@ -156,7 +107,7 @@ export const AlgoNFTRewards = ({
                         <CarouselMainItemList
                             nfts={nfts}
                             selectedStakeIndex={selectedStakeIndex}
-                            setLoaded={setMainImageLoaded}
+                            setLoaded={() => {}}
                         />
                         <button
                             className="btnWrap"
@@ -169,7 +120,7 @@ export const AlgoNFTRewards = ({
                     <Carousel
                         nfts={nfts}
                         stakes={stakes}
-                        x={x}
+                        x={selectedStakeIndex * -110}
                         selectedStakeIndex={selectedStakeIndex}
                         handleMainStakeChange={handleMainStakeChange}
                     />

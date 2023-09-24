@@ -2,9 +2,13 @@ import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import lock from "../../assets/images/lock.svg";
 import { getRemainedDays, unstakeTokens } from "../../assets/ts/algoUtils";
-import { IFetchedStake, tmode } from "../../assets/ts/Consts";
-import { useDispatch } from "react-redux";
-import { setShowLoader } from "../../store/reducer/homePageSlice";
+import { IFetchedStake } from "../../assets/ts/Consts";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    setShowLoader,
+    disableUnstake,
+    enableUnstake,
+} from "../../store/reducer/homePageSlice";
 
 interface Props {
     signer: {};
@@ -19,7 +23,12 @@ export default function UNSTAKEButton({
     stakes,
     index,
 }: Props) {
-    const [legalToUnstake, setLegalToUnstake] = useState(true);
+    const [removed, setRemoved] = useState(false);
+
+    const { disabledUnstake } = useSelector((state: any) => ({
+        disabledUnstake: state.homePage.disabledUnstake,
+    }));
+
     const dispatch = useDispatch();
 
     const handleUnstake = async () => {
@@ -31,32 +40,43 @@ export default function UNSTAKEButton({
             index
         ).catch(() => undefined);
         if (unstaked) {
-            setLegalToUnstake(false);
+            dispatch(disableUnstake(stakes[index].txId));
+            setRemoved(true);
         }
         dispatch(setShowLoader(false));
     };
 
     useEffect(() => {
-        if (tmode) {
-            return setLegalToUnstake(true);
-        }
+        //if (tmode) {
+        //return setLegalToUnstake(true);
+        // }
+
+        if (!stakes[index]) return;
+
         let days = getRemainedDays(
             stakes[index].lockTime,
             stakes[index].stakingTime
         );
+
         if (days < 0) days = 0;
-        setLegalToUnstake(!days);
-    }, [index]);
+        days
+            ? dispatch(disableUnstake(stakes[index].txId))
+            : !removed && dispatch(enableUnstake(stakes[index].txId));
+    }, [index, stakes]);
+
+    const illegalToUnstake = disabledUnstake.includes(stakes[index]?.txId);
 
     return (
         <button
             className={
-                legalToUnstake ? "blueBtn" : classNames("blueBtn", "blackBtn")
+                !illegalToUnstake
+                    ? "blueBtn"
+                    : classNames("blueBtn", "blackBtn")
             }
             onClick={handleUnstake}
-            style={{ pointerEvents: legalToUnstake ? "auto" : "none" }}
+            style={{ pointerEvents: !illegalToUnstake ? "auto" : "none" }}
         >
-            {!legalToUnstake && <img src={lock} alt="lock_img" />}
+            {illegalToUnstake && <img src={lock} alt="lock_img" />}
             Unstake
         </button>
     );

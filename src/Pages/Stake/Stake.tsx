@@ -162,27 +162,7 @@ export const Stake: FC<Props> = () => {
             };
             dispatch(setActiveSessionStakes(_stake));
             dispatch(setRefreshTheAlgoRewards());
-            // if (_stake) {
-            //     let _fetchedStakes = await algoRewardsAndStakes();
-            //     let nfts = await getAllNFTsByOwner(account, fetchedAlgoStakes);
-            //     if (
-            //         fetchedAlgoStakes &&
-            //         fetchedAlgoStakes.length < _fetchedStakes?.length
-            //     ) {
-            //         // let rewards = await getAlgoReward(account);
-            //         // rewardsInt = setInterval(
-            //         //     async () => (rewards = await getAlgoReward(account)),
-            //         //     200
-            //         // );
-            //         dispatch(setNFTSByOwner(nfts));
-            //         // dispatch(setAlgoRewards(rewards));
-            //         dispatch(setFetchedAlgoStakes(_fetchedStakes));
-            //         // navigate(`/rewards`);
-            //     } else if (_fetchedStakes?.length > 0) {
-            //         dispatch(setFetchedAlgoStakes(_fetchedStakes));
-            //         // navigate(`/rewards`);
-            //     }
-            // }
+
             dispatch(setStakingNotification("success"));
         } catch (error) {
             dispatch(setStakingNotification("fail"));
@@ -207,13 +187,13 @@ export const Stake: FC<Props> = () => {
         // ! NEED
         const optInApps = async () => {
             const apps = await checkOptInApps(stakingClient);
+            if (!apps) return;
             const optInApps = apps["apps-local-state"].map((element: any) => {
                 return element.id;
             });
-            if (apps) {
-                dispatch(setOptInedApps(optInApps));
-                setOptInApps(optInApps);
-            }
+
+            dispatch(setOptInedApps(optInApps));
+            setOptInApps(optInApps);
         };
         optInApps();
     }, [optInResponse, stakingClient]);

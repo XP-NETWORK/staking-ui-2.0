@@ -51,6 +51,7 @@ export interface IFetchedStake {
 export interface IAlgoRewards {
     appid: number;
     earned: number;
+    id: number;
 }
 
 export interface INFT {
@@ -111,7 +112,7 @@ export const algodApiKey = "y7NlS5BDAY2TEzVKg58Un8BqN0QMuUMU1SgBxEeD";
 // export const algodTestnetUri = "https://node.testnet.algoexplorerapi.io";
 export const algodUri = "https://mainnet-algorand.api.purestake.io/ps2";
 export const algodPort = 443;
-export const assetIdx = 1197742782;
+export const assetIdx = 1198375742;
 
 const web3 = new Web3(
     Web3.givenProvider || "https://bsc-dataseed.binance.org/"
@@ -139,30 +140,33 @@ export const TestnetStake = new web3.eth.Contract(
 );
 
 // 3 different contracts - every staking periog has her own contract
-export const appAdress3Months = 1197742377;
+export const appAdress3Months = 1198375284;
 export const duration3Months = 180;
 export const multiplier3Months = 130000000000;
 
-export const appAdress6Months = 1197742449;
+export const appAdress6Months = 1198375362;
 export const duration6Months = 360;
 export const multiplier6Months = 150000000000;
 
-export const appAdress9Months = 1197742566;
+export const appAdress9Months = 1198375478;
 export const duration9Months = 540;
 export const multiplier9Months = 170000000000;
 
-export const appAdress12Months = 1197742656;
+export const appAdress12Months = 1198375591;
 export const duration12Months = 720;
 export const multiplier12Months = 190000000000;
 
 //  ?????????
 
-// Created main app: 1026971027, address:434LU2UGE4YUNLU725QWGSHEVFZRCI3UMWR5R6R2YSKCQ75SPRW7VYR5XY
-// Created main app: 1026971182, address:25X6KW2WF4I76BVNYHHDKH2Z7JNSB7B5XBEZ67PKCI6GENOSGP7VVPL7RE
-// Created main app: 1026971342, address:XBBBKEOMBYDFWWRB7Z43JTO5CO4YV3KAQXKRB2PHA3UC3HLGMD4X7XEBPE
-// Created main app: 1026971500, address:TWENU7HGDGFDJKY2LDVEIDE63DIZKONLJUFBAMGFC7AHZLBNM5TVUMNW7Q
-// Created sub app: 1026971626, address:KEXADKDANSQU36HJUAD722XTCYK4RHO7GHMSIAKCD727LJFXAYGVLSB2LU
-// Created Asset with id: 1026971729 and in tx: U4V2FU22VU62SYZGPSH6DEWKJYVE4G2P2S6KMARMQP3CW33NZTEQ
+/**
+ * Created main app: 1198375284, address:4ZT7P7C4BQ4JPKFV4YNDUYY4FM4WHSUNCMEWTCY73Y7GYEKIHDNOLVK3QY
+Created main app: 1198375362, address:X4FIWIB4NT6FORGQCMZXQ3UI6BZFIG4MWLN474TEEN2KXVEX62BQZIIXHM
+Created main app: 1198375478, address:ZB5BEZUPWAESKK6Y3Y77P6PRZ7P7XBBZ5GFRS5LPOFFODDYBKIW6BQDPEI
+Created main app: 1198375591, address:3SGZGVDP7PTXNX4JIVKY4K2UF2PQWF5ZEUNBTP54SCH6LPOLXRQRM3ZRDQ
+Created sub app: 1198375669, address:6NWOTCAJ32ZB2R4CSIBJ5DYAXUVDHHJVDP6WHILF2O3ESEGGODMTR5IPYI
+Created Asset with id: 1198375742 and in tx: SDV53BUDUEB3WHXK4QO4YBZIN44MI3HBMQHE7GO6TXTN7AT76SAA
+ * 
+ */
 
 // export const appAdress3Months = 970373105;
 // export const duration3Months = 7890000;
@@ -228,5 +232,5 @@ export const communityAddress =
     "JA5BOPYOZB4YDI4X4MCI76XFZO5DCPWLKJKN72YPJPNPPFQPJAMUAPP7MY"; //my add-lost tokens
 export const maxLoss = 75000000000;
 
-export const subAppId = BigInt(1197742718);
+export const subAppId = BigInt(1198375669);
 export const tmode = window.location.search.includes("tmode=true");

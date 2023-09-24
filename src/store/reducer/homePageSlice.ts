@@ -53,6 +53,7 @@ export interface IHomePage {
     algoSelectWallet: [] | undefined;
     algoSelecWalletPromise: Function | undefined;
     showLoader: boolean;
+    disabledUnstake: string[];
 }
 
 const initialState: IHomePage = {
@@ -93,6 +94,7 @@ const initialState: IHomePage = {
     algoSelectWallet: undefined,
     algoSelecWalletPromise: undefined,
     showLoader: false,
+    disabledUnstake: [],
 };
 
 const homePageSlice = createSlice({
@@ -239,6 +241,20 @@ const homePageSlice = createSlice({
         setBlockchain(state: any, action: any) {
             state.blockchain = action.payload;
         },
+        disableUnstake(state: any, action: any) {
+            if (state.disabledUnstake.includes(action.payload)) return;
+            state.disabledUnstake = [...state.disabledUnstake, action.payload];
+        },
+        enableUnstake(state: any, action: any) {
+            const idx = state.disabledUnstake.findIndex(
+                (i: string) => i === action.payload
+            );
+
+            state.disabledUnstake = [
+                ...state.disabledUnstake.slice(0, idx),
+                ...state.disabledUnstake.slice(idx + 1),
+            ];
+        },
     },
 
     extraReducers: {},
@@ -284,6 +300,8 @@ export const {
     setAlgoSelectWallet,
     setAlgoSelectWalletPromise,
     setShowLoader,
+    disableUnstake,
+    enableUnstake,
 } = homePageSlice.actions;
 
 export default homePageSlice;

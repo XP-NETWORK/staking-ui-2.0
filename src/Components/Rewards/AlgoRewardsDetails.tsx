@@ -4,7 +4,7 @@ import {
     IAlgoRewards,
     IFetchedStake,
 } from "../../assets/ts/Consts";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { ReduxState } from "../../store/store";
 import {
     formatTheNumber,
@@ -17,6 +17,8 @@ import { ProgressStaking } from "../ProgressStaking/ProgressStaking";
 import { useEffect, useState } from "react";
 import { CLAIMButton } from "../Buttons/CLAIMButton";
 import UNSTAKEButton from "../Buttons/UNSTAKEButton";
+import { ReactComponent as RefreshIco } from "../../assets/images/refresh_ico.svg";
+import { setRefreshTheAlgoRewards } from "../../store/reducer/homePageSlice";
 
 interface Props {
     rewards: IAlgoRewards[];
@@ -29,13 +31,16 @@ export default function AlgoRewardsDetails({
     stakes,
     stakeIndex,
 }: Props) {
-    // console.log({ rewards });
-
     const [selectedStake, setSelectedStake] = useState<IFetchedStake>(
         stakes[0]
     );
+
+    const dispatch = useDispatch();
+
     const selectedStakeRewards: IAlgoRewards | undefined = rewards.find(
-        (rewards: IAlgoRewards) => rewards?.appid === selectedStake?.appId
+        (reward: IAlgoRewards) =>
+            `${reward?.appid}${reward.id}` ===
+            `${selectedStake?.appId}${selectedStake.id}`
     );
 
     const { XPNetPrice, signer, account, selectedNFTtxId } = useSelector(
@@ -49,9 +54,18 @@ export default function AlgoRewardsDetails({
         if (stake) setSelectedStake(stake);
     }, [selectedNFTtxId, stakes]);
 
+    const idx = stakes?.findIndex((i) => i.txId === selectedStake?.txId);
+
     return (
         <div className={classNames("containerLeft", "container")}>
-            <h1>Claim Rewards</h1>
+            <div className="flex-row">
+                <h1>Claim Rewards</h1>
+                <RefreshIco
+                    className="refreshIco"
+                    onClick={() => dispatch(setRefreshTheAlgoRewards())}
+                />
+            </div>
+
             <label className="line" />
             <div className={classNames("sectionWrapper", "summaryBox")}>
                 <div className="periodsRewards">
@@ -150,9 +164,11 @@ export default function AlgoRewardsDetails({
                 <div className="stakingDurDiv">
                     <div className="row">
                         Staking duration
-                        <span>{`${getRemainedDays(
-                            selectedStake.lockTime,
-                            selectedStake.stakingTime
+                        <span>{`${Math.round(
+                            getRemainedDays(
+                                selectedStake.lockTime,
+                                selectedStake.stakingTime
+                            )
                         )} days left`}</span>
                     </div>
                     <ProgressStaking
@@ -167,7 +183,7 @@ export default function AlgoRewardsDetails({
                         signer={signer}
                         account={account}
                         stakes={stakes}
-                        index={stakeIndex}
+                        index={idx}
                         cell={false}
                         earned={rewards}
                     />
@@ -175,7 +191,7 @@ export default function AlgoRewardsDetails({
                         signer={signer}
                         account={account}
                         stakes={stakes}
-                        index={stakeIndex}
+                        index={idx}
                     />
                 </div>
             </div>

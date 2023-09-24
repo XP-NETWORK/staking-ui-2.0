@@ -111,6 +111,7 @@ const MyAlgo = ({ connect }: Props) => {
         const account = await connect("MyAlgo");
         dispatch(setAccount(account.address));
         dispatch(setSigner(account.signer));
+
         const client = await createClient(
             account.signer,
             account.address,
