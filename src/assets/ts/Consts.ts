@@ -112,7 +112,7 @@ export const algodApiKey = "y7NlS5BDAY2TEzVKg58Un8BqN0QMuUMU1SgBxEeD";
 // export const algodTestnetUri = "https://node.testnet.algoexplorerapi.io";
 export const algodUri = "https://mainnet-algorand.api.purestake.io/ps2";
 export const algodPort = 443;
-export const assetIdx = 1198375742;
+export const assetIdx = 1201260646;
 
 const web3 = new Web3(
     Web3.givenProvider || "https://bsc-dataseed.binance.org/"
@@ -140,19 +140,19 @@ export const TestnetStake = new web3.eth.Contract(
 );
 
 // 3 different contracts - every staking periog has her own contract
-export const appAdress3Months = 1198375284;
+export const appAdress3Months = 1201260122;
 export const duration3Months = 180;
 export const multiplier3Months = 130000000000;
 
-export const appAdress6Months = 1198375362;
+export const appAdress6Months = 1201260242;
 export const duration6Months = 360;
 export const multiplier6Months = 150000000000;
 
-export const appAdress9Months = 1198375478;
+export const appAdress9Months = 1201260351;
 export const duration9Months = 540;
 export const multiplier9Months = 170000000000;
 
-export const appAdress12Months = 1198375591;
+export const appAdress12Months = 1201260443;
 export const duration12Months = 720;
 export const multiplier12Months = 190000000000;
 
@@ -232,5 +232,5 @@ export const communityAddress =
     "JA5BOPYOZB4YDI4X4MCI76XFZO5DCPWLKJKN72YPJPNPPFQPJAMUAPP7MY"; //my add-lost tokens
 export const maxLoss = 75000000000;
 
-export const subAppId = BigInt(1198375669);
+export const subAppId = BigInt(1201260554);
 export const tmode = window.location.search.includes("tmode=true");

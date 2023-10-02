@@ -98,23 +98,27 @@ export const AlgoNFTRewards = ({
                 <label className="line" />
                 <div className={classNames("sectionWrapper")}>
                     <div className="rewardsContainerMain">
-                        <button
-                            className="btnWrap"
-                            onClick={() => handleSwap(false)}
-                        >
-                            <img src={left} alt="left" />
-                        </button>
+                        {nfts.length > 0 && (
+                            <button
+                                className="btnWrap"
+                                onClick={() => handleSwap(false)}
+                            >
+                                <img src={left} alt="left" />
+                            </button>
+                        )}
                         <CarouselMainItemList
                             nfts={nfts}
                             selectedStakeIndex={selectedStakeIndex}
                             setLoaded={() => {}}
                         />
-                        <button
-                            className="btnWrap"
-                            onClick={() => handleSwap(true)}
-                        >
-                            <img src={right} alt="right" />
-                        </button>
+                        {nfts.length > 0 && (
+                            <button
+                                className="btnWrap"
+                                onClick={() => handleSwap(true)}
+                            >
+                                <img src={right} alt="right" />
+                            </button>
+                        )}
                     </div>
                     <AlgoNFTActions nfts={nfts} index={selectedStakeIndex} />
                     <Carousel

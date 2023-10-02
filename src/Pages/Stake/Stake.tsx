@@ -148,12 +148,18 @@ export const Stake: FC<Props> = () => {
         setLoader(true);
         let _stake: IActiveSessionSTake;
         try {
+            //let resp;
+            // for (let i = 0; i < 10; i++) {
             const resp = await stake(
                 account,
                 Number(amount * 1e6),
                 stakingClient,
                 algoDetails
             );
+            //  console.log(resp.txID, "resp.txID");
+            //  await new Promise((r) => setTimeout(r, 5000));
+            // }
+
             _stake = {
                 txID: resp.txID,
                 txInfo: resp.txInfo,

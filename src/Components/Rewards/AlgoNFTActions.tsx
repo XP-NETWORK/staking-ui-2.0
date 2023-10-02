@@ -23,7 +23,9 @@ export default function AlgoNFTActions({ index, nfts }: Props) {
 
     const dispatch = useDispatch();
 
-    const [claimBtnDisabled, setClaimDisabled] = useState(false);
+    const [claimBtnDisabled, setClaimDisabled] = useState(
+        !nfts.length ? true : false
+    );
 
     const handleClaim = async () => {
         // debugger;

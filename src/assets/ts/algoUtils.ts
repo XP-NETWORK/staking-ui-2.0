@@ -297,6 +297,7 @@ export const getAllNFTsByOwner = async (
         const parsed = await parse(response.data);
 
         const arr = findNotExist(parsed, stakes);
+
         return arr;
     } catch (error) {
         console.log(error);
