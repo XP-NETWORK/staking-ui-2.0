@@ -16,6 +16,7 @@ import {
     IFetchedStake,
     INFT,
     subAppId,
+    baseKey,
 } from "./Consts";
 import axios from "axios";
 import { Staking } from "./StakingClient";
@@ -57,12 +58,14 @@ export const getTokenStaked = async () => {
             });
         })
     );
+
     const s: any = [];
     let staked = 0;
+
     arr.forEach((e: any) => {
         e.value.data.application.params["global-state"].forEach(
             (value: any) => {
-                if (value.key === "ZHluYW1pY19hcHBfdmFsdWVfdW5pdGd0c3JvdQ==") {
+                if (value.key === baseKey) {
                     const i = value.value.uint / 1e6;
                     staked = staked + i;
                     s.push(i);
@@ -164,15 +167,12 @@ export const stake = async (
         assetIdx as any,
         await algod.getTransactionParams().do()
     );
-    try {
-        const resp = await stakingClient.stake({
-            axfer: axfer,
-            lockTime_: algoDetails.duration,
-        });
-        return resp;
-    } catch (error) {
-        console.log(error);
-    }
+
+    const resp = await stakingClient.stake({
+        axfer: axfer,
+        lockTime_: algoDetails.duration,
+    });
+    return resp;
 };
 
 export const optInt = async (stakingClient: any) => {
@@ -533,6 +533,7 @@ export const optInAsset = async (
         return res.txId;
     } catch (error) {
         console.log(error);
+        throw error;
     }
 };
 
@@ -705,7 +706,7 @@ export const getTotalStaked = async () => {
         if (element.status === "rejected") return;
         element.value.data.application.params["global-state"].forEach(
             (key: any) => {
-                if (key.key === "ZHluYW1pY19hcHBfdmFsdWVfdW5pdGd0c3JvdQ==") {
+                if (key.key === baseKey) {
                     totalStaked = totalStaked + key.value.uint / 1e6;
                 }
             }

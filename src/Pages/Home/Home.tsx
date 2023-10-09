@@ -77,7 +77,7 @@ export const Home: FC<HomeProps> = () => {
                 dispatch(setNavigateRoute("/stake"));
                 dispatch(setBlockchain(BLOCKCHAINS[0]));
                 dispatch(setConnectModalShow(true));
-            } else if (account && !balance) dispatch(setErrorModal(true));
+            } //else if (account && !balance) dispatch(setErrorModal(true));
             else {
                 handleBlockchainSelect(typeOfStake);
                 navigate("/stake");
@@ -110,7 +110,6 @@ export const Home: FC<HomeProps> = () => {
         })`;
         const getTotal = async () => {
             const staked = await getTokenStaked();
-
             setTotalStakeInAlgo(staked);
         };
         getTotal();

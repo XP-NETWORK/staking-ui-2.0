@@ -54,6 +54,8 @@ export interface IHomePage {
     algoSelecWalletPromise: Function | undefined;
     showLoader: boolean;
     disabledUnstake: string[];
+    amountError: boolean;
+    cancelledTrx: boolean;
 }
 
 const initialState: IHomePage = {
@@ -95,6 +97,8 @@ const initialState: IHomePage = {
     algoSelecWalletPromise: undefined,
     showLoader: false,
     disabledUnstake: [],
+    amountError: false,
+    cancelledTrx: false,
 };
 
 const homePageSlice = createSlice({
@@ -121,6 +125,9 @@ const homePageSlice = createSlice({
         },
         setStakingNotification(state, action) {
             state.stakingNotification = action.payload;
+        },
+        setCancelledTrx(state, action) {
+            state.cancelledTrx = action.payload;
         },
         setRefreshTheAlgoRewards(state: any) {
             state.refreshTheAlgoRewards = !state.refreshTheAlgoRewards;
@@ -245,6 +252,9 @@ const homePageSlice = createSlice({
             if (state.disabledUnstake.includes(action.payload)) return;
             state.disabledUnstake = [...state.disabledUnstake, action.payload];
         },
+        setAmountError(state: any, action: any) {
+            state.amountError = action.payload;
+        },
         enableUnstake(state: any, action: any) {
             const idx = state.disabledUnstake.findIndex(
                 (i: string) => i === action.payload
@@ -302,6 +312,8 @@ export const {
     setShowLoader,
     disableUnstake,
     enableUnstake,
+    setAmountError,
+    setCancelledTrx,
 } = homePageSlice.actions;
 
 export default homePageSlice;

@@ -54,6 +54,7 @@ export const AlgoNFTRewards = ({
 
     const handleSwap = (next: boolean | undefined) => {
         // debugger;
+
         switch (next) {
             case false: {
                 const newIdex = selectedStakeIndex - 1;
@@ -65,6 +66,7 @@ export const AlgoNFTRewards = ({
             }
             case true: {
                 const newIdex = selectedStakeIndex + 1;
+
                 if (newIdex <= stakes?.length - 1) {
                     setIndex(newIdex);
 
@@ -98,27 +100,25 @@ export const AlgoNFTRewards = ({
                 <label className="line" />
                 <div className={classNames("sectionWrapper")}>
                     <div className="rewardsContainerMain">
-                        {nfts.length > 0 && (
-                            <button
-                                className="btnWrap"
-                                onClick={() => handleSwap(false)}
-                            >
-                                <img src={left} alt="left" />
-                            </button>
-                        )}
+                        <button
+                            className="btnWrap"
+                            onClick={() => handleSwap(false)}
+                        >
+                            <img src={left} alt="left" />
+                        </button>
+
                         <CarouselMainItemList
                             nfts={nfts}
                             selectedStakeIndex={selectedStakeIndex}
                             setLoaded={() => {}}
                         />
-                        {nfts.length > 0 && (
-                            <button
-                                className="btnWrap"
-                                onClick={() => handleSwap(true)}
-                            >
-                                <img src={right} alt="right" />
-                            </button>
-                        )}
+
+                        <button
+                            className="btnWrap"
+                            onClick={() => handleSwap(true)}
+                        >
+                            <img src={right} alt="right" />
+                        </button>
                     </div>
                     <AlgoNFTActions nfts={nfts} index={selectedStakeIndex} />
                     <Carousel

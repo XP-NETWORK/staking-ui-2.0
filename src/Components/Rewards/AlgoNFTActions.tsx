@@ -6,6 +6,7 @@ import { INFT } from "../../assets/ts/Consts";
 import {
     setShowLoader,
     updateClaimedNft,
+    setCancelledTrx,
 } from "../../store/reducer/homePageSlice";
 import { ReduxState } from "../../store/store";
 import ClipboardCopy from "../ClipboardCopy/ClipboardCopy";
@@ -51,9 +52,10 @@ export default function AlgoNFTActions({ index, nfts }: Props) {
                     setClaimDisabled(false);
                 } else setClaimDisabled(false);
             } else setClaimDisabled(false);
-        } catch (error) {
-            console.log(error);
-            // setOptInDisabled(false);
+        } catch (error: any) {
+            if (error.message?.includes("Operation cancelled")) {
+                dispatch(setCancelledTrx(true));
+            }
         }
 
         dispatch(setShowLoader(false));

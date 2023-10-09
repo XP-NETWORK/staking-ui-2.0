@@ -6,6 +6,7 @@ import { claimRewards } from "../../assets/ts/algoUtils";
 import {
     setRefreshTheAlgoRewards,
     setShowLoader,
+    setCancelledTrx,
 } from "../../store/reducer/homePageSlice";
 import { IAlgoRewards, IFetchedStake } from "./../../assets/ts/Consts";
 
@@ -36,7 +37,12 @@ export const CLAIMButton: FC<Props> = ({
     const navigate = useNavigate();
     const handleClaimXPNET = async () => {
         if (cell) {
-            navigate(`/rewards${location.search}`);
+            navigate(
+                `/rewards?${location.search.slice(
+                    1,
+                    location.search.length - 1
+                )}&claimIdx=${index}`
+            );
             // dispatch(setTableAlgoSTakeIndex(index));
         } else {
             dispatch(setShowLoader(true));
@@ -45,7 +51,11 @@ export const CLAIMButton: FC<Props> = ({
                 account,
                 stakes,
                 index
-            ).catch(() => {});
+            ).catch((error: any) => {
+                if (error.message?.includes("Operation cancelled")) {
+                    dispatch(setCancelledTrx(true));
+                }
+            });
             dispatch(setShowLoader(false));
             if (response) dispatch(setRefreshTheAlgoRewards());
         }

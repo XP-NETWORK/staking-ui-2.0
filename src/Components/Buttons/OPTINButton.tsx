@@ -8,9 +8,10 @@ interface Props {
     optIntAsset: Function;
     optInApps: any;
     durationSelected: number;
+    isAgree: boolean;
 }
 
-export const OPTINButton: FC<Props> = ({ optIntAsset, optInApps }) => {
+export const OPTINButton: FC<Props> = ({ optIntAsset, optInApps, isAgree }) => {
     const { algoDetails, optInedApps } = useSelector(
         (state: ReduxState) => state.homePage
     );
@@ -35,8 +36,9 @@ export const OPTINButton: FC<Props> = ({ optIntAsset, optInApps }) => {
                 backgroundColor: isOptIn() ? "rgba(2, 198, 139, 0.04)" : "",
             }}
             className={classNames(
-                "blueBtn",
-                `blackBtn${isOptIn() ? "--disabled" : ""}`
+                "blueBtn optInBtn",
+                `blackBtn${isOptIn() ? "--disabled" : ""}`,
+                `${!isOptIn() && isAgree ? "glowing" : ""}`
             )}
             // className={`blackBtn${isOptIn() ? "--disabled" : ""}`}
             onClick={() => optIntAsset()}
@@ -46,7 +48,7 @@ export const OPTINButton: FC<Props> = ({ optIntAsset, optInApps }) => {
                     <img src={icon} alt="" />
                 </span>
             )}
-            {!isOptIn() ? "Opt-In" : "Already Opted-In"}
+            {!isOptIn() ? "Opt-In" : "Success Opt-In"}
         </button>
     );
 };

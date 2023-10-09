@@ -14,6 +14,8 @@ import mexc from "../../assets/images/mecslogo.svg";
 import "../../Components/Error/error.scss";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../store/store";
+import { ReactComponent as Close } from "../../assets/images/close-icon.svg";
+import { useNavigate } from "react-router";
 
 interface Props {
     error?: string | boolean;
@@ -67,6 +69,8 @@ export default function ErrorModalBody({ error }: Props) {
         }
     };
 
+    const navigate = useNavigate();
+
     return (
         <div
             className="connect-modal"
@@ -83,6 +87,13 @@ export default function ErrorModalBody({ error }: Props) {
             }}
         >
             <div ref={ref} className="errorWraper">
+                <Close
+                    className="closeBtn"
+                    onClick={() => {
+                        dispatch(setErrorModal(false));
+                        navigate("/");
+                    }}
+                />
                 {showErrorModal === "navbar" && (
                     <span
                         onClick={() => dispatch(setErrorModal(false))}

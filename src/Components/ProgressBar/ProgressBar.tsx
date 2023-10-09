@@ -37,7 +37,7 @@ export const ProgressBar: FC<Props> = ({ totalStaking, stakingLimit }) => {
                         <img src={emojy} />
                         Staking limit is reached!
                     </label>
-                    {percent.toFixed(1)}%
+                    {percent.toFixed(2)}%
                 </div>
             </div>
         </>

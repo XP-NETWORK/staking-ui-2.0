@@ -288,6 +288,76 @@
         border-radius: 6px;
     }
 }
+
+.periodBtn.periodBtn-selected {
+    position: relative;
+    border: 1px solid rgba(35, 136, 255, 1);
+    background: linear-gradient(
+        0deg,
+        rgba(35, 136, 255, 0.15),
+        rgba(35, 136, 255, 0.15)
+    ) !important;
+}
+
+.periodBtn.periodBtn-selected::after {
+    content: "";
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    height: 13.8px;
+    width: 13px;
+    background: url("../../assets/images/selected_stake.png") no-repeat;
+    background-size: cover;
+}
+
+.optInBtn.glowing {
+    animation: glow 2s infinite;
+}
+
+.agreementCheck.glowing {
+    animation: filterGlow 2s infinite;
+}
+
+.closeBtn {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.closeBtn:hover {
+    filter: brightness(85%);
+}
+
+@keyframes filterGlow {
+    0% {
+        filter: brightness(100%);
+    }
+
+    50% {
+        filter: brightness(30%);
+    }
+
+    100% {
+        filter: brightness(100%);
+    }
+}
+
+@keyframes glow {
+    0% {
+        background: rgba(255, 255, 255, 0.04);
+    }
+
+    50% {
+        background: rgba(255, 255, 255, 0.14);
+    }
+
+    100% {
+        background: rgba(255, 255, 255, 0.04);
+    }
+}
+
 .wrapPeriods button:hover {
     background-color: rgba(255, 255, 255, 0.1) !important;
 }

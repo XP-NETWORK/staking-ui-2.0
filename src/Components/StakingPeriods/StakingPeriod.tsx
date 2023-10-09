@@ -75,17 +75,17 @@ export const StakingPeriod: FC<Props> = ({
         }
     }, [fetchedAlgoStakes]);
 
+    const isSelected = duration === durationSelected;
+
     return (
         <button
             value={duration}
-            className="periodBtn"
+            className={`periodBtn ${isSelected ? "periodBtn-selected" : ""}`}
             style={{
-                cursor: `${duration === durationSelected ? "" : "pointer"}`,
-                pointerEvents: `${
-                    duration === durationSelected ? "none" : "auto"
-                }`,
+                cursor: `${isSelected ? "" : "pointer"}`,
+                pointerEvents: `${isSelected ? "none" : "auto"}`,
                 background: `${
-                    duration === durationSelected
+                    isSelected
                         ? "rgba(255, 255, 255, 0.1)"
                         : "rgba(255, 255, 255, 0.03)"
                 }`,

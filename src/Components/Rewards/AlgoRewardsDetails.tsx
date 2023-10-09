@@ -43,18 +43,16 @@ export default function AlgoRewardsDetails({
             `${selectedStake?.appId}${selectedStake.id}`
     );
 
-    const { XPNetPrice, signer, account, selectedNFTtxId } = useSelector(
+    const { XPNetPrice, signer, account /*selectedNFTtxId*/ } = useSelector(
         (state: ReduxState) => state.homePage
     );
 
     useEffect(() => {
-        const stake = stakes.find((stake: IFetchedStake) => {
+        /* const stake = stakes.find((stake: IFetchedStake) => {
             return stake.txId === selectedNFTtxId;
         });
-        if (stake) setSelectedStake(stake);
-    }, [selectedNFTtxId, stakes]);
-
-    const idx = stakes?.findIndex((i) => i.txId === selectedStake?.txId);
+        if (stake) */ setSelectedStake(stakes[stakeIndex]);
+    }, [stakes, stakeIndex]);
 
     return (
         <div className={classNames("containerLeft", "container")}>
@@ -183,7 +181,7 @@ export default function AlgoRewardsDetails({
                         signer={signer}
                         account={account}
                         stakes={stakes}
-                        index={idx}
+                        index={stakeIndex}
                         cell={false}
                         earned={rewards}
                     />
@@ -191,7 +189,7 @@ export default function AlgoRewardsDetails({
                         signer={signer}
                         account={account}
                         stakes={stakes}
-                        index={idx}
+                        index={stakeIndex}
                     />
                 </div>
             </div>

@@ -15,6 +15,8 @@ import {
     setStakeDetails,
     setStakingNotification,
     setXPNetPrice,
+    setAmountError,
+    setCancelledTrx,
 } from "../../store/reducer/homePageSlice";
 import {
     checkOptInApps,
@@ -88,7 +90,7 @@ export const Stake: FC<Props> = () => {
     const [currentXpnetPrice, setCurrentXpnetPrice] = useState(0);
     const [optInResponse, setOptInResponse] = useState("");
     const [amount, setAmount] = useState(0);
-    const [duration, setDuration] = useState(3);
+    const [duration, setDuration] = useState(12);
     const [isAgree, setIsAgree] = useState(false);
     const [optInApps, setOptInApps] = useState(false);
     const [loader, setLoader] = useState(false);
@@ -102,6 +104,7 @@ export const Stake: FC<Props> = () => {
         algoDetails,
         balance,
         activeSessionStakes,
+        amountError,
     } = useSelector((state: ReduxState) => state.homePage);
 
     const handleMaxAmount = () => {
@@ -110,6 +113,7 @@ export const Stake: FC<Props> = () => {
 
     const handleChangeAmount = (e: any) => {
         if (e.target.value > 0) {
+            dispatch(setAmountError(false));
             if (e.target.value < 1500) {
                 setAmount(e.target.value);
                 setInputErr(true);
@@ -145,6 +149,9 @@ export const Stake: FC<Props> = () => {
     };*/
 
     const handleStake = async () => {
+        if (!amount) {
+            return dispatch(setAmountError(true));
+        }
         setLoader(true);
         let _stake: IActiveSessionSTake;
         try {
@@ -170,7 +177,13 @@ export const Stake: FC<Props> = () => {
             dispatch(setRefreshTheAlgoRewards());
 
             dispatch(setStakingNotification("success"));
-        } catch (error) {
+        } catch (error: any) {
+            if (error.message?.includes("Operation cancelled")) {
+                dispatch(setCancelledTrx(true));
+                setLoader(false);
+                return;
+            }
+
             dispatch(setStakingNotification("fail"));
             console.log(error);
         }
@@ -208,6 +221,7 @@ export const Stake: FC<Props> = () => {
         // debugger;
         const getBalance = async () => {
             const balance = await getXpNetBalance(stakingClient);
+
             if (balance) {
                 dispatch(setErrorModal(false));
                 dispatch(setBalance(balance));
@@ -280,7 +294,7 @@ export const Stake: FC<Props> = () => {
                             <div className="row stake-amount-input__container">
                                 <div
                                     className={`amountInput${
-                                        inputErr ? "--error" : ""
+                                        inputErr || amountError ? "--error" : ""
                                     }`}
                                 >
                                     <input
@@ -480,6 +494,9 @@ export const Stake: FC<Props> = () => {
                             </div>
                             <div className={classNames("row", "flexStart")}>
                                 <img
+                                    className={`agreementCheck ${
+                                        !isAgree ? "glowing" : ""
+                                    }`}
                                     src={isAgree ? checked : unchecked}
                                     alt="checked"
                                     onClick={() => setIsAgree(!isAgree)}
@@ -499,6 +516,12 @@ export const Stake: FC<Props> = () => {
                                 </p>
                             </div>
                             <div className="column">
+                                <OPTINButton
+                                    optIntAsset={optIntAsset}
+                                    optInApps={optInApps}
+                                    durationSelected={duration}
+                                    isAgree={isAgree}
+                                />
                                 <STAKEButton
                                     handleStake={handleStake}
                                     isAgree={isAgree}
@@ -506,11 +529,6 @@ export const Stake: FC<Props> = () => {
                                     durationSelected={duration}
                                     inputErr={inputErr}
                                     amount={amount}
-                                />
-                                <OPTINButton
-                                    optIntAsset={optIntAsset}
-                                    optInApps={optInApps}
-                                    durationSelected={duration}
                                 />
                             </div>
                         </div>

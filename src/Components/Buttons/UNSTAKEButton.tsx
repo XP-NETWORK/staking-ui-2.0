@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
     setShowLoader,
     disableUnstake,
+    setCancelledTrx,
     enableUnstake,
 } from "../../store/reducer/homePageSlice";
 
@@ -38,9 +39,15 @@ export default function UNSTAKEButton({
             account,
             stakes,
             index
-        ).catch(() => undefined);
+        ).catch((error: any) => {
+            if (error.message?.includes("Operation cancelled")) {
+                dispatch(setCancelledTrx(true));
+            }
+        });
         if (unstaked) {
-            dispatch(disableUnstake(stakes[index].txId));
+            dispatch(
+                disableUnstake(`${stakes[index].appId}${stakes[index].id}`)
+            );
             setRemoved(true);
         }
         dispatch(setShowLoader(false));
@@ -60,11 +67,18 @@ export default function UNSTAKEButton({
 
         if (days < 0) days = 0;
         days
-            ? dispatch(disableUnstake(stakes[index].txId))
-            : !removed && dispatch(enableUnstake(stakes[index].txId));
+            ? dispatch(
+                  disableUnstake(`${stakes[index].appId}${stakes[index].id}`)
+              )
+            : !removed &&
+              dispatch(
+                  enableUnstake(`${stakes[index].appId}${stakes[index].id}`)
+              );
     }, [index, stakes]);
 
-    const illegalToUnstake = disabledUnstake.includes(stakes[index]?.txId);
+    const illegalToUnstake = disabledUnstake.includes(
+        `${stakes[index].appId}${stakes[index].id}`
+    );
 
     return (
         <button

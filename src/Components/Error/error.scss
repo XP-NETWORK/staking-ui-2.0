@@ -51,7 +51,7 @@
 
     .errorWraper-close {
         position: absolute;
-        right: 25px;
+        left: 25px;
         top: 25px;
         cursor: pointer;
     }
@@ -134,6 +134,64 @@
             }
         }
     }
+}
+
+.NotifBlock {
+    position: fixed;
+    top: 10%;
+    box-sizing: border-box;
+    z-index: 999;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 571px;
+    border-radius: 20px;
+    padding: 25px;
+    background: rgba(46, 47, 51, 1);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    opacity: 1;
+    border: 1px solid rgba(100, 102, 104, 1);
+    animation: drop 0.5s ease;
+
+    .closeBtn {
+        position: static;
+    }
+
+    > span {
+        font-size: 24px;
+        margin-right: 25px;
+    }
+
+    > img {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+@keyframes drop {
+    0% {
+        top: -25%;
+        opacity: 0;
+    }
+
+    100% {
+        top: 10%;
+        opacity: 1;
+    }
+}
+
+.NotifBlock::after {
+    content: "";
+    position: absolute;
+    z-index: 1000;
+    right: 62px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 30px;
+    width: 2.5px;
+    background: rgba(255, 255, 255, 0.2);
 }
 
 @media screen and (max-width: 360px) {

@@ -75,6 +75,14 @@ const ClaimRewards = ({ chain }: Props) => {
     };
 
     useEffect(() => {
+        if (window.location.search.includes("claimIdx")) {
+            const params = new URLSearchParams(window.location.search);
+            const indx = params.get("claimIdx");
+            if (indx) setIndexOfAlgoStake(Number(indx));
+        }
+    }, []);
+
+    useEffect(() => {
         if (!Object.keys(stakingClient).length) return;
         const getBalance = async () => {
             const balance = await getXpNetBalance(stakingClient);
