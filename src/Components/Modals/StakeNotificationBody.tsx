@@ -50,6 +50,9 @@ export const StakeNotificationBody: FC<Props> = ({ notification }) => {
                 return (
                     <SuccessTransactionBody
                         stake={stake}
+                        handleClose={() =>
+                            dispatch(setStakingNotification(undefined))
+                        }
                         handleClick={handleClick}
                         activeSTakeNFT={activeSTakeNFT}
                     />

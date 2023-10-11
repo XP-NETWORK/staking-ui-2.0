@@ -294,11 +294,9 @@ export const getAllNFTsByOwner = async (
         const response = await algoService.get(
             `/get-nfts-status-by-address/${address}`
         );
-        const parsed = await parse(response.data);
 
-        const arr = findNotExist(parsed, stakes);
-
-        return arr;
+        const arr = findNotExist(response.data, stakes);
+        return await parse(arr);
     } catch (error) {
         console.log(error);
     }

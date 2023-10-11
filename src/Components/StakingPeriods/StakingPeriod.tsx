@@ -7,6 +7,7 @@ import {
     appAdress6Months,
     appAdress9Months,
     IFetchedStake,
+    STAKE_LIMIT,
 } from "../../assets/ts/Consts";
 import { setShowAppLimitModal } from "../../store/reducer/homePageSlice";
 import { ReduxState } from "../../store/store";
@@ -24,7 +25,7 @@ export const StakingPeriod: FC<Props> = ({
     setDuration,
 }) => {
     const dispatch = useDispatch();
-    const dev = window.location.hostname === "localhost";
+    //const dev = window.location.hostname === "localhost";
     const [stakeLimit, setStakeLimit] = useState<boolean>(false);
 
     const { fetchedAlgoStakes } = useSelector(
@@ -69,9 +70,10 @@ export const StakingPeriod: FC<Props> = ({
                 return stake.appId === stakingTime;
             }
         );
-        if (currentPeriodStakes && currentPeriodStakes.length > 8) {
+
+        if (currentPeriodStakes && currentPeriodStakes.length >= STAKE_LIMIT) {
             setStakeLimit(true);
-            setDuration(6);
+            //setDuration(6);
         }
     }, [fetchedAlgoStakes]);
 
@@ -91,14 +93,14 @@ export const StakingPeriod: FC<Props> = ({
                 }`,
             }}
             onClick={() =>
-                !(stakeLimit && dev)
+                !stakeLimit
                     ? setDuration(duration)
                     : dispatch(setShowAppLimitModal(true))
             }
         >
             {duration === 12 ? "1 year" : `${duration} months`}
             <span>{`APY ${APY(duration)}%`}</span>
-            {stakeLimit && dev && (
+            {stakeLimit && (
                 <div className="periodBtn-limited">3 months limit reached!</div>
             )}
         </button>

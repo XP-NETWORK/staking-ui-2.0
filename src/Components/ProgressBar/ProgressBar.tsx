@@ -12,6 +12,7 @@ export const ProgressBar: FC<Props> = ({ totalStaking, stakingLimit }) => {
     const [percent, setPercent] = useState(0);
 
     useEffect(() => {
+        // console.log(totalStaking);
         setPercent((totalStaking / stakingLimit) * 100);
     }, [totalStaking]);
 

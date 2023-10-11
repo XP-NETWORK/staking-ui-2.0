@@ -33,6 +33,7 @@ import { WagmiConfig } from "wagmi";
 
 import { wagmiConfig } from "./Components/Wallets/walletConnectors";
 import { CancelledTrxNotif } from "./Components/Error/CancelledTrxNotif";
+import { SuccessTrxNotif } from "./Components/Modals/SuccessTrxNotif";
 
 type ModalProps = {
     children: ReactNode;
@@ -129,6 +130,7 @@ function App() {
         algoSelectWallet,
         showLoader,
         cancelledTrx,
+        successTrx,
     } = useSelector((state: ReduxState) => state.homePage);
 
     useEffect(() => {
@@ -176,7 +178,7 @@ function App() {
                 )}
                 <div id="no-xp-modal"></div>
                 {cancelledTrx && <CancelledTrxNotif />}
-                {/*successTrx && <CancelledTrxNotif />*/}
+                {successTrx && <SuccessTrxNotif />}
                 {showErrorModal && (
                     <NoXpNetModal>
                         {showErrorModal !== "evmError" ? (

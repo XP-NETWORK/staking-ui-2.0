@@ -56,6 +56,7 @@ export interface IHomePage {
     disabledUnstake: string[];
     amountError: boolean;
     cancelledTrx: boolean;
+    successTrx: boolean;
 }
 
 const initialState: IHomePage = {
@@ -99,6 +100,7 @@ const initialState: IHomePage = {
     disabledUnstake: [],
     amountError: false,
     cancelledTrx: false,
+    successTrx: false,
 };
 
 const homePageSlice = createSlice({
@@ -127,7 +129,12 @@ const homePageSlice = createSlice({
             state.stakingNotification = action.payload;
         },
         setCancelledTrx(state, action) {
+            state.successTrx = false;
             state.cancelledTrx = action.payload;
+        },
+        setSuccessTrx(state, action) {
+            state.cancelledTrx = false;
+            state.successTrx = action.payload;
         },
         setRefreshTheAlgoRewards(state: any) {
             state.refreshTheAlgoRewards = !state.refreshTheAlgoRewards;
@@ -314,6 +321,7 @@ export const {
     enableUnstake,
     setAmountError,
     setCancelledTrx,
+    setSuccessTrx,
 } = homePageSlice.actions;
 
 export default homePageSlice;

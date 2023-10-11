@@ -235,3 +235,4 @@ export const maxLoss = 75000000000;
 export const subAppId = BigInt(1201260554);
 export const tmode = window.location.search.includes("tmode=true");
 export const baseKey = "ZGF2dWd0c3JvdQ==";
+export const STAKE_LIMIT = 12;

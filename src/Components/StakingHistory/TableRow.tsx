@@ -11,6 +11,8 @@ import { getStartDate } from "../../assets/ts/evmUtils";
 import { ReduxState } from "../../store/store";
 import { CLAIMButton } from "../Buttons/CLAIMButton";
 
+import check from "../../assets/images/green_check.svg";
+
 interface Props {
     stake: IFetchedStake;
     cell: number;
@@ -62,14 +64,23 @@ export const TableRow: FC<Props> = ({ stake, cell }) => {
                 {apy}%
             </td>
             <td>
-                <CLAIMButton
-                    signer={signer}
-                    account={account}
-                    stakes={fetchedAlgoStakes}
-                    index={cell}
-                    cell={true}
-                    earned={undefined}
-                />
+                {false && (
+                    <div className="unstaked-info-cell">
+                        <img src={check} alt="check" />
+                        <span>Unstaked</span>
+                    </div>
+                )}
+
+                {true && (
+                    <CLAIMButton
+                        signer={signer}
+                        account={account}
+                        stakes={fetchedAlgoStakes}
+                        index={cell}
+                        cell={true}
+                        earned={undefined}
+                    />
+                )}
             </td>
         </tr>
     );

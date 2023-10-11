@@ -170,6 +170,11 @@
     }
 }
 
+.NotifBlock.sucessfull {
+    background: rgba(59, 148, 106, 1);
+    border-color: rgba(48, 250, 154, 1);
+}
+
 @keyframes drop {
     0% {
         top: -25%;

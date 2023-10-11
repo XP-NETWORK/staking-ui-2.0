@@ -7,6 +7,7 @@ import {
     setRefreshTheAlgoRewards,
     setShowLoader,
     setCancelledTrx,
+    setSuccessTrx,
 } from "../../store/reducer/homePageSlice";
 import { IAlgoRewards, IFetchedStake } from "./../../assets/ts/Consts";
 
@@ -57,7 +58,10 @@ export const CLAIMButton: FC<Props> = ({
                 }
             });
             dispatch(setShowLoader(false));
-            if (response) dispatch(setRefreshTheAlgoRewards());
+            if (response) {
+                dispatch(setSuccessTrx(true));
+                dispatch(setRefreshTheAlgoRewards());
+            }
         }
         // TODO pop-up to show the rewards claimed
     };

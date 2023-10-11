@@ -9,19 +9,24 @@ import {
 } from "../../assets/ts/helpers";
 import icon from "./../../assets/images/treasure.svg";
 
+import { ReactComponent as Close } from "../../assets/images/close-icon.svg";
+
 interface Props {
     stake: any;
     handleClick: any;
     activeSTakeNFT: INFT;
+    handleClose: any;
 }
 
 export const SuccessTransactionBody: FC<Props> = ({
     stake,
     handleClick,
     activeSTakeNFT,
+    handleClose,
 }) => {
     return (
         <div className="success-txn-body">
+            <Close className="closeBtn" onClick={handleClose} />
             <div className="success-txn-header">
                 <img src={icon} alt="" />
                 <span>Your $XPNETs are locked </span>

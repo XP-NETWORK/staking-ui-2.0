@@ -9,6 +9,7 @@ import {
     disableUnstake,
     setCancelledTrx,
     enableUnstake,
+    setSuccessTrx,
 } from "../../store/reducer/homePageSlice";
 
 interface Props {
@@ -48,6 +49,8 @@ export default function UNSTAKEButton({
             dispatch(
                 disableUnstake(`${stakes[index].appId}${stakes[index].id}`)
             );
+            dispatch(setSuccessTrx(true));
+
             setRemoved(true);
         }
         dispatch(setShowLoader(false));
